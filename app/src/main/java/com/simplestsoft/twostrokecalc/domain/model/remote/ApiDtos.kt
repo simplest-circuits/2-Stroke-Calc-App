@@ -58,7 +58,29 @@ data class AdminUserDeviceDto(
     @SerializedName("screenWidthPx") val screenWidthPx: String? = null,
     @SerializedName("screenHeightPx") val screenHeightPx: String? = null,
     @SerializedName("screenDensityDpi") val screenDensityDpi: String? = null,
+    @SerializedName("pushEnabled") val pushEnabled: Boolean? = null,
+    @SerializedName("hasFcmToken") val hasFcmToken: Boolean? = null,
     @SerializedName("updatedAt") val updatedAt: String? = null,
+)
+
+data class AdminUserProPurchaseDto(
+    @SerializedName("productId") val productId: String? = null,
+    @SerializedName("orderId") val orderId: String? = null,
+    @SerializedName("packageName") val packageName: String? = null,
+    @SerializedName("purchaseType") val purchaseType: Int? = null,
+    @SerializedName("verifiedAt") val verifiedAt: String? = null,
+)
+
+data class AdminUserVehicleDto(
+    @SerializedName("id") val id: String,
+    @SerializedName("name") val name: String? = null,
+    @SerializedName("brand") val brand: String? = null,
+    @SerializedName("model") val model: String? = null,
+    @SerializedName("year") val year: String? = null,
+    @SerializedName("isActive") val isActive: Boolean? = true,
+    @SerializedName("currentOdometerKm") val currentOdometerKm: String? = null,
+    @SerializedName("currentOperatingHours") val currentOperatingHours: String? = null,
+    @SerializedName("updatedAtMs") val updatedAtMs: Long? = null,
 )
 
 data class AdminUserDto(
@@ -69,9 +91,19 @@ data class AdminUserDto(
     @SerializedName("active") val active: Boolean? = true,
     @SerializedName("banned") val banned: Boolean? = false,
     @SerializedName("isPro") val isPro: Boolean? = false,
+    @SerializedName("phoneNumber") val phoneNumber: String? = null,
+    @SerializedName("emailVerified") val emailVerified: Boolean? = false,
+    @SerializedName("authDisabled") val authDisabled: Boolean? = false,
+    @SerializedName("providerIds") val providerIds: List<String>? = emptyList(),
     @SerializedName("vehicleCount") val vehicleCount: Int? = 0,
+    @SerializedName("vehicles") val vehicles: List<AdminUserVehicleDto>? = emptyList(),
     @SerializedName("createdAt") val createdAt: String? = null,
     @SerializedName("lastSignInAt") val lastSignInAt: String? = null,
+    @SerializedName("lastRefreshAt") val lastRefreshAt: String? = null,
+    @SerializedName("updatedAt") val updatedAt: String? = null,
+    @SerializedName("lastPasswordResetAt") val lastPasswordResetAt: String? = null,
+    @SerializedName("bannedAt") val bannedAt: String? = null,
+    @SerializedName("proPurchase") val proPurchase: AdminUserProPurchaseDto? = null,
     @SerializedName("device") val device: AdminUserDeviceDto? = null,
 )
 
@@ -111,6 +143,7 @@ data class AdminSettingsDto(
     @SerializedName("maintenanceMode") val maintenanceMode: Boolean = false,
     @SerializedName("debugMode") val debugMode: Boolean = false,
     @SerializedName("emailNotifications") val emailNotifications: Boolean = false,
+    @SerializedName("demoVehiclesEnabled") val demoVehiclesEnabled: Boolean = true,
     @SerializedName("calculatorAvailability") val calculatorAvailability: Map<String, Boolean> = emptyMap(),
     @SerializedName("proModules") val proModules: Map<String, Boolean> = emptyMap(),
 )
@@ -121,6 +154,10 @@ data class CalculatorAvailabilityResponse(
 
 data class ProModulesResponse(
     @SerializedName("modules") val modules: Map<String, Boolean> = emptyMap(),
+)
+
+data class DemoVehiclesConfigResponse(
+    @SerializedName("enabled") val enabled: Boolean = true,
 )
 
 data class AdminUserProRequest(

@@ -24,32 +24,79 @@ function createPlayAuthClient() {
 }
 
 /**
- * @param {{ packageName?: string, productId: string, purchaseToken: string }} params
- * @returns {Promise<boolean>}
+ * @returns {import("googleapis").androidpublisher_v3.Androidpublisher}
  */
-async function verifyProductPurchase(params) {
+function createAndroidPublisher() {
+  const auth = createPlayAuthClient();
+  return google.androidpublisher({ version: "v3", auth });
+}
+
+/**
+ * @param {{ packageName?: string, productId: string, purchaseToken: string }} params
+ * @returns {Promise<import("googleapis").androidpublisher_v3.Schema$ProductPurchase>}
+ */
+async function getProductPurchase(params) {
   const packageName = params.packageName || DEFAULT_PACKAGE_NAME;
   const { productId, purchaseToken } = params;
   if (!purchaseToken || !productId) {
-    return false;
+    throw new Error("purchaseToken und productId erforderlich");
   }
   if (productId !== PRO_PRODUCT_ID) {
-    return false;
+    throw new Error("Ungueltiges Produkt");
   }
 
-  const auth = createPlayAuthClient();
-  const androidPublisher = google.androidpublisher({ version: "v3", auth });
+  const androidPublisher = createAndroidPublisher();
   const response = await androidPublisher.purchases.products.get({
     packageName,
     productId,
     token: purchaseToken,
   });
-  const data = response.data || {};
-  return data.purchaseState === 0;
+  return response.data || {};
+}
+
+/**
+ * @param {{ packageName?: string, productId: string, purchaseToken: string, developerPayload?: string }} params
+ * @returns {Promise<void>}
+ */
+async function acknowledgeProductPurchase(params) {
+  const packageName = params.packageName || DEFAULT_PACKAGE_NAME;
+  const { productId, purchaseToken, developerPayload } = params;
+  if (!purchaseToken || !productId) {
+    throw new Error("purchaseToken und productId erforderlich");
+  }
+  const androidPublisher = createAndroidPublisher();
+  await androidPublisher.purchases.products.acknowledge({
+    packageName,
+    productId,
+    token: purchaseToken,
+    requestBody: developerPayload ? { developerPayload } : {},
+  });
+}
+
+/**
+ * @param {{ packageName?: string, startTimeMillis?: string|number, token?: string, maxResults?: number }} params
+ * @returns {Promise<{ purchases: import("googleapis").androidpublisher_v3.Schema$VoidedPurchase[], nextPageToken: string|null }>}
+ */
+async function listVoidedPurchases(params = {}) {
+  const packageName = params.packageName || DEFAULT_PACKAGE_NAME;
+  const androidPublisher = createAndroidPublisher();
+  const response = await androidPublisher.purchases.voidedpurchases.list({
+    packageName,
+    startTime: params.startTimeMillis != null ? String(params.startTimeMillis) : undefined,
+    token: params.token || undefined,
+    maxResults: params.maxResults || 1000,
+    type: 0,
+  });
+  return {
+    purchases: response.data?.voidedPurchases || [],
+    nextPageToken: response.data?.tokenPagination?.nextPageToken || null,
+  };
 }
 
 module.exports = {
   DEFAULT_PACKAGE_NAME,
   PRO_PRODUCT_ID,
-  verifyProductPurchase,
+  getProductPurchase,
+  acknowledgeProductPurchase,
+  listVoidedPurchases,
 };

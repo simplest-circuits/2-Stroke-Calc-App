@@ -129,6 +129,8 @@ class UserSettingsFirestoreSync @Inject constructor(
         when (Language.entries.find { it.code == code }) {
             Language.GERMAN -> LanguageMode.GERMAN
             Language.ENGLISH -> LanguageMode.ENGLISH
+            Language.SPANISH -> LanguageMode.SPANISH
+            Language.PORTUGUESE -> LanguageMode.PORTUGUESE
             else -> null
         }
 

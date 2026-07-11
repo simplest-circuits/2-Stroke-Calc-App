@@ -41,6 +41,7 @@ class PreferencesManager @Inject constructor(
         val IS_ADMIN = booleanPreferencesKey("is_admin")
         val IS_PRO = booleanPreferencesKey("is_pro")
         val PRO_MODULES = stringPreferencesKey("pro_modules")
+        val DEMO_VEHICLES_ENABLED = booleanPreferencesKey("demo_vehicles_enabled")
         val DISPLAY_NAME = stringPreferencesKey("display_name")
         val ACCOUNT_EMAIL = stringPreferencesKey("account_email")
         val SETTINGS_MAIL_LAST_SUBMIT_MS = longPreferencesKey("settings_mail_last_submit_ms")
@@ -137,6 +138,13 @@ class PreferencesManager @Inject constructor(
             }
             .toSet()
     }
+
+    suspend fun setDemoVehiclesEnabled(enabled: Boolean) {
+        dataStore.edit { it[Keys.DEMO_VEHICLES_ENABLED] = enabled }
+    }
+
+    suspend fun getDemoVehiclesEnabled(): Boolean =
+        dataStore.data.first()[Keys.DEMO_VEHICLES_ENABLED] ?: true
 
     suspend fun setDisplayName(name: String?) {
         dataStore.edit {

@@ -23,6 +23,7 @@ import com.simplestsoft.twostrokecalc.data.preferences.PreferencesManager
 import com.simplestsoft.twostrokecalc.data.remote.AccountApiService
 import com.simplestsoft.twostrokecalc.domain.model.remote.VerifyProPurchaseRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.security.MessageDigest
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
@@ -106,10 +107,12 @@ class BillingRepository @Inject constructor(
     }
 
     fun launchProPurchase(activity: Activity) {
-        if (firebaseAuth.currentUser == null) {
+        val firebaseUser = firebaseAuth.currentUser
+        if (firebaseUser == null) {
             _state.update { it.copy(errorMessage = "sign_in_required") }
             return
         }
+        val obfuscatedAccountId = hashUserIdForPlay(firebaseUser.uid)
         scope.launch {
             _state.update { it.copy(isPurchasing = true, errorMessage = null) }
             if (!ensureConnected()) {
@@ -132,6 +135,7 @@ class BillingRepository @Inject constructor(
                             .build(),
                     ),
                 )
+                .setObfuscatedAccountId(obfuscatedAccountId)
                 .build()
             val result = billingClient.launchBillingFlow(activity, params)
             if (result.responseCode != BillingClient.BillingResponseCode.OK) {
@@ -239,5 +243,11 @@ class BillingRepository @Inject constructor(
         preferencesManager.setIsPro(true)
         proAccessRepository.applyUserEntitlements(isPro = true, isAdmin = preferencesManager.getIsAdmin())
         _state.update { it.copy(isPurchasing = false, errorMessage = null) }
+    }
+
+    private fun hashUserIdForPlay(userId: String): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        val hash = digest.digest(userId.toByteArray(Charsets.UTF_8))
+        return hash.joinToString(separator = "") { byte -> "%02x".format(byte) }
     }
 }

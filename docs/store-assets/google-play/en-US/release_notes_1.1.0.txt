@@ -1,5 +1,0 @@
-• Freemium model: view all calculators and vehicles for free — editing requires Pro
-• Demo vehicle to explore vehicle management
-• Pro dialog with module description and direct Google Play purchase
-• Free/Pro badge in settings
-• Updated help, FAQ, legal texts and intro walkthrough

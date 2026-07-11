@@ -60,6 +60,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -234,13 +236,27 @@ fun MainAppNavigation(
     }
 
     LaunchedEffect(walkthroughActive, currentRoute) {
-        if (!walkthroughActive || currentRoute == Routes.SPLASH) return@LaunchedEffect
-        navController.navigate(Routes.CALCULATOR) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
+        if (!walkthroughActive) return@LaunchedEffect
+        when (currentRoute) {
+            Routes.SPLASH -> {
+                navController.navigate(Routes.CALCULATOR) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
             }
-            launchSingleTop = true
-            restoreState = true
+            null -> Unit
+            else -> if (!isOnMainTabRoute()) {
+                navController.navigate(Routes.CALCULATOR) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
         }
     }
 
@@ -463,8 +479,8 @@ fun MainAppNavigation(
                 ) {
                     composable(Routes.VEHICLES_LIST) { backStackEntry ->
                         val vehiclesGraphEntry = remember(backStackEntry) {
-                            navController.getBackStackEntry(Routes.VEHICLES)
-                        }
+                            backStackEntry.parentGraphBackStackEntry(navController)
+                        } ?: return@composable
                         val vehiclesViewModel: VehiclesViewModel = hiltViewModel(vehiclesGraphEntry)
                         VehiclesScreen(
                             onVehicleClick = { id ->
@@ -489,8 +505,8 @@ fun MainAppNavigation(
                         val vehicleId = backStackEntry.arguments?.getString("vehicleId")?.let(Uri::decode)
                             ?: return@composable
                         val vehiclesGraphEntry = remember(backStackEntry) {
-                            navController.getBackStackEntry(Routes.VEHICLES)
-                        }
+                            backStackEntry.parentGraphBackStackEntry(navController)
+                        } ?: return@composable
                         val vehiclesViewModel: VehiclesViewModel = hiltViewModel(vehiclesGraphEntry)
                         VehicleDetailScreen(
                             vehicleId = vehicleId,
@@ -514,8 +530,8 @@ fun MainAppNavigation(
                         val costOverviewVehicleId = backStackEntry.arguments?.getString("vehicleId")?.let(Uri::decode)
                             ?: return@composable
                         val vehiclesGraphEntry = remember(backStackEntry) {
-                            navController.getBackStackEntry(Routes.VEHICLES)
-                        }
+                            backStackEntry.parentGraphBackStackEntry(navController)
+                        } ?: return@composable
                         val vehiclesViewModel: VehiclesViewModel = hiltViewModel(vehiclesGraphEntry)
                         VehicleCostOverviewScreen(
                             vehicleId = costOverviewVehicleId,
@@ -533,8 +549,8 @@ fun MainAppNavigation(
                         val fuelLogVehicleId = backStackEntry.arguments?.getString("vehicleId")?.let(Uri::decode)
                             ?: return@composable
                         val vehiclesGraphEntry = remember(backStackEntry) {
-                            navController.getBackStackEntry(Routes.VEHICLES)
-                        }
+                            backStackEntry.parentGraphBackStackEntry(navController)
+                        } ?: return@composable
                         val vehiclesViewModel: VehiclesViewModel = hiltViewModel(vehiclesGraphEntry)
                         VehicleFuelLogScreen(
                             vehicleId = fuelLogVehicleId,
@@ -723,4 +739,9 @@ fun MainAppNavigation(
             },
         )
     }
+}
+
+private fun NavBackStackEntry.parentGraphBackStackEntry(navController: NavController): NavBackStackEntry? {
+    val parentGraph = destination.parent ?: return null
+    return runCatching { navController.getBackStackEntry(parentGraph.id) }.getOrNull()
 }

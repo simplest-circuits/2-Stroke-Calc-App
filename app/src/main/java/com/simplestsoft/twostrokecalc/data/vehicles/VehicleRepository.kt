@@ -56,11 +56,26 @@ class VehicleRepository @Inject constructor(
 
     suspend fun getVehicle(id: String): Vehicle? = getVehicles().firstOrNull { it.id == id }
 
-    suspend fun ensureFreeDemoVehicle(canEditVehicles: Boolean) {
-        if (canEditVehicles) return
+    suspend fun ensureFreeDemoVehicle(canEditVehicles: Boolean, demoVehiclesEnabled: Boolean = true) {
+        if (canEditVehicles || !demoVehiclesEnabled) return
         val vehicles = getVehicles()
         if (vehicles.isNotEmpty()) return
         persist(listOf(VehicleDemoDataFactory.createFreeDemoVehicle()))
+    }
+
+    suspend fun reconcileDemoVehicles(demoVehiclesEnabled: Boolean, canEditVehicles: Boolean) {
+        if (!demoVehiclesEnabled) {
+            val vehicles = getVehicles()
+            val filtered = vehicles.filterNot { VehicleDemoDataFactory.isDemoVehicle(it.id) }
+            if (filtered.size != vehicles.size) {
+                persist(filtered)
+            }
+            return
+        }
+        ensureFreeDemoVehicle(
+            canEditVehicles = canEditVehicles,
+            demoVehiclesEnabled = demoVehiclesEnabled,
+        )
     }
 
     suspend fun seedAdminDemoVehicles(): AdminDemoSeedResult {

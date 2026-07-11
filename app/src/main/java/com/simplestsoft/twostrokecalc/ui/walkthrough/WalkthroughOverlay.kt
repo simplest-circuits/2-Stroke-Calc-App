@@ -1,7 +1,6 @@
 package com.simplestsoft.twostrokecalc.ui.walkthrough
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Box
@@ -29,10 +28,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -66,40 +66,19 @@ fun WalkthroughCoachMarksOverlay(
     var infoCardHeightPx by remember { mutableStateOf(0f) }
     var infoCardWidthPx by remember { mutableStateOf(0f) }
     var overlayBoundsInRoot by remember { mutableStateOf<Rect?>(null) }
+    val localTargetRect = targetRect?.let { target ->
+        overlayBoundsInRoot?.let { overlay ->
+            Rect(
+                left = target.left - overlay.left,
+                top = target.top - overlay.top,
+                right = target.right - overlay.left,
+                bottom = target.bottom - overlay.top,
+            )
+        }
+    }
     val density = LocalDensity.current
     BoxWithConstraints(
-        modifier = Modifier
-            .fillMaxSize()
-            .onGloballyPositioned { coordinates ->
-                overlayBoundsInRoot = coordinates.boundsInRoot()
-            }
-            .pointerInput(targetRect, overlayBoundsInRoot) {
-                awaitEachGesture {
-                    val down = awaitFirstDown(requireUnconsumed = false)
-                    val localTarget = targetRect?.let { target ->
-                        overlayBoundsInRoot?.let { overlay ->
-                            Rect(
-                                left = target.left - overlay.left,
-                                top = target.top - overlay.top,
-                                right = target.right - overlay.left,
-                                bottom = target.bottom - overlay.top,
-                            )
-                        }
-                    }
-                    if (localTarget?.contains(down.position) == true) {
-                        return@awaitEachGesture
-                    }
-                    val pointerId = down.id
-                    do {
-                        val event = awaitPointerEvent(androidx.compose.ui.input.pointer.PointerEventPass.Main)
-                        event.changes.forEach { change ->
-                            if (change.id == pointerId) {
-                                change.consume()
-                            }
-                        }
-                    } while (event.changes.any { it.pressed })
-                }
-            },
+        modifier = Modifier.fillMaxSize(),
     ) {
         val horizontalPaddingPx = with(density) { 20.dp.toPx() }
         val verticalPaddingPx = with(density) { 24.dp.toPx() }
@@ -151,25 +130,49 @@ fun WalkthroughCoachMarksOverlay(
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .graphicsLayer(compositingStrategy = androidx.compose.ui.graphics.CompositingStrategy.Offscreen)
-                .background(Color.Black.copy(alpha = 0.68f)),
+                .onGloballyPositioned { coordinates ->
+                    overlayBoundsInRoot = coordinates.boundsInRoot()
+                }
+                .pointerInput(localTargetRect, overlayBoundsInRoot) {
+                    awaitEachGesture {
+                        val down = awaitFirstDown(requireUnconsumed = false)
+                        if (localTargetRect?.contains(down.position) == true) {
+                            return@awaitEachGesture
+                        }
+                        val pointerId = down.id
+                        do {
+                            val event = awaitPointerEvent(androidx.compose.ui.input.pointer.PointerEventPass.Main)
+                            event.changes.forEach { change ->
+                                if (change.id == pointerId) {
+                                    change.consume()
+                                }
+                            }
+                        } while (event.changes.any { it.pressed })
+                    }
+                },
         ) {
-            if (targetRect != null) {
-                Canvas(modifier = Modifier.matchParentSize()) {
-                    drawRoundRect(
-                        color = Color.Transparent,
-                        topLeft = targetRect.topLeft,
-                        size = targetRect.size,
-                        cornerRadius = CornerRadius(22f, 22f),
-                        blendMode = BlendMode.Clear,
-                    )
+            Canvas(modifier = Modifier.matchParentSize()) {
+                if (localTargetRect != null) {
+                    val spotlight = Path().apply {
+                        fillType = PathFillType.EvenOdd
+                        addRect(Rect(0f, 0f, size.width, size.height))
+                        addRoundRect(
+                            RoundRect(
+                                rect = localTargetRect,
+                                cornerRadius = CornerRadius(22f, 22f),
+                            ),
+                        )
+                    }
+                    drawPath(spotlight, color = Color.Black.copy(alpha = 0.68f))
                     drawRoundRect(
                         color = Color.White.copy(alpha = 0.95f),
-                        topLeft = targetRect.topLeft,
-                        size = targetRect.size,
+                        topLeft = localTargetRect.topLeft,
+                        size = localTargetRect.size,
                         cornerRadius = CornerRadius(22f, 22f),
                         style = Stroke(width = 4f),
                     )
+                } else {
+                    drawRect(color = Color.Black.copy(alpha = 0.68f))
                 }
             }
         }

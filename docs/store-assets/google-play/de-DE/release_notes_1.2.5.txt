@@ -1,0 +1,4 @@
+• Neue Sprachen: Spanisch, Italienisch und Portugiesisch
+• Demo-Fahrzeuge zentral steuerbar mit automatischer Synchronisation
+• Sicherere Pro-Kauf-Verifizierung und Schutz vor Token-Missbrauch
+• Fahrzeug-Navigation und Dialoge auf modernen Displays verbessert

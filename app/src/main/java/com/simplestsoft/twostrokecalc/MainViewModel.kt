@@ -7,6 +7,7 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.simplestsoft.twostrokecalc.data.auth.AuthRepository
 import com.simplestsoft.twostrokecalc.data.billing.BillingRepository
 import com.simplestsoft.twostrokecalc.data.config.CalculatorAvailabilityRepository
+import com.simplestsoft.twostrokecalc.data.config.DemoVehiclesConfigRepository
 import com.simplestsoft.twostrokecalc.data.config.ProAccessRepository
 import com.simplestsoft.twostrokecalc.data.preferences.PreferencesManager
 import com.simplestsoft.twostrokecalc.data.sync.AccountSyncService
@@ -25,6 +26,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -49,6 +51,7 @@ class MainViewModel @Inject constructor(
     private val vehicleCatalogRepository: VehicleCatalogRepository,
     private val accountSyncService: AccountSyncService,
     private val calculatorAvailabilityRepository: CalculatorAvailabilityRepository,
+    private val demoVehiclesConfigRepository: DemoVehiclesConfigRepository,
     private val proAccessRepository: ProAccessRepository,
     private val billingRepository: BillingRepository,
     private val userSettingsFirestoreSync: UserSettingsFirestoreSync,
@@ -72,21 +75,24 @@ class MainViewModel @Inject constructor(
                 .onFailure { errorLogger.log("MainViewModel", "refreshCalculatorAvailability", it) }
             runCatching { proAccessRepository.refresh() }
                 .onFailure { errorLogger.log("MainViewModel", "refreshProAccess", it) }
+            runCatching { demoVehiclesConfigRepository.refresh() }
+                .onFailure { errorLogger.log("MainViewModel", "refreshDemoVehiclesConfig", it) }
             billingRepository.start()
-            runCatching {
-                vehicleRepository.ensureFreeDemoVehicle(
-                    canEditVehicles = proAccessRepository.state.value.canEditVehicles(),
-                )
-            }.onFailure { errorLogger.log("MainViewModel", "ensureFreeDemoVehicle", it) }
             runCatching { vehicleCatalogRepository.ensureSynced() }
                 .onFailure { errorLogger.log("MainViewModel", "syncVehicleCatalog", it) }
         }
         viewModelScope.launch {
-            proAccessRepository.state.collect { proAccess ->
+            combine(
+                proAccessRepository.state,
+                demoVehiclesConfigRepository.enabled.filterNotNull(),
+            ) { proAccess, demoEnabled ->
                 runCatching {
-                    vehicleRepository.ensureFreeDemoVehicle(canEditVehicles = proAccess.canEditVehicles())
-                }.onFailure { errorLogger.log("MainViewModel", "ensureFreeDemoVehicle", it) }
-            }
+                    vehicleRepository.reconcileDemoVehicles(
+                        demoVehiclesEnabled = demoEnabled,
+                        canEditVehicles = proAccess.canEditVehicles(),
+                    )
+                }.onFailure { errorLogger.log("MainViewModel", "reconcileDemoVehicles", it) }
+            }.collect { }
         }
         viewModelScope.launch {
             preferencesManager.preferencesFlow.onEach { prefs ->

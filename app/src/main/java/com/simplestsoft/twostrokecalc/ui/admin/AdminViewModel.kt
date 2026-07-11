@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.simplestsoft.twostrokecalc.R
 import com.simplestsoft.twostrokecalc.data.config.CalculatorAvailabilityRepository
+import com.simplestsoft.twostrokecalc.data.config.DemoVehiclesConfigRepository
 import com.simplestsoft.twostrokecalc.data.config.ProAccessRepository
 import com.simplestsoft.twostrokecalc.data.preferences.PreferencesManager
 import com.simplestsoft.twostrokecalc.data.remote.AdminApiService
@@ -45,6 +46,7 @@ class AdminViewModel @Inject constructor(
     private val adminApiService: AdminApiService,
     private val preferencesManager: PreferencesManager,
     private val calculatorAvailabilityRepository: CalculatorAvailabilityRepository,
+    private val demoVehiclesConfigRepository: DemoVehiclesConfigRepository,
     private val proAccessRepository: ProAccessRepository,
     private val vehicleRepository: VehicleRepository,
     private val firebaseAuth: FirebaseAuth,
@@ -120,6 +122,9 @@ class AdminViewModel @Inject constructor(
                 .onSuccess {
                     calculatorAvailabilityRepository.applyAvailabilityMap(settings.calculatorAvailability)
                     proAccessRepository.applyProModulesMap(settings.proModules)
+                    viewModelScope.launch {
+                        demoVehiclesConfigRepository.applyEnabledFlag(settings.demoVehiclesEnabled)
+                    }
                     viewModelScope.launch {
                         preferencesManager.setDisabledCalculators(
                             CalculatorId.entries
@@ -207,6 +212,15 @@ class AdminViewModel @Inject constructor(
 
     fun seedDemoVehicles() {
         viewModelScope.launch {
+            if (_state.value.settings?.demoVehiclesEnabled == false) {
+                _state.update {
+                    it.copy(
+                        loading = false,
+                        error = "Demo-Fahrzeuge sind global deaktiviert.",
+                    )
+                }
+                return@launch
+            }
             _state.update { it.copy(loading = true, error = null, message = null) }
             runCatching { vehicleRepository.seedAdminDemoVehicles() }
                 .onSuccess { result ->

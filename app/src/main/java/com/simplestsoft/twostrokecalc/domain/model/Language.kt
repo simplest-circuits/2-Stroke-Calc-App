@@ -5,14 +5,19 @@ import androidx.core.os.LocaleListCompat
 enum class Language(val code: String) {
     ENGLISH("en"),
     GERMAN("de"),
+    SPANISH("es"),
+    PORTUGUESE("pt"),
     ;
 
     companion object {
         fun fromSystemLocale(): Language {
             val localeList = LocaleListCompat.getDefault()
             for (index in 0 until localeList.size()) {
-                if (localeList[index]?.language.equals("de", ignoreCase = true)) {
-                    return GERMAN
+                when (localeList[index]?.language?.lowercase()) {
+                    "de" -> return GERMAN
+                    "es" -> return SPANISH
+                    "pt" -> return PORTUGUESE
+                    "en" -> return ENGLISH
                 }
             }
             return ENGLISH

@@ -16,6 +16,8 @@ data class AppLanguageProfile(
         get() = when (language) {
             Language.GERMAN -> Locale.GERMANY
             Language.ENGLISH -> Locale.US
+            Language.SPANISH -> Locale.forLanguageTag("es")
+            Language.PORTUGUESE -> Locale.forLanguageTag("pt")
         }
 
     val localeList: LocaleListCompat

@@ -1,0 +1,4 @@
+• New languages: Spanish, Italian and Portuguese
+• Demo vehicles centrally configurable with automatic sync
+• More secure Pro purchase verification and token reuse protection
+• Improved vehicle navigation and dialogs on devices with display cutouts

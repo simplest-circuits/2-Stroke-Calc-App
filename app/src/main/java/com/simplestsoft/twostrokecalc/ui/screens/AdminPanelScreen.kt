@@ -65,7 +65,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -82,6 +81,7 @@ import com.simplestsoft.twostrokecalc.ui.calculator.calculatorDisplayOrder
 import com.simplestsoft.twostrokecalc.ui.calculator.tabLabelRes
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminUserDeviceDto
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminUserDto
+import com.simplestsoft.twostrokecalc.domain.model.remote.AdminUserVehicleDto
 import com.simplestsoft.twostrokecalc.ui.admin.AdminUiState
 import com.simplestsoft.twostrokecalc.ui.admin.AdminViewModel
 import com.simplestsoft.twostrokecalc.ui.components.AppOutlinedTextField
@@ -384,6 +384,33 @@ private fun UserCard(user: AdminUserDto, vm: AdminViewModel, actionsEnabled: Boo
                 label = stringResource(R.string.admin_role_label),
                 value = user.role ?: "USER",
             )
+            user.phoneNumber?.takeIf { it.isNotBlank() }?.let { phone ->
+                AdminUserDetailRow(
+                    label = stringResource(R.string.admin_user_phone_label),
+                    value = phone,
+                )
+            }
+            AdminUserDetailRow(
+                label = stringResource(R.string.admin_user_email_verified_label),
+                value = if (user.emailVerified == true) {
+                    stringResource(R.string.admin_value_yes)
+                } else {
+                    stringResource(R.string.admin_value_no)
+                },
+            )
+            AdminUserDetailRow(
+                label = stringResource(R.string.admin_user_auth_disabled_label),
+                value = if (user.authDisabled == true) {
+                    stringResource(R.string.admin_value_yes)
+                } else {
+                    stringResource(R.string.admin_value_no)
+                },
+            )
+            AdminUserDetailRow(
+                label = stringResource(R.string.admin_user_providers_label),
+                value = user.providerIds.orEmpty().takeIf { it.isNotEmpty() }?.joinToString(", ")
+                    ?: stringResource(R.string.admin_user_unknown),
+            )
             OutlinedButton(
                 onClick = { vm.updateRole(user.id, nextRole) },
                 enabled = actionsEnabled,
@@ -619,6 +646,28 @@ private fun AdminUserDeviceInfoSection(device: AdminUserDeviceDto?) {
         device.buildType?.takeIf { it.isNotBlank() }?.let {
             AdminUserDetailRow(label = "Build", value = it)
         }
+        AdminUserDetailRow(
+            label = stringResource(R.string.admin_user_push_enabled_label),
+            value = if (device.pushEnabled == true) {
+                stringResource(R.string.admin_value_yes)
+            } else {
+                stringResource(R.string.admin_value_no)
+            },
+        )
+        AdminUserDetailRow(
+            label = stringResource(R.string.admin_user_push_token_label),
+            value = if (device.hasFcmToken == true) {
+                stringResource(R.string.admin_value_yes)
+            } else {
+                stringResource(R.string.admin_value_no)
+            },
+        )
+        formatAdminTimestamp(device.updatedAt)?.let {
+            AdminUserDetailRow(
+                label = stringResource(R.string.admin_user_device_updated_label),
+                value = it,
+            )
+        }
     }
 }
 
@@ -628,6 +677,10 @@ private fun AdminUserStatsSection(user: AdminUserDto) {
         AdminUserDetailRow(
             label = stringResource(R.string.admin_user_vehicles_label),
             value = (user.vehicleCount ?: 0).toString(),
+        )
+        AdminUserVehiclePreviewSection(
+            vehicles = user.vehicles.orEmpty(),
+            totalCount = user.vehicleCount ?: 0,
         )
         formatAdminTimestamp(user.createdAt)?.let { createdAt ->
             AdminUserDetailRow(
@@ -640,6 +693,102 @@ private fun AdminUserStatsSection(user: AdminUserDto) {
             value = formatAdminTimestamp(user.lastSignInAt)
                 ?: stringResource(R.string.admin_user_unknown),
         )
+        formatAdminTimestamp(user.lastRefreshAt)?.let { lastRefresh ->
+            AdminUserDetailRow(
+                label = stringResource(R.string.admin_user_last_refresh_label),
+                value = lastRefresh,
+            )
+        }
+        formatAdminTimestamp(user.updatedAt)?.let { updatedAt ->
+            AdminUserDetailRow(
+                label = stringResource(R.string.admin_user_profile_updated_label),
+                value = updatedAt,
+            )
+        }
+        formatAdminTimestamp(user.lastPasswordResetAt)?.let { resetAt ->
+            AdminUserDetailRow(
+                label = stringResource(R.string.admin_user_password_reset_label),
+                value = resetAt,
+            )
+        }
+        formatAdminTimestamp(user.bannedAt)?.let { bannedAt ->
+            AdminUserDetailRow(
+                label = stringResource(R.string.admin_user_banned_at_label),
+                value = bannedAt,
+            )
+        }
+        user.proPurchase?.let { purchase ->
+            purchase.productId?.takeIf { it.isNotBlank() }?.let { productId ->
+                AdminUserDetailRow(
+                    label = stringResource(R.string.admin_user_pro_product_label),
+                    value = productId,
+                )
+            }
+            purchase.orderId?.takeIf { it.isNotBlank() }?.let { orderId ->
+                AdminUserDetailRow(
+                    label = stringResource(R.string.admin_user_pro_order_label),
+                    value = orderId,
+                )
+            }
+            formatAdminTimestamp(purchase.verifiedAt)?.let { verifiedAt ->
+                AdminUserDetailRow(
+                    label = stringResource(R.string.admin_user_pro_verified_at_label),
+                    value = verifiedAt,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun AdminUserVehiclePreviewSection(vehicles: List<AdminUserVehicleDto>, totalCount: Int) {
+    if (totalCount <= 0) return
+    val preview = vehicles.take(5)
+    if (preview.isEmpty()) {
+        Text(
+            text = stringResource(R.string.admin_user_vehicle_preview_unavailable),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        return
+    }
+    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Text(
+            text = stringResource(R.string.admin_user_vehicle_preview_label),
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.SemiBold,
+        )
+        preview.forEachIndexed { index, vehicle ->
+            val baseLabel = vehicle.name?.takeIf { it.isNotBlank() } ?: listOfNotNull(
+                vehicle.brand?.takeIf { it.isNotBlank() },
+                vehicle.model?.takeIf { it.isNotBlank() },
+            ).joinToString(" ").ifBlank { stringResource(R.string.admin_user_unknown) }
+            val details = buildList {
+                vehicle.year?.takeIf { it.isNotBlank() }?.let { add(it) }
+                vehicle.currentOdometerKm?.takeIf { it.isNotBlank() }?.let { add("$it km") }
+                vehicle.currentOperatingHours?.takeIf { it.isNotBlank() }?.let { add("$it h") }
+            }.joinToString(" · ")
+            val line = if (details.isBlank()) {
+                "${index + 1}. $baseLabel"
+            } else {
+                "${index + 1}. $baseLabel · $details"
+            }
+            Text(
+                text = line,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        if (totalCount > preview.size) {
+            Text(
+                text = stringResource(
+                    R.string.admin_user_vehicle_preview_more,
+                    totalCount - preview.size,
+                ),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
     }
 }
 
@@ -681,9 +830,9 @@ private fun CompactStatRow(title: String, value: String, icon: ImageVector) {
 
 @Composable
 private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
-    val context = LocalContext.current
     var maintenance by remember { mutableStateOf(false) }
     var email by remember { mutableStateOf(false) }
+    var demoVehiclesEnabled by remember { mutableStateOf(true) }
     var calculatorAvailability by remember { mutableStateOf<Map<String, Boolean>>(emptyMap()) }
     var proModules by remember { mutableStateOf<Map<String, Boolean>>(emptyMap()) }
     var pushTitle by remember { mutableStateOf("") }
@@ -693,6 +842,7 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
         LaunchedEffect(settings) {
             maintenance = settings.maintenanceMode
             email = settings.emailNotifications
+            demoVehiclesEnabled = settings.demoVehiclesEnabled
             calculatorAvailability = defaultCalculatorAvailability(settings.calculatorAvailability)
             proModules = defaultProModules(settings.proModules)
         }
@@ -705,6 +855,9 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
         AdminSectionCard(stringResource(R.string.admin_settings_tab), Icons.Default.ToggleOn) {
             SettingSwitchRow(stringResource(R.string.maintenance_mode), maintenance) { maintenance = it }
             SettingSwitchRow(stringResource(R.string.email_notifications_enable), email) { email = it }
+            SettingSwitchRow(stringResource(R.string.admin_demo_vehicles_global_toggle), demoVehiclesEnabled) {
+                demoVehiclesEnabled = it
+            }
             Button(
                 onClick = {
                     vm.saveSettings(
@@ -712,6 +865,7 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
                             maintenanceMode = maintenance,
                             debugMode = state.settings?.debugMode ?: false,
                             emailNotifications = email,
+                            demoVehiclesEnabled = demoVehiclesEnabled,
                             calculatorAvailability = calculatorAvailability,
                             proModules = proModules,
                         ),
@@ -749,6 +903,7 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
                             maintenanceMode = maintenance,
                             debugMode = state.settings?.debugMode ?: false,
                             emailNotifications = email,
+                            demoVehiclesEnabled = demoVehiclesEnabled,
                             calculatorAvailability = calculatorAvailability,
                             proModules = proModules,
                         ),
@@ -783,6 +938,7 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
                             maintenanceMode = maintenance,
                             debugMode = state.settings?.debugMode ?: false,
                             emailNotifications = email,
+                            demoVehiclesEnabled = demoVehiclesEnabled,
                             calculatorAvailability = calculatorAvailability,
                             proModules = proModules,
                         ),
@@ -796,7 +952,11 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
         }
         AdminSectionCard(stringResource(R.string.admin_demo_vehicles_section_title), Icons.Default.TwoWheeler) {
             Text(stringResource(R.string.admin_demo_vehicles_section_hint), style = MaterialTheme.typography.bodySmall)
-            OutlinedButton(onClick = { vm.seedDemoVehicles() }, enabled = !state.loading, modifier = Modifier.fillMaxWidth()) {
+            OutlinedButton(
+                onClick = { vm.seedDemoVehicles() },
+                enabled = !state.loading && demoVehiclesEnabled,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
                 Text(stringResource(R.string.admin_demo_vehicles_create))
             }
         }

@@ -1,6 +1,20 @@
 "use strict";
 
-const { verifyProductPurchase, PRO_PRODUCT_ID, DEFAULT_PACKAGE_NAME } = require("../lib/playBilling");
+const crypto = require("node:crypto");
+const {
+  getProductPurchase,
+  acknowledgeProductPurchase,
+  PRO_PRODUCT_ID,
+  DEFAULT_PACKAGE_NAME,
+} = require("../lib/playBilling");
+
+function hashUserIdForPlay(userId) {
+  return crypto.createHash("sha256").update(String(userId), "utf8").digest("hex");
+}
+
+function purchaseTokenDocId(token) {
+  return crypto.createHash("sha256").update(String(token), "utf8").digest("hex");
+}
 
 /**
  * HTTP routes: user
@@ -114,38 +128,117 @@ function registerUserRoutes(app, ctx) {
   app.post("/user/verify-pro-purchase", requireAuth, async (req, res) => {
     try {
       const userId = req.userId;
-      const { purchaseToken, productId, packageName } = req.body || {};
+      const { purchaseToken, productId } = req.body || {};
       if (!purchaseToken || !productId) {
         return res.status(400).json({ error: "purchaseToken und productId erforderlich" });
       }
       if (productId !== PRO_PRODUCT_ID) {
         return res.status(400).json({ error: "Ungültiges Produkt" });
       }
-      const resolvedPackage = packageName || DEFAULT_PACKAGE_NAME;
-      const valid = await verifyProductPurchase({
+      const normalizedToken = String(purchaseToken).trim();
+      if (!normalizedToken) {
+        return res.status(400).json({ error: "purchaseToken ist leer" });
+      }
+      const resolvedPackage = DEFAULT_PACKAGE_NAME;
+      const purchase = await getProductPurchase({
         packageName: resolvedPackage,
         productId,
-        purchaseToken: String(purchaseToken).trim(),
+        purchaseToken: normalizedToken,
       });
-      if (!valid) {
+      if (purchase.purchaseState !== 0) {
         return res.status(400).json({ error: "Kauf konnte nicht verifiziert werden" });
       }
-      await db.collection("users").doc(userId).set(
-        {
-          isPro: true,
-          proPurchase: {
+      if (purchase.productId && purchase.productId !== productId) {
+        return res.status(400).json({ error: "Produkt stimmt nicht mit Kauf ueberein" });
+      }
+
+      const expectedObfuscatedAccountId = hashUserIdForPlay(userId);
+      if (
+        purchase.obfuscatedExternalAccountId &&
+        purchase.obfuscatedExternalAccountId !== expectedObfuscatedAccountId
+      ) {
+        return res.status(409).json({
+          error: "Kauf gehoert zu einem anderen Konto",
+        });
+      }
+
+      const tokenRef = db.collection("playPurchaseTokens").doc(purchaseTokenDocId(normalizedToken));
+      const userRef = db.collection("users").doc(userId);
+      let isReplayForSameUser = false;
+      await db.runTransaction(async (tx) => {
+        const tokenSnap = await tx.get(tokenRef);
+        if (tokenSnap.exists) {
+          const tokenData = tokenSnap.data() || {};
+          if (tokenData.userId && tokenData.userId !== userId) {
+            throw new Error("purchase_token_already_used");
+          }
+          isReplayForSameUser = true;
+        }
+        tx.set(
+          tokenRef,
+          {
+            userId,
+            purchaseToken: normalizedToken,
             productId,
             packageName: resolvedPackage,
-            purchaseToken: String(purchaseToken).trim(),
-            verifiedAt: FieldValue.serverTimestamp(),
+            orderId: purchase.orderId || null,
+            purchaseState: purchase.purchaseState ?? null,
+            acknowledgementState: purchase.acknowledgementState ?? null,
+            purchaseType: purchase.purchaseType ?? null,
+            obfuscatedExternalAccountId: purchase.obfuscatedExternalAccountId || null,
+            lastVerifiedAt: FieldValue.serverTimestamp(),
+            verified: true,
+            voidedAt: null,
           },
-          updatedAt: FieldValue.serverTimestamp(),
-        },
-        { merge: true },
-      );
-      res.json({ isPro: true });
+          { merge: true },
+        );
+        tx.set(
+          userRef,
+          {
+            isPro: true,
+            proPurchase: {
+              productId,
+              packageName: resolvedPackage,
+              purchaseToken: normalizedToken,
+              orderId: purchase.orderId || null,
+              purchaseType: purchase.purchaseType ?? null,
+              verifiedAt: FieldValue.serverTimestamp(),
+            },
+            updatedAt: FieldValue.serverTimestamp(),
+          },
+          { merge: true },
+        );
+      });
+
+      if (purchase.acknowledgementState !== 1) {
+        await acknowledgeProductPurchase({
+          packageName: resolvedPackage,
+          productId,
+          purchaseToken: normalizedToken,
+        });
+        await tokenRef.set(
+          {
+            acknowledgementState: 1,
+            acknowledgedAt: FieldValue.serverTimestamp(),
+          },
+          { merge: true },
+        );
+      }
+
+      res.json({
+        isPro: true,
+        reusedToken: isReplayForSameUser,
+        purchaseType: purchase.purchaseType ?? null,
+      });
     } catch (error) {
       console.error("POST /user/verify-pro-purchase:", error);
+      if (error?.message === "purchase_token_already_used") {
+        return res.status(409).json({ error: "purchaseToken wurde bereits von einem anderen Konto verwendet" });
+      }
+      const status = error?.response?.status;
+      if (status === 400 || status === 404) {
+        return res.status(400).json({ error: "Kauf konnte nicht verifiziert werden" });
+      }
       res.status(500).json({ error: error.message || "Kauf-Verifizierung fehlgeschlagen" });
     }
   });

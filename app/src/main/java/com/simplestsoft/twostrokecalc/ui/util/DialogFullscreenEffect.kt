@@ -19,10 +19,13 @@ fun DialogFullscreenEffect() {
             )
             setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
             decorView.setPadding(0, 0, 0, 0)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                isNavigationBarContrastEnforced = false
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 attributes = attributes.apply {
                     layoutInDisplayCutoutMode =
-                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
                 }
             }
         }

@@ -59,6 +59,7 @@ function registerAdminRoutes(app, ctx) {
         const updatedAt = data.updatedAt?.toDate?.()
           ? data.updatedAt.toDate().toISOString()
           : (typeof data.updatedAt === "string" ? data.updatedAt : null);
+        const fcmToken = typeof data.fcmToken === "string" ? data.fcmToken.trim() : "";
         const device = {
           applicationId: data.applicationId || null,
           appVersionName: data.appVersionName || null,
@@ -74,9 +75,27 @@ function registerAdminRoutes(app, ctx) {
           screenWidthPx: data.screenWidthPx || null,
           screenHeightPx: data.screenHeightPx || null,
           screenDensityDpi: data.screenDensityDpi || null,
+          pushEnabled: data.enabled !== false,
+          hasFcmToken: fcmToken.length > 0,
           updatedAt,
         };
-        const hasInfo = Object.entries(device).some(([key, value]) => key !== "updatedAt" && value != null);
+        const hasInfoKeys = [
+          "applicationId",
+          "appVersionName",
+          "appVersionCode",
+          "buildType",
+          "deviceModel",
+          "deviceManufacturer",
+          "deviceBrand",
+          "deviceProduct",
+          "androidVersion",
+          "androidSdk",
+          "locale",
+          "screenWidthPx",
+          "screenHeightPx",
+          "screenDensityDpi",
+        ];
+        const hasInfo = hasInfoKeys.some((key) => device[key] != null);
         return hasInfo ? device : null;
       };
 
@@ -84,6 +103,31 @@ function registerAdminRoutes(app, ctx) {
         if (value?.toDate) return value.toDate().toISOString();
         if (typeof value === "string") return value;
         return null;
+      };
+
+      const toTrimmedStringOrNull = (value) => {
+        if (value == null) return null;
+        const text = String(value).trim();
+        return text.length > 0 ? text : null;
+      };
+
+      const toVehicleSummary = (vehicleDoc, vehicleData) => {
+        const fallbackId = typeof vehicleDoc?.id === "string" ? vehicleDoc.id : null;
+        const explicitId = typeof vehicleData?.id === "string" ? vehicleData.id.trim() : "";
+        const id = explicitId || fallbackId;
+        if (!id || id.startsWith("admin-demo-")) return null;
+        const updatedAtMs = Number(vehicleData?.updatedAtMs);
+        return {
+          id,
+          name: toTrimmedStringOrNull(vehicleData?.name),
+          brand: toTrimmedStringOrNull(vehicleData?.brand),
+          model: toTrimmedStringOrNull(vehicleData?.model),
+          year: toTrimmedStringOrNull(vehicleData?.year),
+          isActive: vehicleData?.isActive !== false,
+          currentOdometerKm: toTrimmedStringOrNull(vehicleData?.currentOdometerKm),
+          currentOperatingHours: toTrimmedStringOrNull(vehicleData?.currentOperatingHours),
+          updatedAtMs: Number.isFinite(updatedAtMs) ? updatedAtMs : 0,
+        };
       };
 
       const devicesByUserId = new Map();
@@ -96,27 +140,50 @@ function registerAdminRoutes(app, ctx) {
       });
 
       const vehicleCountByUserId = new Map();
+      const vehiclesByUserId = new Map();
       const vehiclesSnapshot = await db.collectionGroup("vehicles").get();
       vehiclesSnapshot.forEach((vehicleDoc) => {
+        const vehicleData = vehicleDoc.data() || {};
+        const vehicleSummary = toVehicleSummary(vehicleDoc, vehicleData);
+        if (!vehicleSummary) return;
         const userRef = vehicleDoc.ref.parent?.parent;
         if (!userRef) return;
         vehicleCountByUserId.set(userRef.id, (vehicleCountByUserId.get(userRef.id) || 0) + 1);
+        const existingVehicles = vehiclesByUserId.get(userRef.id) || [];
+        existingVehicles.push(vehicleSummary);
+        vehiclesByUserId.set(userRef.id, existingVehicles);
       });
 
       const usersSnapshot = await db.collection("users").get();
       const users = [];
       for (const userDoc of usersSnapshot.docs) {
         const userData = userDoc.data();
+        const userProPurchase = userData?.proPurchase;
         let firebaseUser = null;
         try {
           firebaseUser = await admin.auth().getUser(userDoc.id);
         } catch (e) {
           console.warn(`Auth user ${userDoc.id}:`, e.message);
         }
+        const providerIds = Array.from(
+          new Set(
+            (firebaseUser?.providerData || [])
+              .map((provider) => provider?.providerId)
+              .filter((providerId) => typeof providerId === "string" && providerId.length > 0),
+          ),
+        );
         const isAdmin = userData.isAdmin === true;
         const role = isAdmin ? "ADMIN" : userData.role || "USER";
         const banned = userData.banned === true || userData.isBanned === true;
         const active = userData.active !== false && userData.isActive !== false && !banned;
+        const vehicles = (vehiclesByUserId.get(userDoc.id) || [])
+          .sort((a, b) => {
+            if (a.updatedAtMs !== b.updatedAtMs) return b.updatedAtMs - a.updatedAtMs;
+            const aName = a.name || [a.brand, a.model].filter(Boolean).join(" ");
+            const bName = b.name || [b.brand, b.model].filter(Boolean).join(" ");
+            return aName.localeCompare(bName);
+          })
+          .slice(0, 5);
         users.push({
           id: userDoc.id,
           email: userData.email || firebaseUser?.email || "",
@@ -125,9 +192,25 @@ function registerAdminRoutes(app, ctx) {
           active,
           banned,
           isPro: userData.isPro === true,
+          phoneNumber: userData.phoneNumber || firebaseUser?.phoneNumber || null,
+          emailVerified: firebaseUser?.emailVerified === true,
+          authDisabled: firebaseUser?.disabled === true,
+          providerIds,
           vehicleCount: vehicleCountByUserId.get(userDoc.id) || 0,
+          vehicles,
           createdAt: toIsoString(userData.createdAt) || firebaseUser?.metadata?.creationTime || null,
           lastSignInAt: firebaseUser?.metadata?.lastSignInTime || null,
+          lastRefreshAt: firebaseUser?.metadata?.lastRefreshTime || null,
+          updatedAt: toIsoString(userData.updatedAt),
+          lastPasswordResetAt: toIsoString(userData.lastPasswordReset),
+          bannedAt: toIsoString(userData.bannedAt),
+          proPurchase: userProPurchase && typeof userProPurchase === "object" ? {
+            productId: userProPurchase.productId || null,
+            orderId: userProPurchase.orderId || null,
+            packageName: userProPurchase.packageName || null,
+            purchaseType: userProPurchase.purchaseType ?? null,
+            verifiedAt: toIsoString(userProPurchase.verifiedAt),
+          } : null,
           device: devicesByUserId.get(userDoc.id) || null,
         });
       }
@@ -184,6 +267,7 @@ function registerAdminRoutes(app, ctx) {
         maintenanceMode: main.maintenanceMode === true,
         debugMode: main.debugMode === true,
         emailNotifications: main.emailNotificationsEnabled !== false,
+        demoVehiclesEnabled: main.demoVehiclesEnabled !== false,
         calculatorAvailability: normalizeCalculatorAvailability(main.calculatorAvailability),
         proModules: normalizeProModules(main.proModules, hasProModulesConfig),
       });
@@ -200,6 +284,7 @@ function registerAdminRoutes(app, ctx) {
         maintenanceMode: body.maintenanceMode === true,
         debugMode: body.debugMode === true,
         emailNotificationsEnabled: body.emailNotifications === true,
+        demoVehiclesEnabled: body.demoVehiclesEnabled !== false,
         updatedAt: FieldValue.serverTimestamp(),
       };
       const mainDoc = await db.collection("appConfig").doc("main").get();

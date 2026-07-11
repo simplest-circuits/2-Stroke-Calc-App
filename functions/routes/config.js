@@ -37,6 +37,19 @@ function registerConfigRoutes(app, ctx) {
       res.status(500).json({ error: error.message });
     }
   });
+
+  app.get("/config/demo-vehicles", async (_req, res) => {
+    try {
+      const mainDoc = await db.collection("appConfig").doc("main").get();
+      const main = mainDoc.exists ? mainDoc.data() : {};
+      res.json({
+        enabled: main.demoVehiclesEnabled !== false,
+      });
+    } catch (error) {
+      console.error("GET /config/demo-vehicles:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
 }
 
 module.exports = { registerConfigRoutes };

@@ -32,8 +32,8 @@ android {
         applicationId = "com.simplestsoft.twostrokecalc"
         minSdk = 26
         targetSdk = 35
-        versionCode = 6
-        versionName = "1.2.3"
+        versionCode = 8
+        versionName = "1.2.5"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
