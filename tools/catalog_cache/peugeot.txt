@@ -1,0 +1,317 @@
+- Buxy 50 (1993-1995, VGA427)
+- Buxy 50 M (1995-1997, VGAL25)
+- Buxy 50 RS
+- Citystar 125 AC (2015, VGAH4AD)
+- Citystar 125 EFI LC (2011-2017, VGAH4ABAA)
+- Citystar 50 (2014-2017)
+- Citystar 50 ie (2014-2017)
+- Django 125 Allure (2014-2017, VGAM2AAAA)
+- Django 125 EFI Evavision SY ABS (2018, VGAM2AAKB)
+- Django 125 Evasion (2014-2017, VGAM2AAAA)
+- Django 125 Heritage (2014-2017, VGAM2AAAA)
+- Django 125 Sport (2014-2017, VGAM2AAAA)
+- Django 50 Allure (4-Takt, 2015-2017, VGAM1ADAA)
+- Django 50 Allure (4-Takt, 2015-2017, VGAM1AEAA) 25km/h
+- Django 50 EFI Y O (4-Takt, 2018, VGAM1ADJC)
+- Django 50 EFI Y O (4-Takt, 2018, VGAM1AEJC) 25km/h
+- Django 50 EFI Y OC (4-Takt, 2018, VGAM1ADJC)
+- Django 50 EFI Y OC (4-Takt, 2018, VGAM1AEJC) 25km/h
+- Django 50 Evasion (2-Takt, 2015-2018, VGAM1ACAA)
+- Django 50 Evasion (4-Takt, 2015-2017, VGAM1ADAA)
+- Django 50 Evasion (4-Takt, 2015-2017, VGAM1AEAA) 25km/h
+- Django 50 Heritage (4-Takt, 2015-2017, VGAM1ADAA)
+- Django 50 Heritage (4-Takt, 2015-2017, VGAM1AEAA) 25km/h
+- Django 50 Sport (4-Takt, 2015-2017, VGAM1ADAA)
+- Django 50 Sport (4-Takt, 2015-2017, VGAM1AEAA) 25km/h
+- Django 50 Sport P (4-Takt, 2017, VGAM1ADAA)
+- Django 50 Sport P (4-Takt, 2017, VGAM1AEAA) 25km/h
+- Django 50 Sweet Collection (4-Takt, 2017-2017, VGAM1ADAA)
+- Django 50 Sweet Collection (4-Takt, 2017-2017, VGAM1AEAA) 25km/h
+- Elyseo 100 DD(1999-2002, VGAG2AA)
+- Elyseo 100 DT(1999-2002, VGAG2AA)
+- Elyseo 125 (1999-2002, VGAG2AB, Typ DN, EU)
+- Elyseo 125 (1999-2002, VGAG2AB, Typ FR)
+- Elyseo 150
+- Elyseo 50 (1998-2001, VGAG1AAE)
+- Elyseo 50 (2002, VGAG1AAK)
+- Elystar 125 EFI ABS (2012-2014, VGAH2AB, Typ IS2)
+- Elystar 125 EFI ABS (2012-2014, VGAH2AB, Typ ISU2)
+- Elystar 125 EFI Advantage (2006-2014, VGAH2A)
+- Elystar 150 EFI ABS (2012-2014, VGAH2AC, Typ IS2)
+- Elystar 150 EFI ABS (2012-2014, VGAH2AC, Typ ISU2)
+- Elystar 150 EFI Advantage (2006-2014, VGAH2A)
+- Elystar 50 (2010-2014, VGAG1AAP)
+- Elystar 50 Advantage (2006-2014, VGAG1AAP)
+- Elystar 50 Advantage 2 (2012-2014, VGAG1AAP)
+- Elystar 50 TSDI (2002-2008, VGAG1AA1)
+- Elystar 50 TSDI (2012-2014, VGAG1AAJ)
+- Geopolis 125 EFI ABS (2006-2007, VGAN2AAAA)
+- Geopolis 250 IE (2006-2009, VGAN2ADAA)
+- Geopolis 250 IE ABS (2006-2009, VGAN2ADAA)
+- Geopolis 300 IE (2010-2016, VGAN2AGAA, Typ MIU)
+- Geopolis 300 IE (2010-2016, VGAN2AGAA, Typ ST)
+- Geopolis 300 IE (2011-2016, VGAN2AGAA, Typ XN)
+- Geopolis 300 IE (2013-2015, VGAN2AGAA, Typ EV)
+- Geopolis 300 IE (2013-2016, VGAN2AGAA, Typ X)
+- Geopolis 300 IE (2016, VGAN2AGAA, Typ EV2D)
+- Geopolis 400 IE (2007-2013, VGAN2AEAA, Typ C)
+- Geopolis 400 IE (2007-2013, VGAN2AEAA)
+- Geopolis 400 IE ABS (2007-2013, VGAN2AEAA, Typ S)
+- Geopolis 400 IE ABS (2007-2013, VGAN2AEAA, Typ SC)
+- Geopolis 500 IE (2008-2013, VGAN2AFFA)
+- Jet Force 125 EFI (2004, VGAA2ABJB)
+- Jet Force 125 EFI (2005, VGAA2ABJB, Typ N)
+- Jet Force 125 EFI (2006, VGAA2ABJB, Typ B)
+- Jet Force 125 EFI (2006, VGAA2ABJB, Typ NBOY)
+- Jet Force 125 EFI ABS (2004, VGAA2ABJD, Typ S)
+- Jet Force 125 EFI ABS (2005, VGAA2ABJD, Typ NS)
+- Jet Force 125 EFI ABS Compressor (2005, VGAA2ACJB, Typ KS)
+- Jet Force 125 EFI Compressor (2005, VGAA2ADJB, Typ K15)
+- Jet Force 125 EFI Compressor (2006, VGAA2ACJB, Typ KBOY)
+- Jet Force 50 C-Tech (2005-2012, VGAA1AAAA)
+- Jet Force 50 C-Tech (2007-2012, VGAA1AAAA, Typ C)
+- Jet Force 50 Dark Side (2010, VGAA1AABA)
+- Jet Force 50 Dark Side (2012, VGAA1AABA, Typ U)
+- Jet Force 50 Ice Blade (2010, VGAA1AABA)
+- Jet Force 50 Ice Blade (2012, VGAA1AABA, Typ U)
+- Jet Force 50 TSDI (2005, VGAA1AAJA)
+- Jet Force 50 WRC 207 C-Tech (2007-2012, VGAA1AABA)
+- Kisbee 50 (2011-2012, VGAK1AAAA)
+- Kisbee 50 (2011, VGAK1AAAA, Typ U)
+- Kisbee 50 (2011, VGAK1AAAA, Typ X)
+- Kisbee 50 (2012, VGAK1AAAA, Typ MX)
+- Kisbee 50 (2012, VGAK1AAAA, Typ MXA)
+- Kisbee 50 (2012, VGAK1AAAA, Typ RS)
+- Kisbee 50 Dragon (2014, VGAK1AAAA, Typ SL)
+- Kisbee 50 Dragon (2016, VGAK1AAAA, Typ SLN)
+- Kisbee 50 EFI (2018, VGAK1AAJA, Typ OY)
+- Kisbee 50 EFI (2018, VGAK1AAJA, Typ OYD)
+- Kisbee 50 EFI (2018, VGAK1AAJA, Typ OYX)
+- Kisbee 50 Icy White (2011, VGAK1AAAA, Typ UA)
+- Kisbee 50 Velvet (2016, VGAK1AAAA, Typ N)
+- Looxor 100
+- Looxor 2 50 (2005, VGAB1AABA, Typ EU)
+- Looxor 2 50 Pro (2005, VGAB1AABA, Typ PROEU)
+- Looxor 50 (2001, VGAB1AAAA, Typ M)
+- Looxor 50 (2003, VGAB1AAAA, Typ N)
+- Looxor 50 Pro (2001, VGAB1AAAA, Typ PRO)
+- Looxor 50 Pro (2003, VGAB1AAAA, Typ NPRO)
+- Looxor 50 TSDI (2002, VGAB1AA1A, Typ IEU)
+- Looxor 50 TSDI (2002, VGAB1AA1A, Typ IU2)
+- Looxor 50 TSDI (2003, VGAB1AA1A, Typ NI)
+- Looxor 50 TSDI (2003, VGAB1AA1A, Typ NIU2)
+- Looxor 50 TSDI (2005, VGAB1AAJA, Typ 2I)
+- Looxor 50 TSDI (2005, VGAB1AAJA, Typ 2IPM)
+- Looxor 50 TSDI (2005, VGAB1AAJA, Typ 2IPO)
+- Looxor 50 TSDI Pro (2002, VGAB1AA1A, Typ IPROPH)
+- Looxor 50 TSDI Pro (2003, VGAB1AA1A, Typ NIPRO)
+- Looxor 50 TSDI Pro (2003, VGAB1AA1A, Typ NIPROPH)
+- Looxor 50 TSDI Pro (2005, VGAB1AAJA, Typ 2IPROAPFR)
+- Looxor 50 TSDI Pro (2005, VGAB1AAJA, Typ 2IPROAR)
+- Looxor 50 TSDI Pro (2005, VGAB1AAJA, Typ 2IPROEU)
+- Ludix 2 50 Blaster (2005, VGAL1ACFA) 12 Zoll
+- Ludix 2 50 Trend (2008, VGAL1AAFA, Typ RL2) 12 Zoll
+- Ludix 2 50 Trend (2008, VGAL1AAFA, Typ RL2A) 12 Zoll
+- Ludix 2 50 Trend (2008, VGAL1AAFA) 12 Zoll
+- Ludix 50 Blaster (2005, VGAL1ACCA) 10 Zoll
+- Ludix 50 Blaster (2005, VGAL1ACFA) 12 Zoll
+- Ludix 50 Blaster Radical (2005, VGAL1ACCA) 10 Zoll
+- Ludix 50 Classic (2004, VGAL1AABM)
+- Ludix 50 Elegance (2004, VGAL1AABA, Typ L) 14 Zoll
+- Ludix 50 Elegance (2004, VGAL1ABEA, Typ RLA) 14 Zoll
+- Ludix 50 Elegance (2005, VGAL1AAEA, Typ RL) 14 Zoll
+- Ludix 50 Elegance (2005, VGAL1ABEA, Typ LA) 14 Zoll
+- Ludix 50 Iceblade (2008, VGAL1ACFA)
+- Ludix 50 One (2004, VGAL1AADA, Typ B) 10 Zoll
+- Ludix 50 One (2004, VGAL1AADM, Typ V) 10 Zoll
+- Ludix 50 One (2005, VGAL1AADA, Typ RB) 10 Zoll
+- Ludix 50 One (2005, VGAL1ABDA, Typ RBA) 10 Zoll
+- Ludix 50 One (2005, VGAL1ABDM, Typ RVA) 10 Zoll
+- Ludix 50 One (2008, VGAL1AADA, Typ RBP2) 10 Zoll
+- Ludix 50 One (2008, VGAL1ABDA, Typ RBP2A) 10 Zoll, 25km/h
+- Ludix 50 Pro (2004, VGAL1AABL, Typ EP) 14 Zoll
+- Ludix 50 Pro (2004, VGAL1AABP, Typ PRO) 14 Zoll
+- Ludix 50 Pro (2005, VGAL1AABL, Typ REP) 14 Zoll
+- Ludix 50 Pro (2005, VGAL1AABP, Typ RPRO) 14 Zoll
+- Ludix 50 Pro (2008, VGAL1ADBP, Typ PRO) 14 Zoll
+- Ludix 50 Snake (2004, VGAL1AACA) 10 Zoll
+- Ludix 50 Snake (2005, VGAL1AAFA, Tpy ROR) 10 Zoll
+- Ludix 50 Snake (2006, VGAL1AAFA, Typ RORS) 10 Zoll
+- Ludix 50 Snake Furious (2005, VGAL1AAFA) 10 Zoll
+- Ludix 50 Trend (2004, VGAL1AAAA, Typ L) 10 Zoll
+- Ludix 50 Trend (2005, VGAL1AAAA, Typ RL) 10 Zoll
+- Metal-X 50 (2002, VGAS1A0KF)
+- Metal-X 50 Furious (2003, VGAS1AAAA)
+- Peugeot LXR 125
+- Satelis 125 EFI (2006-2007, VGAJ2AAAA, Typ C)
+- Satelis 125 EFI (2006-2007, VGAJ2AAAA)
+- Satelis 125 EFI ABS (2007, VGAJ2AAAA, Typ SC)
+- Satelis 125 EFI ABS (2008-2011, VGAJ2AABA, Typ E)
+- Satelis 125 EFI ABS (2012-2016, VGAJ2BACA)
+- Satelis 125 EFI Compressor (2007, VGAJ2ABAA)
+- Satelis 250 IE (2006, VGAJ2ADAA)
+- Satelis 250 IE (2007, VGAJ2ADAA, Typ X)
+- Satelis 250 IE ABS (2006, VGAJ2ADAA, Typ S)
+- Satelis 250 IE ABS (2007, VGAJ2ADAA, Typ SC)
+- Satelis 300 IE (2013-2016, VGAJ2BGAA)
+- Satelis 400 IE (2006, VGAJ2AEAA)
+- Satelis 400 IE ABS (2006, VGAJ2AEAA, Typ SC)
+- Satelis 500 IE (2007, VGAJ2AFAA, Typ C)
+- Satelis 500 IE (2007, VGAJ2AFAA, Typ X)
+- Satelis 500 IE (2007, VGAJ2AFAA, Typ XN)
+- Satelis 500 IE (2007, VGAJ2AFAA)
+- Satelis 500 IE ABS (2007, VGAJ2AFAA, Typ S)
+- Satelis 500 IE ABS (2007, VGAJ2AFAA, Typ SC)
+- SC 50 Metropolis
+- Speedake 50 (1994-1995, VGA427)
+- Speedake 50 (1995-1997, VGA425)
+- Speedfight 1 100 (1998, VGAS2A00B)
+- Speedfight 1 50 AC (1997-1998, VGAS1B00A, Typ C)
+- Speedfight 1 50 AC (1997-1998, VGAS1B00A)
+- Speedfight 1 50 AC (1998-1999, VGAS1B00A, Typ M)
+- Speedfight 1 50 LC (1997-1998, VGAS1B00B) Trommelbremse hinten
+- Speedfight 1 50 LC (1998-1999, VGAS1B00B, Typ D) Scheibenbremse
+- Speedfight 1 50 LC (1998-1999, VGAS1B00B, Typ GP) Scheibenbremse
+- Speedfight 1 50 LC (1998-1999, VGAS1B00B, Typ T) Trommelbremse h
+- Speedfight 2 100 (2004, VGAS2A00B)
+- Speedfight 2 100 (2007, VGAS2A00B, Typ SPT)
+- Speedfight 2 100 WRC (2004, VGAS2A00B)
+- Speedfight 2 100 X-Fight (2004, VGAS2A00B)
+- Speedfight 2 50 AC (2000-2003, VGAS1B00A, Typ EP)
+- Speedfight 2 50 AC (2000-2003, VGAS1B00A)
+- Speedfight 2 50 AC (2000, VGAS1B00A, Typ EA BE)
+- Speedfight 2 50 AC (2003, VGAS1B00A, Typ N)
+- Speedfight 2 50 AC (2003, VGAS1B00A, Typ Z)
+- Speedfight 2 50 AC (2006-2008, VGAS1B00A, Typ RIX)
+- Speedfight 2 50 AC (2006, VGAS1B00A, Typ R)
+- Speedfight 2 50 AC (2007, VGAS1B00A, Typ RMO)
+- Speedfight 2 50 AC (2007, VGAS1B00A, Typ RW3)
+- Speedfight 2 50 AC (2007, VGAS1B00A, Typ SP)
+- Speedfight 2 50 AC (2007, VGAS1B00A)
+- Speedfight 2 50 AC WRC (2004, VGAS1B00A)
+- Speedfight 2 50 LC (2003, VGAS1B00B)
+- Speedfight 2 50 LC (2004-2006, VGAS1B00B, Typ LR)
+- Speedfight 2 50 LC (2006, VGAS1B00B, Typ LRIX)
+- Speedfight 2 50 LC (2007, VGAS1B00B, Typ LRMO)
+- Speedfight 2 50 LC (2008, VGAS1B00B, Typ LRUL)
+- Speedfight 2 50 LC WRC (2003, VGAS1B00B)
+- Speedfight 2 50 LC WRC (2005, VGAS1B00B, Typ LZ)
+- Speedfight 3 50 (4-Takt, 2010-2011, VGAF1ADAA, Typ N)
+- Speedfight 3 50 (4-Takt, 2012, VGAF1ADAA, Typ E)
+- Speedfight 3 50 AC (2-Takt, 2009, VGAF1AAAA)
+- Speedfight 3 50 AC (2-Takt, 2010-2011, VGAF1AAAA, Typ N)
+- Speedfight 3 50 AC (2-Takt, 2011-2014, VGAF1AAAA, Typ X)
+- Speedfight 3 50 AC Dark Side (2-Takt, 2010-2011, VGAF1AAAA)
+- Speedfight 3 50 AC Dark Side (2-Takt, 2012-2014, VGAF1AAAA, Typ
+- Speedfight 3 50 AC DSE (2-Takt, 2012-2014, VGAF1AAAA)
+- Speedfight 3 50 AC Ice Blade (2-Takt, 2010-2011, VGAF1AAAA, Typ
+- Speedfight 3 50 AC Le Mans (2-Takt, 2011, VGAF1AAAA)
+- Speedfight 3 50 AC Le Mans (2-Takt, 2012-2014, VGAF1AAAA, Typ E)
+- Speedfight 3 50 AC Music (2-Takt, 2010-2011, VGAF1AAAA, Typ N)
+- Speedfight 3 50 DSE (4-Takt, 2012-2014, VGAF1ADAA)
+- Speedfight 3 50 Ice Blade (4-Takt, 2012, VGAF1ADAA, Typ E)
+- Speedfight 3 50 LC (2-Takt, 2009, VGAF1ABAA)
+- Speedfight 3 50 LC (2-Takt, 2010-2011, VGAF1ABAA, Typ IB)
+- Speedfight 3 50 LC (2-Takt, 2010-2011, VGAF1ABAA, Typ N)
+- Speedfight 3 50 LC (2-Takt, 2011-2014, VGAF1ABAA, Typ X)
+- Speedfight 3 50 LC (2-Takt, 2012-2014, VGAF1ABAA, Typ E)
+- Speedfight 3 50 LC Dark Side (2-Takt, 2010-2011, VGAF1ABAA)
+- Speedfight 3 50 LC DSE (2-Takt, 2012-2014, VGAF1ABAA)
+- Speedfight 3 50 LC Le Mans (2-Takt, 2011, VGAF1ABAA)
+- Speedfight 3 50 LC Le Mans (2-Takt, 2012-2014, VGAF1ABAA, Typ E)
+- Speedfight 3 50 Le Mans (4-Takt, 2011, VGAF1ADAA)
+- Speedfight 3 50 Le Mans (4-Takt, 2012-2014, VGAF1ADAA, Typ E)
+- Speedfight 4 50 AC (2-Takt, 2015-2017, VGAF1AAAA)
+- Speedfight 4 50 AC (4-Takt, 2015-2017, VGAF1ADAA)
+- Speedfight 4 50 AC (4-Takt, 2016-2017, VGAF1ADAA, Typ TPS)
+- Speedfight 4 50 AC Dark Side (2-Takt, 2015-2017, VGAF1AAAA, Typ
+- Speedfight 4 50 AC Dark Side (4-Takt, 2015-2017, VGAF1ADAA, Typ
+- Speedfight 4 50 AC Ice Blade (2-Takt, 2015-2017, VGAF1AAAA. Typ
+- Speedfight 4 50 AC Ice Blade (4-Takt, 2015-2017, VGAF1ADAA. Typ
+- Speedfight 4 50 AC ICY White (2-Takt, 2015-2017, VGAF1AAAA, Typ
+- Speedfight 4 50 AC ICY White (4-Takt, 2015-2017, VGAF1ADAA, Typ
+- Squab 50 (1997, VGAS1A03)
+- ST 50
+- ST 50 Rapido
+- Sum-Up 125 (2008-2011, VGALAEEK84)
+- SV 125 (1993-1997, VGA421)
+- SV 250
+- SV 50 (1993-1998, VGA395)
+- TKR 100 (1998-2000, VGAS2AA)
+- TKR 50
+- TKR 50 (BE)
+- TKR 50 (MA BE)
+- TKR 50 (MUB2A BE)
+- TKR 50 (N BE)
+- TKR 50 (P EU)
+- TKR 50 (R A BE)
+- TKR 50 (R BE)
+- TKR 50 (SB2A BE)
+- TKR 50 (SZ A EU)
+- TKR 50 (SZ EU)
+- TKR 50 (UBA BE)
+- TKR 50 Furious (2005-2012, VGAS1AADA)
+- TKR 50 WRC (2005, VGAS1AADA)
+- TKR 50 WRC (2008-2009
+- TKR WRC 50 (EU)
+- Trekker 100 (1998-2000, VGAS2AA)
+- Trekker 50 (1998-2000, VGAS1A0KB)
+- Tweet 50 (2010-2018, LW1AAA, Typ A)
+- Tweet 50 (2010-2018, LW1AAA, Typ APX)
+- Tweet 50 (2010-2018, LW1AAA, Typ PX)
+- Tweet 50 (2010-2018, LW1AAA, Typ V)
+- Tweet 50 (2010-2018, LW1AAA, Typ VA)
+- Tweet 50 (2010-2018, LW1AAA, Typ VAX)
+- Tweet 50 (2010-2018, LW1AAA, Typ VX)
+- Tweet 50 (2010-2018, LW1AAA, Typ X)
+- Tweet 50 (2010-2018, LW1AAA)
+- V-Click 50 (2007-2009, LAEAGZ40)
+- V-Click 50 (2010-2014, LAEAGZ40)
+- Vivacity 100
+- Vivacity 2 50 (CO)
+- Vivacity 2 50 (DCA)
+- Vivacity 2 50 (R CO)
+- Vivacity 2 50 (RD)
+- Vivacity 2 50 (RG)
+- Vivacity 2 50 (RGA)
+- Vivacity 2 50 (RMO)
+- Vivacity 2 50 (RMOA)
+- Vivacity 2 50 (RSL4)
+- Vivacity 2 50 (RSL4A)
+- Vivacity 2 50 (SL4 A)
+- Vivacity 2 50 (SL4 EU)
+- Vivacity 2 50 (SP)
+- Vivacity 2 50 (SP2)
+- Vivacity 3 50 (2-Takt, A)
+- Vivacity 3 50 (2-Takt)
+- Vivacity 3 50 (4-Takt, A)
+- Vivacity 3 50 (4-Takt)
+- Vivacity 3 Sixties 50 (4-Takt, A)
+- Vivacity 3 Sportline 50 (2-Takt)
+- Vivacity 3 Sportline 50 (4-Takt, A)
+- Vivacity 3 Sportline 50 (4-Takt)
+- Vivacity 50
+- Vivacity 50 (A BE)
+- Vivacity 50 (C)
+- Vivacity 50 (CA2)
+- Vivacity 50 (D A)
+- Vivacity 50 (D)
+- Vivacity 50 (DA)
+- Vivacity 50 (FR)
+- Vivacity 50 (MA BE)
+- Vivacity 50 (N)
+- Vivacity 50 (NA)
+- Vivacity 50 (NCO)
+- Vivacity 50 (ND)
+- Vivacity 50 (NDA)
+- Vivacity 50 (NUV)
+- Vivacity 50 (NUVA)
+- Vivacity 50 (SL2A)
+- Vivacity 50 (SL2C)
+- Vivacity 50 (SPA)
+- Vivacity New 50 (2-Takt)
+- Vivacity New 50 (4-Takt)
+- X-Fight 50 (-2003)
+- X-Fight 50 (2004-)
+- Zenith L 50
+- Zenith M 50

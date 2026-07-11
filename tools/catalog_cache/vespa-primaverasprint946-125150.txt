@@ -1,0 +1,231 @@
+- Vespa 946 125 (2013, ZAPM80100)
+- Vespa 946 125 (2014, ZAPM80100)
+- Vespa 946 125 (2015, ZAPM80100)
+- Vespa 946 125 (2015, ZAPM80101) Emporio Armani
+- Vespa 946 125 (2016, ZAPM80100)
+- Vespa 946 125 (2016, ZAPM80101)
+- Vespa 946 125 (2016, ZAPM80101) Emporio Armani
+- Vespa 946 125 (2016, ZAPMA7100)
+- Vespa 946 125 (2017, ZAPM80100)
+- Vespa 946 125 (2017, ZAPM80101)
+- Vespa 946 125 (2017, ZAPM80101) Emporio Armani
+- Vespa 946 125 (2017, ZAPMA7100)
+- Vespa 946 125 (2018, ZAPM80100) Red
+- Vespa 946 125 (2018, ZAPM80101) Emporio Armani
+- Vespa 946 125 (2018, ZAPM80101) Red
+- Vespa 946 125 (2018, ZAPMA7100) Red
+- Vespa 946 125 (2019-2020, ZAPM80100) Red
+- Vespa 946 125 (2019-2020, ZAPM80101) Red
+- Vespa 946 125 (2019, ZAPM80101) Emporio Armani
+- Vespa 946 125 (2019, ZAPMA7100) Red
+- Vespa 946 125 (2020, ZAPM80101) Emporio Armani
+- Vespa 946 125 (2020, ZAPMA7100) Red
+- Vespa 946 125 (2021, ZAPM80101) Emporio Armani
+- Vespa 946 125 (2021, ZAPMD710) Christian Dior
+- Vespa 946 125 (2022, ZAPM80101) Emporio Armani
+- Vespa 946 125 (2023, ZAPM80101) Emporio Armani
+- Vespa 946 125 (2023, ZAPMD7100) Bunny
+- Vespa 946 125 (2024, ZAPMD7100) Dragon
+- Vespa 946 125 (2025, ZAPMD7300) Snake
+- Vespa 946 125 (2026, ZAPMD7300) Horse
+- Vespa 946 150 (2018, ZAPM80200) Red
+- Vespa 946 150 (2018, ZAPMA7200) Red
+- Vespa 946 150 (2019, ZAPM80200) Red
+- Vespa 946 150 (2019, ZAPMA7200) Red
+- Vespa 946 150 (2020, ZAPM80200) Red
+- Vespa 946 150 (2020, ZAPMA7200) Red
+- Vespa 946 150 (2023, ZAPMD7200) Bunny
+- Vespa 946 150 (2024, ZAPMD7200) Dragon
+- Vespa 946 150 (2025, ZAPMD7400) Snake
+- Vespa 946 150 (2026, ZAPMD7400) Horse
+- Vespa Primavera 125 (2012, ZAPM81100)
+- Vespa Primavera 125 (2013, ZAPM81100)
+- Vespa Primavera 125 (2013, ZAPM81101)
+- Vespa Primavera 125 (2014, ZAPM81100)
+- Vespa Primavera 125 (2014, ZAPM81101)
+- Vespa Primavera 125 (2015, ZAPM81100)
+- Vespa Primavera 125 (2015, ZAPM81101)
+- Vespa Primavera 125 (2015, ZAPM81101) 70-Jahre
+- Vespa Primavera 125 (2016, ZAPM81100)
+- Vespa Primavera 125 (2016, ZAPM81100) 70-Jahre
+- Vespa Primavera 125 (2016, ZAPM81101)
+- Vespa Primavera 125 (2016, ZAPM81101) 70-Jahre
+- Vespa Primavera 125 (2017, ZAPM81100)
+- Vespa Primavera 125 (2017, ZAPM81101)
+- Vespa Primavera 125 ABS (2013, RP8M82100)
+- Vespa Primavera 125 ABS (2013, RP8M82310)
+- Vespa Primavera 125 ABS (2013, RP8M82821)
+- Vespa Primavera 125 ABS (2014, RP8M82100)
+- Vespa Primavera 125 ABS (2014, RP8M82310)
+- Vespa Primavera 125 ABS (2014, RP8M82821)
+- Vespa Primavera 125 ABS (2015, RP8M82100)
+- Vespa Primavera 125 ABS (2015, RP8M82310)
+- Vespa Primavera 125 ABS (2015, RP8M82821)
+- Vespa Primavera 125 IGET (2016, ZAPMA1100)
+- Vespa Primavera 125 IGET (2016, ZAPMA1100) 70-Jahre
+- Vespa Primavera 125 IGET (2017, ZAPMA1100)
+- Vespa Primavera 125 IGET (2018, ZAPMA1100)
+- Vespa Primavera 125 IGET (2018, ZAPMA1100) 50-Jahre
+- Vespa Primavera 125 IGET (2018, ZAPMA1100) Yacht Club
+- Vespa Primavera 125 IGET (2018, ZAPMA1101)
+- Vespa Primavera 125 IGET (2018, ZAPMA1101) 50-Jahre
+- Vespa Primavera 125 IGET (2018, ZAPMA1101) Yacht Club
+- Vespa Primavera 125 IGET (2019-2020, ZAPMA1100)
+- Vespa Primavera 125 IGET (2019-2020, ZAPMA1101)
+- Vespa Primavera 125 IGET (2019-2020,ZAPMA1100 ) Yacht Club
+- Vespa Primavera 125 IGET (2019-2020,ZAPMA1101 ) Yacht Club
+- Vespa Primavera 125 IGET (2019, ZAPMA1100) 50-Jahre
+- Vespa Primavera 125 IGET (2019, ZAPMA1101) 50-Jahre
+- Vespa Primavera 125 IGET ABS (2016, RP8M82500)
+- Vespa Primavera 125 IGET ABS (2017, RP8M82500)
+- Vespa Primavera 125 IGET ABS (2018, RP8M82500)
+- Vespa Primavera 125 IGET ABS (2018, ZAPMA1100)
+- Vespa Primavera 125 IGET ABS (2021, ZAPMD1100)
+- Vespa Primavera 125 IGET ABS (2021, ZAPMD1100) 75th Anniversary
+- Vespa Primavera 125 IGET ABS (2021, ZAPMD1100) Pic Nic
+- Vespa Primavera 125 IGET ABS (2021, ZAPMD1100) RED
+- Vespa Primavera 125 IGET ABS (2021, ZAPMD1100) Wotherspoon
+- Vespa Primavera 125 IGET ABS (2022, ZAPMD1100)
+- Vespa Primavera 125 IGET ABS (2022, ZAPMD1100) Color Vibe
+- Vespa Primavera 125 IGET ABS (2022, ZAPMD1100) Red
+- Vespa Primavera 125 IGET ABS (2023, ZAPMD1100)
+- Vespa Primavera 125 IGET ABS (2023, ZAPMD1100) Color Vibe
+- Vespa Primavera 125 IGET ABS (2023, ZAPMD1100) Mickey Mouse
+- Vespa Primavera 125 IGET ABS (2023, ZAPMD1100) Red
+- Vespa Primavera 125 IGET ABS (2024, ZAPM) Mickey Mouse
+- Vespa Primavera 125 IGET ABS (2024, ZAPMD1102)
+- Vespa Primavera 125 IGET ABS (2024, ZAPMD1102) Red
+- Vespa Primavera 125 IGET Basic (2026, ZAPMD1116)
+- Vespa Primavera 125 IGET Sport (2018, ZAPMA1101)
+- Vespa Primavera 125 IGET Sport (2019-2020, ZAPMA1100)
+- Vespa Primavera 125 IGET Sport (2019-2020, ZAPMA1101)
+- Vespa Primavera 125 IGET Sport (2026, ZAPMD1116)
+- Vespa Primavera 125 IGET Sport ABS (2021, ZAPMD1100)
+- Vespa Primavera 125 IGET Sport ABS (2022, ZAPMD1100)
+- Vespa Primavera 125 IGET Sport ABS (2023, ZAPMD1100)
+- Vespa Primavera 125 IGET Sport ABS (2024, ZAPMD1102)
+- Vespa Primavera 125 IGET Tech ABS (2024, ZAPMD1102)
+- Vespa Primavera 125 IGET Touring (2016, ZAPMA1100)
+- Vespa Primavera 125 IGET Touring (2017, ZAPMA1100)
+- Vespa Primavera 125 IGET Touring (2018, ZAPMA1100)
+- Vespa Primavera 125 IGET Touring (2018, ZAPMA1101)
+- Vespa Primavera 125 IGET Touring (2019-2020, ZAPMA1100)
+- Vespa Primavera 125 IGET Touring (2019-2020, ZAPMA1101)
+- Vespa Primavera 125 IGET Touring ABS (2018, ZAPMA1100)
+- Vespa Primavera 125 IGET Touring ABS (2021, ZAPMD1100)
+- Vespa Primavera 125 IGET Touring ABS (2022, ZAPMD1100)
+- Vespa Primavera 125 IGET Touring ABS (2023, ZAPMD1100)
+- Vespa Primavera 150 (2013-2016, ZAPM81201)
+- Vespa Primavera 150 (2013, ZAPM81200)
+- Vespa Primavera 150 (2014, ZAPM81200)
+- Vespa Primavera 150 (2015, ZAPM81200)
+- Vespa Primavera 150 (2016, ZAPM81200)
+- Vespa Primavera 150 (2024, ZAPMD1216)
+- Vespa Primavera 150 (2024, ZAPMD1217)
+- Vespa Primavera 150 IGET (2016, ZAPMA1200)
+- Vespa Primavera 150 IGET (2017, ZAPMA1200)
+- Vespa Primavera 150 IGET ABS (2018, ZAPMA1200)
+- Vespa Primavera 150 IGET ABS (2018, ZAPMA1201)
+- Vespa Primavera 150 IGET ABS (2021, ZAPMD120)
+- Vespa Primavera 150 IGET ABS (2021, ZAPMD120) 75th Anniversary
+- Vespa Primavera 150 IGET ABS (2021, ZAPMD120) RED
+- Vespa Primavera 150 IGET ABS (2021, ZAPMD120) Wotherspoon
+- Vespa Primavera 150 IGET ABS (2022, ZAPMD1200)
+- Vespa Primavera 150 IGET ABS (2022, ZAPMD1200) Red
+- Vespa Primavera 150 IGET ABS (2023, ZAPMD1200)
+- Vespa Primavera 150 IGET ABS (2023, ZAPMD1200) Color Vibe
+- Vespa Primavera 150 IGET ABS (2023, ZAPMD1200) Mickey Mouse
+- Vespa Primavera 150 IGET ABS (2023, ZAPMD1200) Red
+- Vespa Primavera 150 IGET ABS (2024, ZAPMD1202)
+- Vespa Primavera 150 IGET ABS (2024, ZAPMD1202) Red
+- Vespa Primavera 150 IGET ABS Sport (2021, ZAPMD120)
+- Vespa Primavera 150 IGET Basic (2026, ZAPMD1220)
+- Vespa Primavera 150 IGET Sport (2026, ZAPMD1220)
+- Vespa Primavera 150 IGET Sport ABS (2018, ZAPMA1200)
+- Vespa Primavera 150 IGET Sport ABS (2018, ZAPMA1201)
+- Vespa Primavera 150 IGET Sport ABS (2022, ZAPMD1200)
+- Vespa Primavera 150 IGET Sport ABS (2023, ZAPMD1200)
+- Vespa Primavera 150 IGET Sport ABS (2024, ZAPMD1202)
+- Vespa Primavera 150 IGET Touring ABS (2018, ZAPMA1200)
+- Vespa Primavera 150 IGET Touring ABS (2018, ZAPMA1201)
+- Vespa Primavera 150 IGET Touring ABS (2022, ZAPMD1200)
+- Vespa Primavera 150 IGET Touring ABS (2023, ZAPMD1200)
+- Vespa Primavera 150 Touring (2015, ZAPM81200)
+- Vespa Primavera 150 Touring IGET ABS (2021, ZAPMD120)
+- Vespa Sprint 125 (2014, RP8M82111)
+- Vespa Sprint 125 (2014, ZAPM81300)
+- Vespa Sprint 125 (2014, ZAPM81301)
+- Vespa Sprint 125 (2015, RP8M82111)
+- Vespa Sprint 125 (2015, ZAPM81300)
+- Vespa Sprint 125 (2015, ZAPM81301)
+- Vespa Sprint 125 (2016, RP8M82111)
+- Vespa Sprint 125 (2024, ZAPMD1103)
+- Vespa Sprint 125 IGET ABS (2016, ZAPMA1300)
+- Vespa Sprint 125 IGET ABS (2017, ZAPMA1300)
+- Vespa Sprint 125 IGET ABS (2018, ZAPMA1300)
+- Vespa Sprint 125 IGET ABS (2018, ZAPMA1300) Notte
+- Vespa Sprint 125 IGET ABS (2019-2020, ZAPMA1300)
+- Vespa Sprint 125 IGET ABS (2019-2020, ZAPMA1300) Notte
+- Vespa Sprint 125 IGET ABS (2019-2020, ZAPMA1300) Racing Sixties
+- Vespa Sprint 125 IGET ABS (2019-2020, ZAPMA1301)
+- Vespa Sprint 125 IGET ABS (2019-2020, ZAPMA1301) Notte
+- Vespa Sprint 125 IGET ABS (2019-2020, ZAPMA1301) Racing Sixties
+- Vespa Sprint 125 IGET ABS (2021, ZAPMD1101)
+- Vespa Sprint 125 IGET ABS (2021, ZAPMD1101) Racing Sixties
+- Vespa Sprint 125 IGET ABS (2022, ZAPMD1101) Justin Bieber
+- Vespa Sprint 125 IGET S (2026, ZAPMD1103)
+- Vespa Sprint 125 IGET Sport ABS (2018, ZAPMA1300)
+- Vespa Sprint 125 IGET Sport ABS (2019-2020, ZAPMA1300)
+- Vespa Sprint 125 IGET Sport ABS (2019-2020, ZAPMA1301)
+- Vespa Sprint 125 IGET Sport ABS (2021, ZAPMD1101)
+- Vespa Sprint 125 Sport ABS (2014, ZAPM81300)
+- Vespa Sprint 125 Sport ABS (2014, ZAPM81301)
+- Vespa Sprint 125 Sport ABS (2015, ZAPM81300)
+- Vespa Sprint 125 Sport ABS (2015, ZAPM81301)
+- Vespa Sprint 150 (2015, ZAPM81401)
+- Vespa Sprint 150 (2024, ZAPMD1203)
+- Vespa Sprint 150 IGET (2016, ZAPMA1400)
+- Vespa Sprint 150 IGET (2017, ZAPMA1400)
+- Vespa Sprint 150 IGET (2018, ZAPMA1400)
+- Vespa Sprint 150 IGET ABS (2021, ZAPMD1201) Racing Sixties
+- Vespa Sprint 150 IGET ABS (2022, ZAPMD1201) Justin Bieber
+- Vespa Sprint 150 IGET S (2026, ZAPMD1221)
+- Vespa Sprint 150 IGET Sport (2016, ZAPMA1400)
+- Vespa Sprint 150 IGET Sport (2017, ZAPMA1400)
+- Vespa Sprint 150 IGET Sport (2018, ZAPMA1400)
+- Vespa Sprint 150 IGET Sport (2018, ZAPMA1401)
+- Vespa Sprint 150 IGET Sport (2019-2020, ZAPMA1400)
+- Vespa Sprint 150 IGET Sport (2019-2020, ZAPMA1401)
+- Vespa Sprint 150 IGET Sport ABS (2021, ZAPMD1201)
+- Vespa Sprint 150 IGET Sport ABS (2022, ZAPMD1201)
+- Vespa 946 125 (2013-2019, ZAPM80100)
+- Vespa 946 125 (2015-2023, ZAPM80101)
+- Vespa 946 125 (2016-2019, ZAPMA7100)
+- Vespa 946 125 (2021-2024, ZAPMD710)
+- Vespa 946 150 (2018-2019, ZAPM80200)
+- Vespa 946 150 (2018-2019, ZAPMA7200)
+- Vespa 946 150 (2023-2024, ZAPMD7200)
+- Vespa Primavera 125 (2013-2017, RP8M82100)
+- Vespa Primavera 125 (2013-2017, RP8M82310)
+- Vespa Primavera 125 (2013-2017, RP8M82821)
+- Vespa Primavera 125 (2013-2017, ZAPM81100)
+- Vespa Primavera 125 (2013-2017, ZAPM81101)
+- Vespa Primavera 125 (2016-2020, ZAPMA1100)
+- Vespa Primavera 125 (2016-2023, RP8M82500)
+- Vespa Primavera 125 (2018-2020, ZAPMA1101)
+- Vespa Primavera 125 (2020-2023, ZAPMD1100)
+- Vespa Primavera 125 (2024, ZAPMD1102)
+- Vespa Primavera 150 (2013-2016, ZAPM81200)
+- Vespa Primavera 150 (2016-2020, ZAPMA1200)
+- Vespa Primavera 150 (2018-2020, ZAPMA1201)
+- Vespa Primavera 150 (2021-2023, ZAPMD120)
+- Vespa Primavera 150 (2024, ZAPMD1202)
+- Vespa Sprint 125 (2014-2016, RP8M82111)
+- Vespa Sprint 125 (2014-2016, ZAPM81300)
+- Vespa Sprint 125 (2014-2016, ZAPM81301)
+- Vespa Sprint 125 (2016-2020, ZAPMA1300)
+- Vespa Sprint 125 (2019-2020, ZAPMA1301)
+- Vespa Sprint 125 (2020-2022, ZAPMD1101)
+- Vespa Sprint 150 (2016-2019, ZAPMA1400)
+- Vespa Sprint 150 (2016-2019, ZAPMA1401)
+- Vespa Sprint 150 (2020-2023, ZAPMD1201)

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "944061414373",
+    "project_id": "strokecalc-app",
+    "storage_bucket": "strokecalc-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944061414373:android:be4984c44fa03b6f474d0c",
+        "android_client_info": {
+          "package_name": "com.simplestsoft.twostrokecalc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "944061414373-f6ndnrj7nv5fn60bqvpg6bbfhh3a6h08.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.simplestsoft.twostrokecalc",
+            "certificate_hash": "8cdc2472b3613fefa9d9fdf698370c4c0533d08d"
+          }
+        },
+        {
+          "client_id": "944061414373-h2qmtb8j72m37sd14k2nbania9f0d34h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0KfLvcyor5BRoghX1IYnVflu1sW9n2zY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "944061414373-h2qmtb8j72m37sd14k2nbania9f0d34h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,34 @@
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Gradle
+.gradle/
+build/
+app/build/
+app/release/
+
+# Local configuration
+local.properties
+
+# IDE
+.idea/
+*.iml
+
+# Kotlin
+.kotlin/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Keystore / signing
+*.jks
+*.keystore
+keystore/
+
+# Secrets
+*-firebase-adminsdk-*.json
+firebase.properties

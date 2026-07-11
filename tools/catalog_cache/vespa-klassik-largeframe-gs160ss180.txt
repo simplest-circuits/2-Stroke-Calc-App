@@ -1,0 +1,4 @@
+- Vespa 160 GS/4 (Typ 382, VSB1T)
+- Vespa 160 GS/4 (VSB1T, 1962, GS4)
+- Vespa 160 GS/4 (VSB1T, 1963, GS4)
+- Vespa 180 Super Sport (VSC1T, SS180)

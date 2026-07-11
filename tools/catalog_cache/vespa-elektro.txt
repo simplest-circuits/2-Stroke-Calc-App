@@ -1,0 +1,11 @@
+- Vespa Elettrica (2018, ZAPCB0100) 45km/h
+- Vespa Elettrica (2019, ZAPCB0100) 45km/h
+- Vespa Elettrica (2019, ZAPCB0101) 25km/h
+- Vespa Elettrica (2019, ZAPMA9101) 70km/h
+- Vespa Elettrica (2020, ZAPMA9100) 70km/h
+- Vespa Elettrica (2020, ZAPMA9101) 70km/h
+- Vespa Elettrica (2021, ZAPCB103) 45km/h
+- Vespa Elettrica (2021, ZAPMA9102) 70km/h
+- Vespa Primavera Elettrica (2024, ZAPCE1100) 45km/h
+- Vespa Primavera Elettrica Red (2024, ZAPC) 45km/h
+- Vespa Primavera Elettrica Tech (2024, ZAPCE1100) 45km/h

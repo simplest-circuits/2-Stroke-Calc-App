@@ -1,0 +1,72 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    function preservesPrivilegedUserFields() {
+      return !request.resource.data.diff(resource.data).affectedKeys()
+        .hasAny(['isAdmin', 'isPro', 'role', 'banned', 'active']);
+    }
+
+    match /users/{userId} {
+      allow read: if isSelf(userId) || isAdmin();
+      allow create: if isSelf(userId)
+        && request.resource.data.get('isAdmin', false) == false
+        && request.resource.data.get('isPro', false) == false
+        && request.resource.data.get('role', 'USER') == 'USER'
+        && request.resource.data.get('banned', false) == false;
+      allow update: if isAdmin() || (isSelf(userId) && preservesPrivilegedUserFields());
+      allow delete: if isAdmin();
+
+      match /devices/{deviceId} {
+        allow read, write: if isSelf(userId) || isAdmin();
+      }
+
+      match /vehicles/{vehicleId} {
+        allow read, write: if isSelf(userId) || isAdmin();
+      }
+    }
+
+    match /error_logs/{logId} {
+      allow create: if isSignedIn();
+      allow read: if isAdmin();
+      allow update, delete: if false;
+    }
+
+    match /appConfig/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /settingsContent/{languageCode} {
+      allow read: if isSignedIn() && languageCode in ["de", "en"];
+      allow write: if isAdmin() && languageCode in ["de", "en"];
+    }
+
+    match /changelog/{languageCode} {
+      allow read: if isSignedIn() && languageCode in ["de", "en"];
+      allow write: if isAdmin() && languageCode in ["de", "en"];
+    }
+
+    match /vehicleCatalog/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

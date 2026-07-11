@@ -1,0 +1,38 @@
+2-Stroke Calc is a practical toolkit for tuners, builders and motorsport enthusiasts working on two-stroke engines — from mopeds and scooters to dirt bikes and custom builds.
+
+14 calculators in one app:
+• Port timing — with diagram from gauge measurements
+• Time-area — transfer cross-section and exhaust geometry
+• Ignition timing — degrees and millimeters before TDC
+• Compression — ratio and combustion chamber volume
+• Squish band — squish area and squish ratio
+• Mean pressure — torque and specific power
+• Counterweight factor — crankshaft counterweighting
+• Variator weights — for scooters and mopeds
+• Oil/fuel mix — ratio and quantities
+• Carb jet — correction for altitude and temperature
+• Gearbox — speeds and shift points
+• Exhaust pipe — Blair expansion chamber with preview
+• DC wire gauge — for vehicle electrics
+• Liquid calculator — electrolyte and cleaning agent concentration
+
+Vehicle management:
+• Master data, maintenance schedule, fuel log and costs
+• Documents, MOT and insurance reminders
+• Cloud sync with your account
+
+Free & Pro:
+• Free: View all calculators and vehicles, explore demo vehicle
+• Pro: Edit, add and delete — one-time purchase via Google Play
+• Pro modules (default): vehicles, port timing, wire gauge, liquid calculator, gearbox
+
+More features:
+• All calculator results processed locally on your device
+• German and English
+• Light and dark theme
+• Bottom navigation or side drawer
+• Help, FAQ and in-app contact
+
+Note: This app is a technical aid only. Results do not replace professional engine verification. Double-check all measurements before making changes.
+
+Support: support@simplestsoft.com

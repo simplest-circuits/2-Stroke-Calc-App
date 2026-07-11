@@ -1,0 +1,27 @@
+- 2 L
+- 3 L
+- 4 L
+- A 2
+- A 3 S25
+- A 35
+- A 35 HBA
+- A 35 HBO
+- A 35 HDA
+- AT 50
+- Automatic
+- Classic
+- E-Lite
+- Luxe
+- Nitro 25
+- Nitro 50
+- Pack R
+- Quadro
+- Roadie
+- S 25
+- S 25/2
+- SL
+- Sport
+- Sprint
+- Standard
+- Streetmate
+- Youngst R

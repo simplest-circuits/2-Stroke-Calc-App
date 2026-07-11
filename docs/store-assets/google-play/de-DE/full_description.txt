@@ -1,0 +1,38 @@
+2-Stroke Calc ist das Werkzeug für Tuner, Bastler und Motorsport-Enthusiasten, die an 2-Takt-Motoren arbeiten — von Moped und Roller bis Cross und Custom-Build.
+
+14 Rechner in einer App:
+• Steuerzeiten — mit Diagramm aus Stichmaßen
+• Time-Area — Transfer-Querschnitt und Auslassgeometrie
+• Zündzeitpunkt — Grad und Millimeter vor OT
+• Verdichtung — Verdichtungsverhältnis und Brennraum
+• Quetschfläche — Squish-Band und Quetschverhältnis
+• Mitteldruck — Drehmoment und Literleistung
+• Wuchtfaktor — Kurbelwellenauswuchtung
+• Variogewichte — für Roller und Mofa
+• Öl/Benzin-Gemisch — Mischverhältnis und Mengen
+• Vergaserdüse — Korrektur für Höhe und Temperatur
+• Getriebe — Geschwindigkeiten und Schaltpunkte
+• Resorohr — Blair-Expansion Chamber mit Vorschau
+• DC-Kabelquerschnitt — für die Fahrzeugelektrik
+• Flüssigkeitsrechner — Elektrolyt und Reinigungsmittel-Konzentration
+
+Fahrzeugverwaltung:
+• Stammdaten, Wartungsplan, Tankbuch und Kosten
+• Dokumente, TÜV- und Versicherungserinnerungen
+• Cloud-Sync mit deinem Konto
+
+Free & Pro:
+• Kostenlos: Alle Rechner und Fahrzeuge ansehen, Demo-Fahrzeug erkunden
+• Pro: Bearbeiten, Hinzufügen und Löschen — einmaliger Kauf über Google Play
+• Pro-Module (Standard): Fahrzeuge, Steuerzeiten, Kabelquerschnitt, Flüssigkeitsrechner, Getriebe
+
+Weitere Features:
+• Alle Rechner-Berechnungen lokal auf dem Gerät
+• Deutsch und Englisch
+• Helles und dunkles Design
+• Bottom-Menü oder Seitenpanel
+• Hilfe, FAQ und Kontakt in der App
+
+Hinweis: Die App dient als technisches Hilfsmittel. Ergebnisse ersetzen keine fachliche Prüfung am Motor. Bitte Messwerte vor dem Umbau doppelt prüfen.
+
+Support: support@simplestsoft.com

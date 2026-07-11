@@ -1,0 +1,5 @@
+• Freemium-Modell: Alle Rechner und Fahrzeuge gratis ansehen — Bearbeiten mit Pro
+• Demo-Fahrzeug zum Erkunden der Fahrzeugverwaltung
+• Pro-Dialog mit Modulbeschreibung und direktem Google-Play-Kauf
+• Free-/Pro-Badge in den Einstellungen
+• Aktualisierte Hilfe, FAQ, Rechtstexte und Einführungs-Walkthrough

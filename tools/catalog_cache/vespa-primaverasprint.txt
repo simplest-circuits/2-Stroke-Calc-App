@@ -1,0 +1,132 @@
+- Vespa Primavera 50 (2-Takt, 2013, ZAPC53200)
+- Vespa Primavera 50 (2-Takt, 2014, ZAPC53200)
+- Vespa Primavera 50 (2-Takt, 2015, ZAPC53200)
+- Vespa Primavera 50 (2-Takt, 2016, ZAPC53200)
+- Vespa Primavera 50 (2-Takt, 2017, ZAPC53200)
+- Vespa Primavera 50 (2024, ZAPC0104)
+- Vespa Primavera 50 (2024, ZAPCD0102)
+- Vespa Primavera 50 (4-Takt, 2013, ZAPC53100)
+- Vespa Primavera 50 (4-Takt, 2014, ZAPC53100)
+- Vespa Primavera 50 (4-Takt, 2014, ZAPC53300) 25km/h
+- Vespa Primavera 50 (4-Takt, 2014, ZAPC53302) 25km/h
+- Vespa Primavera 50 (4-Takt, 2015, ZAPC53100)
+- Vespa Primavera 50 (4-Takt, 2015, ZAPC53300) 25km/h
+- Vespa Primavera 50 (4-Takt, 2015, ZAPC53302) 25km/h
+- Vespa Primavera 50 (4-Takt, 2016, ZAPC53100)
+- Vespa Primavera 50 (4-Takt, 2016, ZAPC53300) 25km/h
+- Vespa Primavera 50 (4-Takt, 2016, ZAPC53302) 25km/h
+- Vespa Primavera 50 (4-Takt, 2017, ZAPC53100)
+- Vespa Primavera 50 (4-Takt, 2017, ZAPC53300) 25km/h
+- Vespa Primavera 50 (4-Takt, 2017, ZAPC53302) 25km/h
+- Vespa Primavera 50 Basic IGET (4-Takt, 2018, ZAPCA0102) 12 Zoll
+- Vespa Primavera 50 Basic IGET (4-Takt, 2018, ZAPCA0200) 25km/h,
+- Vespa Primavera 50 IGET (4-Takt, 2017, ZAPCA0100)
+- Vespa Primavera 50 IGET (4-Takt, 2017, ZAPCA0200) 25km/h
+- Vespa Primavera 50 IGET (4-Takt, 2018, ZAPCA0100) 11 Zoll
+- Vespa Primavera 50 IGET (4-Takt, 2018, ZAPCA0100) 12 Zoll
+- Vespa Primavera 50 IGET (4-Takt, 2018, ZAPCA0100) 12 Zoll, Yacht
+- Vespa Primavera 50 IGET (4-Takt, 2018, ZAPCA0100) 50-Jahre
+- Vespa Primavera 50 IGET (4-Takt, 2018, ZAPCA0102) 11 Zoll
+- Vespa Primavera 50 IGET (4-Takt, 2018, ZAPCA0200) 25km/h, 11 Zol
+- Vespa Primavera 50 IGET (4-Takt, 2018, ZAPCA0200) 25km/h, 50 Jah
+- Vespa Primavera 50 IGET (4-Takt, 2019-2020, ZAPCA0100)
+- Vespa Primavera 50 IGET (4-Takt, 2019-2020, ZAPCA0102)
+- Vespa Primavera 50 IGET (4-Takt, 2021, ZAPCD010) RED, 25km/h
+- Vespa Primavera 50 IGET (4-Takt, 2021, ZAPCD0100)
+- Vespa Primavera 50 IGET (4-Takt, 2021, ZAPCD0100) 75th Anniversa
+- Vespa Primavera 50 IGET (4-Takt, 2021, ZAPCD0100) RED
+- Vespa Primavera 50 IGET (4-Takt, 2021, ZAPCD0100) Wotherspoon
+- Vespa Primavera 50 IGET (4-Takt, 2021, ZAPCD0101) 75th Anniversa
+- Vespa Primavera 50 IGET (4-Takt, 2021, ZAPCD020) 25km/h
+- Vespa Primavera 50 IGET (4-Takt, 2021, ZAPCD020) Wotherspoon, 25
+- Vespa Primavera 50 IGET (4-Takt, 2022, ZAPCD0100)
+- Vespa Primavera 50 IGET (4-Takt, 2022, ZAPCD0100) Pic Nic
+- Vespa Primavera 50 IGET (4-Takt, 2022, ZAPCD0100) Red
+- Vespa Primavera 50 IGET (4-Takt, 2023, ZAPCD0101)
+- Vespa Primavera 50 IGET (4-Takt, 2023, ZAPCD0101) Color Vibe
+- Vespa Primavera 50 IGET (4-Takt, 2023, ZAPCD0101) Mickey Mouse
+- Vespa Primavera 50 IGET (4-Takt, 2023, ZAPCD0101) Red
+- Vespa Primavera 50 IGET (4-Takt, 2024, ZAPC0102)
+- Vespa Primavera 50 IGET (4-Takt, 2024, ZAPC0102) Batik
+- Vespa Primavera 50 IGET (4-Takt, 2024, ZAPC0102) Red
+- Vespa Primavera 50 IGET Classic (2026, ZAPCD0102)
+- Vespa Primavera 50 IGET Sport (2026, ZAPCD0102)
+- Vespa Primavera 50 IGET Sport (4-Takt, 2021, ZAPCD0100)
+- Vespa Primavera 50 IGET Sport (4-Takt, 2021, ZAPCD020) 25km/h
+- Vespa Primavera 50 IGET Sport (4-Takt, 2022, ZAPCD0100)
+- Vespa Primavera 50 IGET Sport (4-Takt, 2023, ZAPCD0101)
+- Vespa Primavera 50 IGET Sport (4-Takt, 2024, ZAPC0102)
+- Vespa Primavera 50 IGET Tech (2026, ZAPCD0104)
+- Vespa Primavera 50 IGET Touring (4-Takt, 2022, ZAPCD0100)
+- Vespa Primavera 50 IGET Touring (4-Takt, 2023, ZAPCD0101)
+- Vespa Primavera 50 Sport IGET (4-Takt, 2018, ZAPCA0100) 12 Zoll
+- Vespa Primavera 50 Sport IGET (4-Takt, 2019-2020, ZAPCA0100)
+- Vespa Primavera 50 Sport IGET (4-Takt, 2019-2020, ZAPCA0102)
+- Vespa Primavera 50 Sport IGET (4-Takt, 2019-2020, ZAPCA0200)
+- Vespa Primavera 50 Sport IGET (4-Takt, 2019-2020, ZAPCA0202)
+- Vespa Primavera 50 Touring  IGET (4-Takt, 2019-2020, ZAPCA0100)
+- Vespa Primavera 50 Touring  IGET (4-Takt, 2019-2020, ZAPCA0102)
+- Vespa Primavera 50 Touring  IGET (4-Takt, 2019-2020, ZAPCA0200)
+- Vespa Primavera 50 Touring  IGET (4-Takt, 2019-2020, ZAPCA0202)
+- Vespa Primavera 50 Touring  IGET (4-Takt, 2021, ZAPCD0100)
+- Vespa Primavera 50 Touring  IGET (4-Takt, 2021, ZAPCD020) 25km/h
+- Vespa Primavera 50 Touring (4-Takt, 2015, ZAPC53100)
+- Vespa Primavera 50 Touring (4-Takt, 2016, ZAPC53100)
+- Vespa Primavera 50 Touring (4-Takt, 2017, ZAPC53100)
+- Vespa Primavera 50 Touring IGET (4-Takt, 2017, ZAPCA0100)
+- Vespa Primavera 50 Touring IGET (4-Takt, 2017, ZAPCA0200) 25km/h
+- Vespa Primavera 50 Touring IGET (4-Takt, 2018, ZAPCA0100) 11 Zol
+- Vespa Primavera 50 Touring IGET (4-Takt, 2018, ZAPCA0200) 25km/h
+- Vespa Primavera 50 Touring IGET (4-Takt, 2021, ZAPCA0102)
+- Vespa Primavera 50 Touring IGET (4-Takt, 2021, ZAPCA0200)
+- Vespa Primavera 50 Touring IGET (4-Takt, 2021, ZAPCA0202)
+- Vespa Sprint 50 (2-Takt, 2014, ZAPC53201)
+- Vespa Sprint 50 (2-Takt, 2015, ZAPC53201)
+- Vespa Sprint 50 (2-Takt, 2016, ZAPC53201)
+- Vespa Sprint 50 (2-Takt, 2017, ZAPC53201)
+- Vespa Sprint 50 (2024, ZAPCD0103)
+- Vespa Sprint 50 (4-Takt, 2014, ZAPC53101)
+- Vespa Sprint 50 (4-Takt, 2014, ZAPC53301) 25km/h
+- Vespa Sprint 50 (4-Takt, 2014, ZAPC53303) 25km/h
+- Vespa Sprint 50 (4-Takt, 2015, ZAPC53101)
+- Vespa Sprint 50 (4-Takt, 2015, ZAPC53301) 25km/h
+- Vespa Sprint 50 (4-Takt, 2015, ZAPC53303) 25km/h
+- Vespa Sprint 50 (4-Takt, 2016, ZAPC53101)
+- Vespa Sprint 50 (4-Takt, 2016, ZAPC53301) 25km/h
+- Vespa Sprint 50 (4-Takt, 2016, ZAPC53303) 25km/h
+- Vespa Sprint 50 (4-Takt, 2017, ZAPC53101)
+- Vespa Sprint 50 (4-Takt, 2017, ZAPC53301) 25km/h
+- Vespa Sprint 50 (4-Takt, 2017, ZAPC53303) 25km/h
+- Vespa Sprint 50 IGET (4-Takt, 2017, ZAPCA0101)
+- Vespa Sprint 50 IGET (4-Takt, 2017, ZAPCA0201) 25km/h
+- Vespa Sprint 50 IGET (4-Takt, 2018, ZAPCA0101)
+- Vespa Sprint 50 IGET (4-Takt, 2018, ZAPCA0101) Notte
+- Vespa Sprint 50 IGET (4-Takt, 2018, ZAPCA0103)
+- Vespa Sprint 50 IGET (4-Takt, 2018, ZAPCA0103) Notte
+- Vespa Sprint 50 IGET (4-Takt, 2018, ZAPCA0201) 25km/h
+- Vespa Sprint 50 IGET (4-Takt, 2018, ZAPCA0201) 25km/h, Notte
+- Vespa Sprint 50 IGET (4-Takt, 2019-2020, ZAPCA0101)
+- Vespa Sprint 50 IGET (4-Takt, 2019-2020, ZAPCA0101) Notte
+- Vespa Sprint 50 IGET (4-Takt, 2019-2020, ZAPCA0101) Racing Sixti
+- Vespa Sprint 50 IGET (4-Takt, 2019-2020, ZAPCA0103)
+- Vespa Sprint 50 IGET (4-Takt, 2019-2020, ZAPCA0103) Notte
+- Vespa Sprint 50 IGET (4-Takt, 2019-2020, ZAPCA0103) Racing Sixti
+- Vespa Sprint 50 IGET (4-Takt, 2019-2020, ZAPCA0201)
+- Vespa Sprint 50 IGET (4-Takt, 2019-2020, ZAPCA0201) Racing Sixti
+- Vespa Sprint 50 IGET (4-Takt, 2019-2020, ZAPCA0203)
+- Vespa Sprint 50 IGET (4-Takt, 2019-2020, ZAPCA0203) Notte
+- Vespa Sprint 50 IGET (4-Takt, 2019-2020, ZAPCA0203) Racing Sixti
+- Vespa Sprint 50 IGET (4-Takt, 2021, ZAPCD0101)
+- Vespa Sprint 50 IGET (4-Takt, 2021, ZAPCD0201) 25km/h
+- Vespa Sprint 50 IGET (4-Takt. 2021, ZAPCD0101) Racing Sixties
+- Vespa Sprint 50 IGET (4-Takt. 2021, ZAPCD0201) Racing Sixties, 2
+- Vespa Sprint 50 IGET (4-Takt. 2022, ZAPCD0101) Justin Bieber
+- Vespa Sprint 50 IGET Sport (4-Takt, 2019-2020, ZAPCA0101)
+- Vespa Sprint 50 IGET Sport (4-Takt, 2019-2020, ZAPCA0103)
+- Vespa Sprint 50 IGET Sport (4-Takt, 2019-2020, ZAPCA0201)
+- Vespa Sprint 50 IGET Sport (4-Takt, 2019-2020, ZAPCA0203)
+- Vespa Sprint 50 IGET Sport (4-Takt, 2021, ZAPCD0101)
+- Vespa Sprint 50 IGET Sport (4-Takt, 2021, ZAPCD0201) 25km/h
+- Vespa Sprint 50 Sport (2-Takt, 2015, ZAPC53201)
+- Vespa Sprint 50 Sport (2-Takt, 2016, ZAPC53201)
+- Vespa Sprint 50 Sport (2-Takt, 2017, ZAPC53201)

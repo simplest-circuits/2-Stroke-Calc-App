@@ -1,0 +1,86 @@
+sidebar brands 85
+  "https://www.scooter-center.com/adly-her-chee/c-8.html",  # Adly (Her Chee)
+  "https://www.scooter-center.com/aprilia/c-33.html",  # Aprilia
+  "https://www.scooter-center.com/atala/c-542.html",  # Atala
+  "https://www.scooter-center.com/atu/c-1.html",  # ATU
+  "https://www.scooter-center.com/baotian/c-561.html",  # Baotian
+  "https://www.scooter-center.com/beeline/c-628.html",  # Beeline
+  "https://www.scooter-center.com/benelli/c-639.html",  # Benelli
+  "https://www.scooter-center.com/benzhou/c-682.html",  # Benzhou
+  "https://www.scooter-center.com/beta/c-687.html",  # Beta
+  "https://www.scooter-center.com/bmw/c-551.html",  # BMW
+  "https://www.scooter-center.com/buffalo/c-748.html",  # Buffalo
+  "https://www.scooter-center.com/cagiva/c-794.html",  # Cagiva
+  "https://www.scooter-center.com/cpi/c-758.html",  # CPI
+  "https://www.scooter-center.com/daelim/c-801.html",  # Daelim
+  "https://www.scooter-center.com/dellorto/c-857.html",  # Dell'orto
+  "https://www.scooter-center.com/derbi/c-952.html",  # Derbi
+  "https://www.scooter-center.com/eppella/c-1100.html",  # Eppella
+  "https://www.scooter-center.com/flex-tech/c-1114.html",  # Flex Tech
+  "https://www.scooter-center.com/generic/c-1126.html",  # Generic
+  "https://www.scooter-center.com/gilera/c-1143.html",  # Gilera
+  "https://www.scooter-center.com/honda/c-1425.html",  # Honda
+  "https://www.scooter-center.com/hyosung/c-1576.html",  # Hyosung
+  "https://www.scooter-center.com/italjet/c-1599.html",  # Italjet
+  "https://www.scooter-center.com/jmstar/c-1650.html",  # Jmstar
+  "https://www.scooter-center.com/karcher/c-1679.html",  # Karcher
+  "https://www.scooter-center.com/keeway/c-1685.html",  # Keeway
+  "https://www.scooter-center.com/kreidler/c-1711.html",  # Kreidler
+  "https://www.scooter-center.com/ktm/c-1668.html",  # KTM
+  "https://www.scooter-center.com/kymco/c-1718.html",  # Kymco
+  "https://www.scooter-center.com/lambretta/c-62006.html",  # Lambretta A - F
+  "https://www.scooter-center.com/lambretta-junior-und-lui/c-62007.html",  # Lambretta Junior und lui
+  "https://www.scooter-center.com/lambretta-modern/c-2108.html",  # Lambretta Modern
+  "https://www.scooter-center.com/lambretta-serie/c-62008.html",  # Lambretta Serie 1 - 2
+  "https://www.scooter-center.com/lambretta-serie-dlgp/c-62009.html",  # Lambretta Serie 3 - DL/GP
+  "https://www.scooter-center.com/laverda/c-2113.html",  # Laverda
+  "https://www.scooter-center.com/malaguti/c-2323.html",  # Malaguti
+  "https://www.scooter-center.com/mawi/c-2403.html",  # Mawi
+  "https://www.scooter-center.com/mbk/c-2162.html",  # MBK
+  "https://www.scooter-center.com/motorro/c-2462.html",  # Motorro
+  "https://www.scooter-center.com/motowell/c-2471.html",  # Motowell
+  "https://www.scooter-center.com/pegasus/c-2501.html",  # Pegasus
+  "https://www.scooter-center.com/peugeot/c-2512.html",  # Peugeot
+  "https://www.scooter-center.com/peugeot-mofamoped/c-62022.html",  # Peugeot Mofa/Moped
+  "https://www.scooter-center.com/pgo/c-2484.html",  # PGO
+  "https://www.scooter-center.com/piaggio-100125150200/c-61994.html",  # Piaggio 100/125/150/200 4T AC
+  "https://www.scooter-center.com/piaggio-125150180-aclc/c-61993.html",  # Piaggio 125/150/180 2T AC/LC
+  "https://www.scooter-center.com/piaggio-125150180200/c-61995.html",  # Piaggio 125/150/180/200 4T LC
+  "https://www.scooter-center.com/piaggio-250300310/c-61996.html",  # Piaggio 250/300/310 4T LC
+  "https://www.scooter-center.com/piaggio-350400500530/c-61997.html",  # Piaggio 350/400/500/530 4T LC
+  "https://www.scooter-center.com/piaggio/c-61991.html",  # Piaggio 50 2T
+  "https://www.scooter-center.com/piaggio/c-61992.html",  # Piaggio 50 4T
+  "https://www.scooter-center.com/piaggio-elektro/c-61998.html",  # Piaggio Elektro
+  "https://www.scooter-center.com/piaggio-mofamoped/c-4075.html",  # Piaggio Mofa/Moped
+  "https://www.scooter-center.com/polini/c-4251.html",  # Polini
+  "https://www.scooter-center.com/puch-mofamoped/c-56711.html",  # Puch Mofa/Moped
+  "https://www.scooter-center.com/renault/c-4276.html",  # Renault
+  "https://www.scooter-center.com/rex/c-4279.html",  # Rex
+  "https://www.scooter-center.com/rivero/c-56713.html",  # Rivero
+  "https://www.scooter-center.com/royal-alloy/c-4367.html",  # Royal Alloy
+  "https://www.scooter-center.com/sachs/c-4597.html",  # Sachs
+  "https://www.scooter-center.com/scomadi/c-4640.html",  # Scomadi
+  "https://www.scooter-center.com/suzuki/c-4651.html",  # Suzuki
+  "https://www.scooter-center.com/sym/c-4369.html",  # SYM
+  "https://www.scooter-center.com/tauris/c-4742.html",  # Tauris
+  "https://www.scooter-center.com/tgb/c-4707.html",  # TGB
+  "https://www.scooter-center.com/tomos-mofamoped/c-56722.html",  # Tomos Mofa/Moped
+  "https://www.scooter-center.com/vespa-elektro/c-61990.html",  # Vespa Elektro
+  "https://www.scooter-center.com/vespa-et2et4-50125150/c-61982.html",  # Vespa ET2/ET4 50/125/150
+  "https://www.scooter-center.com/vespa-gtgtsgtv-250300310/c-61988.html",  # Vespa GT/GTS/GTV 250/300/310
+  "https://www.scooter-center.com/vespa-gtlgtsgtv-125150200/c-61987.html",  # Vespa GTL/GTS/GTV 125/150/200
+  "https://www.scooter-center.com/vespa-klassik-largeframe-gs160ss180/c-62001.html",  # Vespa Klassik Largeframe GS160/SS180
+  "https://www.scooter-center.com/vespa-klassik-largeframe-lml-125150200/c-62005.html",  # Vespa Klassik Largeframe LML 4T 125/150/200
+  "https://www.scooter-center.com/vespa-klassik-largeframe-motovespa-125150160/c-62002.html",  # Vespa Klassik Largeframe Motovespa 125/150/160
+  "https://www.scooter-center.com/vespa-klassik-largeframe-pxt5cosalml-80125150200/c-62004.html",  # Vespa Klassik Largeframe PX/T5/Cosa/LML 2T 80/125/150/200
+  "https://www.scooter-center.com/vespa-klassik-largeframe-rallysprintsupergtgtr-vnavnbvbb/c-62000.html",  # Vespa Klassik Largeframe Rally/Sprint/Super/GT/GTR VNA/VNB/VBB
+  "https://www.scooter-center.com/vespa-klassik-smallframe-v50pvet3pkxl-5080125/c-62003.html",  # Vespa Klassik Smallframe V50/PV/ET3/PK/XL 50/80/125
+  "https://www.scooter-center.com/vespa-klassik-wideframe-98125150/c-61999.html",  # Vespa Klassik Wideframe 98/125/150 GS -56
+  "https://www.scooter-center.com/vespa-ltvxvxlsxl-asia/c-61989.html",  # Vespa LT/VX/VXL/SXL (ASIA)
+  "https://www.scooter-center.com/vespa-lxlxvs-125150/c-61984.html",  # Vespa LX/LXV/S 125/150
+  "https://www.scooter-center.com/vespa-lxlxvs/c-61983.html",  # Vespa LX/LXV/S 50
+  "https://www.scooter-center.com/vespa-primaverasprint/c-61985.html",  # Vespa Primavera/Sprint 50
+  "https://www.scooter-center.com/vespa-primaverasprint946-125150/c-61986.html",  # Vespa Primavera/Sprint/946 125/150
+  "https://www.scooter-center.com/yamaha/c-6430.html",  # Yamaha
+  "https://www.scooter-center.com/yamaha-mofamoped/c-62025.html",  # Yamaha Mofa/Moped
+  "https://www.scooter-center.com/zongshen/c-6722.html",  # ZongShen

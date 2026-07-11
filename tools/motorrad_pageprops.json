@@ -1,0 +1,1166 @@
+{
+  "activeContainerId": "14536349",
+  "pageData": {
+    "data": {
+      "html_head": [
+        {
+          "slotName": "html_head",
+          "position": 0,
+          "stageTemplate": null,
+          "params": {},
+          "isFixed": true,
+          "page": "/marken-modelle/ktm/690-smc-r/",
+          "doesNotExist": true,
+          "element": "//ads.NoblockHint"
+        },
+        {
+          "slotName": "html_head",
+          "position": 1,
+          "stageTemplate": null,
+          "params": {},
+          "isFixed": true,
+          "page": "/marken-modelle/ktm/690-smc-r/",
+          "doesNotExist": true,
+          "element": "//ads.taboolaHead"
+        },
+        {
+          "slotName": "html_head",
+          "position": 2,
+          "stageTemplate": null,
+          "params": {},
+          "isFixed": true,
+          "page": "/marken-modelle/ktm/690-smc-r/",
+          "config": {},
+          "element": "ads.dfpHeadmobile",
+          "essential": false,
+          "esi": false,
+          "containerId": "14536349",
+          "layoutId": 1042,
+          "id": "ads.dfpHeadmobile",
+          "suspense": false,
+          "cached": false,
+          "duration": 101,
+          "sixt": false,
+          "heycar": false,
+          "autohero": false,
+          "mpkey": [
+            "KTM",
+            "690 SMC R"
+          ],
+          "hasVideo": false,
+          "cache": 86400
+        },
+        {
+          "slotName": "html_head",
+          "position": 3,
+          "stageTemplate": null,
+          "params": {},
+          "isFixed": true,
+          "page": "/marken-modelle/ktm/690-smc-r/",
+          "config": {
+            "privacySrc": "https://privacy.motorradonline.de/unified/wrapperMessagingWithoutDetection.js",
+            "propertyHref": "https://www.motorradonline.de",
+            "accountId": 1061,
+            "url": "https://online.mps-gba.de/praeludium/mrdo_mso.html"
+          },
+          "element": "ads.slotsMSO",
+          "essential": false,
+          "esi": true,
+          "containerId": "14536349",
+          "layoutId": 1042,
+          "id": "ads.adsSlots",
+          "suspense": false,
+          "cached": false,
+          "duration": 163,
+          "adConfigKey": "brandtreeList",
+          "data": "\n\n    <link rel=\"dns-prefetch\" href=\"//online.mps-gba.de\" />\n    <link rel=\"dns-prefetch\" href=\"//script.ioam.de\" />\n    <link rel=\"dns-prefetch\" href=\"//cdns.symplr.de\" />\n    <link rel=\"dns-prefetch\" href=\"//cockpit.symplr.de\" />\n    <link rel=\"dns-prefetch\" href=\"//fast.nexx360.io\" />\n    <link rel=\"dns-prefetch\" href=\"//www.googletagservices.com\" />\n    <link rel=\"dns-prefetch\" href=\"//www.google-analytics.com\" />\n    <link rel=\"dns-prefetch\" href=\"//hb.adscale.de\" />\n    <link rel=\"dns-prefetch\" href=\"//ih.adscale.de\" />\n    <link rel=\"dns-prefetch\" href=\"//securepubads.g.doubleclick.net\" />\n    <link rel=\"dns-prefetch\" href=\"//pubads.g.doubleclick.net\" />\n    <link rel=\"dns-prefetch\" href=\"//googleads.g.doubleclick.net\" />\n    <link rel=\"dns-prefetch\" href=\"//pagead2.googlesyndication.com\" /> \n\n    \n        <script src=\"https://online.mps-gba.de/praeludium_src/mso/symplr_prefix.js\"></script>\n    \n    \n        <script src=\"https://cdns.symplr.de/motorradonline.de/motorradonline.js\"></script>\n    \n\n    <script src=\"//online.mps-gba.de/praeludium/mrdo_mso.js?v=2\"></script>\n\n    \n    \n        <script src=\"https://proxy.motorradonline.de/consent-mapping/script.js\"></script>\n    \n",
+          "SDM_defzone": "Motorraeder",
+          "adset": "brsl",
+          "isGallery": false,
+          "isMediaShow": false,
+          "exclusive": false,
+          "noJumpSource": "window.MPS_specialAUs=['noad','speciala','specialb','specialc','speciald','speciale','specialf','specialg','specialh','speciali','specialj','specialk','speciall','specialm','specialn','specialo','specialp'];window.MPS_isMob=window.matchMedia(\"(max-width: 1024px)\").matches;window.MPS_isMobile=window.matchMedia(\"(max-width: 1024px)\").matches;window.MPS_isTab=window.matchMedia(\"(max-width: 1370px)\").matches;window.CLS_html=window.CLS_html||{};CLS_html.appendStyles=function(stylesToUse,elem,id){var kopf=(typeof elem!=='undefined')?elem:document.kopf||document.getElementsByTagName('html')[0];var style=document.createElement('style');style.type='text/css';style.className='MPSVER';if(typeof id!=='undefined'){style.id=id;}\r\nif(style.styleSheet){style.styleSheet.cssText=stylesToUse;}else{style.appendChild(document.createTextNode(stylesToUse));}\r\nkopf.appendChild(style);};if(window.SDM_defzone!==\"noad\"&&window.SDM_defzone!==\"NoAd\"){if(window.MPS_isMob){window.top.CLS_html.appendStyles('[data-mps_adname=\"topmobile\"], .mps-ad-container-sizer-topmobile {min-height: 250px; display: flex; justify-content: center; align-items: center;}',document.getElementsByTagName('html')[0],'CLS_Top1_MinHeight');window.top.CLS_html.appendStyles('[data-mps_adname=\"topmobile2\"], .mps-ad-container-sizer-topmobile2 {min-height: 250px; display: flex; justify-content: center; align-items: center;}',document.getElementsByTagName('html')[0],'CLS_Top2_MinHeight');window.top.CLS_html.appendStyles('[data-mps_adname=\"topmobile3\"] {min-height: 250px; display: flex; justify-content: center; align-items: center;}',document.getElementsByTagName('html')[0],'CLS_Top3ff_MinHeight');window.top.CLS_html.appendStyles('[data-mps_adname=\"topmobile4\"] {min-height: 250px; display: flex; justify-content: center; align-items: center;}',document.getElementsByTagName('html')[0],'CLS_Top3ff_MinHeight');window.top.CLS_html.appendStyles('[data-mps_adname=\"topmobile5\"] {min-height: 250px; display: flex; justify-content: center; align-items: center;}',document.getElementsByTagName('html')[0],'CLS_Top3ff_MinHeight');window.top.CLS_html.appendStyles('[data-mps_adname=\"topmobile6\"] {min-height: 150px; display: flex; justify-content: center; align-items: center;}',document.getElementsByTagName('html')[0],'CLS_Top3ff_MinHeight');window.top.CLS_html.appendStyles('[data-mps_adname=\"topmobile7\"] {min-height: 150px; display: flex; justify-content: center; align-items: center;}',document.getElementsByTagName('html')[0],'CLS_Top3ff_MinHeight');window.top.CLS_html.appendStyles('[data-mps_adname=\"topmobile8\"] {min-height: 150px; display: flex; justify-content: center; align-items: center;}',document.getElementsByTagName('html')[0],'CLS_Top3ff_MinHeight');}else{window.top.CLS_html.appendStyles('body:not(.FPbySDG) [data-mps_adname=\"banner\"] {min-height: 250px; display: flex; justify-content: center; align-items: center;} [data-mps_adname=\"banner\"] {min-height: initial;}',document.getElementsByTagName('html')[0],'CLS_Banner_MinHeight');window.top.CLS_html.appendStyles('[data-mps_adname=\"banner2\"] {min-height: 250px; display: flex; justify-content: center; align-items: center;}',document.getElementsByTagName('html')[0],'CLS_Banner2_MinHeight');window.top.CLS_html.appendStyles('[data-mps_adname=\"banner3\"] {min-height: 250px; display: flex; justify-content: center; align-items: center;}',document.getElementsByTagName('html')[0],'CLS_Banner3_MinHeight');window.top.CLS_html.appendStyles('[data-mps_adname=\"rectangle\"] {min-height: 250px; display: flex; justify-content: center; align-items: center;}',document.getElementsByTagName('html')[0],'CLS_MRHPA_MinHeight');}\r\nif(!(window.APE_ExklusivWerbung&&APE_ExklusivWerbung)){if(window.MPS_isMob){window.top.CLS_html.appendStyles('.aero-sponsored {min-height: 364px;}',document.getElementsByTagName('html')[0],'CLS_SpSec_MinHeight');}}}else{document.documentElement.style.setProperty('--height-stroer-billboard','0px');document.documentElement.style.setProperty('--height-stroer-topmobile','0px');document.documentElement.style.setProperty('--height-stroer-topmobile2','0px');}",
+          "privacySrc": "https://privacy.motorradonline.de/unified/wrapperMessagingWithoutDetection.js",
+          "privacySrcDomain": "https://privacy.motorradonline.de",
+          "propertyHref": "https://www.motorradonline.de",
+          "accountId": 1061,
+          "hasVideo": false,
+          "isPlusArticle": false,
+          "cache": {
+            "expires": 86400,
+            "mobileDifferent": true
+          }
+        },
+        {
+          "slotName": "html_head",
+          "position": 4,
+          "stageTemplate": null,
+          "params": {},
+          "isFixed": true,
+          "page": "/marken-modelle/ktm/690-smc-r/",
+          "config": {
+            "privacySrc": "https://privacy.motorradonline.de/unified/wrapperMessagingWithoutDetection.js",
+            "propertyHref": "https://www.motorradonline.de",
+            "accountId": 1061
+          },
+          "element": "plenigo.plus",
+          "essential": false,
+          "esi": false,
+          "containerId": "14536349",
+          "layoutId": 1042,
+          "id": "plenigo.plus",
+          "suspense": false,
+          "cached": false,
+          "duration": 54,
+          "consentLayerDisabled": false,
+          "sourcepointDelay": 0,
+          "hasPlusAbo": false,
+          "privacySrc": "https://privacy.motorradonline.de/unified/wrapperMessagingWithoutDetection.js",
+          "privacySrcDomain": "https://privacy.motorradonline.de",
+          "user": false,
+          "propertyHref": "https://www.motorradonline.de",
+          "accountId": 1061,
+          "hasNewPlusAbo": false,
+          "lifeTimeStart": null,
+          "hasOneDayAbo": false,
+          "cache": {
+            "expires": 86400
+          }
+        },
+        {
+          "slotName": "html_head",
+          "position": 5,
+          "stageTemplate": null,
+          "params": {},
+          "isStatic": true,
+          "page": "/marken-modelle/ktm/690-smc-r/",
+          "config": {
+            "gId": "GTM-MWD9568"
+          },
+          "element": "stats.Tagmanager",
+          "essential": false,
+          "esi": false,
+          "containerId": "14536349",
+          "layoutId": 1042,
+          "id": "stats.tagmanager",
+          "suspense": false,
+          "cached": false,
+          "duration": 29,
+          "gId": "GTM-MWD9568",
+          "cache": {
+            "expires": 86400
+          }
+        },
+        {
+          "slotName": "html_head",
+          "position": 6,
+          "stageTemplate": null,
+          "params": {},
+          "isStatic": true,
+          "page": "/marken-modelle/ktm/690-smc-r/",
+          "config": {
+            "additionals": [
+              {
+                "@context": "https://schema.org/",
+                "@type": "Organization",
+                "name": "MOTORRAD",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://www.motorradonline.de/img/mrd/logo.jpg"
+                }
+              }
+            ]
+          },
+          "element": "structure.schemaOrgJsonLD",
+          "essential": false,
+          "esi": false,
+          "containerId": "14536349",
+          "layoutId": 1042,
+          "id": "structure.schemaOrg",
+          "suspense": false,
+          "cached": false,
+          "duration": 288,
+          "schemaOrg": "{\"@graph\":[{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Startseite\",\"item\":\"https://www.motorradonline.de\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Motorräder\",\"item\":\"https://www.motorradonline.de/motorraeder/\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Motorräder A-Z\",\"item\":\"https://www.motorradonline.de/marken-modelle/\"},{\"@type\":\"ListItem\",\"position\":4,\"name\":\"KTM\",\"item\":\"https://www.motorradonline.de/marken-modelle/ktm/\"},{\"@type\":\"ListItem\",\"position\":5,\"name\":\"690 SMC R\",\"item\":\"https://www.motorradonline.de/marken-modelle/ktm/690-smc-r/\"}]},{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"articleBody\":\"%Headline% im Test bei MOTORRAD. Die Testfahrer und Testingenieure von MOTORRAD haben die %Headline% ausführlich getestet. Dabei wurden Fahreigenschaften, Handhabung, Praxis im Alltag, Sicherheitsaspekte und Unterhaltskosten der %Headline% von unserer unabhängigen Testredaktion genau unter die Lupe genommen. Profitieren Sie beim Motorradkauf von ausführlichen Einzel- und Vergleichstests sowie Dauertests und Fahrberichten zur %Headline%. Die KTM 690 SMC R ist ein supermotard-inspiriertes Motorrad, das durch seine Agilität und dynamische Fahrweise besticht. Der wassergekühlte Einzylindermotor leistet 74 PS bei 8.000 U/min und bietet ein Drehmoment von 73 Nm bei 6.500 U/min. Das Motorrad verfügt über ein Sechsgang-Getriebe, einen leichten Stahlrahmen und eine Upside-down-Telegabel. Zu den Merkmalen gehören ein TFT-Display, LED-Beleuchtung und verschiedene Fahrmodi. Die Sitzhöhe beträgt 890 mm, und das Leergewicht liegt bei 147 kg. Modelle wie die Husqvarna 701 Supermoto, die Yamaha WR450F und die Suzuki DR-Z400SM bieten vergleichbare Leistungsdaten.Die 690 SMC R wurde entwickelt, um sportliche Performance mit urbaner Wendigkeit zu kombinieren. Seit ihrer Einführung hat sie sich als Favorit für Fahrer etabliert, die ein agiles und leichtes Motorrad suchen. Die KTM 690 SMC R steht für die Fähigkeit von KTM, innovative und aufregende Motorräder zu entwickeln, die sowohl auf der Straße als auch im leichten Gelände überzeugen. Ihre Konstruktion und Technologie bieten eine außergewöhnliche Balance zwischen Leistung und Fahrspaß. Mit ihrem dynamischen Design und der fortschrittlichen Technik ist sie ein Highlight im Supermoto-Segment.\",\"url\":\"https://www.motorradonline.de/marken-modelle/ktm/690-smc-r/\",\"articleSection\":\"Motorräder, Motorräder A-Z, KTM, 690 SMC R, \",\"headline\":\"690 SMC R\",\"inLanguage\":\"deutsch, german\",\"keywords\":\"690,SMC,R\",\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://www.motorradonline.de/marken-modelle/ktm/690-smc-r/\",\"relatedLink\":[]},\"isFamilyFriendly\":true},{\"@context\":\"https://schema.org\",\"@type\":\"ItemList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"item\":\"https://www.motorradonline.de/supermoto/ducati-hypermotard-698-mono-und-ktm-690-smcr-vergleich-test/\",\"name\":\"Ducati Hypermotard 698 Mono und KTM 690 SMC R: Supermotos im Test-Vergleich\"},{\"@type\":\"ListItem\",\"position\":2,\"item\":\"https://www.motorradonline.de/supermoto/ktm-690-smcr-vs-gasgas-sm-700-vergleichstest/\",\"name\":\"KTM 690 SMC R vs. GasGas SM 700 im Vergleichstest: Alles für den Fahrspaß!\"},{\"@type\":\"ListItem\",\"position\":3,\"item\":\"https://www.motorradonline.de/supermoto/husqvarna-701-supermoto-und-ktm-690-smc-r-supermotos-im-vergleichstest/\",\"name\":\"Husqvarna 701 Supermoto und KTM 690 SMC R im Vergleichstest\"},{\"@type\":\"ListItem\",\"position\":4,\"item\":\"https://www.motorradonline.de/supermoto/husqvarna-701-sm-und-ktm-690-smc-r-im-vergleichstest-spassvoegel/\",\"name\":\"Husqvarna 701 SM und KTM 690 SMC R im Vergleichstest\"},{\"@type\":\"ListItem\",\"position\":5,\"item\":\"https://www.motorradonline.de/supermoto/6-gebrauchte-supermotos-wenn-die-ktm-690-smc-r-zu-teuer-ist/\",\"name\":\"Wenn die KTM 690 SMC R zu teuer ist: 6 (gebrauchte) Supermoto-Alternativen\"},{\"@type\":\"ListItem\",\"position\":6,\"item\":\"https://www.motorradonline.de/motorraeder/ktm-690-smc-r-und-690-enduro-r-neu-2026/\",\"name\":\"Jetzt startklar mit 79 PS: Neue KTM 690 SMC R und KTM 690 Enduro R (2026)\"},{\"@type\":\"ListItem\",\"position\":7,\"item\":\"https://www.motorradonline.de/supermoto/ktm-smc-r-und-enduro-r-einzylinder-lc4-2025-erlkoenig/\",\"name\":\"KTM SMC R und Enduro R: LC4 Einzylinder neu für 2025\"},{\"@type\":\"ListItem\",\"position\":8,\"item\":\"https://www.motorradonline.de/supermoto/ktm-690-smc-enduro-r-2021/\",\"name\":\"KTM 690er-Modelle: Updates für Enduro R und SMC R\"},{\"@type\":\"ListItem\",\"position\":9,\"item\":\"https://www.motorradonline.de/supermoto/6-gebrauchte-supermotos-wenn-die-ktm-690-smc-r-zu-teuer-ist/\",\"name\":\"Wenn die KTM 690 SMC R zu teuer ist: 6 (gebrauchte) Supermoto-Alternativen\"},{\"@type\":\"ListItem\",\"position\":10,\"item\":\"https://www.motorradonline.de/motorraeder/ktm-690-smc-r-und-690-enduro-r-neu-2026/\",\"name\":\"Jetzt startklar mit 79 PS: Neue KTM 690 SMC R und KTM 690 Enduro R (2026)\"},{\"@type\":\"ListItem\",\"position\":11,\"item\":\"https://www.motorradonline.de/supermoto/ducati-hypermotard-698-mono-und-ktm-690-smcr-vergleich-test/\",\"name\":\"Ducati Hypermotard 698 Mono und KTM 690 SMC R: Supermotos im Test-Vergleich\"}]}]}",
+          "enableDynamicUpdate": false,
+          "cache": {
+            "expires": 86400
+          }
+        },
+        {
+          "slotName": "html_head",
+          "position": 7,
+          "stageTemplate": null,
+          "params": {},
+          "isStatic": true,
+          "page": "/marken-modelle/ktm/690-smc-r/",
+          "config": {
+            "headlineAndTitle": "690 SMC R",
+            "portalName": "",
+            "topicName": "",
+            "id": "14536349",
+            "resetPaywallArticle": true
+          },
+          "element": "stats.tracking",
+          "essential": false,
+          "esi": false,
+          "containerId": "14536349",
+          "layoutId": 1042,
+          "id": "stats.tracking",
+          "suspense": false,
+          "cached": false,
+          "duration": 179,
+          "applicationRootUrl": "https://www.motorradonline.de",
+          "initial": {
+            "ga": [],
+            "matomo": [
+              [
+                "Custom Events",
+                "Navigationsebene 1",
+                "Motorräder"
+              ],
+              [
+                "Custom Events",
+                "Navigationsebene 2",
+                "Motorräder A-Z"
+              ],
+              [
+                "Custom Events",
+                "Navigationsebene 3",
+                "KTM"
+              ],
+              [
+                "Custom Events",
+                "Navigationsebene 4",
+                "690 SMC R"
+              ],
+              [
+                "Custom Events",
+                "Publikationsdatum",
+                "2012-11-08"
+              ],
+              [
+                "Custom Events",
+                "Publikationsdatum und Uhrzeit",
+                "2012-11-08T15:21:00"
+              ],
+              [
+                "Custom Events",
+                "Seitentyp",
+                "Markenbaum"
+              ],
+              [
+                "Custom Events",
+                "User Login Status",
+                false
+              ],
+              [
+                "Custom Events",
+                "Marke 1 ",
+                "KTM"
+              ],
+              [
+                "Custom Events",
+                "Baureihe 1 ",
+                "690 SMC R"
+              ]
+            ]
+          },
+          "initialMatomo": [
+            [
+              "Custom Events",
+              "Navigationsebene 1",
+              "Motorräder"
+            ],
+            [
+              "Custom Events",
+              "Navigationsebene 2",
+              "Motorräder A-Z"
+            ],
+            [
+              "Custom Events",
+              "Navigationsebene 3",
+              "KTM"
+            ],
+            [
+              "Custom Events",
+              "Navigationsebene 4",
+              "690 SMC R"
+            ],
+            [
+              "Custom Events",
+              "Publikationsdatum",
+              "2012-11-08"
+            ],
+            [
+              "Custom Events",
+              "Publikationsdatum und Uhrzeit",
+              "2012-11-08T15:21:00"
+            ],
+            [
+              "Custom Events",
+              "Seitentyp",
+              "Markenbaum"
+            ],
+            [
+              "Custom Events",
+              "User Login Status",
+              false
+            ],
+            [
+              "Custom Events",
+              "Marke 1 ",
+              "KTM"
+            ],
+            [
+              "Custom Events",
+              "Baureihe 1 ",
+              "690 SMC R"
+            ]
+          ],
+          "articletracker": true,
+          "brandtreeConnections": {},
+          "sourcepointDelay": 0,
+          "ampAnalytics": "UA-3158344-44",
+          "videoId": null,
+          "AB_TEST_DIMENSION_VALUE": "A",
+          "client": "mobile-website",
+          "enablePur": true,
+          "trackingInfo": {
+            "slots": {
+              "adset": "brandtreeList",
+              "file": "brandtree/series/index.json",
+              "isMobile": true
+            }
+          },
+          "ampTagmanager": "GTM-PLKSFHD",
+          "upscore": {
+            "track_positions": false,
+            "domain": "motorradonline.de",
+            "key": "DC827AB9",
+            "siteScriptUrl": "https://dztes8vl733o3.motorradonline.de/files/site_script/motorradonline.de.js",
+            "content_type": 0,
+            "object_type": "landingpage",
+            "object_id": "14536349",
+            "pubdate": "2012-11-08T15:21:00+0100",
+            "author": "",
+            "section": "Motorräder",
+            "taxonomy": "Motorräder A-Z, KTM, 690 SMC R",
+            "custom_video": 0,
+            "hasScoring": false,
+            "disableForFrontend": null,
+            "sid": 6251993,
+            "isPremiumArticle": false
+          },
+          "isPreview": null,
+          "noAffiliateKlass": null,
+          "ga": {
+            "config": {
+              "domain": "auto",
+              "codes": [
+                "UA-3158344-44"
+              ],
+              "constants": {
+                "portal": "MRD"
+              },
+              "affiliateLinkSelectors": [
+                {
+                  "selector": [
+                    "a[href*='//www.ebay.de/b/']:not(.v-A_-brandcontent__nav > a, [ga-track-vis-initialized])"
+                  ],
+                  "value": "eBay Markenbaum Banner"
+                },
+                {
+                  "selector": [
+                    ".v-A_-brandcontent__nav > a[href*='//www.ebay.de/b/']:not([ga-track-vis-initialized])",
+                    ".brandcontent__nav > a[href*='//www.ebay.de/b/']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "eBay Markenbaum Button"
+                },
+                {
+                  "selector": [
+                    "[is-mivodo-widget]:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Mivodo Cockpit"
+                },
+                {
+                  "selector": [
+                    "[href*='//www.amazon.de']:not([ga-track-vis-initialized])",
+                    "[href*='//amzn.to/']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Amazon"
+                },
+                {
+                  "selector": [
+                    "[href*='//www.awin1.com']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Awin",
+                  "options": {
+                    "isAwin": true
+                  }
+                },
+                {
+                  "selector": [
+                    "[href*='//www.billiger.de/']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "billiger.de",
+                  "options": {
+                    "isBilliger": true
+                  }
+                },
+                {
+                  "selector": [
+                    "[href*='//pvn.saturn.de/']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Saturn"
+                },
+                {
+                  "selector": [
+                    "[href*='//pvn.mediamarkt.de/']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Mediamarkt"
+                },
+                {
+                  "selector": [
+                    "[href*='//x9t5he7.r.louis.de']:not([ga-track-vis-initialized])",
+                    "[href*='//www.louis.de/']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Louis"
+                },
+                {
+                  "selector": [
+                    "[href*='//www.motoport.de/']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Motoport"
+                },
+                {
+                  "selector": [
+                    "[href*='//www.ebay.de/sch/']:not([ga-track-vis-initialized])",
+                    "[href*='//www.ebay.de']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "ebay"
+                },
+                {
+                  "selector": [
+                    "[href*='?service-cockpit-royal-enfield-hersteller']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Royal Enfield Hersteller"
+                },
+                {
+                  "selector": [
+                    "[href*='?service-cockpit-royal-enfield-1000PS']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Royal Enfield 1000PS"
+                },
+                {
+                  "selector": [
+                    "[href*='?service-cockpit-royal-enfield-versicherung']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Royal Enfield Versicherung"
+                },
+                {
+                  "selector": [
+                    "[href*='?service-cockpit-royal-enfield-finanzierung']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Royal Enfield Finanzierung"
+                },
+                {
+                  "selector": [
+                    "[href*='?service-cockpit-ducati-versicherung']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Ducati Versicherung"
+                },
+                {
+                  "selector": [
+                    "[href*='?service-cockpit-ducati-hersteller']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Ducati Hersteller"
+                },
+                {
+                  "selector": [
+                    "[href*='//configurator.ducati.com/']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Ducati Konfigurator"
+                },
+                {
+                  "selector": [
+                    "[href*='finanzcheck.de/coop/motorraeder/?refId=Bmnq9cGAklVo&subId=ducati']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Ducati Finanzierung"
+                },
+                {
+                  "selector": [
+                    "[href*='?service-cockpit-ducati-1000PS']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Ducati 1000PS"
+                },
+                {
+                  "selector": [
+                    "[href*='subId=motorrad-finanzierung-motorradkauf-in-raten']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Finanzcheck Ratgeber"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h1-listicle']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H1-Listicle"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h1-ps-land']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H1-PS-Land"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h3-listicle']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H3-Listicle"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h4-listicle']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H4-Listicle"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h5-listicle']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H5-Listicle"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h6-listicle']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H6-Listicle"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h7-listicle']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H7-Listicle"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h8-listicle']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H8-Listicle"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h9-listicle']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H9-Listicle"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h2-ps-land']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H2-PS-Land"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h3-ps-land']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H3-PS-Land"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h4-ps-land']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H4-PS-Land"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h5-ps-land']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H5-PS-Land"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h6-ps-land']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H6-PS-Land"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h7-ps-land']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H7-PS-Land"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h8-ps-land']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H8-PS-Land"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h9-ps-land']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H9-PS-Land"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h5-ps-region']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H5-PS-Region"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h7-ps-region']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H7-PS-Region"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h6-ps-region']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H6-PS-Region"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h2-ps-region']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H2-PS-Region"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h3-ps-region']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H3-PS-Region"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h4-ps-region']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H4-PS-Region"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-RIDE']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG RIDE"
+                },
+                {
+                  "selector": [
+                    "[href*='?hg-h2-listicle']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "HG-H2-Listicle"
+                },
+                {
+                  "selector": [
+                    "[href*='?service-cockpit-bmw-hersteller']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "BMW Cockpit Hersteller"
+                },
+                {
+                  "selector": [
+                    "[href*='?service-cockpit-bmw-1000PS']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "BMW Cockpit 1000PS"
+                },
+                {
+                  "selector": [
+                    "[href*='?service-cockpit-bmw-konfigurator']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "BMW Cockpit Konfigurator"
+                },
+                {
+                  "selector": [
+                    "[href*='?service-cockpit-bmw-versicherung']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "BMW Cockpit Versicherung"
+                },
+                {
+                  "selector": [
+                    "[href*='finanzcheck.de/coop/motorraeder/?refId=Bmnq9cGAklVo&subId=bmw']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "BMW Cockpit Finanzcheck"
+                },
+                {
+                  "selector": [
+                    "[href*='//cmodul.solutenetwork.com/']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Billiger"
+                },
+                {
+                  "selector": [
+                    "[href*='//motorbuch-versand.de/']:not([ga-track-vis-initialized])"
+                  ],
+                  "value": "Motorbuch Versand"
+                },
+                {
+                  "selector": [
+                    "a[matomo-tracking-link=true]",
+                    "a[matomotrackBrand=true]"
+                  ],
+                  "value": "matomo Link"
+                }
+              ],
+              "affiliateLinkSelectorsBodyRoot": [
+                {
+                  "selector": [
+                    "a[href*='//www.ebay.de/b/']:not(.v-A_-brandcontent__nav > a, [ga-track-vis-initialized])"
+                  ],
+                  "value": "eBay Markenbaum Banner"
+                }
+              ],
+              "goptimize": "",
+              "siteName": "https://www.motorradonline.de"
+            }
+          },
+          "isLoggedIn": false,
+          "cookieDomain": null,
+          "plausible": {
+            "domainName": "motorradonline.de"
+          },
+          "cache": {
+            "mobileDifferent": true,
+            "expires": 86400
+          }
+        },
+        {
+          "slotName": "html_head",
+          "position": 8,
+          "stageTemplate": null,
+          "params": {},
+          "isStatic": true,
+          "page": "/marken-modelle/ktm/690-smc-r/",
+          "config": {
+            "src": "//pde.lp4.io/app/56/4d/d3/564dd3eae45a1d837217a6b7.js"
+          },
+          "element": "teaser.LinkpulseTracking",
+          "essential": false,
+          "esi": false,
+          "containerId": "14536349",
+          "layoutId": 1042,
+          "id": "teaser.linkpulseTracking",
+          "suspense": false,
+          "cached": false,
+          "duration": 106,
+          "src": "//pde.lp4.io/app/56/4d/d3/564dd3eae45a1d837217a6b7.js",
+          "rubrics": {
+            "rubricID": 54044,
+            "rubric": "Motorräder",
+            "subrubric": "690 SMC R"
+          },
+          "author": "",
+          "host": "https://www.motorradonline.de",
+          "canonical": "https://www.motorradonline.de/marken-modelle/ktm/690-smc-r/",
+          "type": "none",
+          "cache": {
+            "expires": 86400
+          }
+        },
+        {
+          "slotName": "html_head",
+          "position": 9,
+          "stageTemplate": null,
+          "params": {},
+          "isStatic": true,
+          "page": "/marken-modelle/ktm/690-smc-r/",
+          "config": {
+            "sectionsMap": {
+              "0": "StatischeSeiten",
+              "9539": "News",
+              "9547": "Tests",
+              "9562": "Autokauf",
+              "9570": "Ratgeber",
+              "9583": "Formel1",
+              "9586": "Rallye",
+              "9587": "DTM",
+              "9590": "Motorsport",
+              "9591": "Motorsport",
+              "9617": "Webtv",
+              "9676": "Themen",
+              "12016": "Home",
+              "13559": "Ecodrive",
+              "20751": "Kongress",
+              "24671": "Truck",
+              "24678": "Truck",
+              "24686": "Truck",
+              "24948": "Design",
+              "24975": "Truck",
+              "42706": "Reportage"
+            },
+            "usedQueryParams": [
+              "p",
+              "show",
+              "fotoshow_item",
+              "as_q",
+              "jahr",
+              "race",
+              "driver",
+              "period",
+              "q",
+              "t",
+              "l",
+              "s"
+            ]
+          },
+          "element": "meta.meta",
+          "essential": false,
+          "esi": false,
+          "containerId": "14536349",
+          "layoutId": 1042,
+          "id": "meta.meta",
+          "suspense": false,
+          "cached": false,
+          "duration": 80,
+          "meta": {
+            "ab_test": "A",
+            "amp": null,
+            "webview": false,
+            "landingpage": "",
+            "stickyHeader": false,
+            "data": [
+              {
+                "name": "title",
+                "content": "KTM 690 SMC R &#9658; Tests & Fahrberichte, aktuelle Neuvorstellungen und Marktangebote"
+              },
+              {
+                "name": "canonical",
+                "content": "https://www.motorradonline.de/marken-modelle/ktm/690-smc-r/"
+              },
+              {
+                "name": "realurl",
+                "content": "https://www.motorradonline.de/marken-modelle/ktm/690-smc-r/"
+              },
+              {
+                "name": "CID",
+                "content": "14536349"
+              },
+              {
+                "name": "BID",
+                "content": 6251993
+              },
+              {
+                "name": "layout",
+                "content": 1042
+              },
+              {
+                "name": "PageType",
+                "content": "Markenbaum"
+              },
+              {
+                "name": "c_lvl",
+                "content": "0"
+              },
+              {
+                "name": "rp24",
+                "content": "0"
+              },
+              {
+                "name": "tacho",
+                "content": "0"
+              },
+              {
+                "name": "rp",
+                "content": "0"
+              },
+              {
+                "name": "description",
+                "content": "Aktuelle Infos zur KTM 690 SMC R | alle Modelljahre | Tests & Fahrberichte | Neuvorstellungen | technische Daten | Marktangebote &#9658; Hier informieren!"
+              },
+              {
+                "name": "keywords",
+                "content": "Motorraeder,Motorräder,Motorraeder A-Z,Motorräder A-Z,KTM,690 SMC R,Supermoto"
+              },
+              {
+                "name": "news_keywords",
+                "content": "Motorraeder,Motorräder,Motorraeder A-Z,Motorräder A-Z,KTM,690 SMC R,Supermoto"
+              },
+              {
+                "name": "article:published_time",
+                "content": "2012-11-08T15:21:00"
+              },
+              {
+                "name": "date",
+                "content": "2012-11-08T15:21:00"
+              },
+              {
+                "name": "og:type",
+                "content": "article"
+              },
+              {
+                "name": "article:opinion",
+                "content": "false"
+              },
+              {
+                "name": "article:content_tier",
+                "content": "free"
+              },
+              {
+                "name": "article:tag",
+                "content": "Motorräder, Motorräder A-Z, KTM, 690 SMC R"
+              },
+              {
+                "name": "og:image",
+                "content": "https://img.motorradonline.de/_/bg:FFFFFF/f:best/h:1238/rt:fill/w:2200/plain/1394294.jpg"
+              },
+              {
+                "name": "og:image:width",
+                "content": 2200
+              },
+              {
+                "name": "og:image:type",
+                "content": "image/jpeg"
+              },
+              {
+                "name": "og:image:height",
+                "content": 1238
+              },
+              {
+                "name": "og:title",
+                "content": "690 SMC R"
+              },
+              {
+                "name": "og:description",
+                "content": "%Headline% im Test bei MOTORRAD. Die Testfahrer und Testingenieure von MOTORRAD haben die %Headline% ausführlich getestet. Dabei wurden Fahreigenschaften, Handhabung, Praxis im Alltag, Sicherheitsaspekte und Unterhaltskosten der %Headline% von unserer unabhängigen Testredaktion genau unter die Lupe genommen. Profitieren Sie beim Motorradkauf von ausführlichen Einzel- und Vergleichstests sowie Dauertests und Fahrberichten zur %Headline%. "
+              },
+              {
+                "name": "og:url",
+                "content": "https://www.motorradonline.de/marken-modelle/ktm/690-smc-r/"
+              },
+              {
+                "name": "og:site_name",
+                "content": "MOTORRAD"
+              },
+              {
+                "name": "meta:title",
+                "content": "690 SMC R"
+              },
+              {
+                "name": "thumbnail",
+                "content": "https://img.motorradonline.de/_/bg:FFFFFF/f:best/h:113/rt:fill/w:170/plain/1394294.jpg"
+              },
+              {
+                "name": "thumbnailRotationTeaser",
+                "content": "https://img.motorradonline.de/_/bg:FFFFFF/f:best/h:439/rt:fill/w:780/plain/1394294.jpg"
+              },
+              {
+                "name": "thumbnailRubricBig",
+                "content": "https://img.motorradonline.de/_/bg:FFFFFF/f:best/h:214/rt:fill/w:380/plain/1394294.jpg"
+              },
+              {
+                "name": "thumbnailRubricTiny",
+                "content": "https://img.motorradonline.de/_/bg:FFFFFF/f:best/h:140/rt:fill/w:245/plain/1394294.jpg"
+              },
+              {
+                "name": "thumbnailSideFiveEntry",
+                "content": "https://img.motorradonline.de/_/bg:FFFFFF/f:best/h:90/rt:fill/w:135/plain/1394294.jpg"
+              },
+              {
+                "name": "treepath_lvl0",
+                "content": 54132
+              },
+              {
+                "name": "treepath_lvl1",
+                "content": 54240
+              },
+              {
+                "name": "bereich",
+                "content": "StatischeSeiten"
+              },
+              {
+                "name": "article:section",
+                "content": "StatischeSeiten"
+              },
+              {
+                "name": "full_treepath",
+                "content": "|,54635,54661,54899,|,54132,54240,55420,|"
+              },
+              {
+                "name": "publisher",
+                "content": "MOTORRAD"
+              },
+              {
+                "name": "Portal_Select",
+                "content": "MRD"
+              },
+              {
+                "name": "navigation_ebene_1",
+                "content": "Motorräder"
+              },
+              {
+                "name": "navigation_ebene_2",
+                "content": "Motorräder A-Z"
+              },
+              {
+                "name": "navigation_ebene_3",
+                "content": "KTM"
+              },
+              {
+                "name": "navigation_ebene_4",
+                "content": "690 SMC R"
+              },
+              {
+                "name": "Special",
+                "content": "Supermoto"
+              },
+              {
+                "name": "filtertyp",
+                "content": "Fotoshow"
+              },
+              {
+                "name": "twitter:account_id",
+                "content": "108926171"
+              },
+              {
+                "name": "cleverpushId",
+                "content": "XiuqJcai88WJQ3QBN"
+              },
+              {
+                "name": "theme-color",
+                "content": "#f9f9f9"
+              },
+              {
+                "name": "robots",
+                "content": "max-image-preview:large"
+              }
+            ],
+            "isPodcast": false,
+            "nav": true,
+            "hasBanner": false,
+            "appId": null,
+            "isLandingpage": false,
+            "plausibleDomainName": "motorradonline.de",
+            "markerDestination": "627232b2df59ae05e00b5d35",
+            "matomo": {
+              "domain": "https://matomo.motorradonline.de",
+              "siteId": 4,
+              "containerId": "PfY9SOst"
+            },
+            "matomoKongress": null,
+            "matomoAmsPro": null,
+            "plausibleDomainNameAmsPro": null,
+            "umamiSeiteId": null,
+            "marfeelId": "4413",
+            "imageServerOrigin": null,
+            "gtag_id": "G-W1XS98DN8W",
+            "isAdvertorial": false
+          },
+          "blacklist": [],
+          "blacklistSoFar": [],
+          "cache": {
+            "mobileDifferent": true,
+            "expires": 86400
+          }
+        },
+        {
+          "slotName": "html_head",
+          "position": 10,
+          "stageTemplate": null,
+          "params": {},
+          "isStatic": true,
+          "page": "/marken-modelle/ktm/690-smc-r/",
+          "config": {
+            "portals": {
+              "MRD": "https://www.motorradonline.de/web_headline_produkt_motorrad_angebote",
+              "PS": "https://www.motorradonline.de/web_headline_produkt_ps_angebote",
+              "MRD-C": "https://www.motorradonline.de/web_headline_produkt_motorrad_classic_angebote",
+              "RIDE": "https://www.motorradonline.de/web_headline_produkt_ride_angebote"
+            }
+          },
+          "element": "variousWidecol.aboOverlay",
+          "essential": false,
+          "esi": true,
+          "containerId": "14536349",
+          "layoutId": 1042,
+          "id": "variousWidecol.aboOverlay",
+          "suspense": false,
+          "cached": false,
+          "duration": 113,
+          "data": [
+            {
+              "_id": "38457554",
+              "sid": 15580853,
+              "title": "",
+              "issue": "15",
+              "year": 2026,
+              "url": "https://www.motorradonline.de/heft-15-2026/",
+              "date": "2026-07-02",
+              "download": {
+                "LINK_TEXT": "",
+                "FILE_SIZE": "48514351",
+                "CHECKSUM": "840cbc19532fce5e2595d12da67d4cb9",
+                "FILE_NAME": "/heft/motorrad/1/5/5/8/0/8/5/3/MRD_15-2026_2026-07-02_132_3-99.pdf",
+                "LINK_FILE": "MRD_15-2026_2026-07-02_132_3-99.pdf"
+              },
+              "portal": "MRD",
+              "image": {
+                "mdbId": 2303528,
+                "image": {
+                  "width": 609,
+                  "height": 794,
+                  "alt": "MOTORRAD 15/2026 Coverbild",
+                  "signature": "",
+                  "title": "MOTORRAD 15/2026 Coverbild",
+                  "keywords": "",
+                  "source": "",
+                  "emphasisX": 0,
+                  "emphasisY": 0
+                }
+              },
+              "isSponsored": null
+            },
+            {
+              "_id": "38457307",
+              "sid": 15580666,
+              "issue": "8+9",
+              "year": 2026,
+              "url": "https://www.motorradonline.de/ps-heft-8-9-2026/",
+              "date": "2026-07-09",
+              "download": {
+                "LINK_TEXT": "",
+                "FILE_SIZE": "40216525",
+                "FILE_NAME": "/heft/ps/1/5/5/8/0/6/6/6/ps_ePaper__926.pdf",
+                "LINK_FILE": "ps_ePaper__926.pdf",
+                "CHECKSUM": "087d9a7887bab41b379dee7ca9f10212"
+              },
+              "portal": "PS",
+              "image": {
+                "mdbId": 2303439,
+                "image": {
+                  "width": 1270,
+                  "height": 1654,
+                  "alt": "",
+                  "signature": "",
+                  "title": "",
+                  "keywords": "",
+                  "source": "",
+                  "emphasisX": 0,
+                  "emphasisY": 0
+                }
+              },
+              "isSponsored": null,
+              "title": "PS - 8+9/2026"
+            },
+            {
+              "_id": "38208306",
+              "sid": 15502868,
+              "issue": "7+8",
+              "year": 2026,
+              "url": "https://www.motorradonline.de/motorrad-classic-heft-7-8-2026/",
+              "date": "2026-06-03",
+              "download": {
+                "LINK_FILE": "mrd-c_ePaper__826.pdf",
+                "CHECKSUM": "405a7c0b93b2cbcbead6ad3d391c2909",
+                "LINK_TEXT": "",
+                "FILE_NAME": "/heft/motorrad-classic/1/5/5/0/2/8/6/8/mrd-c_ePaper__826.pdf",
+                "FILE_SIZE": "47036010"
+              },
+              "portal": "MRD-C",
+              "image": {
+                "mdbId": 2296317,
+                "image": {
+                  "width": 1270,
+                  "height": 1654,
+                  "alt": "",
+                  "signature": "",
+                  "title": "",
+                  "keywords": "",
+                  "source": "",
+                  "emphasi
