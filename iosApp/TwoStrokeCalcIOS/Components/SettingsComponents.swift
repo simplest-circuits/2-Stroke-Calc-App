@@ -63,7 +63,7 @@ struct SettingsOptionRow: View {
     }
 }
 
-struct SelectionDialog<Item: Hashable & Identifiable>: View where Item: RawRepresentable, Item.RawValue == String {
+struct SelectionDialog<Item: Hashable & Identifiable>: View {
     let title: String
     let items: [Item]
     let label: (Item) -> String
@@ -73,7 +73,7 @@ struct SelectionDialog<Item: Hashable & Identifiable>: View where Item: RawRepre
     var body: some View {
         NavigationStack {
             List {
-                ForEach(items) { item in
+                ForEach(items, id: \.self) { (item: Item) in
                     Button {
                         selection = item
                         isPresented = false
@@ -97,7 +97,4 @@ struct SelectionDialog<Item: Hashable & Identifiable>: View where Item: RawRepre
         }
     }
 }
-
-extension ThemeMode: RawRepresentable {}
-extension NavStyle: RawRepresentable {}
 extension LanguageMode: RawRepresentable {}
