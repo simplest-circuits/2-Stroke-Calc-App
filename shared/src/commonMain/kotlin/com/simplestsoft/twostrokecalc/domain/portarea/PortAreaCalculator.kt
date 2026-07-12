@@ -61,7 +61,7 @@ object PortAreaCalculator {
     fun effectiveAreaFactor(sideAngleDeg: Double?, correctionFactor: Double): Double {
         if (sideAngleDeg != null) {
             if (sideAngleDeg < 0.0 || sideAngleDeg >= 90.0) return 0.0
-            return cos(Math.toRadians(sideAngleDeg))
+            return cos(sideAngleDeg * PI / 180.0)
         }
         return correctionFactor.coerceAtLeast(0.0)
     }

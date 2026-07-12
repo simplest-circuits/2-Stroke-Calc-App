@@ -1,5 +1,6 @@
 package com.simplestsoft.twostrokecalc.domain.porttiming
 
+import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -53,7 +54,7 @@ object PortTimingCalculator {
     }
 
     fun pistonPosition(angleDeg: Double, crankRadius: Double, rodLength: Double): Double {
-        val angleRad = Math.toRadians(angleDeg)
+        val angleRad = angleDeg * PI / 180.0
         val sinRatio = crankRadius * sin(angleRad) / rodLength
         return crankRadius * (1.0 - cos(angleRad)) +
             rodLength * (1.0 - sqrt(1.0 - sinRatio * sinRatio))

@@ -35,8 +35,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.koin.core.context.GlobalContext
 import org.koin.core.context.startKoin
+import org.koin.mp.KoinPlatform
 
 data class IosSessionSnapshot(
     val isAuthenticated: Boolean,
@@ -63,14 +63,14 @@ private var authListenerJob: Job? = null
 private var authCallback: ((IosSessionSnapshot) -> Unit)? = null
 
 fun startSharedKoin() {
-    if (GlobalContext.getOrNull() == null) {
+    if (KoinPlatform.getKoinOrNull() == null) {
         startKoin {
             modules(sharedKoinModules())
         }
     }
 }
 
-private inline fun <reified T> koinGet(): T = GlobalContext.get().get()
+private inline fun <reified T> koinGet(): T = KoinPlatform.getKoin().get()
 
 fun sharedAuthRepository(): SharedAuthRepository = koinGet()
 fun sharedVehicleRepository(): SharedVehicleRepository = koinGet()

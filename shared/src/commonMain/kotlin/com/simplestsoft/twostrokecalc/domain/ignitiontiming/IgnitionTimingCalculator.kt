@@ -1,5 +1,6 @@
 package com.simplestsoft.twostrokecalc.domain.ignitiontiming
 
+import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -58,7 +59,7 @@ object IgnitionTimingCalculator {
         val hr = strokeMm / 2.0
         val pl = connectingRodMm
         val rodRatio = pl / hr
-        val angleRad = Math.toRadians(degreesBeforeTdc)
+        val angleRad = degreesBeforeTdc * PI / 180.0
         val sinA = sin(angleRad)
         val discriminant = rodRatio * rodRatio - sinA * sinA
         return hr * (1.0 + rodRatio - cos(angleRad) - sqrt(discriminant))

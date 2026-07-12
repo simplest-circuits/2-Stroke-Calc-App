@@ -1,5 +1,5 @@
 package com.simplestsoft.twostrokecalc.platform
 
-import platform.Foundation.NSDate
+import kotlinx.datetime.Clock
 
-actual fun currentTimeMillis(): Long = (NSDate().timeIntervalSince1970 * 1000.0).toLong()
+actual fun currentTimeMillis(): Long = Clock.System.now().toEpochMilliseconds()
