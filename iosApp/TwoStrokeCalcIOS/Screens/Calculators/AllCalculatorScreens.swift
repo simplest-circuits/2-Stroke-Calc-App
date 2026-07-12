@@ -384,7 +384,7 @@ struct CompressionCalculatorView: View {
                     boreMm: boreMm,
                     strokeMm: strokeMm,
                     targetCompressionRatio: target,
-                    pistonConstantMl: parseDouble(pistonConstant)
+                    pistonConstantMl: parseDouble(pistonConstant).map { kd($0) }
                   ) else { return [] }
             var lines = [
                 "Brennraum gesamt: \(fmt(result.totalChamberVolumeMl, decimals: 2)) ml",
@@ -680,13 +680,13 @@ struct ExhaustCalculatorView: View {
             hornCoefficient: 1.5
         )
         let input = ExpansionChamberInput(
-            exhaustPortWidthMm: width,
-            exhaustPortHeightMm: height,
+            exhaustPortWidthMm: kd(width),
+            exhaustPortHeightMm: kd(height),
             exhaustPortDurationDeg: exhaustDeg,
             transferPortDurationDeg: transferDeg,
             rpm: rpmVal,
-            powerPs: ps,
-            displacementCc: cc,
+            powerPs: kd(ps),
+            displacementCc: kd(cc),
             diffuserStages: diffuserStages,
             coefficients: coeffs,
             optionalInputs: ExpansionChamberOptionalInputs()
