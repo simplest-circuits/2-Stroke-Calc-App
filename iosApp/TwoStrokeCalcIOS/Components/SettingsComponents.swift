@@ -72,16 +72,18 @@ struct SelectionDialog<Item: Hashable & Identifiable>: View where Item: RawRepre
 
     var body: some View {
         NavigationStack {
-            List(items) { item in
-                Button {
-                    selection = item
-                    isPresented = false
-                } label: {
-                    HStack {
-                        Text(label(item))
-                        Spacer()
-                        if item.id == selection.id {
-                            Image(systemName: "checkmark").foregroundStyle(.accent)
+            List {
+                ForEach(items) { item in
+                    Button {
+                        selection = item
+                        isPresented = false
+                    } label: {
+                        HStack {
+                            Text(label(item))
+                            Spacer()
+                            if item.id == selection.id {
+                                Image(systemName: "checkmark").foregroundStyle(.accent)
+                            }
                         }
                     }
                 }

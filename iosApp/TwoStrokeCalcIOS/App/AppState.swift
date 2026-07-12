@@ -79,6 +79,11 @@ final class AppState: ObservableObject {
         }
     }
 
+    private func refreshSessionFromShared() async {
+        guard let snapshot = try? await IosKoinInitKt.iosRefreshSession() else { return }
+        applySession(snapshot)
+    }
+
     func completeSplash() {
         showSplash = false
     }
@@ -136,7 +141,7 @@ final class AppState: ObservableObject {
             authError = error
             return
         }
-        applySession(await IosKoinInitKt.iosRefreshSession())
+        await refreshSessionFromShared()
         await SharedKitBridge.refreshVehicles(into: self)
     }
 
@@ -152,7 +157,7 @@ final class AppState: ObservableObject {
             authError = error
             return
         }
-        applySession(await IosKoinInitKt.iosRefreshSession())
+        await refreshSessionFromShared()
         await SharedKitBridge.refreshVehicles(into: self)
     }
 
@@ -168,7 +173,7 @@ final class AppState: ObservableObject {
             authError = error
             return
         }
-        applySession(await IosKoinInitKt.iosRefreshSession())
+        await refreshSessionFromShared()
         await SharedKitBridge.refreshVehicles(into: self)
     }
 
@@ -217,7 +222,7 @@ final class AppState: ObservableObject {
         do {
             let success = try await StoreKitService.shared.purchasePro(appState: self)
             if success {
-                applySession(await IosKoinInitKt.iosRefreshSession())
+                await refreshSessionFromShared()
             }
         } catch {
             billingError = error.localizedDescription
@@ -231,7 +236,7 @@ final class AppState: ObservableObject {
         do {
             let success = try await StoreKitService.shared.restorePurchases(appState: self)
             if success {
-                applySession(await IosKoinInitKt.iosRefreshSession())
+                await refreshSessionFromShared()
             }
         } catch {
             billingError = error.localizedDescription
@@ -239,7 +244,7 @@ final class AppState: ObservableObject {
     }
 
     func applyAdminRefresh() async {
-        applySession(await IosKoinInitKt.iosRefreshSession())
+        await refreshSessionFromShared()
         await SharedKitBridge.refreshVehicles(into: self)
     }
 }
