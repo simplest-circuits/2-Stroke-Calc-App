@@ -384,7 +384,7 @@ struct CompressionCalculatorView: View {
                     boreMm: boreMm,
                     strokeMm: strokeMm,
                     targetCompressionRatio: target,
-                    pistonConstantMl: parseDouble(pistonConstant).map { kd($0) }
+                    pistonConstantMl: parseDouble(pistonConstant).map { toKotlinDouble($0) }
                   ) else { return [] }
             var lines = [
                 "Brennraum gesamt: \(fmt(result.totalChamberVolumeMl, decimals: 2)) ml",
@@ -680,13 +680,13 @@ struct ExhaustCalculatorView: View {
             hornCoefficient: 1.5
         )
         let input = ExpansionChamberInput(
-            exhaustPortWidthMm: kd(width),
-            exhaustPortHeightMm: kd(height),
+            exhaustPortWidthMm: toKotlinDouble(width),
+            exhaustPortHeightMm: toKotlinDouble(height),
             exhaustPortDurationDeg: exhaustDeg,
             transferPortDurationDeg: transferDeg,
             rpm: rpmVal,
-            powerPs: kd(ps),
-            displacementCc: kd(cc),
+            powerPs: toKotlinDouble(ps),
+            displacementCc: toKotlinDouble(cc),
             diffuserStages: diffuserStages,
             coefficients: coeffs,
             optionalInputs: ExpansionChamberOptionalInputs()
@@ -753,13 +753,13 @@ struct ExhaustCalculatorView: View {
               let cc = parseDouble(displacementCc) else { return nil }
 
         return ExpansionChamberCalculator.shared.calculate(input: ExpansionChamberInput(
-            exhaustPortWidthMm: width,
-            exhaustPortHeightMm: height,
+            exhaustPortWidthMm: toKotlinDouble(width),
+            exhaustPortHeightMm: toKotlinDouble(height),
             exhaustPortDurationDeg: exhaustDeg,
             transferPortDurationDeg: transferDeg,
             rpm: rpmVal,
-            powerPs: ps,
-            displacementCc: cc,
+            powerPs: toKotlinDouble(ps),
+            displacementCc: toKotlinDouble(cc),
             diffuserStages: diffuserStages,
             coefficients: ExpansionChamberCoefficients(k0: 0.70, k1: 1.125, k2: 2.25, hornCoefficient: 1.5),
             optionalInputs: ExpansionChamberOptionalInputs()
@@ -820,7 +820,7 @@ private struct TransferPortAreaContent: View {
             widthMm: w,
             heightMm: h,
             channelCount: count,
-            sideAngleDeg: angle,
+            sideAngleDeg: toKotlinDouble(angle),
             correctionFactor: 1.0,
             durationDeg: dur
         )
@@ -1144,7 +1144,7 @@ struct FlywheelInertiaCalculatorView: View {
             lengthMm: len,
             material: .steel,
             customDensityKgM3: 7850,
-            rollerRadiusMm: roller,
+            rollerRadiusMm: toKotlinDouble(roller),
             additionalInertiaKgm2: 0
         )
         guard let result = FlywheelInertiaCalculator.shared.inertiaFromGeometry(input: input) else { return [] }
@@ -1213,7 +1213,7 @@ struct VehicleDynamicsCalculatorView: View {
         let preset = VehicleDynamicsPreset.roller.values()
         let stage = VehicleDynamicsGearInput(secondaryPinion: sPin, secondaryGear: sGear)
         let input = VehicleDynamicsInput(
-            massKg: massKg,
+            massKg: toKotlinDouble(massKg),
             engineMode: .power,
             powerPs: ps,
             torqueNm: nil,
