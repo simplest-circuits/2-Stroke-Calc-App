@@ -48,6 +48,8 @@ resource_files = [
     "TwoStrokeCalcIOS/Resources/vehicle_catalog.json",
 ]
 
+asset_catalog = "TwoStrokeCalcIOS/Resources/Assets.xcassets"
+
 firebase_packages = [
     ("FirebaseCore", "B90000010000000000000001"),
     ("FirebaseAuth", "B90000010000000000000002"),
@@ -62,8 +64,10 @@ def uid():
     return uuid.uuid4().hex[:24].upper()
 
 file_refs = {f: uid() for f in swift_files + resource_files}
+file_refs[asset_catalog] = uid()
 build_files_swift = {f: uid() for f in swift_files}
 build_files_resources = {f: uid() for f in resource_files}
+build_files_resources[asset_catalog] = uid()
 
 target = "A50000010000000000000001"
 project = "A70000010000000000000001"
@@ -106,6 +110,7 @@ for f in swift_files:
 for f in resource_files:
     name = Path(f).name
     lines.append(f"\t\t{build_files_resources[f]} /* {name} in Resources */ = {{isa = PBXBuildFile; fileRef = {file_refs[f]} /* {name} */; }};")
+lines.append(f"\t\t{build_files_resources[asset_catalog]} /* Assets.xcassets in Resources */ = {{isa = PBXBuildFile; fileRef = {file_refs[asset_catalog]} /* Assets.xcassets */; }};")
 lines += ["/* End PBXBuildFile section */", "", "/* Begin PBXFileReference section */"]
 lines.append(f"\t\t{prod_ref} /* TwoStrokeCalcIOS.app */ = {{isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwoStrokeCalcIOS.app; sourceTree = BUILT_PRODUCTS_DIR; }};")
 for f in swift_files:
@@ -120,6 +125,7 @@ for f in resource_files:
     else:
         file_type = "text.xml"
     lines.append(f"\t\t{file_refs[f]} /* {name} */ = {{isa = PBXFileReference; lastKnownFileType = {file_type}; path = {name}; sourceTree = \"<group>\"; }};")
+lines.append(f"\t\t{file_refs[asset_catalog]} /* Assets.xcassets */ = {{isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = \"<group>\"; }};")
 lines += ["/* End PBXFileReference section */", "", "/* Begin PBXFrameworksBuildPhase section */",
           f"\t\t{frameworks_phase} /* Frameworks */ = {{isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; }};",
           "/* End PBXFrameworksBuildPhase section */", "", "/* Begin PBXGroup section */",
@@ -135,6 +141,8 @@ for key in sorted(folder_keys, key=lambda k: (k.count("/"), k)):
     for f in sorted(swift_files + resource_files):
         if str(Path(f).parent).replace("\\", "/") == key:
             children.append(f"{file_refs[f]} /* {Path(f).name} */")
+    if key == "TwoStrokeCalcIOS/Resources":
+        children.append(f"{file_refs[asset_catalog]} /* Assets.xcassets */")
     path_line = f"path = TwoStrokeCalcIOS;" if key == "TwoStrokeCalcIOS" else f"path = {Path(key).name};"
     child_block = "\n".join(f"\t\t\t\t{c}," for c in children)
     lines.append(f"\t\t{gid} /* {Path(key).name} */ = {{\n\t\t\tisa = PBXGroup;\n\t\t\tchildren = (\n{child_block}\n\t\t\t);\n\t\t\t{path_line}\n\t\t\tsourceTree = \"<group>\";\n\t\t}};")
@@ -155,6 +163,7 @@ lines += [
 ]
 for f in resource_files:
     lines.append(f"\t\t\t\t{build_files_resources[f]} /* {Path(f).name} in Resources */,")
+lines.append(f"\t\t\t\t{build_files_resources[asset_catalog]} /* Assets.xcassets in Resources */,")
 lines += [
     "\t\t\t); runOnlyForDeploymentPostprocessing = 0; };",
     "/* End PBXResourcesBuildPhase section */",
@@ -173,8 +182,8 @@ lines += [
     "/* Begin XCBuildConfiguration section */",
     "\t\tA80000010000000000000001 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = \"\"; ENABLE_USER_SCRIPT_SANDBOXING = NO; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = \"2-Stroke Calc\"; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_CFBundleURLTypes = ({CFBundleURLName = GoogleSignIn; CFBundleURLSchemes = (\"com.googleusercontent.apps.944061414373-h2qmtb8j72m37sd14k2nbania9f0d34h\");}); IPHONEOS_DEPLOYMENT_TARGET = 17.0; LD_RUNPATH_SEARCH_PATHS = (\"$(inherited)\", \"@executable_path/Frameworks\"); MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.simplestsoft.twostrokecalc.ios; PRODUCT_NAME = \"$(TARGET_NAME)\"; SDKROOT = iphoneos; SUPPORTED_PLATFORMS = \"iphoneos iphonesimulator\"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = \"1,2\";}; name = Debug;};",
     "\t\tA80000010000000000000002 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = \"\"; ENABLE_USER_SCRIPT_SANDBOXING = NO; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = \"2-Stroke Calc\"; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_CFBundleURLTypes = ({CFBundleURLName = GoogleSignIn; CFBundleURLSchemes = (\"com.googleusercontent.apps.944061414373-h2qmtb8j72m37sd14k2nbania9f0d34h\");}); IPHONEOS_DEPLOYMENT_TARGET = 17.0; LD_RUNPATH_SEARCH_PATHS = (\"$(inherited)\", \"@executable_path/Frameworks\"); MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.simplestsoft.twostrokecalc.ios; PRODUCT_NAME = \"$(TARGET_NAME)\"; SDKROOT = iphoneos; SUPPORTED_PLATFORMS = \"iphoneos iphonesimulator\"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = \"1,2\";}; name = Release;};",
-    "\t\tA80000010000000000000003 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; DEVELOPMENT_TEAM = \"\"; ENABLE_USER_SCRIPT_SANDBOXING = NO; FRAMEWORK_SEARCH_PATHS = (\"$(inherited)\", \"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)\"); OTHER_LDFLAGS = (\"$(inherited)\", \"-framework\", sharedKit); SWIFT_VERSION = 5.0;}; name = Debug;};",
-    "\t\tA80000010000000000000004 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; DEVELOPMENT_TEAM = \"\"; ENABLE_USER_SCRIPT_SANDBOXING = NO; FRAMEWORK_SEARCH_PATHS = (\"$(inherited)\", \"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)\"); OTHER_LDFLAGS = (\"$(inherited)\", \"-framework\", sharedKit); SWIFT_VERSION = 5.0;}; name = Release;};",
+    "\t\tA80000010000000000000003 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; DEVELOPMENT_TEAM = \"\"; ENABLE_USER_SCRIPT_SANDBOXING = NO; FRAMEWORK_SEARCH_PATHS = (\"$(inherited)\", \"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)\"); OTHER_LDFLAGS = (\"$(inherited)\", \"-framework\", sharedKit); SWIFT_VERSION = 5.0;}; name = Debug;};",
+    "\t\tA80000010000000000000004 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; DEVELOPMENT_TEAM = \"\"; ENABLE_USER_SCRIPT_SANDBOXING = NO; FRAMEWORK_SEARCH_PATHS = (\"$(inherited)\", \"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)\"); OTHER_LDFLAGS = (\"$(inherited)\", \"-framework\", sharedKit); SWIFT_VERSION = 5.0;}; name = Release;};",
     "/* End XCBuildConfiguration section */",
     "",
     "/* Begin XCConfigurationList section */",
@@ -202,4 +211,4 @@ lines += [
 
 out = root / "TwoStrokeCalcIOS.xcodeproj" / "project.pbxproj"
 out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-print(f"Wrote {out} with {len(swift_files)} Swift sources, {len(resource_files)} resources")
+print(f"Wrote {out} with {len(swift_files)} Swift sources, {len(resource_files)} resources, 1 asset catalog")
