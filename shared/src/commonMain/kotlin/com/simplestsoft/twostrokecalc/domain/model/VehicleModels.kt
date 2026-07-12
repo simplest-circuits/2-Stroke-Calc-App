@@ -1,7 +1,11 @@
+@file:OptIn(kotlin.experimental.ExperimentalObjCName::class)
+
 package com.simplestsoft.twostrokecalc.domain.model
 
 import com.simplestsoft.twostrokecalc.platform.currentTimeMillis
 import com.simplestsoft.twostrokecalc.platform.randomUUID
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -44,6 +48,7 @@ data class MaintenanceEntry(
     val date: String = "",
     val odometerKm: String = "",
     val type: MaintenanceType = MaintenanceType.GENERAL,
+    @ObjCName("entryDescription")
     val description: String = "",
     val cost: String = "",
     val partsUsed: String = "",

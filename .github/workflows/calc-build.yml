@@ -1,4 +1,4 @@
-name: iOS Build
+name: Calc Build
 
 on:
   push:
@@ -8,11 +8,56 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ios-build-${{ github.ref }}
+  group: calc-build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  ios-build:
+  android:
+    name: Android & Rechner-Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+
+      - name: Run shared calculator tests
+        run: |
+          chmod +x gradlew
+          ./gradlew :shared:testAndroidHostTest --stacktrace
+
+      - name: Build Android debug APK
+        run: ./gradlew :androidApp:assembleDebug --stacktrace
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: TwoStrokeCalc-android-debug
+          path: androidApp/build/outputs/apk/debug/*.apk
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## Android Build"
+            echo ""
+            echo "- **Tests:** \`:shared:testAndroidHostTest\` (Rechner-Unit-Tests im shared-Modul)"
+            echo "- **Artifact:** \`TwoStrokeCalc-android-debug\` (Debug-APK, 14 Tage)"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  ios:
+    name: iOS Simulator Build
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,6 +67,9 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
 
       - name: Build sharedKit framework for Simulator
         run: |
@@ -57,6 +105,7 @@ jobs:
         run: |
           APP_PATH="build/ios/DerivedData/Build/Products/Debug-iphonesimulator/TwoStrokeCalcIOS.app"
           test -d "$APP_PATH" || (echo "Missing $APP_PATH" && find build/ios -name '*.app' && exit 1)
+          mkdir -p build/ios
           cd "$(dirname "$APP_PATH")"
           zip -r "$GITHUB_WORKSPACE/build/ios/TwoStrokeCalcIOS-simulator.zip" TwoStrokeCalcIOS.app
 

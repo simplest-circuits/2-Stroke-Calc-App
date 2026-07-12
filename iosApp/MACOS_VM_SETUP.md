@@ -45,7 +45,7 @@ open iosApp/TwoStrokeCalcIOS.xcodeproj
 
 1. Target **TwoStrokeCalcIOS** auswählen
 2. **Signing & Capabilities** → Development Team setzen
-3. Bundle ID: `com.simplestsoft.twostrokecalc.ios` (anpassen falls nötig)
+3. Bundle ID: `com.simplestsoft.twostrokecalc` (muss mit Firebase iOS-App und `GoogleService-Info.plist` übereinstimmen)
 
 ### 5. Firebase iOS
 
@@ -96,7 +96,7 @@ GitHub Actions Workflow auf `macos-latest` (`.github/workflows/ios-build.yml`):
 
 ### Schritte
 
-1. App Store Connect → neue iOS-App `com.simplestsoft.twostrokecalc.ios`
+1. App Store Connect → neue iOS-App `com.simplestsoft.twostrokecalc`
 2. In-App-Kauf **`pro_version`** (Non-Consumable) anlegen – gleiche Product-ID wie Android
 3. Firebase Console → iOS-App registrieren → echte `GoogleService-Info.plist` ersetzen (GOOGLE_APP_ID aus Console)
 4. Archive in Xcode: **Product → Archive** → **Distribute App → TestFlight**

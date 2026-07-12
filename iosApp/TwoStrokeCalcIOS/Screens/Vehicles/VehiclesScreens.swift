@@ -178,7 +178,7 @@ struct VehicleCostOverviewScreen: View {
                 ForEach(Array(vehicle.maintenanceLog.enumerated()), id: \.offset) { index, entry in
                     HStack {
                         VStack(alignment: .leading) {
-                            Text(entry.description).font(.subheadline)
+                            Text(entry.entryDescription).font(.subheadline)
                             Text("\(entry.date) · \(entry.cost) €").font(.caption)
                         }
                         Spacer()
@@ -269,7 +269,7 @@ private struct FuelLogEntrySheet: View {
     }
 }
 
-private struct MaintenanceEntrySheet: View {
+struct MaintenanceEntrySheet: View {
     @Environment(\.dismiss) private var dismiss
     let onSave: (MaintenanceEntry) -> Void
     @State private var date = ""

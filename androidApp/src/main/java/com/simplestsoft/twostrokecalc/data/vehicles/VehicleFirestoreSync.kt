@@ -4,7 +4,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.google.gson.Gson
 import com.simplestsoft.twostrokecalc.data.auth.SharedAuthRepository
 import com.simplestsoft.twostrokecalc.domain.model.Vehicle
 import com.simplestsoft.twostrokecalc.logging.ErrorLogger
@@ -18,7 +17,6 @@ import kotlinx.coroutines.tasks.await
 class VehicleFirestoreSync @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val firebaseAuth: FirebaseAuth,
-    private val gson: Gson,
     private val cloudStorage: VehicleCloudStorage,
     private val attachmentStorage: VehicleAttachmentStorage,
     private val errorLogger: ErrorLogger,
@@ -65,7 +63,7 @@ class VehicleFirestoreSync @Inject constructor(
     private suspend fun fetchRemoteVehicles(userId: String): List<Vehicle> {
         val snapshot = vehiclesCollection(userId).get().await()
         return snapshot.documents.mapNotNull { doc ->
-            VehicleFirestoreMapper.fromMap(gson, doc.data ?: return@mapNotNull null)
+            VehicleFirestoreMapper.fromMap(doc.data ?: return@mapNotNull null)
         }
     }
 
@@ -155,7 +153,7 @@ class VehicleFirestoreSync @Inject constructor(
     }
 
     private suspend fun writeVehicleDocument(userId: String, vehicle: Vehicle) {
-        val payload = VehicleFirestoreMapper.toMap(gson, vehicle).toMutableMap()
+        val payload = VehicleFirestoreMapper.toMap(vehicle).toMutableMap()
         payload["cloudSyncedAt"] = FieldValue.serverTimestamp()
         vehiclesCollection(userId)
             .document(vehicle.id)

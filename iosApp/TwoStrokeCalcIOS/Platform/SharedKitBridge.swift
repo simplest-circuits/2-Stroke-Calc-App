@@ -99,7 +99,7 @@ enum SharedKitBridge {
         return (try? await IosKoinInitKt.iosVerifyProPurchase(
             purchaseToken: token,
             productId: productId,
-            packageName: "com.simplestsoft.twostrokecalc.ios"
+            packageName: "com.simplestsoft.twostrokecalc"
         ))?.boolValue ?? false
     }
 

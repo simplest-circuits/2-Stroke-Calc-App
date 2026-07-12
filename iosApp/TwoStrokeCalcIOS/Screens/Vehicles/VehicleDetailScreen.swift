@@ -8,6 +8,7 @@ struct VehicleDetailScreenExpanded: View {
     let vehicleId: String
     @State private var selectedTab: VehicleDetailTab = .overview
     @State private var showDeleteConfirm = false
+    @State private var showMaintenanceSheet = false
     @State private var draft: VehicleDraft = .empty
 
     private var canEdit: Bool { appState.hasVehiclesAccess() }
@@ -19,8 +20,6 @@ struct VehicleDetailScreenExpanded: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     tabContent
-                    NavigationLink("Tankbuch") { VehicleFuelLogScreen(vehicleId: vehicleId) }
-                    NavigationLink("Kosten") { VehicleCostOverviewScreen(vehicleId: vehicleId) }
                     if canEdit {
                         PrimaryButton(title: S.save) {
                             Task { await saveChanges() }
@@ -38,13 +37,43 @@ struct VehicleDetailScreenExpanded: View {
             }
             Button(S.cancel, role: .cancel) {}
         }
+        .sheet(isPresented: $showMaintenanceSheet) {
+            MaintenanceEntrySheet { entry in
+                Task { await addMaintenance(entry) }
+            }
+        }
     }
 
     private var header: some View {
-        HStack {
-            Button { dismiss() } label: { Image(systemName: "chevron.left") }
-            Text(draft.displayTitle).font(.headline).lineLimit(1)
+        HStack(spacing: 12) {
+            Button { dismiss() } label: {
+                Image(systemName: "chevron.left")
+                    .foregroundStyle(colors.primary)
+            }
+            Text(draft.displayTitle)
+                .font(.headline)
+                .lineLimit(1)
             Spacer()
+            NavigationLink {
+                VehicleFuelLogScreen(vehicleId: vehicleId)
+            } label: {
+                Image(systemName: "fuelpump.fill")
+                    .foregroundStyle(colors.primary)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Tankbuch")
+            Button {
+                if canEdit {
+                    showMaintenanceSheet = true
+                } else {
+                    appState.proUpsellModule = "VEHICLES"
+                }
+            } label: {
+                Image(systemName: "wrench.and.screwdriver.fill")
+                    .foregroundStyle(colors.primary)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Wartung")
             if canEdit {
                 Button(role: .destructive) { showDeleteConfirm = true } label: {
                     Image(systemName: "trash")
@@ -177,6 +206,15 @@ struct VehicleDetailScreenExpanded: View {
         vehicle = draft.apply(to: vehicle)
         await appState.saveVehicle(vehicle)
     }
+
+    private func addMaintenance(_ entry: MaintenanceEntry) async {
+        guard var vehicle = appState.vehicle(for: vehicleId) else { return }
+        var log = vehicle.maintenanceLog
+        log.append(entry)
+        vehicle = IosKoinInitKt.iosUpdateMaintenanceLog(vehicle: vehicle, entries: log)
+        await appState.saveVehicle(vehicle)
+        draft.maintenancePreview = vehicle.maintenanceLog.map { "\($0.date) · \($0.entryDescription)" }
+    }
 }
 
 private struct VehicleDraft {
@@ -248,7 +286,7 @@ private struct VehicleDraft {
             battery: vehicle.electrical.battery,
             regulator: vehicle.electrical.regulator,
             ignitionCoil: vehicle.electrical.ignitionCoil,
-            maintenancePreview: vehicle.maintenanceLog.map { "\($0.date) · \($0.description)" }
+            maintenancePreview: vehicle.maintenanceLog.map { "\($0.date) · \($0.entryDescription)" }
         )
     }
 

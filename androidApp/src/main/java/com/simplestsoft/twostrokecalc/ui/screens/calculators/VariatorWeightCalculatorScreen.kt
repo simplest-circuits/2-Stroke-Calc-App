@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.simplestsoft.twostrokecalc.R
 import com.simplestsoft.twostrokecalc.domain.calculation.VariatorWeightCalculator
+import com.simplestsoft.twostrokecalc.domain.calculation.VariatorWeightRollerType
 import com.simplestsoft.twostrokecalc.ui.components.AppColors
 import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorDecimalField
 import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorEmptyResultText
@@ -46,11 +47,11 @@ fun VariatorWeightCalculatorScreen() {
     var rpmDeltaText by rememberSaveable { mutableStateOf("500") }
     var useTargetRpm by rememberSaveable { mutableStateOf(true) }
     var rollerTypeName by rememberSaveable {
-        mutableStateOf(VariatorWeightCalculator.RollerType.ROLLERS.name)
+        mutableStateOf(VariatorWeightRollerType.ROLLERS.name)
     }
 
-    val rollerType = VariatorWeightCalculator.RollerType.entries.firstOrNull { it.name == rollerTypeName }
-        ?: VariatorWeightCalculator.RollerType.ROLLERS
+    val rollerType = VariatorWeightRollerType.entries.firstOrNull { it.name == rollerTypeName }
+        ?: VariatorWeightRollerType.ROLLERS
 
     val currentWeight = parseDecimal(currentWeightText)
     val currentRpm = parseDecimal(currentRpmText)
@@ -132,7 +133,7 @@ fun VariatorWeightCalculatorScreen() {
             )
         }
 
-        val rollerTypeOptions = VariatorWeightCalculator.RollerType.entries.map { type ->
+        val rollerTypeOptions = VariatorWeightRollerType.entries.map { type ->
             CalculatorDropdownOption(type.name, stringResource(type.labelRes()))
         }
         CalculatorChoiceField(
@@ -228,9 +229,9 @@ private fun VariatorWeightResultCard(
     }
 }
 
-private fun VariatorWeightCalculator.RollerType.labelRes(): Int = when (this) {
-    VariatorWeightCalculator.RollerType.ROLLERS -> R.string.variator_weight_roller_type_rollers
-    VariatorWeightCalculator.RollerType.SLIDERS -> R.string.variator_weight_roller_type_sliders
+private fun VariatorWeightRollerType.labelRes(): Int = when (this) {
+    VariatorWeightRollerType.ROLLERS -> R.string.variator_weight_roller_type_rollers
+    VariatorWeightRollerType.SLIDERS -> R.string.variator_weight_roller_type_sliders
 }
 
 @Composable

@@ -24,7 +24,10 @@ Android-App (Kotlin + Jetpack Compose) für Berechnungen rund um 2-Takt-Motoren.
 
 ```bash
 ./gradlew :androidApp:assembleDebug
+./gradlew :androidApp:bundleRelease
 ```
+
+(`:app:…` funktioniert weiterhin als Alias für `:androidApp:…`.)
 
 ## Paket
 

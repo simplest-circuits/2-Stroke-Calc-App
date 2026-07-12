@@ -21,3 +21,7 @@ dependencyResolutionManagement {
 rootProject.name = "2-Stroke Calc"
 include(":shared")
 include(":androidApp")
+
+// Backward compatibility: Android Studio / scripts may still target :app after KMP rename.
+include(":app")
+project(":app").projectDir = file("androidApp")
