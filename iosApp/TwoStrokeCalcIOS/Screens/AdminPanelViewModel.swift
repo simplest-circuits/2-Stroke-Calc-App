@@ -37,7 +37,7 @@ final class AdminPanelViewModel: ObservableObject {
         users = snapshot.users
         settings = snapshot.settings
         if let settings {
-            demoVehiclesEnabled = settings.demoVehiclesEnabled.asBool
+            demoVehiclesEnabled = settings.demoVehiclesEnabled
             calculatorToggles = settings.calculatorAvailability.asBoolDict
             proModuleToggles = settings.proModules.asBoolDict
         } else {
@@ -48,10 +48,10 @@ final class AdminPanelViewModel: ObservableObject {
 
     func saveSettings() async {
         let current = AdminSettingsDto(
-            maintenanceMode: settings?.maintenanceMode.asBool ?? false,
-            debugMode: settings?.debugMode.asBool ?? false,
-            emailNotifications: settings?.emailNotifications.asBool ?? false,
-            demoVehiclesEnabled: kb(demoVehiclesEnabled),
+            maintenanceMode: settings?.maintenanceMode ?? false,
+            debugMode: settings?.debugMode ?? false,
+            emailNotifications: settings?.emailNotifications ?? false,
+            demoVehiclesEnabled: demoVehiclesEnabled,
             calculatorAvailability: calculatorToggles.asKotlinBoolDict,
             proModules: proModuleToggles.asKotlinBoolDict
         )
@@ -107,15 +107,6 @@ final class AdminPanelViewModel: ObservableObject {
         }
         for module in IosKoinInitKt.iosProModuleNames() as [String] {
             proModuleToggles[module] = true
-        }
-    }
-}
-
-private extension Optional where Wrapped == KotlinBoolean {
-    var asBool: Bool {
-        switch self {
-        case .some(let value): return value.asBool
-        case .none: return false
         }
     }
 }
