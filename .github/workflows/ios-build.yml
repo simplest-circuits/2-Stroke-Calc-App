@@ -25,6 +25,7 @@ jobs:
 
       - name: Build sharedKit framework for Simulator
         run: |
+          chmod +x gradlew
           ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
           mkdir -p shared/build/xcode-frameworks/Debug/iphonesimulator
           cp -R shared/build/bin/iosSimulatorArm64/debugFramework/sharedKit.framework \
