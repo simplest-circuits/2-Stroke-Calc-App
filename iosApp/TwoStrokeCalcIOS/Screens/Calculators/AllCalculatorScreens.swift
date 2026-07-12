@@ -384,7 +384,7 @@ struct CompressionCalculatorView: View {
                     boreMm: boreMm,
                     strokeMm: strokeMm,
                     targetCompressionRatio: target,
-                    pistonConstantMl: parseDouble(pistonConstant)
+                    pistonConstantMl: parseDouble(pistonConstant).map { kd($0) }
                   ) else { return [] }
             var lines = [
                 "Brennraum gesamt: \(fmt(result.totalChamberVolumeMl, decimals: 2)) ml",
@@ -613,9 +613,9 @@ struct GearCalculatorView: View {
         guard let result = GearCalculator.shared.calculate(input: input) else { return [] }
 
         return result.stages.enumerated().map { index, stage in
-            let speed = stage.speedsAtReferenceRpmKmh.last ?? stage.shiftSpeedKmh
+            let speed = stage.speedsAtReferenceRpmKmh.last?.asDouble ?? stage.shiftSpeedKmh.asDouble
             var line = "Gang \(index + 1): \(fmt(speed, decimals: 1)) km/h (i=\(fmt(stage.gearRatio, decimals: 2)))"
-            if let jump = stage.speedJumpKmh {
+            if let jump = stage.speedJumpKmh?.asDouble {
                 line += ", Sprung +\(fmt(jump, decimals: 1)) km/h"
             }
             return line
@@ -674,19 +674,19 @@ struct ExhaustCalculatorView: View {
               let cc = parseDouble(displacementCc) else { return [] }
 
         let coeffs = ExpansionChamberCoefficients(
-            k0: 0.70,
-            k1: 1.125,
-            k2: 2.25,
-            hornCoefficient: 1.5
+            k0: kd(0.70),
+            k1: kd(1.125),
+            k2: kd(2.25),
+            hornCoefficient: kd(1.5)
         )
         let input = ExpansionChamberInput(
-            exhaustPortWidthMm: width,
-            exhaustPortHeightMm: height,
-            exhaustPortDurationDeg: exhaustDeg,
-            transferPortDurationDeg: transferDeg,
-            rpm: rpmVal,
-            powerPs: ps,
-            displacementCc: cc,
+            exhaustPortWidthMm: kd(width),
+            exhaustPortHeightMm: kd(height),
+            exhaustPortDurationDeg: kd(exhaustDeg),
+            transferPortDurationDeg: kd(transferDeg),
+            rpm: kd(rpmVal),
+            powerPs: kd(ps),
+            displacementCc: kd(cc),
             diffuserStages: diffuserStages,
             coefficients: coeffs,
             optionalInputs: ExpansionChamberOptionalInputs()
@@ -753,15 +753,15 @@ struct ExhaustCalculatorView: View {
               let cc = parseDouble(displacementCc) else { return nil }
 
         return ExpansionChamberCalculator.shared.calculate(input: ExpansionChamberInput(
-            exhaustPortWidthMm: width,
-            exhaustPortHeightMm: height,
-            exhaustPortDurationDeg: exhaustDeg,
-            transferPortDurationDeg: transferDeg,
-            rpm: rpmVal,
-            powerPs: ps,
-            displacementCc: cc,
+            exhaustPortWidthMm: kd(width),
+            exhaustPortHeightMm: kd(height),
+            exhaustPortDurationDeg: kd(exhaustDeg),
+            transferPortDurationDeg: kd(transferDeg),
+            rpm: kd(rpmVal),
+            powerPs: kd(ps),
+            displacementCc: kd(cc),
             diffuserStages: diffuserStages,
-            coefficients: ExpansionChamberCoefficients(k0: 0.70, k1: 1.125, k2: 2.25, hornCoefficient: 1.5),
+            coefficients: ExpansionChamberCoefficients(k0: kd(0.70), k1: kd(1.125), k2: kd(2.25), hornCoefficient: kd(1.5)),
             optionalInputs: ExpansionChamberOptionalInputs()
         ))
     }
@@ -820,8 +820,8 @@ private struct TransferPortAreaContent: View {
             widthMm: w,
             heightMm: h,
             channelCount: count,
-            sideAngleDeg: angle,
-            correctionFactor: 1.0,
+            sideAngleDeg: kd(angle),
+            correctionFactor: kd(1.0),
             durationDeg: dur
         )
         guard let result = PortAreaCalculator.shared.calculateTransfer(input: input) else { return [] }
@@ -1143,8 +1143,8 @@ struct FlywheelInertiaCalculatorView: View {
             innerDiameterMm: inner,
             lengthMm: len,
             material: .steel,
-            customDensityKgM3: 7850,
-            rollerRadiusMm: roller,
+            customDensityKgM3: kd(7850),
+            rollerRadiusMm: kd(roller),
             additionalInertiaKgm2: 0
         )
         guard let result = FlywheelInertiaCalculator.shared.inertiaFromGeometry(input: input) else { return [] }
@@ -1213,27 +1213,27 @@ struct VehicleDynamicsCalculatorView: View {
         let preset = VehicleDynamicsPreset.roller.values()
         let stage = VehicleDynamicsGearInput(secondaryPinion: sPin, secondaryGear: sGear)
         let input = VehicleDynamicsInput(
-            massKg: massKg,
+            massKg: kd(massKg),
             engineMode: .power,
-            powerPs: ps,
+            powerPs: kd(ps),
             torqueNm: nil,
-            engineRpm: rpm,
-            maxEngineRpm: max,
+            engineRpm: kd(rpm),
+            maxEngineRpm: kd(max),
             primaryPinion: pPin,
             primaryGear: pGear,
             stages: [stage],
-            wheelCircumferenceMm: wheel,
-            shiftRpm: shift,
-            drivetrainEfficiency: 0.9,
+            wheelCircumferenceMm: kd(wheel),
+            shiftRpm: kd(shift),
+            drivetrainEfficiency: kd(0.9),
             dragCoefficient: preset.dragCoefficient,
             frontalAreaM2: preset.frontalAreaM2,
             rollingResistance: preset.rollingResistance,
-            airDensityKgM3: 1.204,
+            airDensityKgM3: kd(1.204),
             massFactor: preset.massFactor,
-            gradientPercent: 0,
+            gradientPercent: kd(0),
             tractionLimitG: nil,
-            analysisSpeedKmh: analysis,
-            targetSpeedKmh: target,
+            analysisSpeedKmh: kd(analysis),
+            targetSpeedKmh: kd(target),
             selectedGearIndex: 0,
             rpmConstant: 16000
         )
