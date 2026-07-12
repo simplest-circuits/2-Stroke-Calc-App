@@ -603,7 +603,17 @@ fun iosCompressionCalculateTarget(
     boreMm: Double,
     strokeMm: Double,
     targetCompressionRatio: Double,
-    pistonConstantMl: Double?,
+) = CompressionCalculator.calculateTarget(
+    boreMm = boreMm,
+    strokeMm = strokeMm,
+    targetCompressionRatio = targetCompressionRatio,
+)
+
+fun iosCompressionCalculateTargetWithPistonConstant(
+    boreMm: Double,
+    strokeMm: Double,
+    targetCompressionRatio: Double,
+    pistonConstantMl: Double,
 ) = CompressionCalculator.calculateTarget(
     boreMm = boreMm,
     strokeMm = strokeMm,

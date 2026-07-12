@@ -379,13 +379,23 @@ struct CompressionCalculatorView: View {
             ]
 
         case .target:
-            guard let target = parseDouble(targetCompression),
-                  let result = IosKoinInitKt.iosCompressionCalculateTarget(
+            guard let target = parseDouble(targetCompression) else { return [] }
+            let result: CompressionTargetResult?
+            if let piston = parseDouble(pistonConstant) {
+                result = IosKoinInitKt.iosCompressionCalculateTargetWithPistonConstant(
                     boreMm: boreMm,
                     strokeMm: strokeMm,
                     targetCompressionRatio: target,
-                    pistonConstantMl: parseDouble(pistonConstant)
-                  ) else { return [] }
+                    pistonConstantMl: piston
+                )
+            } else {
+                result = IosKoinInitKt.iosCompressionCalculateTarget(
+                    boreMm: boreMm,
+                    strokeMm: strokeMm,
+                    targetCompressionRatio: target
+                )
+            }
+            guard let result else { return [] }
             var lines = [
                 "Brennraum gesamt: \(fmt(result.totalChamberVolumeMl, decimals: 2)) ml",
                 "Hubraum: \(fmt(result.displacementMl, decimals: 1)) ml",
@@ -817,7 +827,7 @@ private struct TransferPortAreaContent: View {
             strokeMm: strokeMm,
             widthMm: w,
             heightMm: h,
-            channelCount: Int(count),
+            channelCount: count,
             sideAngleDeg: angle,
             correctionFactor: 1.0,
             durationDeg: dur
