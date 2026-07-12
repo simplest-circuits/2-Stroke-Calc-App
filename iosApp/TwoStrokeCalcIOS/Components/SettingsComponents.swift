@@ -73,7 +73,7 @@ struct SelectionDialog<Item: Hashable & Identifiable>: View where Item: RawRepre
     var body: some View {
         NavigationStack {
             List {
-                ForEach(items, id: \.id) { item in
+                ForEach(items) { item in
                     Button {
                         selection = item
                         isPresented = false
