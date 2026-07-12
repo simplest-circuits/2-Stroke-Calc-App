@@ -49,10 +49,10 @@ class SharedAuthRepository(
             Firebase.auth.sendPasswordResetEmail(email.trim())
         }
 
-    suspend fun signInWithGoogleIdToken(idToken: String): Result<Unit> =
+    suspend fun signInWithGoogleIdToken(idToken: String, accessToken: String? = null): Result<Unit> =
         runCatching {
             Firebase.auth.signInWithCredential(
-                dev.gitlive.firebase.auth.GoogleAuthProvider.credential(idToken, null),
+                dev.gitlive.firebase.auth.GoogleAuthProvider.credential(idToken, accessToken),
             )
             val user = Firebase.auth.currentUser ?: error("No user after Google sign-in")
             onSignedIn(user)

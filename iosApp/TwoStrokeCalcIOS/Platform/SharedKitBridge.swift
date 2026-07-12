@@ -70,9 +70,9 @@ enum SharedKitBridge {
     }
 
     @MainActor
-    static func signInWithGoogle(idToken: String) async -> String? {
+    static func signInWithGoogle(idToken: String, accessToken: String?) async -> String? {
         initializeIfNeeded()
-        return try? await IosKoinInitKt.iosSignInWithGoogle(idToken: idToken)
+        return try? await IosKoinInitKt.iosSignInWithGoogle(idToken: idToken, accessToken: accessToken)
     }
 
     @MainActor

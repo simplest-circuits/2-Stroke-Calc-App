@@ -158,8 +158,8 @@ suspend fun iosRegister(email: String, password: String, displayName: String?): 
 suspend fun iosSendPasswordReset(email: String): String? =
     sharedAuthRepository().sendPasswordReset(email).exceptionOrNull()?.message
 
-suspend fun iosSignInWithGoogle(idToken: String): String? =
-    sharedAuthRepository().signInWithGoogleIdToken(idToken).exceptionOrNull()?.message
+suspend fun iosSignInWithGoogle(idToken: String, accessToken: String? = null): String? =
+    sharedAuthRepository().signInWithGoogleIdToken(idToken, accessToken).exceptionOrNull()?.message
 
 suspend fun iosSignOut() {
     sharedAuthRepository().signOut()

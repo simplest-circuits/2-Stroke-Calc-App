@@ -165,11 +165,11 @@ final class AppState: ObservableObject {
         await SharedKitBridge.sendPasswordReset(email: email)
     }
 
-    func signInWithGoogle(idToken: String) async {
+    func signInWithGoogle(idToken: String, accessToken: String?) async {
         authLoading = true
         authError = nil
         defer { authLoading = false }
-        if let error = await SharedKitBridge.signInWithGoogle(idToken: idToken) {
+        if let error = await SharedKitBridge.signInWithGoogle(idToken: idToken, accessToken: accessToken) {
             authError = error
             return
         }
