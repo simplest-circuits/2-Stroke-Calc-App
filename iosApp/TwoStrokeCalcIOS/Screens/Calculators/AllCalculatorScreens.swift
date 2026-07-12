@@ -380,11 +380,11 @@ struct CompressionCalculatorView: View {
 
         case .target:
             guard let target = parseDouble(targetCompression),
-                  let result = CompressionCalculator.shared.calculateTarget(
+                  let result = IosKoinInitKt.iosCompressionCalculateTarget(
                     boreMm: boreMm,
                     strokeMm: strokeMm,
                     targetCompressionRatio: target,
-                    pistonConstantMl: parseDouble(pistonConstant).map { toKotlinDouble($0) }
+                    pistonConstantMl: parseDouble(pistonConstant)
                   ) else { return [] }
             var lines = [
                 "Brennraum gesamt: \(fmt(result.totalChamberVolumeMl, decimals: 2)) ml",
@@ -679,17 +679,16 @@ struct ExhaustCalculatorView: View {
             k2: 2.25,
             hornCoefficient: 1.5
         )
-        let input = ExpansionChamberInput(
-            exhaustPortWidthMm: toKotlinDouble(width),
-            exhaustPortHeightMm: toKotlinDouble(height),
+        let input = IosKoinInitKt.iosExpansionChamberInput(
+            exhaustPortWidthMm: width,
+            exhaustPortHeightMm: height,
             exhaustPortDurationDeg: exhaustDeg,
             transferPortDurationDeg: transferDeg,
             rpm: rpmVal,
-            powerPs: toKotlinDouble(ps),
-            displacementCc: toKotlinDouble(cc),
+            powerPs: ps,
+            displacementCc: cc,
             diffuserStages: diffuserStages,
-            coefficients: coeffs,
-            optionalInputs: ExpansionChamberOptionalInputs()
+            coefficients: coeffs
         )
         guard let result = ExpansionChamberCalculator.shared.calculate(input: input) else { return [] }
 
@@ -752,17 +751,16 @@ struct ExhaustCalculatorView: View {
               let ps = parseDouble(powerPs),
               let cc = parseDouble(displacementCc) else { return nil }
 
-        return ExpansionChamberCalculator.shared.calculate(input: ExpansionChamberInput(
-            exhaustPortWidthMm: toKotlinDouble(width),
-            exhaustPortHeightMm: toKotlinDouble(height),
+        return ExpansionChamberCalculator.shared.calculate(input: IosKoinInitKt.iosExpansionChamberInput(
+            exhaustPortWidthMm: width,
+            exhaustPortHeightMm: height,
             exhaustPortDurationDeg: exhaustDeg,
             transferPortDurationDeg: transferDeg,
             rpm: rpmVal,
-            powerPs: toKotlinDouble(ps),
-            displacementCc: toKotlinDouble(cc),
+            powerPs: ps,
+            displacementCc: cc,
             diffuserStages: diffuserStages,
-            coefficients: ExpansionChamberCoefficients(k0: 0.70, k1: 1.125, k2: 2.25, hornCoefficient: 1.5),
-            optionalInputs: ExpansionChamberOptionalInputs()
+            coefficients: ExpansionChamberCoefficients(k0: 0.70, k1: 1.125, k2: 2.25, hornCoefficient: 1.5)
         ))
     }
 }
@@ -814,13 +812,13 @@ private struct TransferPortAreaContent: View {
               let dur = parseDouble(duration),
               let angle = parseDouble(sideAngle) else { return [] }
 
-        let input = TransferPortInput(
+        let input = IosKoinInitKt.iosTransferPortInput(
             boreMm: boreMm,
             strokeMm: strokeMm,
             widthMm: w,
             heightMm: h,
-            channelCount: count,
-            sideAngleDeg: toKotlinDouble(angle),
+            channelCount: Int(count),
+            sideAngleDeg: angle,
             correctionFactor: 1.0,
             durationDeg: dur
         )
@@ -1137,14 +1135,14 @@ struct FlywheelInertiaCalculatorView: View {
               let len = parseDouble(length),
               let roller = parseDouble(rollerRadius) else { return [] }
 
-        let input = FlywheelGeometryInput(
+        let input = IosKoinInitKt.iosFlywheelGeometryInput(
             cylinderType: inner > 0 ? .hollow : .solid,
             outerDiameterMm: outer,
             innerDiameterMm: inner,
             lengthMm: len,
             material: .steel,
             customDensityKgM3: 7850,
-            rollerRadiusMm: toKotlinDouble(roller),
+            rollerRadiusMm: roller,
             additionalInertiaKgm2: 0
         )
         guard let result = FlywheelInertiaCalculator.shared.inertiaFromGeometry(input: input) else { return [] }
@@ -1212,15 +1210,14 @@ struct VehicleDynamicsCalculatorView: View {
 
         let preset = VehicleDynamicsPreset.roller.values()
         let stage = VehicleDynamicsGearInput(secondaryPinion: sPin, secondaryGear: sGear)
-        let input = VehicleDynamicsInput(
-            massKg: toKotlinDouble(massKg),
+        let input = IosKoinInitKt.iosVehicleDynamicsInput(
+            massKg: massKg,
             engineMode: .power,
             powerPs: ps,
-            torqueNm: nil,
             engineRpm: rpm,
             maxEngineRpm: max,
-            primaryPinion: pPin,
-            primaryGear: pGear,
+            primaryPinion: Int(pPin),
+            primaryGear: Int(pGear),
             stages: [stage],
             wheelCircumferenceMm: wheel,
             shiftRpm: shift,
@@ -1231,7 +1228,6 @@ struct VehicleDynamicsCalculatorView: View {
             airDensityKgM3: 1.204,
             massFactor: preset.massFactor,
             gradientPercent: 0,
-            tractionLimitG: nil,
             analysisSpeedKmh: analysis,
             targetSpeedKmh: target,
             selectedGearIndex: 0,

@@ -1,12 +1,6 @@
 import Foundation
 import sharedKit
 
-func toKotlinDouble(_ value: Double) -> KotlinDouble { KotlinDouble(value: value) }
-
-func toKotlinDouble(_ value: Double?) -> KotlinDouble? {
-    value.map { KotlinDouble(value: $0) }
-}
-
 func toKotlinBoolean(_ value: Bool) -> KotlinBoolean { KotlinBoolean(value: value) }
 
 extension KotlinDouble {

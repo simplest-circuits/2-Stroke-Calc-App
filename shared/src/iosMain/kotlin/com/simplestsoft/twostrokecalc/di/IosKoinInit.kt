@@ -8,6 +8,17 @@ import com.simplestsoft.twostrokecalc.data.preferences.AppPreferencesStore
 import com.simplestsoft.twostrokecalc.data.vehicles.SharedVehicleCatalogRepository
 import com.simplestsoft.twostrokecalc.data.vehicles.SharedVehicleRepository
 import com.simplestsoft.twostrokecalc.domain.calculation.CleaningAgentCalculator
+import com.simplestsoft.twostrokecalc.domain.calculation.CompressionCalculator
+import com.simplestsoft.twostrokecalc.domain.calculation.ExpansionChamberCoefficients
+import com.simplestsoft.twostrokecalc.domain.calculation.ExpansionChamberDiffuserStages
+import com.simplestsoft.twostrokecalc.domain.calculation.ExpansionChamberInput
+import com.simplestsoft.twostrokecalc.domain.calculation.ExpansionChamberOptionalInputs
+import com.simplestsoft.twostrokecalc.domain.calculation.FlywheelCylinderType
+import com.simplestsoft.twostrokecalc.domain.calculation.FlywheelGeometryInput
+import com.simplestsoft.twostrokecalc.domain.calculation.FlywheelMaterial
+import com.simplestsoft.twostrokecalc.domain.calculation.VehicleDynamicsEngineMode
+import com.simplestsoft.twostrokecalc.domain.calculation.VehicleDynamicsGearInput
+import com.simplestsoft.twostrokecalc.domain.calculation.VehicleDynamicsInput
 import com.simplestsoft.twostrokecalc.domain.model.CalculatorId
 import com.simplestsoft.twostrokecalc.domain.model.FuelLogEntry
 import com.simplestsoft.twostrokecalc.domain.model.LanguageMode
@@ -21,6 +32,7 @@ import com.simplestsoft.twostrokecalc.domain.model.VehicleType
 import com.simplestsoft.twostrokecalc.domain.portarea.ExhaustPortInput
 import com.simplestsoft.twostrokecalc.domain.portarea.ExhaustPortShape
 import com.simplestsoft.twostrokecalc.domain.portarea.ExhaustPortType
+import com.simplestsoft.twostrokecalc.domain.portarea.TransferPortInput
 import com.simplestsoft.twostrokecalc.domain.model.remote.AccountApi
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminApi
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminPushNotificationRequest
@@ -474,4 +486,127 @@ fun iosSimpleExhaustPortInput(
     topSpanMm = topSpanMm,
     bridgeWidthMm = bridgeWidthMm,
     durationDeg = durationDeg,
+)
+
+fun iosExpansionChamberInput(
+    exhaustPortWidthMm: Double,
+    exhaustPortHeightMm: Double,
+    exhaustPortDurationDeg: Double,
+    transferPortDurationDeg: Double,
+    rpm: Double,
+    powerPs: Double,
+    displacementCc: Double,
+    diffuserStages: ExpansionChamberDiffuserStages,
+    coefficients: ExpansionChamberCoefficients,
+): ExpansionChamberInput = ExpansionChamberInput(
+    exhaustPortWidthMm = exhaustPortWidthMm,
+    exhaustPortHeightMm = exhaustPortHeightMm,
+    exhaustPortDurationDeg = exhaustPortDurationDeg,
+    transferPortDurationDeg = transferPortDurationDeg,
+    rpm = rpm,
+    powerPs = powerPs,
+    displacementCc = displacementCc,
+    diffuserStages = diffuserStages,
+    coefficients = coefficients,
+    optionalInputs = ExpansionChamberOptionalInputs(),
+)
+
+fun iosTransferPortInput(
+    boreMm: Double,
+    strokeMm: Double,
+    widthMm: Double,
+    heightMm: Double,
+    channelCount: Int,
+    sideAngleDeg: Double,
+    correctionFactor: Double,
+    durationDeg: Double,
+): TransferPortInput = TransferPortInput(
+    boreMm = boreMm,
+    strokeMm = strokeMm,
+    widthMm = widthMm,
+    heightMm = heightMm,
+    channelCount = channelCount,
+    sideAngleDeg = sideAngleDeg,
+    correctionFactor = correctionFactor,
+    durationDeg = durationDeg,
+)
+
+fun iosFlywheelGeometryInput(
+    cylinderType: FlywheelCylinderType,
+    outerDiameterMm: Double,
+    innerDiameterMm: Double,
+    lengthMm: Double,
+    material: FlywheelMaterial,
+    customDensityKgM3: Double,
+    rollerRadiusMm: Double,
+    additionalInertiaKgm2: Double,
+): FlywheelGeometryInput = FlywheelGeometryInput(
+    cylinderType = cylinderType,
+    outerDiameterMm = outerDiameterMm,
+    innerDiameterMm = innerDiameterMm,
+    lengthMm = lengthMm,
+    material = material,
+    customDensityKgM3 = customDensityKgM3,
+    rollerRadiusMm = rollerRadiusMm,
+    additionalInertiaKgm2 = additionalInertiaKgm2,
+)
+
+fun iosVehicleDynamicsInput(
+    massKg: Double,
+    engineMode: VehicleDynamicsEngineMode,
+    powerPs: Double,
+    engineRpm: Double,
+    maxEngineRpm: Double,
+    primaryPinion: Int,
+    primaryGear: Int,
+    stages: List<VehicleDynamicsGearInput>,
+    wheelCircumferenceMm: Double,
+    shiftRpm: Double,
+    drivetrainEfficiency: Double,
+    dragCoefficient: Double,
+    frontalAreaM2: Double,
+    rollingResistance: Double,
+    airDensityKgM3: Double,
+    massFactor: Double,
+    gradientPercent: Double,
+    analysisSpeedKmh: Double,
+    targetSpeedKmh: Double,
+    selectedGearIndex: Int,
+    rpmConstant: Double,
+): VehicleDynamicsInput = VehicleDynamicsInput(
+    massKg = massKg,
+    engineMode = engineMode,
+    powerPs = powerPs,
+    torqueNm = null,
+    engineRpm = engineRpm,
+    maxEngineRpm = maxEngineRpm,
+    primaryPinion = primaryPinion,
+    primaryGear = primaryGear,
+    stages = stages,
+    wheelCircumferenceMm = wheelCircumferenceMm,
+    shiftRpm = shiftRpm,
+    drivetrainEfficiency = drivetrainEfficiency,
+    dragCoefficient = dragCoefficient,
+    frontalAreaM2 = frontalAreaM2,
+    rollingResistance = rollingResistance,
+    airDensityKgM3 = airDensityKgM3,
+    massFactor = massFactor,
+    gradientPercent = gradientPercent,
+    tractionLimitG = null,
+    analysisSpeedKmh = analysisSpeedKmh,
+    targetSpeedKmh = targetSpeedKmh,
+    selectedGearIndex = selectedGearIndex,
+    rpmConstant = rpmConstant,
+)
+
+fun iosCompressionCalculateTarget(
+    boreMm: Double,
+    strokeMm: Double,
+    targetCompressionRatio: Double,
+    pistonConstantMl: Double?,
+) = CompressionCalculator.calculateTarget(
+    boreMm = boreMm,
+    strokeMm = strokeMm,
+    targetCompressionRatio = targetCompressionRatio,
+    pistonConstantMl = pistonConstantMl,
 )
