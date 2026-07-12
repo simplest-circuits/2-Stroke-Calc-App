@@ -847,7 +847,7 @@
     <string name="settings_imprint_title">imprimir</string>
     <string name="settings_imprint_subtitle">Identificação do fornecedor e detalhes de contato</string>
     <string name="settings_changelog_title">Histórico de versões</string>
-    <string name="settings_changelog_subtitle">O que há de novo na versão 1.2.5</string>
+    <string name="settings_changelog_subtitle">O que há de novo na versão 1.2.6</string>
     <string name="settings_changelog_show_older">Mostrar versões mais antigas (%1$d)</string>
     <string name="settings_changelog_show_less">Mostrar menos</string>
     <string name="settings_help_back">Voltar para configurações</string>
@@ -936,11 +936,12 @@
     <string name="settings_detail_imprint_responsible_title">Responsável pelo conteúdo</string>
     <string name="settings_detail_imprint_responsible_item_1">SimplestSoft (endereço mediante solicitação via support@simplestsoft.com)</string>
 
-    <string name="settings_detail_changelog_intro">Novo na versão 1.2.5 e visão geral de versões mais antigas.</string>
+    <string name="settings_detail_changelog_intro">Novo na versão 1.2.6 e visão geral de versões mais antigas.</string>
+    <string name="settings_changelog_v9_title">Versão 1.2.6</string>
+    <string name="settings_changelog_v9_item_1">Visualização horizontal em tela cheia estabilizada: sem mais congelamento ao girar nas calculadoras de transmissão e escape</string>
+    <string name="settings_changelog_v9_item_2">Diálogos em tela cheia otimizados: configuração de janela única em vez de reconfigurar a cada redesenho</string>
     <string name="settings_changelog_v8_title">Versão 1.2.5</string>
     <string name="settings_changelog_v8_item_1">Novos idiomas: espanhol, italiano e português disponíveis</string>
-    <string name="settings_changelog_v8_item_2">Veículos de demonstração controláveis centralmente com sincronização automática</string>
-    <string name="settings_changelog_v8_item_3">Verificação de compras Pro mais segura com proteção contra reutilização de tokens</string>
     <string name="settings_changelog_v8_item_4">Navegação de veículos estabilizada e diálogos melhorados em telas com recorte</string>
     <string name="settings_changelog_v7_title">Versão 1.2.4</string>
     <string name="settings_changelog_v7_item_1">Lançamento de aplicativo mais estável: borda a borda agora é inicializada antes da configuração da IU</string>
@@ -948,7 +949,7 @@
     <string name="settings_changelog_v7_item_3">Avatar do veículo otimizado: as imagens são carregadas de forma assíncrona e dimensionadas para economizar memória</string>
     <string name="settings_changelog_v7_item_4">Sobreposição de passo a passo reformulada: exibição de holofotes mais precisa e bloqueio de toque mais confiável</string>
     <string name="settings_changelog_v6_title">Versão 1.2.3</string>
-    <string name="settings_changelog_v6_item_1">Base de dados de veículos: mais de 300 modelos com pré-seleções técnicas na criação (marca, modelo, ano de fabricação, variante)</string>
+    <string name="settings_changelog_v6_item_1">Base de dados de veículos: 4000+ modelos com pré-seleções técnicas na criação (marca, modelo, ano de fabricação, variante)</string>
     <string name="settings_changelog_v6_item_2">Nova calculadora de dinâmica de condução: aceleração, força de tração, velocidade máxima, necessidade de potência e comparação de marchas</string>
     <string name="settings_changelog_v6_item_3">Nova calculadora de volante para rolos de bancada de teste com modos de geometria, massa e simulação</string>
     <string name="settings_changelog_v6_item_4">Seleção unificada: a partir de 3 opções, menus suspensos são usados ​​em vez de chips</string>

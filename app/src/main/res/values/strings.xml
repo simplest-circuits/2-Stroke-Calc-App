@@ -847,7 +847,7 @@
     <string name="settings_imprint_title">Impressum</string>
     <string name="settings_imprint_subtitle">Anbieterkennzeichnung und Kontaktdaten</string>
     <string name="settings_changelog_title">Versionshistorie</string>
-    <string name="settings_changelog_subtitle">Neuigkeiten in Version 1.2.5</string>
+    <string name="settings_changelog_subtitle">Neuigkeiten in Version 1.2.6</string>
     <string name="settings_changelog_show_older">Ältere Versionen anzeigen (%1$d)</string>
     <string name="settings_changelog_show_less">Weniger anzeigen</string>
     <string name="settings_help_back">Zurück zu Einstellungen</string>
@@ -936,11 +936,12 @@
     <string name="settings_detail_imprint_responsible_title">Verantwortlich für den Inhalt</string>
     <string name="settings_detail_imprint_responsible_item_1">SimplestSoft (Anschrift auf Anfrage über support@simplestsoft.com)</string>
 
-    <string name="settings_detail_changelog_intro">Neu in Version 1.2.5 und Übersicht älterer Versionen.</string>
+    <string name="settings_detail_changelog_intro">Neu in Version 1.2.6 und Übersicht älterer Versionen.</string>
+    <string name="settings_changelog_v9_title">Version 1.2.6</string>
+    <string name="settings_changelog_v9_item_1">Vollbild-Landschaftsansicht stabilisiert: Kein Einfrieren mehr beim Drehen im Getriebe- und Auspuff-Rechner</string>
+    <string name="settings_changelog_v9_item_2">Vollbild-Dialoge optimiert: Fensterkonfiguration einmalig statt bei jeder Neuzeichnung</string>
     <string name="settings_changelog_v8_title">Version 1.2.5</string>
     <string name="settings_changelog_v8_item_1">Neue Sprachen: Spanisch, Italienisch und Portugiesisch verfügbar</string>
-    <string name="settings_changelog_v8_item_2">Demo-Fahrzeuge zentral steuerbar – automatische Synchronisation bei Aktivierung und Deaktivierung</string>
-    <string name="settings_changelog_v8_item_3">Pro-Käufe sicherer verifiziert mit Schutz vor missbräuchlicher Token-Nutzung</string>
     <string name="settings_changelog_v8_item_4">Fahrzeug-Navigation stabilisiert und Dialoge auf Geräten mit Display-Ausschnitt verbessert</string>
     <string name="settings_changelog_v7_title">Version 1.2.4</string>
     <string name="settings_changelog_v7_item_1">Stabilerer App-Start: Edge-to-Edge wird jetzt vor dem UI-Setup initialisiert</string>
@@ -948,7 +949,7 @@
     <string name="settings_changelog_v7_item_3">Fahrzeug-Avatar optimiert: Bilder werden asynchron und speicherschonend skaliert geladen</string>
     <string name="settings_changelog_v7_item_4">Walkthrough-Overlay überarbeitet: präzisere Spotlight-Darstellung und zuverlässigere Touch-Blockierung</string>
     <string name="settings_changelog_v6_title">Version 1.2.3</string>
-    <string name="settings_changelog_v6_item_1">Fahrzeugdatenbank: über 300 Modelle mit technischen Vorauswahlen beim Anlegen (Marke, Modell, Baujahr, Variante)</string>
+    <string name="settings_changelog_v6_item_1">Fahrzeugdatenbank: 4000+ Modelle mit technischen Vorauswahlen beim Anlegen (Marke, Modell, Baujahr, Variante)</string>
     <string name="settings_changelog_v6_item_2">Neuer Fahrdynamik-Rechner: Beschleunigung, Zugkraft, Höchstgeschwindigkeit, Leistungsbedarf und Gangvergleich</string>
     <string name="settings_changelog_v6_item_3">Neuer Schwungrad-Rechner für Prüfstandswalzen mit Geometrie-, Massen- und Simulationsmodus</string>
     <string name="settings_changelog_v6_item_4">Vereinheitlichte Auswahl: ab 3 Optionen werden Dropdowns statt Chips verwendet</string>

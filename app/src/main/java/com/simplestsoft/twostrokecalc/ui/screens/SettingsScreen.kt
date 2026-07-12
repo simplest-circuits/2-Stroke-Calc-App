@@ -571,11 +571,16 @@ private fun helpTipEntries(): List<String> = listOf(
 @Composable
 private fun changelogSections(): List<SettingsInfoSectionText> = listOf(
     SettingsInfoSectionText(
+        title = stringResource(R.string.settings_changelog_v9_title),
+        points = listOf(
+            stringResource(R.string.settings_changelog_v9_item_1),
+            stringResource(R.string.settings_changelog_v9_item_2),
+        ),
+    ),
+    SettingsInfoSectionText(
         title = stringResource(R.string.settings_changelog_v8_title),
         points = listOf(
             stringResource(R.string.settings_changelog_v8_item_1),
-            stringResource(R.string.settings_changelog_v8_item_2),
-            stringResource(R.string.settings_changelog_v8_item_3),
             stringResource(R.string.settings_changelog_v8_item_4),
         ),
     ),

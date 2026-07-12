@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.window.DialogWindowProvider
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -15,7 +16,8 @@ fun ImmersiveSystemBarsEffect(enabled: Boolean) {
         if (!enabled) {
             return@DisposableEffect onDispose { }
         }
-        val window = (view.context as? Activity)?.window
+        val window = (view.parent as? DialogWindowProvider)?.window
+            ?: (view.context as? Activity)?.window
         if (window == null) {
             return@DisposableEffect onDispose { }
         }

@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -59,7 +56,6 @@ import com.simplestsoft.twostrokecalc.ui.exhaust.ExhaustPipeDisplayMode
 import com.simplestsoft.twostrokecalc.ui.exhaust.exhaustSegmentLabel
 import com.simplestsoft.twostrokecalc.ui.exhaust.formatExhaustDecimal
 import com.simplestsoft.twostrokecalc.ui.util.DialogFullscreenEffect
-import com.simplestsoft.twostrokecalc.ui.util.ImmersiveSystemBarsEffect
 import java.util.Locale
 
 @Composable
@@ -678,7 +674,6 @@ private fun ExhaustPipeLandscapeOverlay(
         ),
     ) {
         DialogFullscreenEffect()
-        ImmersiveSystemBarsEffect(enabled = true)
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = AppColors.background(),
@@ -686,7 +681,6 @@ private fun ExhaustPipeLandscapeOverlay(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.safeDrawing)
                     .padding(horizontal = 4.dp, vertical = 4.dp),
             ) {
             Row(

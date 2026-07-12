@@ -23,13 +23,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.ui.draw.clip
 import com.simplestsoft.twostrokecalc.ui.util.DialogFullscreenEffect
-import com.simplestsoft.twostrokecalc.ui.util.ImmersiveSystemBarsEffect
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -1042,7 +1038,6 @@ private fun GearChartLandscapeOverlay(
         ),
     ) {
         DialogFullscreenEffect()
-        ImmersiveSystemBarsEffect(enabled = true)
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = AppColors.background(),
@@ -1050,7 +1045,6 @@ private fun GearChartLandscapeOverlay(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .windowInsetsPadding(WindowInsets.safeDrawing)
                     .padding(horizontal = 4.dp, vertical = 4.dp),
             ) {
                 Row(

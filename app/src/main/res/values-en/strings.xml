@@ -847,7 +847,7 @@
     <string name="settings_imprint_title">Imprint</string>
     <string name="settings_imprint_subtitle">Provider information</string>
     <string name="settings_changelog_title">Changelog</string>
-    <string name="settings_changelog_subtitle">What\'s new in version 1.2.5</string>
+    <string name="settings_changelog_subtitle">What\'s new in version 1.2.6</string>
     <string name="settings_changelog_show_older">Show older versions (%1$d)</string>
     <string name="settings_changelog_show_less">Show less</string>
     <string name="settings_help_back">Back to settings</string>
@@ -936,11 +936,12 @@
     <string name="settings_detail_imprint_responsible_title">Responsible for content</string>
     <string name="settings_detail_imprint_responsible_item_1">SimplestSoft (address available on request via support@simplestsoft.com)</string>
 
-    <string name="settings_detail_changelog_intro">What\'s new in version 1.2.5 and overview of older versions.</string>
+    <string name="settings_detail_changelog_intro">What\'s new in version 1.2.6 and overview of older versions.</string>
+    <string name="settings_changelog_v9_title">Version 1.2.6</string>
+    <string name="settings_changelog_v9_item_1">Stabilized fullscreen landscape view: no more freeze when rotating in gear and exhaust calculators</string>
+    <string name="settings_changelog_v9_item_2">Optimized fullscreen dialogs: one-time window setup instead of reconfiguring on every redraw</string>
     <string name="settings_changelog_v8_title">Version 1.2.5</string>
     <string name="settings_changelog_v8_item_1">New languages: Spanish, Italian and Portuguese available</string>
-    <string name="settings_changelog_v8_item_2">Demo vehicles centrally configurable with automatic sync when enabled or disabled</string>
-    <string name="settings_changelog_v8_item_3">More secure Pro purchase verification with protection against token reuse</string>
     <string name="settings_changelog_v8_item_4">Stabilized vehicle navigation and improved dialogs on devices with display cutouts</string>
     <string name="settings_changelog_v7_title">Version 1.2.4</string>
     <string name="settings_changelog_v7_item_1">More stable app startup: edge-to-edge is now initialized before UI setup</string>
@@ -948,7 +949,7 @@
     <string name="settings_changelog_v7_item_3">Optimized vehicle avatar: images are loaded asynchronously with memory-friendly downsampling</string>
     <string name="settings_changelog_v7_item_4">Refined walkthrough overlay: more precise spotlight rendering and more reliable touch blocking</string>
     <string name="settings_changelog_v6_title">Version 1.2.3</string>
-    <string name="settings_changelog_v6_item_1">Vehicle database: over 300 models with technical presets when adding (brand, model, year, variant)</string>
+    <string name="settings_changelog_v6_item_1">Vehicle database: 4000+ models with technical presets when adding (brand, model, year, variant)</string>
     <string name="settings_changelog_v6_item_2">New vehicle dynamics calculator: acceleration, traction, top speed, power requirements and gear comparison</string>
     <string name="settings_changelog_v6_item_3">New flywheel inertia calculator for dyno rollers with geometry, mass and simulation modes</string>
     <string name="settings_changelog_v6_item_4">Unified selection: dropdowns instead of chips for 3 or more options</string>
