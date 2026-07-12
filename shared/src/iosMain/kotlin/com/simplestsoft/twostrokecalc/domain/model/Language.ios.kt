@@ -1,0 +1,16 @@
+package com.simplestsoft.twostrokecalc.domain.model
+
+import platform.Foundation.NSLocale
+import platform.Foundation.currentLocale
+import platform.Foundation.languageCode
+
+actual fun systemLanguage(): Language {
+    val code = NSLocale.currentLocale.languageCode?.lowercase() ?: return Language.ENGLISH
+    return when (code) {
+        "de" -> Language.GERMAN
+        "es" -> Language.SPANISH
+        "pt" -> Language.PORTUGUESE
+        "en" -> Language.ENGLISH
+        else -> Language.ENGLISH
+    }
+}

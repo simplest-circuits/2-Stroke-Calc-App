@@ -8,7 +8,7 @@ import kotlin.math.abs
 
 /**
  * Manual validation against literature / chart reference values.
- * Run with: ./gradlew :app:testDebugUnitTest --tests CarbJetCorrectionValidationTest
+ * Run with: ./gradlew :androidApp:testDebugUnitTest --tests CarbJetCorrectionValidationTest
  */
 class CarbJetCorrectionValidationTest {
 

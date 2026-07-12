@@ -253,46 +253,37 @@ private struct VehicleDraft {
     }
 
     func apply(to vehicle: Vehicle) -> Vehicle {
-        vehicle.copy(
+        IosKoinInitKt.iosApplyVehicleDraft(
+            vehicle: vehicle,
             name: name,
             brand: brand,
             model: model,
             licensePlate: licensePlate,
             year: year,
-            currentOdometerKm: odometer,
+            odometer: odometer,
             notes: notes,
-            engine: vehicle.engine.copy(
-                displacementCc: engineDisplacement,
-                boreMm: engineBore,
-                strokeMm: engineStroke,
-                compressionRatio: engineCompression,
-                exhaustSystem: engineExhaust,
-                engineNotes: engineNotes
-            ),
-            carbIgnition: vehicle.carbIgnition.copy(
-                carbType: carbType,
-                mainJet: mainJet,
-                fuelMixRatio: fuelMix,
-                sparkPlug: sparkPlug,
-                ignitionTimingDeg: ignitionTiming
-            ),
-            drivetrain: vehicle.drivetrain.copy(
-                driveType: driveType,
-                variatorBrand: variatorBrand,
-                variatorWeightsG: variatorWeights,
-                chainType: chainType
-            ),
-            chassis: vehicle.chassis.copy(
-                frontTire: frontTire,
-                rearTire: rearTire,
-                frontBrake: frontBrake,
-                rearBrake: rearBrake
-            ),
-            electrical: vehicle.electrical.copy(
-                battery: battery,
-                regulator: regulator,
-                ignitionCoil: ignitionCoil
-            )
+            engineDisplacement: engineDisplacement,
+            engineBore: engineBore,
+            engineStroke: engineStroke,
+            engineCompression: engineCompression,
+            engineExhaust: engineExhaust,
+            engineNotes: engineNotes,
+            carbType: carbType,
+            mainJet: mainJet,
+            fuelMix: fuelMix,
+            sparkPlug: sparkPlug,
+            ignitionTiming: ignitionTiming,
+            driveType: driveType,
+            variatorBrand: variatorBrand,
+            variatorWeights: variatorWeights,
+            chainType: chainType,
+            frontTire: frontTire,
+            rearTire: rearTire,
+            frontBrake: frontBrake,
+            rearBrake: rearBrake,
+            battery: battery,
+            regulator: regulator,
+            ignitionCoil: ignitionCoil
         )
     }
 }

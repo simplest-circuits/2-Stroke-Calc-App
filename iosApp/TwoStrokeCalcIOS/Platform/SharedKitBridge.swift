@@ -16,37 +16,37 @@ enum SharedKitBridge {
         initializeIfNeeded()
         CatalogBootstrap.loadIfNeeded()
         CatalogBootstrap.syncInBackground()
-        await loadPreferences(into: appState)
         IosKoinInitKt.iosSetAuthListener { snapshot in
             Task { @MainActor in
                 appState.applySession(snapshot)
             }
         }
-        let snapshot = await IosKoinInitKt.iosRefreshSession()
-        appState.applySession(snapshot)
+        if let snapshot = try? await IosKoinInitKt.iosRefreshSession() {
+            appState.applySession(snapshot)
+        }
         await refreshVehicles(into: appState)
     }
 
     @MainActor
     static func loadPreferences(into appState: AppState) async {
-        appState.welcomeCompleted = await IosKoinInitKt.iosLoadWelcomeCompleted()
-        appState.walkthroughCompleted = await IosKoinInitKt.iosLoadWalkthroughCompleted()
-        appState.notificationsEnabled = await IosKoinInitKt.iosLoadNotificationsEnabled()
-        appState.firstInstallPermissionsCompleted = await IosKoinInitKt.iosLoadFirstInstallPermissionsCompleted()
-        if let theme = ThemeMode(kotlinName: await IosKoinInitKt.iosLoadPreferencesTheme()) {
+        appState.welcomeCompleted = (try? await IosKoinInitKt.iosLoadWelcomeCompleted())?.boolValue ?? false
+        appState.walkthroughCompleted = (try? await IosKoinInitKt.iosLoadWalkthroughCompleted())?.boolValue ?? false
+        appState.notificationsEnabled = (try? await IosKoinInitKt.iosLoadNotificationsEnabled())?.boolValue ?? false
+        appState.firstInstallPermissionsCompleted = (try? await IosKoinInitKt.iosLoadFirstInstallPermissionsCompleted())?.boolValue ?? false
+        if let theme = ThemeMode(kotlinName: try? await IosKoinInitKt.iosLoadPreferencesTheme()) {
             appState.themeMode = theme
         }
-        if let language = LanguageMode(kotlinName: await IosKoinInitKt.iosLoadPreferencesLanguage()) {
+        if let language = LanguageMode(kotlinName: try? await IosKoinInitKt.iosLoadPreferencesLanguage()) {
             appState.languageMode = language
         }
-        if let nav = NavStyle(kotlinName: await IosKoinInitKt.iosLoadPreferencesNavStyle()) {
+        if let nav = NavStyle(kotlinName: try? await IosKoinInitKt.iosLoadPreferencesNavStyle()) {
             appState.navStyle = nav
         }
     }
 
     @MainActor
     static func refreshVehicles(into appState: AppState) async {
-        let vehicles = await IosKoinInitKt.iosRefreshVehicles()
+        guard let vehicles = try? await IosKoinInitKt.iosRefreshVehicles() else { return }
         appState.vehicles = vehicles.map(VehicleMapper.toItem)
         appState.sharedVehicles = vehicles
     }
@@ -54,43 +54,43 @@ enum SharedKitBridge {
     @MainActor
     static func signIn(email: String, password: String) async -> String? {
         initializeIfNeeded()
-        return await IosKoinInitKt.iosSignIn(email: email, password: password)
+        return try? await IosKoinInitKt.iosSignIn(email: email, password: password)
     }
 
     @MainActor
     static func register(email: String, password: String, displayName: String?) async -> String? {
         initializeIfNeeded()
-        return await IosKoinInitKt.iosRegister(email: email, password: password, displayName: displayName)
+        return try? await IosKoinInitKt.iosRegister(email: email, password: password, displayName: displayName)
     }
 
     @MainActor
     static func sendPasswordReset(email: String) async -> String? {
         initializeIfNeeded()
-        return await IosKoinInitKt.iosSendPasswordReset(email: email)
+        return try? await IosKoinInitKt.iosSendPasswordReset(email: email)
     }
 
     @MainActor
     static func signInWithGoogle(idToken: String) async -> String? {
         initializeIfNeeded()
-        return await IosKoinInitKt.iosSignInWithGoogle(idToken: idToken)
+        return try? await IosKoinInitKt.iosSignInWithGoogle(idToken: idToken)
     }
 
     @MainActor
     static func signOut() async {
         initializeIfNeeded()
-        await IosKoinInitKt.iosSignOut()
+        try? await IosKoinInitKt.iosSignOut()
     }
 
     @MainActor
     static func saveVehicle(_ vehicle: Vehicle) async {
         initializeIfNeeded()
-        await IosKoinInitKt.iosSaveVehicle(vehicle: vehicle)
+        try? await IosKoinInitKt.iosSaveVehicle(vehicle: vehicle)
     }
 
     @MainActor
     static func deleteVehicle(id: String) async {
         initializeIfNeeded()
-        await IosKoinInitKt.iosDeleteVehicle(vehicleId: id)
+        try? await IosKoinInitKt.iosDeleteVehicle(vehicleId: id)
     }
 
     @MainActor
@@ -100,7 +100,7 @@ enum SharedKitBridge {
             purchaseToken: token,
             productId: productId,
             packageName: "com.simplestsoft.twostrokecalc.ios"
-        )
+        ).boolValue
     }
 
     static func catalogBrands() -> [String] {
@@ -113,9 +113,9 @@ enum SharedKitBridge {
         return IosKoinInitKt.iosCatalogModels(brand: brand) as [String]
     }
 
-    static func catalogYears(brand: String, model: String) -> [Int32] {
+    static func catalogYears(brand: String, model: String) -> [Int] {
         initializeIfNeeded()
-        return IosKoinInitKt.iosCatalogYears(brand: brand, model: model) as [Int32]
+        return (IosKoinInitKt.iosCatalogYears(brand: brand, model: model) as [KotlinInt]).map(\.intValue)
     }
 
     static func catalogEntryCount() -> Int {
@@ -153,7 +153,8 @@ enum SharedKitBridge {
 }
 
 private extension ThemeMode {
-    init?(kotlinName: String) {
+    init?(kotlinName: String?) {
+        guard let kotlinName else { return nil }
         switch kotlinName {
         case "SYSTEM": self = .system
         case "LIGHT": self = .light
@@ -172,7 +173,8 @@ private extension ThemeMode {
 }
 
 private extension LanguageMode {
-    init?(kotlinName: String) {
+    init?(kotlinName: String?) {
+        guard let kotlinName else { return nil }
         switch kotlinName {
         case "SYSTEM": self = .system
         case "GERMAN": self = .german
@@ -191,7 +193,8 @@ private extension LanguageMode {
 }
 
 private extension NavStyle {
-    init?(kotlinName: String) {
+    init?(kotlinName: String?) {
+        guard let kotlinName else { return nil }
         switch kotlinName {
         case "BOTTOM_BAR": self = .bottomBar
         case "DRAWER": self = .drawer

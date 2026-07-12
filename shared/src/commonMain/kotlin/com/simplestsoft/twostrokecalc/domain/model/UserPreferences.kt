@@ -10,12 +10,16 @@ enum class LanguageMode {
     SYSTEM,
     GERMAN,
     ENGLISH,
+    SPANISH,
+    PORTUGUESE,
     ;
 
-    fun resolveLanguage(): String = when (this) {
-        GERMAN -> "de"
-        ENGLISH -> "en"
-        SYSTEM -> "de"
+    fun resolveLanguage(): Language = when (this) {
+        SYSTEM -> systemLanguage()
+        GERMAN -> Language.GERMAN
+        ENGLISH -> Language.ENGLISH
+        SPANISH -> Language.SPANISH
+        PORTUGUESE -> Language.PORTUGUESE
     }
 }
 
@@ -27,6 +31,7 @@ enum class NavStyle {
 data class UserPreferences(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val languageMode: LanguageMode = LanguageMode.SYSTEM,
+    val language: Language = LanguageMode.SYSTEM.resolveLanguage(),
     val navStyle: NavStyle = NavStyle.BOTTOM_BAR,
     val welcomeCompleted: Boolean = false,
     val walkthroughCompleted: Boolean = false,

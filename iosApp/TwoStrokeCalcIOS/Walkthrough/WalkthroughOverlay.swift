@@ -28,7 +28,7 @@ struct WalkthroughOverlay: View {
         }
         .coordinateSpace(name: WalkthroughCoordinateSpace.name)
         .onAppear { navigateForStep(step) }
-        .onChange(of: stepIndex) { new in navigateForStep(steps[new]) }
+        .onChange(of: stepIndex) { _, new in navigateForStep(steps[new]) }
     }
 
     private var card: some View {

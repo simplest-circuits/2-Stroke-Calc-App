@@ -131,9 +131,9 @@ struct VehicleFuelLogScreen: View {
         let entries = vehicle.fuelLog
         guard entries.count >= 2 else { return ["Mindestens 2 Einträge für Verbrauch"] }
         let sorted = entries.sorted { parseDouble($0.odometerKm) ?? 0 < parseDouble($1.odometerKm) ?? 0 }
-        guard let first = sorted.first, let last = sorted.last,
-              let km = (parseDouble(last.odometerKm) ?? 0) - (parseDouble(first.odometerKm) ?? 0),
-              km > 0 else { return [] }
+        guard let first = sorted.first, let last = sorted.last else { return [] }
+        let km = (parseDouble(last.odometerKm) ?? 0) - (parseDouble(first.odometerKm) ?? 0)
+        guard km > 0 else { return [] }
         let liters = sorted.dropFirst().compactMap { parseDouble($0.liters) }.reduce(0, +)
         let per100 = liters / km * 100
         return [String(format: "Ø Verbrauch: %.1f l/100 km", per100)]
@@ -148,8 +148,8 @@ struct VehicleFuelLogScreen: View {
             log.append(entry)
         }
         vehicle = IosKoinInitKt.iosUpdateFuelLog(vehicle: vehicle, entries: log)
-        if let odometer = parseDouble(entry.odometerKm), odometer > 0 {
-            vehicle = vehicle.copy(currentOdometerKm: entry.odometerKm)
+        if parseDouble(entry.odometerKm) != nil, !entry.odometerKm.isEmpty {
+            vehicle = IosKoinInitKt.iosVehicleWithOdometer(vehicle: vehicle, odometerKm: entry.odometerKm)
         }
         await appState.saveVehicle(vehicle)
     }
@@ -248,7 +248,7 @@ private struct FuelLogEntrySheet: View {
                 ToolbarItem(placement: .cancellationAction) { Button(S.cancel) { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(S.save) {
-                        onSave(FuelLogEntry(
+                        onSave(IosKoinInitKt.iosNewFuelLogEntry(
                             id: entry?.id ?? UUID().uuidString,
                             date: date,
                             odometerKm: odometer,
@@ -288,7 +288,7 @@ private struct MaintenanceEntrySheet: View {
                 ToolbarItem(placement: .cancellationAction) { Button(S.cancel) { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(S.save) {
-                        onSave(MaintenanceEntry(
+                        onSave(IosKoinInitKt.iosNewMaintenanceEntry(
                             date: date,
                             description: description,
                             cost: cost

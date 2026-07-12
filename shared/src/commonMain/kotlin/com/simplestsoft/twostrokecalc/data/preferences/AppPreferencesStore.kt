@@ -109,10 +109,13 @@ class AppPreferencesStore(
         settings[KEY_FIRST_INSTALL_PERMISSIONS] = completed
     }
 
-    fun readUserPreferences(): UserPreferences = UserPreferences(
-        themeMode = getThemeMode(),
-        languageMode = getLanguageMode(),
-        navStyle = getNavStyle(),
+    fun readUserPreferences(): UserPreferences {
+        val languageMode = getLanguageMode()
+        return UserPreferences(
+            themeMode = getThemeMode(),
+            languageMode = languageMode,
+            language = languageMode.resolveLanguage(),
+            navStyle = getNavStyle(),
         welcomeCompleted = getWelcomeCompleted(),
         walkthroughCompleted = getWalkthroughCompleted(),
         notificationsEnabled = getNotificationsEnabled(),
@@ -122,7 +125,8 @@ class AppPreferencesStore(
         isPro = getIsPro(),
         displayName = getDisplayName(),
         accountEmail = getAccountEmail(),
-    )
+        )
+    }
 
     fun clearUserScoped() {
         settings.remove(KEY_USER_ID)

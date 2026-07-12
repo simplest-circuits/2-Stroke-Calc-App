@@ -12,7 +12,7 @@ enum CatalogBootstrap {
 
     static func syncInBackground() {
         Task {
-            await IosKoinInitKt.iosEnsureCatalogSynced()
+            try? await IosKoinInitKt.iosEnsureCatalogSynced()
         }
     }
 }

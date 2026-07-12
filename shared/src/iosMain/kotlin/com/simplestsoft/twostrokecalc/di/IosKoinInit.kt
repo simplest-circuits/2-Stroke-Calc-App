@@ -16,6 +16,7 @@ import com.simplestsoft.twostrokecalc.domain.model.ProModuleId
 import com.simplestsoft.twostrokecalc.domain.model.ThemeMode
 import com.simplestsoft.twostrokecalc.domain.model.Vehicle
 import com.simplestsoft.twostrokecalc.domain.model.VehicleCatalogEntry
+import com.simplestsoft.twostrokecalc.domain.model.VehicleType
 import com.simplestsoft.twostrokecalc.domain.model.remote.AccountApi
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminApi
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminPushNotificationRequest
@@ -311,5 +312,134 @@ fun iosUpdateFuelLog(vehicle: Vehicle, entries: List<FuelLogEntry>): Vehicle =
 
 fun iosUpdateMaintenanceLog(vehicle: Vehicle, entries: List<MaintenanceEntry>): Vehicle =
     vehicle.copy(maintenanceLog = entries)
+
+fun iosNewVehicle(
+    id: String,
+    name: String,
+    brand: String,
+    model: String,
+    year: String,
+    licensePlate: String,
+    currentOdometerKm: String,
+    vehicleTypeName: String,
+): Vehicle {
+    val type = when (vehicleTypeName.uppercase()) {
+        "ROLLER" -> VehicleType.ROLLER
+        "MOKICK" -> VehicleType.MOKICK
+        "CROSS" -> VehicleType.CROSS
+        "FOUR_WHEEL" -> VehicleType.FOUR_WHEEL
+        else -> VehicleType.MOFA
+    }
+    return Vehicle(
+        id = id,
+        name = name,
+        brand = brand,
+        model = model,
+        year = year,
+        licensePlate = licensePlate,
+        currentOdometerKm = currentOdometerKm,
+        vehicleType = type,
+    )
+}
+
+fun iosNewFuelLogEntry(
+    id: String,
+    date: String,
+    odometerKm: String,
+    liters: String,
+    price: String,
+): FuelLogEntry = FuelLogEntry(
+    id = id,
+    date = date,
+    odometerKm = odometerKm,
+    liters = liters,
+    price = price,
+)
+
+fun iosNewMaintenanceEntry(
+    date: String,
+    description: String,
+    cost: String,
+): MaintenanceEntry = MaintenanceEntry(
+    date = date,
+    description = description,
+    cost = cost,
+)
+
+fun iosVehicleWithOdometer(vehicle: Vehicle, odometerKm: String): Vehicle =
+    vehicle.copy(currentOdometerKm = odometerKm)
+
+fun iosApplyVehicleDraft(
+    vehicle: Vehicle,
+    name: String,
+    brand: String,
+    model: String,
+    licensePlate: String,
+    year: String,
+    odometer: String,
+    notes: String,
+    engineDisplacement: String,
+    engineBore: String,
+    engineStroke: String,
+    engineCompression: String,
+    engineExhaust: String,
+    engineNotes: String,
+    carbType: String,
+    mainJet: String,
+    fuelMix: String,
+    sparkPlug: String,
+    ignitionTiming: String,
+    driveType: String,
+    variatorBrand: String,
+    variatorWeights: String,
+    chainType: String,
+    frontTire: String,
+    rearTire: String,
+    frontBrake: String,
+    rearBrake: String,
+    battery: String,
+    regulator: String,
+    ignitionCoil: String,
+): Vehicle = vehicle.copy(
+    name = name,
+    brand = brand,
+    model = model,
+    licensePlate = licensePlate,
+    year = year,
+    currentOdometerKm = odometer,
+    notes = notes,
+    engine = vehicle.engine.copy(
+        displacementCc = engineDisplacement,
+        boreMm = engineBore,
+        strokeMm = engineStroke,
+        compressionRatio = engineCompression,
+        exhaustSystem = engineExhaust,
+        engineNotes = engineNotes,
+    ),
+    carbIgnition = vehicle.carbIgnition.copy(
+        carbType = carbType,
+        mainJet = mainJet,
+        fuelMixRatio = fuelMix,
+        sparkPlug = sparkPlug,
+        ignitionTimingDeg = ignitionTiming,
+    ),
+    drivetrain = vehicle.drivetrain.copy(
+        driveType = driveType,
+        variatorBrand = variatorBrand,
+        variatorWeightsG = variatorWeights,
+        chainType = chainType,
+    ),
+    chassis = vehicle.chassis.copy(
+        frontTire = frontTire,
+        rearTire = rearTire,
+        frontBrake = frontBrake,
+        rearBrake = rearBrake,
+    ),
+    electrical = vehicle.electrical.copy(
+        battery = battery,
+        regulator = regulator,
+        ignitionCoil = ignitionCoil,
+    ),
+)
 
 fun iosProModuleNames(): List<String> = ProModuleId.entries.map { it.name }

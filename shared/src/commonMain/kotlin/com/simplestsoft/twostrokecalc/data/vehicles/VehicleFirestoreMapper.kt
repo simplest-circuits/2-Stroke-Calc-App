@@ -10,7 +10,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 
-internal object VehicleFirestoreMapper {
+object VehicleFirestoreMapper {
     private val json = Json {
         ignoreUnknownKeys = true
         encodeDefaults = true
