@@ -82,7 +82,7 @@ struct SelectionDialog<Item: Hashable & Identifiable>: View {
                             Text(label(item))
                             Spacer()
                             if item.id == selection.id {
-                                Image(systemName: "checkmark").foregroundStyle(.accent)
+                                Image(systemName: "checkmark").foregroundStyle(Color.accentColor)
                             }
                         }
                     }
