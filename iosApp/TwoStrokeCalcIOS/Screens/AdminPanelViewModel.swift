@@ -28,15 +28,18 @@ final class AdminPanelViewModel: ObservableObject {
     func load() async {
         loading = true
         error = nil
-        let snapshot = await IosKoinInitKt.iosAdminLoadState()
+        guard let snapshot = try? await IosKoinInitKt.iosAdminLoadState() else {
+            loading = false
+            return
+        }
         loading = snapshot.loading
         error = snapshot.error
         users = snapshot.users
         settings = snapshot.settings
         if let settings {
-            demoVehiclesEnabled = settings.demoVehiclesEnabled
-            calculatorToggles = settings.calculatorAvailability
-            proModuleToggles = settings.proModules
+            demoVehiclesEnabled = settings.demoVehiclesEnabled.asBool
+            calculatorToggles = settings.calculatorAvailability.asBoolDict
+            proModuleToggles = settings.proModules.asBoolDict
         } else {
             seedDefaultToggles()
         }
@@ -45,15 +48,15 @@ final class AdminPanelViewModel: ObservableObject {
 
     func saveSettings() async {
         let current = AdminSettingsDto(
-            maintenanceMode: settings?.maintenanceMode ?? false,
-            debugMode: settings?.debugMode ?? false,
-            emailNotifications: settings?.emailNotifications ?? false,
-            demoVehiclesEnabled: demoVehiclesEnabled,
-            calculatorAvailability: calculatorToggles,
-            proModules: proModuleToggles
+            maintenanceMode: settings?.maintenanceMode.asBool ?? false,
+            debugMode: settings?.debugMode.asBool ?? false,
+            emailNotifications: settings?.emailNotifications.asBool ?? false,
+            demoVehiclesEnabled: kb(demoVehiclesEnabled),
+            calculatorAvailability: calculatorToggles.asKotlinBoolDict,
+            proModules: proModuleToggles.asKotlinBoolDict
         )
         loading = true
-        if let err = await IosKoinInitKt.iosAdminSaveSettings(settings: current) {
+        if let err = try? await IosKoinInitKt.iosAdminSaveSettings(settings: current) {
             error = err
         } else {
             message = "Einstellungen gespeichert"
@@ -71,7 +74,7 @@ final class AdminPanelViewModel: ObservableObject {
     }
 
     func banUser(_ user: AdminUserDto, banned: Bool) async {
-        if let err = await IosKoinInitKt.iosAdminSetUserBanned(userId: user.id, banned: banned) {
+        if let err = try? await IosKoinInitKt.iosAdminSetUserBanned(userId: user.id, banned: banned) {
             error = err
         } else {
             await load()
@@ -79,7 +82,7 @@ final class AdminPanelViewModel: ObservableObject {
     }
 
     func setPro(_ user: AdminUserDto, isPro: Bool) async {
-        if let err = await IosKoinInitKt.iosAdminSetUserPro(userId: user.id, isPro: isPro) {
+        if let err = try? await IosKoinInitKt.iosAdminSetUserPro(userId: user.id, isPro: isPro) {
             error = err
         } else {
             await load()
@@ -88,7 +91,7 @@ final class AdminPanelViewModel: ObservableObject {
 
     func sendPush() async {
         loading = true
-        if let err = await IosKoinInitKt.iosAdminSendPush(title: pushTitle, body: pushBody) {
+        if let err = try? await IosKoinInitKt.iosAdminSendPush(title: pushTitle, body: pushBody) {
             error = err
         } else {
             message = "Push gesendet"
@@ -104,6 +107,15 @@ final class AdminPanelViewModel: ObservableObject {
         }
         for module in IosKoinInitKt.iosProModuleNames() as [String] {
             proModuleToggles[module] = true
+        }
+    }
+}
+
+private extension Optional where Wrapped == KotlinBoolean {
+    var asBool: Bool {
+        switch self {
+        case .some(let value): return value.asBool
+        case .none: return false
         }
     }
 }

@@ -8,6 +8,7 @@ struct WalkthroughStepModel {
 }
 
 enum WalkthroughBuilder {
+    @MainActor
     static func steps(for appState: AppState) -> [WalkthroughStepModel] {
         if appState.isPro || appState.isAdmin {
             return proSteps()

@@ -7,6 +7,7 @@ import com.simplestsoft.twostrokecalc.data.config.ProAccessRepository
 import com.simplestsoft.twostrokecalc.data.preferences.AppPreferencesStore
 import com.simplestsoft.twostrokecalc.data.vehicles.SharedVehicleCatalogRepository
 import com.simplestsoft.twostrokecalc.data.vehicles.SharedVehicleRepository
+import com.simplestsoft.twostrokecalc.domain.calculation.CleaningAgentCalculator
 import com.simplestsoft.twostrokecalc.domain.model.CalculatorId
 import com.simplestsoft.twostrokecalc.domain.model.FuelLogEntry
 import com.simplestsoft.twostrokecalc.domain.model.LanguageMode
@@ -17,6 +18,9 @@ import com.simplestsoft.twostrokecalc.domain.model.ThemeMode
 import com.simplestsoft.twostrokecalc.domain.model.Vehicle
 import com.simplestsoft.twostrokecalc.domain.model.VehicleCatalogEntry
 import com.simplestsoft.twostrokecalc.domain.model.VehicleType
+import com.simplestsoft.twostrokecalc.domain.portarea.ExhaustPortInput
+import com.simplestsoft.twostrokecalc.domain.portarea.ExhaustPortShape
+import com.simplestsoft.twostrokecalc.domain.portarea.ExhaustPortType
 import com.simplestsoft.twostrokecalc.domain.model.remote.AccountApi
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminApi
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminPushNotificationRequest
@@ -443,3 +447,31 @@ fun iosApplyVehicleDraft(
 )
 
 fun iosProModuleNames(): List<String> = ProModuleId.entries.map { it.name }
+
+fun iosCleaningAgentInput(totalLiters: Double, concentrationPercent: Double): CleaningAgentCalculator.Input =
+    CleaningAgentCalculator.Input(
+        totalLiters = totalLiters,
+        concentrationPercent = concentrationPercent,
+    )
+
+fun iosSimpleExhaustPortInput(
+    boreMm: Double,
+    strokeMm: Double,
+    type: ExhaustPortType,
+    shape: ExhaustPortShape,
+    portHeightMm: Double,
+    totalSpanMm: Double,
+    topSpanMm: Double,
+    bridgeWidthMm: Double,
+    durationDeg: Double,
+): ExhaustPortInput = ExhaustPortInput(
+    boreMm = boreMm,
+    strokeMm = strokeMm,
+    type = type,
+    shape = shape,
+    portHeightMm = portHeightMm,
+    totalSpanMm = totalSpanMm,
+    topSpanMm = topSpanMm,
+    bridgeWidthMm = bridgeWidthMm,
+    durationDeg = durationDeg,
+)

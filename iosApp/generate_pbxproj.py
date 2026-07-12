@@ -34,6 +34,7 @@ swift_files = [
     "TwoStrokeCalcIOS/Screens/Vehicles/VehicleMapper.swift",
     "TwoStrokeCalcIOS/Platform/FirebaseBootstrap.swift",
     "TwoStrokeCalcIOS/Platform/CatalogBootstrap.swift",
+    "TwoStrokeCalcIOS/Platform/KotlinInterop.swift",
     "TwoStrokeCalcIOS/Platform/SharedKitBridge.swift",
     "TwoStrokeCalcIOS/Platform/StoreKitService.swift",
     "TwoStrokeCalcIOS/Platform/GoogleSignInService.swift",
