@@ -21,7 +21,7 @@ class VariatorWeightCalculatorTest {
         val result = VariatorWeightCalculator.weightForRpmDeltaEmpirical(
             currentGrams = 8.0,
             rpmDelta = 500.0,
-            rollerType = VariatorWeightCalculator.RollerType.ROLLERS,
+            rollerType = VariatorWeightRollerType.ROLLERS,
         )
         assertEquals(7.09, result!!, 0.05)
     }
@@ -30,7 +30,7 @@ class VariatorWeightCalculatorTest {
     fun rpmDeltaForWeightChangeEmpirical_halfGramLighter_rollers() {
         val rpmDelta = VariatorWeightCalculator.rpmDeltaForWeightChangeEmpirical(
             weightDeltaGrams = -0.5,
-            rollerType = VariatorWeightCalculator.RollerType.ROLLERS,
+            rollerType = VariatorWeightRollerType.ROLLERS,
         )
         assertEquals(275.0, rpmDelta, 0.01)
     }
@@ -40,7 +40,7 @@ class VariatorWeightCalculatorTest {
         val result = VariatorWeightCalculator.weightForRpmDeltaEmpirical(
             currentGrams = 8.0,
             rpmDelta = 500.0,
-            rollerType = VariatorWeightCalculator.RollerType.SLIDERS,
+            rollerType = VariatorWeightRollerType.SLIDERS,
         )
         assertEquals(6.18, result!!, 0.05)
     }
@@ -51,7 +51,7 @@ class VariatorWeightCalculatorTest {
             currentGrams = 8.0,
             currentRpm = 7000.0,
             targetRpm = 7500.0,
-            rollerType = VariatorWeightCalculator.RollerType.ROLLERS,
+            rollerType = VariatorWeightRollerType.ROLLERS,
         )
         assertEquals(6.97, result!!.physicsWeightGrams, 0.05)
         assertEquals(7.09, result.empiricalWeightGrams, 0.05)
@@ -72,7 +72,7 @@ class VariatorWeightCalculatorTest {
             VariatorWeightCalculator.weightForRpmDeltaEmpirical(
                 currentGrams = 0.5,
                 rpmDelta = 2000.0,
-                rollerType = VariatorWeightCalculator.RollerType.ROLLERS,
+                rollerType = VariatorWeightRollerType.ROLLERS,
             ),
         )
         assertNull(

@@ -2,14 +2,12 @@ package com.simplestsoft.twostrokecalc.domain.calculation
 
 import kotlin.math.round
 
-enum VariatorWeightRollerType(val rpmPerGram: Double) {
+enum class VariatorWeightRollerType(val rpmPerGram: Double) {
     ROLLERS(550.0),
     SLIDERS(275.0),
 }
 
 object VariatorWeightCalculator {
-
-    typealias RollerType = VariatorWeightRollerType
 
     data class Result(
         val physicsWeightGrams: Double,
@@ -38,7 +36,7 @@ object VariatorWeightCalculator {
     fun weightForRpmDeltaEmpirical(
         currentGrams: Double,
         rpmDelta: Double,
-        rollerType: RollerType,
+        rollerType: VariatorWeightRollerType,
     ): Double? {
         if (currentGrams <= 0.0) return null
         val weightDelta = -rpmDelta / rollerType.rpmPerGram
@@ -59,14 +57,14 @@ object VariatorWeightCalculator {
 
     fun rpmDeltaForWeightChangeEmpirical(
         weightDeltaGrams: Double,
-        rollerType: RollerType,
+        rollerType: VariatorWeightRollerType,
     ): Double = -weightDeltaGrams * rollerType.rpmPerGram
 
     fun calculate(
         currentGrams: Double,
         currentRpm: Double,
         targetRpm: Double,
-        rollerType: RollerType,
+        rollerType: VariatorWeightRollerType,
     ): Result? {
         val physicsWeight = weightForTargetRpmPhysics(currentGrams, currentRpm, targetRpm) ?: return null
         val rpmDelta = rpmDeltaFromTarget(currentRpm, targetRpm) ?: return null
