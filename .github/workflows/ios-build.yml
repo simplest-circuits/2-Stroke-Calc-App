@@ -57,7 +57,7 @@ jobs:
 
       - name: Deploy to Appetize (browser simulator)
         if: vars.APPETIZE_ENABLED == 'true'
-        uses: appetizeio/github-action-appetize@v1
+        uses: appetizeio/github-action-appetize@v1.0.5
         with:
           apiToken: ${{ secrets.APPETIZE_API_TOKEN }}
           appFile: build/ios/TwoStrokeCalcIOS-simulator.zip
