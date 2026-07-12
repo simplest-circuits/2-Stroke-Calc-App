@@ -980,7 +980,7 @@ struct VariatorWeightCalculatorView: View {
     @State private var currentGrams = "6.0"
     @State private var currentRpm = "6500"
     @State private var targetRpm = "7000"
-    @State private var rollerType = VariatorWeightCalculatorRollerType.rollers
+    @State private var rollerType = VariatorWeightRollerType.rollers
 
     private var resultLines: [String] {
         guard let grams = parseDouble(currentGrams),
@@ -1010,8 +1010,8 @@ struct VariatorWeightCalculatorView: View {
 
             CalculatorSection(S.sectionInput) {
                 Picker("Typ", selection: $rollerType) {
-                    Text("Rollen").tag(VariatorWeightCalculatorRollerType.rollers)
-                    Text("Gleitstücke").tag(VariatorWeightCalculatorRollerType.sliders)
+                    Text("Rollen").tag(VariatorWeightRollerType.rollers)
+                    Text("Gleitstücke").tag(VariatorWeightRollerType.sliders)
                 }
                 .pickerStyle(.segmented)
                 .disabled(!editingEnabled)

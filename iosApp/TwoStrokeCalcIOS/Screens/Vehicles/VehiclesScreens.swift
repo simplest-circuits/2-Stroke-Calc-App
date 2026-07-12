@@ -300,7 +300,3 @@ private struct MaintenanceEntrySheet: View {
         }
     }
 }
-
-private func parseDouble(_ value: String) -> Double? {
-    Double(value.replacingOccurrences(of: ",", with: "."))
-}

@@ -17,6 +17,7 @@ swift_files = [
     "TwoStrokeCalcIOS/Navigation/RootView.swift",
     "TwoStrokeCalcIOS/Walkthrough/WalkthroughOverlay.swift",
     "TwoStrokeCalcIOS/Walkthrough/WalkthroughCoachmarks.swift",
+    "TwoStrokeCalcIOS/Walkthrough/WalkthroughBuilder.swift",
     "TwoStrokeCalcIOS/Screens/OnboardingScreens.swift",
     "TwoStrokeCalcIOS/Screens/SettingsScreens.swift",
     "TwoStrokeCalcIOS/Screens/SettingsContent.swift",

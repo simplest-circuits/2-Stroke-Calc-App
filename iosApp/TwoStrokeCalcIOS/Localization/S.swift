@@ -1,4 +1,5 @@
 import Foundation
+import sharedKit
 
 /// German UI strings aligned with Android `values/strings.xml`.
 enum S {

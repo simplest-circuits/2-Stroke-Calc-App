@@ -2,12 +2,14 @@ package com.simplestsoft.twostrokecalc.domain.calculation
 
 import kotlin.math.round
 
+enum VariatorWeightRollerType(val rpmPerGram: Double) {
+    ROLLERS(550.0),
+    SLIDERS(275.0),
+}
+
 object VariatorWeightCalculator {
 
-    enum class RollerType(val rpmPerGram: Double) {
-        ROLLERS(550.0),
-        SLIDERS(275.0),
-    }
+    typealias RollerType = VariatorWeightRollerType
 
     data class Result(
         val physicsWeightGrams: Double,
