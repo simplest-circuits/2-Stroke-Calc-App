@@ -14,12 +14,16 @@ Android-App (Kotlin + Jetpack Compose) für Berechnungen rund um 2-Takt-Motoren.
 - Hilt, DataStore, Navigation Compose
 - Min SDK 26, Target SDK 35
 
+## Struktur
+
+- **shared/** – Kotlin Multiplatform (gemeinsame Rechner-Logik und Backend)
+- **androidApp/** – Android-UI (Compose, Hilt, Firebase-Integration)
+- **iosApp/** – iOS-UI (SwiftUI, `sharedKit`-Framework) – Build nur auf macOS
+
 ## Build
 
-Projekt in Android Studio öffnen und synchronisieren, oder:
-
 ```bash
-./gradlew assembleDebug
+./gradlew :androidApp:assembleDebug
 ```
 
 ## Paket

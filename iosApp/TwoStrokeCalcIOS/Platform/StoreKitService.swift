@@ -1,0 +1,80 @@
+import Foundation
+import StoreKit
+
+@MainActor
+final class StoreKitService {
+    static let shared = StoreKitService()
+    static let proProductId = "pro_version"
+
+    private init() {}
+
+    func loadProducts(appState: AppState) async {
+        do {
+            let products = try await Product.products(for: [Self.proProductId])
+            appState.storeKitPrice = products.first?.displayPrice
+        } catch {
+            appState.billingError = error.localizedDescription
+        }
+    }
+
+    func purchasePro(appState: AppState) async throws -> Bool {
+        let products = try await Product.products(for: [Self.proProductId])
+        guard let product = products.first else {
+            throw StoreKitError.productUnavailable
+        }
+        let result = try await product.purchase()
+        switch result {
+        case .success(let verification):
+            let transaction = try checkVerified(verification)
+            let jws = verification.jwsRepresentation
+            let verified = await SharedKitBridge.verifyProPurchase(
+                token: jws,
+                productId: Self.proProductId
+            )
+            await transaction.finish()
+            return verified
+        case .userCancelled:
+            return false
+        case .pending:
+            return false
+        @unknown default:
+            return false
+        }
+    }
+
+    func restorePurchases(appState: AppState) async throws -> Bool {
+        var restored = false
+        for await result in Transaction.currentEntitlements {
+            let transaction = try checkVerified(result)
+            if transaction.productID == Self.proProductId {
+                let jws = result.jwsRepresentation
+                restored = await SharedKitBridge.verifyProPurchase(
+                    token: jws,
+                    productId: Self.proProductId
+                )
+            }
+        }
+        return restored
+    }
+
+    private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
+        switch result {
+        case .unverified:
+            throw StoreKitError.verificationFailed
+        case .verified(let safe):
+            return safe
+        }
+    }
+}
+
+enum StoreKitError: LocalizedError {
+    case productUnavailable
+    case verificationFailed
+
+    var errorDescription: String? {
+        switch self {
+        case .productUnavailable: return "Pro-Produkt nicht verfügbar."
+        case .verificationFailed: return "Kauf konnte nicht verifiziert werden."
+        }
+    }
+}

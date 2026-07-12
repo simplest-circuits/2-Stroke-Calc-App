@@ -5,6 +5,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
@@ -18,4 +19,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "2-Stroke Calc"
-include(":app")
+include(":shared")
+include(":androidApp")

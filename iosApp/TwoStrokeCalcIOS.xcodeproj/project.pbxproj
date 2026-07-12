@@ -1,0 +1,331 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		ABA667616DBD41CF97D83402 /* TwoStrokeCalcIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC27F22742F4BA895F1835D /* TwoStrokeCalcIOSApp.swift */; };
+		A2CDD31AA10142E6866C3B60 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F13719E533C4B5FAEB906B2 /* AppState.swift */; };
+		4078B67C2BBD484F815704F7 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50563E585DE49CDB8411049 /* AppTheme.swift */; };
+		E11256327779457DBAAD5440 /* S.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0310AF579E4CB4A0CF5886 /* S.swift */; };
+		145A1D0D5738450B91782520 /* CalculatorComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6353E33389348389D9C5EFB /* CalculatorComponents.swift */; };
+		A838548A10A44DF9A4272F82 /* SettingsComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826834021BC84B6692D60FCA /* SettingsComponents.swift */; };
+		0C04D08643EC429697295D2B /* PortTimingDiagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B779832554A0FAA5528B6 /* PortTimingDiagramView.swift */; };
+		67395773FEA744AB8D61F3A2 /* ExhaustPipeDiagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DCD13B3C904CFE8D9D493D /* ExhaustPipeDiagramView.swift */; };
+		3C906A98184940AA8A68EB92 /* ExhaustPortGeometryDiagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89CEE8390BE4897B133DF01 /* ExhaustPortGeometryDiagramView.swift */; };
+		61DA1E31F7CA4582A5288250 /* GearChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFF04A5982D4BAEBBA733E5 /* GearChartView.swift */; };
+		302EAD2862164EE293ACBDE9 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EF8DE7618E44CFA1EF85EA /* RootView.swift */; };
+		B9DEFE80E1AE43A999A08A66 /* WalkthroughOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977FBE37B2F54CF7BD5E6F98 /* WalkthroughOverlay.swift */; };
+		3DC88B6C4A2148C7927494FB /* WalkthroughCoachmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149F718436114C21BCD46673 /* WalkthroughCoachmarks.swift */; };
+		26EF2CF9C3AB40A4A0704635 /* OnboardingScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FEC8C140D647768AEEA4AC /* OnboardingScreens.swift */; };
+		644D30D50BA84163B0D8B3BB /* SettingsScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC67082EFB5B44A7B810D012 /* SettingsScreens.swift */; };
+		3A84A004AA154109812C35FF /* SettingsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D718AFCD848BFA6C57353 /* SettingsContent.swift */; };
+		AFE5CA66DAF04E79B0F9225C /* SettingsDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B422B68498419EB9ED4950 /* SettingsDetailViews.swift */; };
+		9CF8242C809A4FCDBE2C8EF7 /* AdminPanelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F3F79FBFB04CB18784C890 /* AdminPanelViewModel.swift */; };
+		2BE501F751C54B6CBB70093D /* AuthScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9AE42B1AE64954B91FF1CB /* AuthScreens.swift */; };
+		AD9CCE7E3F4947FD89A44C1C /* CalculatorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF9AF405477400BA8B70EB2 /* CalculatorScreen.swift */; };
+		6C56D3EA3FF0469493BC6344 /* CalculatorOverviewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313972D01945482BADB7263D /* CalculatorOverviewScreen.swift */; };
+		CC9E15FB2C6740B4B226A64B /* CalculatorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B313477E2B454A0681516C2E /* CalculatorDetailView.swift */; };
+		DFA7C9583AB2467C875925AB /* AllCalculatorScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3B0518B16944E7816DF626 /* AllCalculatorScreens.swift */; };
+		4E51C79FB6B6404BAB3644BD /* VehiclesScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234DC7AB946D4F07941C6D78 /* VehiclesScreens.swift */; };
+		C2014049926149D5BAED05B1 /* VehicleDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410FF8CA25BB411491555FC3 /* VehicleDetailScreen.swift */; };
+		E1E04FEBA9A74286A8F5DDF7 /* AddVehicleDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679145F873E740EFBDB9021F /* AddVehicleDialog.swift */; };
+		30A2A640E81C44F5B7167936 /* VehicleMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CC1D2AD68E40E58A108B66 /* VehicleMapper.swift */; };
+		6691FD85B98B43B883128261 /* FirebaseBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E52980326E4400BC92A525 /* FirebaseBootstrap.swift */; };
+		5F3902406E0743869724D3FD /* CatalogBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BC5BE1055459DBDBE62FD /* CatalogBootstrap.swift */; };
+		4B731FDD9FC64140879B3DEE /* SharedKitBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F65EB5C2BD4CBE9A2760B9 /* SharedKitBridge.swift */; };
+		BD455E422DBB49D69F4AD7C4 /* StoreKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1CC0826C994CB099FD6ED9 /* StoreKitService.swift */; };
+		AD74D4F3E00341D1A607FB6C /* GoogleSignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3D3063FE5D4CE1A7E0F28E /* GoogleSignInService.swift */; };
+		7C16D593A29A4C948EBD92E3 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9FB1F2CD4E45CF9DBD2CB6 /* NotificationService.swift */; };
+		BBCDCE03113A4572A3B68408 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA44974A9F4F475589E75AB3 /* ContentView.swift */; };
+		BB4318C2C89B43AFBAC846FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3ACBDAF162694DA6AEE990D3 /* GoogleService-Info.plist */; };
+		9264211EF8194A4CBED29CB7 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1E5C99C52F1F4221B9D3DD3E /* PrivacyInfo.xcprivacy */; };
+		9DFF6F2E618D45B9B39AFA75 /* vehicle_catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 26EFF7E1784743F2843DB42A /* vehicle_catalog.json */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A20000010000000000000010 /* TwoStrokeCalcIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwoStrokeCalcIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BC27F22742F4BA895F1835D /* TwoStrokeCalcIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoStrokeCalcIOSApp.swift; sourceTree = "<group>"; };
+		7F13719E533C4B5FAEB906B2 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		B50563E585DE49CDB8411049 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		7B0310AF579E4CB4A0CF5886 /* S.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S.swift; sourceTree = "<group>"; };
+		F6353E33389348389D9C5EFB /* CalculatorComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorComponents.swift; sourceTree = "<group>"; };
+		826834021BC84B6692D60FCA /* SettingsComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsComponents.swift; sourceTree = "<group>"; };
+		1F1B779832554A0FAA5528B6 /* PortTimingDiagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortTimingDiagramView.swift; sourceTree = "<group>"; };
+		21DCD13B3C904CFE8D9D493D /* ExhaustPipeDiagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhaustPipeDiagramView.swift; sourceTree = "<group>"; };
+		D89CEE8390BE4897B133DF01 /* ExhaustPortGeometryDiagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhaustPortGeometryDiagramView.swift; sourceTree = "<group>"; };
+		ADFF04A5982D4BAEBBA733E5 /* GearChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GearChartView.swift; sourceTree = "<group>"; };
+		45EF8DE7618E44CFA1EF85EA /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		977FBE37B2F54CF7BD5E6F98 /* WalkthroughOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughOverlay.swift; sourceTree = "<group>"; };
+		149F718436114C21BCD46673 /* WalkthroughCoachmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughCoachmarks.swift; sourceTree = "<group>"; };
+		B8FEC8C140D647768AEEA4AC /* OnboardingScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreens.swift; sourceTree = "<group>"; };
+		AC67082EFB5B44A7B810D012 /* SettingsScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreens.swift; sourceTree = "<group>"; };
+		0A0D718AFCD848BFA6C57353 /* SettingsContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsContent.swift; sourceTree = "<group>"; };
+		33B422B68498419EB9ED4950 /* SettingsDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDetailViews.swift; sourceTree = "<group>"; };
+		D1F3F79FBFB04CB18784C890 /* AdminPanelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminPanelViewModel.swift; sourceTree = "<group>"; };
+		5C9AE42B1AE64954B91FF1CB /* AuthScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreens.swift; sourceTree = "<group>"; };
+		CFF9AF405477400BA8B70EB2 /* CalculatorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorScreen.swift; sourceTree = "<group>"; };
+		313972D01945482BADB7263D /* CalculatorOverviewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorOverviewScreen.swift; sourceTree = "<group>"; };
+		B313477E2B454A0681516C2E /* CalculatorDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorDetailView.swift; sourceTree = "<group>"; };
+		8F3B0518B16944E7816DF626 /* AllCalculatorScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCalculatorScreens.swift; sourceTree = "<group>"; };
+		234DC7AB946D4F07941C6D78 /* VehiclesScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclesScreens.swift; sourceTree = "<group>"; };
+		410FF8CA25BB411491555FC3 /* VehicleDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailScreen.swift; sourceTree = "<group>"; };
+		679145F873E740EFBDB9021F /* AddVehicleDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVehicleDialog.swift; sourceTree = "<group>"; };
+		F2CC1D2AD68E40E58A108B66 /* VehicleMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleMapper.swift; sourceTree = "<group>"; };
+		94E52980326E4400BC92A525 /* FirebaseBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseBootstrap.swift; sourceTree = "<group>"; };
+		040BC5BE1055459DBDBE62FD /* CatalogBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogBootstrap.swift; sourceTree = "<group>"; };
+		D9F65EB5C2BD4CBE9A2760B9 /* SharedKitBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedKitBridge.swift; sourceTree = "<group>"; };
+		7D1CC0826C994CB099FD6ED9 /* StoreKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitService.swift; sourceTree = "<group>"; };
+		8F3D3063FE5D4CE1A7E0F28E /* GoogleSignInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInService.swift; sourceTree = "<group>"; };
+		1A9FB1F2CD4E45CF9DBD2CB6 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		DA44974A9F4F475589E75AB3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3ACBDAF162694DA6AEE990D3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = GoogleService-Info.plist; sourceTree = "<group>"; };
+		1E5C99C52F1F4221B9D3DD3E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		26EFF7E1784743F2843DB42A /* vehicle_catalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = vehicle_catalog.json; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A30000010000000000000001 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A40000010000000000000001 = {isa = PBXGroup; children = (A40000010000000000000002 /* TwoStrokeCalcIOS */, A40000010000000000000003 /* Products */); sourceTree = "<group>"; };
+		A40000010000000000000003 /* Products */ = {isa = PBXGroup; children = (A20000010000000000000010 /* TwoStrokeCalcIOS.app */); name = Products; sourceTree = "<group>"; };
+		A40000010000000000000002 /* TwoStrokeCalcIOS */ = {
+			isa = PBXGroup;
+			children = (
+				29B8E81901184F72A1772547 /* App */,
+				07783E7C43524D2D98B24490 /* Components */,
+				0F3F0129EA8B432AAF78ECF4 /* Localization */,
+				D301E31FA42C4AB1A982D6C7 /* Navigation */,
+				2E042D23ED774F6BBDBE6FC9 /* Platform */,
+				CCD68BCC2A104F5F837232E2 /* Resources */,
+				05E4CC0549064453B430D44E /* Screens */,
+				D74678211CFF415A8BC6F95C /* Theme */,
+				848A9CD2A8B74F85A76774ED /* UI */,
+				21F5ED538F974207BAAFFF70 /* Walkthrough */,
+			);
+			path = TwoStrokeCalcIOS;
+			sourceTree = "<group>";
+		};
+		29B8E81901184F72A1772547 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				7F13719E533C4B5FAEB906B2 /* AppState.swift */,
+				5BC27F22742F4BA895F1835D /* TwoStrokeCalcIOSApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		07783E7C43524D2D98B24490 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				F6353E33389348389D9C5EFB /* CalculatorComponents.swift */,
+				21DCD13B3C904CFE8D9D493D /* ExhaustPipeDiagramView.swift */,
+				D89CEE8390BE4897B133DF01 /* ExhaustPortGeometryDiagramView.swift */,
+				ADFF04A5982D4BAEBBA733E5 /* GearChartView.swift */,
+				1F1B779832554A0FAA5528B6 /* PortTimingDiagramView.swift */,
+				826834021BC84B6692D60FCA /* SettingsComponents.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		0F3F0129EA8B432AAF78ECF4 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				7B0310AF579E4CB4A0CF5886 /* S.swift */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		D301E31FA42C4AB1A982D6C7 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				45EF8DE7618E44CFA1EF85EA /* RootView.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		2E042D23ED774F6BBDBE6FC9 /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				040BC5BE1055459DBDBE62FD /* CatalogBootstrap.swift */,
+				94E52980326E4400BC92A525 /* FirebaseBootstrap.swift */,
+				8F3D3063FE5D4CE1A7E0F28E /* GoogleSignInService.swift */,
+				1A9FB1F2CD4E45CF9DBD2CB6 /* NotificationService.swift */,
+				D9F65EB5C2BD4CBE9A2760B9 /* SharedKitBridge.swift */,
+				7D1CC0826C994CB099FD6ED9 /* StoreKitService.swift */,
+			);
+			path = Platform;
+			sourceTree = "<group>";
+		};
+		CCD68BCC2A104F5F837232E2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3ACBDAF162694DA6AEE990D3 /* GoogleService-Info.plist */,
+				1E5C99C52F1F4221B9D3DD3E /* PrivacyInfo.xcprivacy */,
+				26EFF7E1784743F2843DB42A /* vehicle_catalog.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		05E4CC0549064453B430D44E /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				8842829827544F6A96E8FC5E /* Auth */,
+				EE07B89FED034150B130D4FA /* Calculators */,
+				072EE38B00394941883DF0C6 /* Vehicles */,
+				D1F3F79FBFB04CB18784C890 /* AdminPanelViewModel.swift */,
+				B8FEC8C140D647768AEEA4AC /* OnboardingScreens.swift */,
+				0A0D718AFCD848BFA6C57353 /* SettingsContent.swift */,
+				33B422B68498419EB9ED4950 /* SettingsDetailViews.swift */,
+				AC67082EFB5B44A7B810D012 /* SettingsScreens.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		D74678211CFF415A8BC6F95C /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				B50563E585DE49CDB8411049 /* AppTheme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		848A9CD2A8B74F85A76774ED /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				DA44974A9F4F475589E75AB3 /* ContentView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		21F5ED538F974207BAAFFF70 /* Walkthrough */ = {
+			isa = PBXGroup;
+			children = (
+				149F718436114C21BCD46673 /* WalkthroughCoachmarks.swift */,
+				977FBE37B2F54CF7BD5E6F98 /* WalkthroughOverlay.swift */,
+			);
+			path = Walkthrough;
+			sourceTree = "<group>";
+		};
+		8842829827544F6A96E8FC5E /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				5C9AE42B1AE64954B91FF1CB /* AuthScreens.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		EE07B89FED034150B130D4FA /* Calculators */ = {
+			isa = PBXGroup;
+			children = (
+				8F3B0518B16944E7816DF626 /* AllCalculatorScreens.swift */,
+				B313477E2B454A0681516C2E /* CalculatorDetailView.swift */,
+				313972D01945482BADB7263D /* CalculatorOverviewScreen.swift */,
+				CFF9AF405477400BA8B70EB2 /* CalculatorScreen.swift */,
+			);
+			path = Calculators;
+			sourceTree = "<group>";
+		};
+		072EE38B00394941883DF0C6 /* Vehicles */ = {
+			isa = PBXGroup;
+			children = (
+				679145F873E740EFBDB9021F /* AddVehicleDialog.swift */,
+				410FF8CA25BB411491555FC3 /* VehicleDetailScreen.swift */,
+				F2CC1D2AD68E40E58A108B66 /* VehicleMapper.swift */,
+				234DC7AB946D4F07941C6D78 /* VehiclesScreens.swift */,
+			);
+			path = Vehicles;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A50000010000000000000001 /* TwoStrokeCalcIOS */ = {isa = PBXNativeTarget; buildConfigurationList = A60000010000000000000003; buildPhases = (A50000010000000000000002 /* Compile Kotlin Framework */, A50000010000000000000003 /* Sources */, A30000010000000000000001 /* Frameworks */, A50000010000000000000004 /* Resources */); buildRules = (); dependencies = (); name = TwoStrokeCalcIOS; packageProductDependencies = (B90000010000000000000001, B90000010000000000000002, B90000010000000000000003, B90000010000000000000004, C90000010000000000000001); productName = TwoStrokeCalcIOS; productReference = A20000010000000000000010; productType = "com.apple.product-type.application"; };
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A70000010000000000000001 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1500; LastUpgradeCheck = 1500;}; buildConfigurationList = A60000010000000000000001; compatibilityVersion = "Xcode 14.0"; developmentRegion = de; hasScannedForEncodings = 0; knownRegions = (de, en, Base); mainGroup = A40000010000000000000001; packageReferences = (B80000010000000000000001 /* firebase */, C80000010000000000000001 /* GoogleSignIn */); productRefGroup = A40000010000000000000003; projectDirPath = ""; projectRoot = ""; targets = (A50000010000000000000001); };
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A50000010000000000000004 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (
+				BB4318C2C89B43AFBAC846FB /* GoogleService-Info.plist in Resources */,
+				9264211EF8194A4CBED29CB7 /* PrivacyInfo.xcprivacy in Resources */,
+				9DFF6F2E618D45B9B39AFA75 /* vehicle_catalog.json in Resources */,
+			); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A50000010000000000000002 /* Compile Kotlin Framework */ = {isa = PBXShellScriptBuildPhase; alwaysOutOfDate = 1; buildActionMask = 2147483647; files = (); inputPaths = (); outputPaths = (); name = "Compile Kotlin Framework"; runOnlyForDeploymentPostprocessing = 0; shellPath = /bin/sh; shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then exit 0; fi\ncd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n"; };
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A50000010000000000000003 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+				ABA667616DBD41CF97D83402 /* TwoStrokeCalcIOSApp.swift in Sources */,
+				A2CDD31AA10142E6866C3B60 /* AppState.swift in Sources */,
+				4078B67C2BBD484F815704F7 /* AppTheme.swift in Sources */,
+				E11256327779457DBAAD5440 /* S.swift in Sources */,
+				145A1D0D5738450B91782520 /* CalculatorComponents.swift in Sources */,
+				A838548A10A44DF9A4272F82 /* SettingsComponents.swift in Sources */,
+				0C04D08643EC429697295D2B /* PortTimingDiagramView.swift in Sources */,
+				67395773FEA744AB8D61F3A2 /* ExhaustPipeDiagramView.swift in Sources */,
+				3C906A98184940AA8A68EB92 /* ExhaustPortGeometryDiagramView.swift in Sources */,
+				61DA1E31F7CA4582A5288250 /* GearChartView.swift in Sources */,
+				302EAD2862164EE293ACBDE9 /* RootView.swift in Sources */,
+				B9DEFE80E1AE43A999A08A66 /* WalkthroughOverlay.swift in Sources */,
+				3DC88B6C4A2148C7927494FB /* WalkthroughCoachmarks.swift in Sources */,
+				26EF2CF9C3AB40A4A0704635 /* OnboardingScreens.swift in Sources */,
+				644D30D50BA84163B0D8B3BB /* SettingsScreens.swift in Sources */,
+				3A84A004AA154109812C35FF /* SettingsContent.swift in Sources */,
+				AFE5CA66DAF04E79B0F9225C /* SettingsDetailViews.swift in Sources */,
+				9CF8242C809A4FCDBE2C8EF7 /* AdminPanelViewModel.swift in Sources */,
+				2BE501F751C54B6CBB70093D /* AuthScreens.swift in Sources */,
+				AD9CCE7E3F4947FD89A44C1C /* CalculatorScreen.swift in Sources */,
+				6C56D3EA3FF0469493BC6344 /* CalculatorOverviewScreen.swift in Sources */,
+				CC9E15FB2C6740B4B226A64B /* CalculatorDetailView.swift in Sources */,
+				DFA7C9583AB2467C875925AB /* AllCalculatorScreens.swift in Sources */,
+				4E51C79FB6B6404BAB3644BD /* VehiclesScreens.swift in Sources */,
+				C2014049926149D5BAED05B1 /* VehicleDetailScreen.swift in Sources */,
+				E1E04FEBA9A74286A8F5DDF7 /* AddVehicleDialog.swift in Sources */,
+				30A2A640E81C44F5B7167936 /* VehicleMapper.swift in Sources */,
+				6691FD85B98B43B883128261 /* FirebaseBootstrap.swift in Sources */,
+				5F3902406E0743869724D3FD /* CatalogBootstrap.swift in Sources */,
+				4B731FDD9FC64140879B3DEE /* SharedKitBridge.swift in Sources */,
+				BD455E422DBB49D69F4AD7C4 /* StoreKitService.swift in Sources */,
+				AD74D4F3E00341D1A607FB6C /* GoogleSignInService.swift in Sources */,
+				7C16D593A29A4C948EBD92E3 /* NotificationService.swift in Sources */,
+				BBCDCE03113A4572A3B68408 /* ContentView.swift in Sources */,
+			); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A80000010000000000000001 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = ""; ENABLE_USER_SCRIPT_SANDBOXING = NO; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "2-Stroke Calc"; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_CFBundleURLTypes = ({CFBundleURLName = GoogleSignIn; CFBundleURLSchemes = ("com.googleusercontent.apps.944061414373-h2qmtb8j72m37sd14k2nbania9f0d34h");}); IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks"); MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.simplestsoft.twostrokecalc.ios; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2";}; name = Debug;};
+		A80000010000000000000002 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = ""; ENABLE_USER_SCRIPT_SANDBOXING = NO; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "2-Stroke Calc"; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_CFBundleURLTypes = ({CFBundleURLName = GoogleSignIn; CFBundleURLSchemes = ("com.googleusercontent.apps.944061414373-h2qmtb8j72m37sd14k2nbania9f0d34h");}); IPHONEOS_DEPLOYMENT_TARGET = 16.0; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks"); MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.simplestsoft.twostrokecalc.ios; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2";}; name = Release;};
+		A80000010000000000000003 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; DEVELOPMENT_TEAM = ""; ENABLE_USER_SCRIPT_SANDBOXING = NO; FRAMEWORK_SEARCH_PATHS = ("$(inherited)", "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)"); OTHER_LDFLAGS = ("$(inherited)", "-framework", sharedKit); SWIFT_VERSION = 5.0;}; name = Debug;};
+		A80000010000000000000004 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; DEVELOPMENT_TEAM = ""; ENABLE_USER_SCRIPT_SANDBOXING = NO; FRAMEWORK_SEARCH_PATHS = ("$(inherited)", "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)"); OTHER_LDFLAGS = ("$(inherited)", "-framework", sharedKit); SWIFT_VERSION = 5.0;}; name = Release;};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A60000010000000000000001 = {isa = XCConfigurationList; buildConfigurations = (A80000010000000000000001 /* Debug */, A80000010000000000000002 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		A60000010000000000000003 = {isa = XCConfigurationList; buildConfigurations = (A80000010000000000000003 /* Debug */, A80000010000000000000004 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B80000010000000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/firebase/firebase-ios-sdk"; requirement = {kind = upToNextMajorVersion; minimumVersion = 11.0.0;}; };
+		C80000010000000000000001 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/google/GoogleSignIn-iOS"; requirement = {kind = upToNextMajorVersion; minimumVersion = 8.0.0;}; };
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B90000010000000000000001 /* FirebaseCore */ = {isa = XCSwiftPackageProductDependency; package = B80000010000000000000001; productName = FirebaseCore; };
+		B90000010000000000000002 /* FirebaseAuth */ = {isa = XCSwiftPackageProductDependency; package = B80000010000000000000001; productName = FirebaseAuth; };
+		B90000010000000000000003 /* FirebaseFirestore */ = {isa = XCSwiftPackageProductDependency; package = B80000010000000000000001; productName = FirebaseFirestore; };
+		B90000010000000000000004 /* FirebaseStorage */ = {isa = XCSwiftPackageProductDependency; package = B80000010000000000000001; productName = FirebaseStorage; };
+		C90000010000000000000001 /* GoogleSignIn */ = {isa = XCSwiftPackageProductDependency; package = C80000010000000000000001; productName = GoogleSignIn; };
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A70000010000000000000001;
+}

@@ -1,0 +1,80 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [main, iOS/Android-compatibility]
+  pull_request:
+    branches: [main, iOS/Android-compatibility]
+  workflow_dispatch:
+
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ios-build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Build sharedKit framework for Simulator
+        run: |
+          ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
+          mkdir -p shared/build/xcode-frameworks/Debug/iphonesimulator
+          cp -R shared/build/bin/iosSimulatorArm64/debugFramework/sharedKit.framework \
+            shared/build/xcode-frameworks/Debug/iphonesimulator/
+
+      - name: Build iOS app (Simulator .app)
+        run: |
+          xcodebuild \
+            -project iosApp/TwoStrokeCalcIOS.xcodeproj \
+            -scheme TwoStrokeCalcIOS \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            -derivedDataPath build/ios/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Package Simulator app for upload
+        run: |
+          APP_PATH="build/ios/DerivedData/Build/Products/Debug-iphonesimulator/TwoStrokeCalcIOS.app"
+          test -d "$APP_PATH" || (echo "Missing $APP_PATH" && find build/ios -name '*.app' && exit 1)
+          cd "$(dirname "$APP_PATH")"
+          zip -r "$GITHUB_WORKSPACE/build/ios/TwoStrokeCalcIOS-simulator.zip" TwoStrokeCalcIOS.app
+
+      - name: Upload Simulator build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TwoStrokeCalcIOS-simulator
+          path: build/ios/TwoStrokeCalcIOS-simulator.zip
+          retention-days: 14
+
+      - name: Deploy to Appetize (browser simulator)
+        if: vars.APPETIZE_ENABLED == 'true'
+        uses: appetizeio/github-action-appetize@v1
+        with:
+          apiToken: ${{ secrets.APPETIZE_API_TOKEN }}
+          appFile: build/ios/TwoStrokeCalcIOS-simulator.zip
+          platform: ios
+          publicKey: ${{ vars.APPETIZE_PUBLIC_KEY }}
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## iOS Build"
+            echo ""
+            echo "- **Artifact:** \`TwoStrokeCalcIOS-simulator.zip\` (Simulator-.app, 14 Tage)"
+            echo "- **Browser-Test:** [IOS_TESTING_WITHOUT_MAC.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/iosApp/IOS_TESTING_WITHOUT_MAC.md)"
+            if [ "${{ vars.APPETIZE_ENABLED }}" = "true" ]; then
+              echo "- **Appetize:** Upload ausgeführt – Link im Schritt „Deploy to Appetize“ oder auf appetize.io"
+            else
+              echo "- **Appetize:** Repository-Variable \`APPETIZE_ENABLED=true\` + Secret \`APPETIZE_API_TOKEN\` setzen"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
