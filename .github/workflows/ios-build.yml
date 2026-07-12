@@ -31,12 +31,20 @@ jobs:
           cp -R shared/build/bin/iosSimulatorArm64/debugFramework/sharedKit.framework \
             shared/build/xcode-frameworks/Debug/iphonesimulator/
 
+      - name: Resolve Swift packages
+        run: |
+          xcodebuild \
+            -project iosApp/TwoStrokeCalcIOS.xcodeproj \
+            -scheme TwoStrokeCalcIOS \
+            -derivedDataPath build/ios/DerivedData \
+            -resolvePackageDependencies
+
       - name: Build iOS app (Simulator .app)
         run: |
           xcodebuild \
             -project iosApp/TwoStrokeCalcIOS.xcodeproj \
             -scheme TwoStrokeCalcIOS \
-            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
             -configuration Debug \
             -derivedDataPath build/ios/DerivedData \
             CODE_SIGNING_ALLOWED=NO \
