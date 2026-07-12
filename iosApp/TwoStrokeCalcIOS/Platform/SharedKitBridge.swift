@@ -96,11 +96,11 @@ enum SharedKitBridge {
     @MainActor
     static func verifyProPurchase(token: String, productId: String) async -> Bool {
         initializeIfNeeded()
-        return IosKoinInitKt.iosVerifyProPurchase(
+        return (try await IosKoinInitKt.iosVerifyProPurchase(
             purchaseToken: token,
             productId: productId,
             packageName: "com.simplestsoft.twostrokecalc.ios"
-        ).boolValue
+        )).boolValue
     }
 
     static func catalogBrands() -> [String] {

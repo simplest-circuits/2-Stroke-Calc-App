@@ -29,7 +29,7 @@ struct AddVehicleDialog: View {
 
     private var years: [Int] {
         guard !catalogBrand.isEmpty, !catalogModel.isEmpty else { return [] }
-        return SharedKitBridge.catalogYears(brand: catalogBrand, model: catalogModel).map(Int.init)
+        return SharedKitBridge.catalogYears(brand: catalogBrand, model: catalogModel)
     }
 
     private var variants: [VehicleCatalogEntry] {
