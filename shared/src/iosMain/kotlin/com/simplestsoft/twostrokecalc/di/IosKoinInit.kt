@@ -16,9 +16,6 @@ import com.simplestsoft.twostrokecalc.domain.calculation.ExpansionChamberOptiona
 import com.simplestsoft.twostrokecalc.domain.calculation.FlywheelCylinderType
 import com.simplestsoft.twostrokecalc.domain.calculation.FlywheelGeometryInput
 import com.simplestsoft.twostrokecalc.domain.calculation.FlywheelMaterial
-import com.simplestsoft.twostrokecalc.domain.calculation.VehicleDynamicsEngineMode
-import com.simplestsoft.twostrokecalc.domain.calculation.VehicleDynamicsGearInput
-import com.simplestsoft.twostrokecalc.domain.calculation.VehicleDynamicsInput
 import com.simplestsoft.twostrokecalc.domain.model.CalculatorId
 import com.simplestsoft.twostrokecalc.domain.model.FuelLogEntry
 import com.simplestsoft.twostrokecalc.domain.model.LanguageMode

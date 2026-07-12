@@ -1220,14 +1220,15 @@ struct VehicleDynamicsCalculatorView: View {
 
         let preset = VehicleDynamicsPreset.roller.values()
         let stage = VehicleDynamicsGearInput(secondaryPinion: sPin, secondaryGear: sGear)
-        let input = IosKoinInitKt.iosVehicleDynamicsInput(
+        let input = VehicleDynamicsInput(
             massKg: massKg,
             engineMode: .power,
-            powerPs: ps,
+            powerPs: KotlinDouble(value: ps),
+            torqueNm: nil,
             engineRpm: rpm,
             maxEngineRpm: max,
-            primaryPinion: Int(pPin),
-            primaryGear: Int(pGear),
+            primaryPinion: pPin,
+            primaryGear: pGear,
             stages: [stage],
             wheelCircumferenceMm: wheel,
             shiftRpm: shift,
@@ -1238,6 +1239,7 @@ struct VehicleDynamicsCalculatorView: View {
             airDensityKgM3: 1.204,
             massFactor: preset.massFactor,
             gradientPercent: 0,
+            tractionLimitG: nil,
             analysisSpeedKmh: analysis,
             targetSpeedKmh: target,
             selectedGearIndex: 0,
