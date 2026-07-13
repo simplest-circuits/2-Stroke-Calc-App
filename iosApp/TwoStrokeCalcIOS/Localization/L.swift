@@ -10,33 +10,29 @@ enum L {
     }
 
     static func tf(_ key: String, _ args: CVarArg...) -> String {
-        let template = t(key)
+        var template = t(key)
         guard !args.isEmpty else { return template }
-        let bridged = args.map { formatArgument($0) }
-        return String(format: template, locale: Locale.current, arguments: bridged)
+        // Android `%d`/`%s` are normalized to `%@`; avoid String(format:) with raw integers.
+        template = template.replacingOccurrences(of: "%%", with: "\u{0001}")
+        for arg in args {
+            guard let range = template.range(of: "%@") else { break }
+            template.replaceSubrange(range, with: stringValue(for: arg))
+        }
+        return template.replacingOccurrences(of: "\u{0001}", with: "%")
     }
 
-    /// Android `%d` placeholders are converted to `%@` for iOS; bridge numbers to NSNumber.
-    private static func formatArgument(_ value: CVarArg) -> CVarArg {
+    private static func stringValue(for value: CVarArg) -> String {
+        if let string = value as? String { return string }
+        if let number = value as? NSNumber { return number.stringValue }
         switch value {
-        case let string as String:
-            return string
-        case let number as NSNumber:
-            return number
-        case let int as Int:
-            return NSNumber(value: int)
-        case let int32 as Int32:
-            return NSNumber(value: int32)
-        case let int64 as Int64:
-            return NSNumber(value: int64)
-        case let uint as UInt:
-            return NSNumber(value: uint)
-        case let double as Double:
-            return NSNumber(value: double)
-        case let float as Float:
-            return NSNumber(value: float)
+        case let int as Int: return String(int)
+        case let int32 as Int32: return String(int32)
+        case let int64 as Int64: return String(int64)
+        case let uint as UInt: return String(uint)
+        case let double as Double: return String(double)
+        case let float as Float: return String(float)
         default:
-            return value
+            return String(describing: value)
         }
     }
 }
