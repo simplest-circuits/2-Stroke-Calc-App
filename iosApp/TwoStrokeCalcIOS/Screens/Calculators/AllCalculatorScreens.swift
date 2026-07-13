@@ -130,36 +130,49 @@ struct PortTimingCalculatorView: View {
 
 // MARK: - Ignition timing
 
+private enum IgnitionInputMode {
+    case degrees
+    case millimeters
+}
+
 struct IgnitionTimingCalculatorView: View {
     @Environment(\.calculatorEditingEnabled) private var editingEnabled
+    @Environment(\.themeColors) private var colors
 
-    @State private var stroke = "57"
-    @State private var connectingRod = "110"
-    @State private var degrees = "2.5"
-    @State private var millimeters = ""
+    @State private var strokeText = "57"
+    @State private var connectingRodText = "110"
+    @State private var inputMode: IgnitionInputMode = .degrees
+    @State private var inputText = ""
 
-    private var resultLines: [String] {
-        guard let strokeMm = parseDouble(stroke),
-              let rodMm = parseDouble(connectingRod) else { return [] }
+    private var stroke: Double? { parseDouble(strokeText) }
+    private var connectingRod: Double? { parseDouble(connectingRodText) }
+    private var inputValue: Double? { parseDouble(inputText) }
 
-        if let deg = parseDouble(degrees), !degrees.isEmpty {
-            if let mm = IgnitionTimingCalculator.shared.degreesBeforeTdcToMm(
-                strokeMm: strokeMm,
-                connectingRodMm: rodMm,
-                degreesBeforeTdc: deg
-            ) {
-                return ["Kolbenstand vor OT: \(fmt(mm, decimals: 2)) mm"]
-            }
-        } else if let mm = parseDouble(millimeters), !millimeters.isEmpty {
-            if let deg = IgnitionTimingCalculator.shared.mmBeforeTdcToDegrees(
-                strokeMm: strokeMm,
-                connectingRodMm: rodMm,
-                mmBeforeTdc: mm
-            ) {
-                return ["Zündzeitpunkt vor OT: \(fmt(deg, decimals: 2))°"]
-            }
+    private var geometryValid: Bool {
+        guard let stroke, let connectingRod else { return false }
+        return stroke > 0 && connectingRod > 0
+    }
+
+    private var useDegrees: Bool { inputMode == .degrees }
+
+    private var resultLine: String? {
+        guard geometryValid, let inputValue, let stroke, let connectingRod else { return nil }
+        switch inputMode {
+        case .degrees:
+            guard let millimeters = IgnitionTimingCalculator.shared.degreesBeforeTdcToMm(
+                strokeMm: stroke,
+                connectingRodMm: connectingRod,
+                degreesBeforeTdc: inputValue
+            ) else { return nil }
+            return "≙ \(formatIgnitionMillimeters(millimeters)) vor OT"
+        case .millimeters:
+            guard let degrees = IgnitionTimingCalculator.shared.mmBeforeTdcToDegrees(
+                strokeMm: stroke,
+                connectingRodMm: connectingRod,
+                mmBeforeTdc: inputValue
+            ) else { return nil }
+            return "≙ \(formatIgnitionDegrees(degrees)) vor OT"
         }
-        return []
     }
 
     var body: some View {
@@ -169,15 +182,63 @@ struct IgnitionTimingCalculatorView: View {
                 subtitle: "Zündzeitpunkt vor OT in Grad und Millimeter gegenseitig umrechnen."
             )
 
-            CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Hub", text: $stroke, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Pleuel", text: $connectingRod, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Zündzeitpunkt vor OT", text: $degrees, suffix: "°", enabled: editingEnabled)
-                DecimalField(label: "Kolbenstand vor OT", text: $millimeters, suffix: "mm", enabled: editingEnabled)
+            HStack(alignment: .top, spacing: 12) {
+                DecimalField(label: "Hub", text: $strokeText, suffix: "mm", enabled: editingEnabled)
+                DecimalField(label: "Pleuel", text: $connectingRodText, suffix: "mm", enabled: editingEnabled)
             }
 
-            ResultCard(title: S.resultTitle, lines: resultLines)
+            CalculatorBidirectionalField(
+                optionALabel: "Grad",
+                optionBLabel: "Millimeter",
+                useOptionA: useDegrees,
+                onUseOptionAChange: handleInputModeChange,
+                text: $inputText,
+                fieldLabelA: "Zündzeitpunkt vor OT",
+                fieldLabelB: "Kolbenstand vor OT",
+                suffixA: "° vOT",
+                suffixB: "mm",
+                enabled: editingEnabled
+            )
+
+            CalculatorSection(S.resultTitle) {
+                if let resultLine {
+                    PrimaryResultText(text: resultLine)
+                } else {
+                    Text("Werte eingeben…")
+                        .foregroundStyle(colors.onSurfaceVariant)
+                }
+            }
         }
+    }
+
+    private func handleInputModeChange(_ useDegreesMode: Bool) {
+        let newMode: IgnitionInputMode = useDegreesMode ? .degrees : .millimeters
+        guard newMode != inputMode else { return }
+
+        if geometryValid, let currentInput = inputValue {
+            switch (inputMode, newMode) {
+            case (.degrees, .millimeters):
+                if let converted = IgnitionTimingCalculator.shared.degreesBeforeTdcToMm(
+                    strokeMm: stroke!,
+                    connectingRodMm: connectingRod!,
+                    degreesBeforeTdc: currentInput
+                ) {
+                    inputText = fmt(converted, decimals: 2)
+                }
+            case (.millimeters, .degrees):
+                if let converted = IgnitionTimingCalculator.shared.mmBeforeTdcToDegrees(
+                    strokeMm: stroke!,
+                    connectingRodMm: connectingRod!,
+                    mmBeforeTdc: currentInput
+                ) {
+                    inputText = fmt(converted, decimals: 2)
+                }
+            default:
+                break
+            }
+        }
+
+        inputMode = newMode
     }
 }
 

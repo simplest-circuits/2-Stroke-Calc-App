@@ -102,6 +102,90 @@ struct DecimalField: View {
     }
 }
 
+struct CalculatorFilterChip: View {
+    @Environment(\.themeColors) private var colors
+    let label: String
+    let selected: Bool
+    var enabled: Bool = true
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(label)
+                .font(.subheadline.weight(.medium))
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(selected ? colors.primaryContainer : colors.surfaceVariant.opacity(0.45))
+                .foregroundStyle(selected ? colors.primary : colors.onSurface)
+                .clipShape(Capsule())
+        }
+        .buttonStyle(.plain)
+        .disabled(!enabled)
+    }
+}
+
+struct CalculatorInputModeSwitch: View {
+    let optionALabel: String
+    let optionBLabel: String
+    let useOptionA: Bool
+    var enabled: Bool = true
+    let onUseOptionAChange: (Bool) -> Void
+
+    var body: some View {
+        HStack(spacing: 8) {
+            CalculatorFilterChip(label: optionALabel, selected: useOptionA, enabled: enabled) {
+                onUseOptionAChange(true)
+            }
+            CalculatorFilterChip(label: optionBLabel, selected: !useOptionA, enabled: enabled) {
+                onUseOptionAChange(false)
+            }
+        }
+    }
+}
+
+struct CalculatorBidirectionalField: View {
+    let optionALabel: String
+    let optionBLabel: String
+    let useOptionA: Bool
+    let onUseOptionAChange: (Bool) -> Void
+    @Binding var text: String
+    let fieldLabelA: String
+    let fieldLabelB: String
+    let suffixA: String
+    let suffixB: String
+    var enabled: Bool = true
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            CalculatorInputModeSwitch(
+                optionALabel: optionALabel,
+                optionBLabel: optionBLabel,
+                useOptionA: useOptionA,
+                enabled: enabled,
+                onUseOptionAChange: onUseOptionAChange
+            )
+            DecimalField(
+                label: useOptionA ? fieldLabelA : fieldLabelB,
+                text: $text,
+                suffix: useOptionA ? suffixA : suffixB,
+                enabled: enabled
+            )
+        }
+    }
+}
+
+struct PrimaryResultText: View {
+    @Environment(\.themeColors) private var colors
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.title3.weight(.semibold))
+            .foregroundStyle(colors.primary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
 struct ResultCard: View {
     @Environment(\.themeColors) private var colors
     let title: String
@@ -195,4 +279,15 @@ func parseDouble(_ text: String) -> Double? {
 
 func fmt(_ value: Double, decimals: Int = 2) -> String {
     String(format: "%.\(decimals)f", value)
+}
+
+func formatIgnitionDegrees(_ value: Double, round: Bool = true) -> String {
+    if round {
+        return "\(Int(value.rounded()))°"
+    }
+    return String(format: "%.2f°", value)
+}
+
+func formatIgnitionMillimeters(_ value: Double) -> String {
+    String(format: "%.2f mm", value)
 }
