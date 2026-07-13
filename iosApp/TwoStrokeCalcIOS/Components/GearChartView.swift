@@ -160,7 +160,7 @@ struct GearChartLandscapeView: View {
     @Binding var chartStyleName: String
     @Binding var selectedShiftPointId: Int?
 
-    private var isMultiSpeed: Bool { result?.driveMode == .multiSpeed ?? false }
+    private var isMultiSpeed: Bool { result?.driveMode == GearDriveMode.multiSpeed }
 
     private var chartStyle: GearChartStyle {
         let requested = GearChartStyle(rawValue: chartStyleName) ?? .line
@@ -298,10 +298,14 @@ private struct GearChartModel {
         }
 
         let referenceRpms: [Double] = if isMultiSpeed {
-            result.stages.map { $0.referenceRpm.asDouble }
+            result.stages.map(\.referenceRpm)
         } else {
             result.fixedReferenceRpms.map(\.asDouble)
         }
+
+        let outputBuffer = sharedDouble(
+            GearCalculator.shared.chartSegmentOutputBuffer(outputType: result.outputType)
+        )
 
         let baseChartMaxRpm = niceChartMaximum(
             values: referenceRpms + [shiftRpm].compactMap { $0 },
@@ -316,7 +320,8 @@ private struct GearChartModel {
                     chartMaxRpm: baseChartMaxRpm,
                     outputType: result.outputType,
                     wheelCircumferenceMm: wheel,
-                    rpmConstant: gearRpmConstant
+                    rpmConstant: gearRpmConstant,
+                    outputBuffer: outputBuffer
                 )
             } else {
                 nil
@@ -325,7 +330,7 @@ private struct GearChartModel {
         let chartMaxRpm: Double = if let multiSpeedSegments {
             niceChartMaximum(
                 values: [baseChartMaxRpm] + multiSpeedSegments.flatMap { segment in
-                    [segment.startRpm, segment.endRpm, segment.coreEndRpm].map(\.asDouble)
+                    [segment.startRpm, segment.endRpm, segment.coreEndRpm]
                 },
                 step: 500
             )
@@ -334,15 +339,15 @@ private struct GearChartModel {
         }
 
         let segmentOutputs = multiSpeedSegments?.flatMap { segment in
-            [segment.startOutput.asDouble, segment.endOutput.asDouble]
+            [segment.startOutput, segment.endOutput]
         } ?? []
 
         let chartMaxOutput = niceChartMaximum(
-            values: result.stages.map { chartOutputValue(rpm: chartMaxRpm, ratio: $0.gearRatio.asDouble) }
+            values: result.stages.map { chartOutputValue(rpm: chartMaxRpm, ratio: $0.gearRatio) }
                 + result.stages.flatMap { stage -> [Double] in
                     let refs = stage.speedsAtReferenceRpmKmh.map(\.asDouble)
                     if isMultiSpeed {
-                        return refs + [stage.shiftSpeedKmh.asDouble]
+                        return refs + [stage.shiftSpeedKmh]
                     }
                     return refs
                 }
@@ -355,7 +360,7 @@ private struct GearChartModel {
                 GearShiftPoint(
                     stageNumber: Int(stage.stageNumber),
                     rpm: shiftRpm,
-                    speedKmh: stage.shiftSpeedKmh.asDouble,
+                    speedKmh: stage.shiftSpeedKmh,
                     speedJumpKmh: stage.speedJumpKmh?.asDouble,
                     rpmJump: stage.rpmJump?.asDouble,
                     color: gearColors[index % gearColors.count]
@@ -365,10 +370,6 @@ private struct GearChartModel {
             []
         }
 
-        let outputBuffer = sharedDouble(
-            GearCalculator.shared.chartSegmentOutputBuffer(outputType: result.outputType)
-        )
-
         var lineSegments: [GearLineSegment] = []
         var dashedTransitions: [GearDashedTransition] = []
 
@@ -377,18 +378,18 @@ private struct GearChartModel {
                 multiSpeedSegments
             } else {
                 result.stages.map { stage in
-                    let coreEndOutput = chartOutputValue(rpm: chartMaxRpm, ratio: stage.gearRatio.asDouble)
+                    let coreEndOutput = chartOutputValue(rpm: chartMaxRpm, ratio: stage.gearRatio)
                     let bufferedEndOutput = coreEndOutput + outputBuffer
                     let endRpm = sharedDouble(
                         GearCalculator.shared.engineRpmAtOutputValue(
                             outputValue: bufferedEndOutput,
-                            gearRatio: stage.gearRatio.asDouble,
+                            gearRatio: stage.gearRatio,
                             outputType: result.outputType,
                             wheelCircumferenceMm: wheel,
                             rpmConstant: gearRpmConstant
                         )
                     )
-                    return GearChartSegment(
+                    return GearCalculator.GearChartSegment(
                         startRpm: 0,
                         startOutput: 0,
                         endRpm: endRpm,
@@ -403,8 +404,8 @@ private struct GearChartModel {
 
             lineSegments = gearSegments.enumerated().map { index, segment in
                 GearLineSegment(
-                    xValues: [segment.startRpm.asDouble, segment.endRpm.asDouble],
-                    yValues: [segment.startOutput.asDouble, segment.endOutput.asDouble],
+                    xValues: [segment.startRpm, segment.endRpm],
+                    yValues: [segment.startOutput, segment.endOutput],
                     color: gearColors[index % gearColors.count]
                 )
             }
@@ -413,8 +414,8 @@ private struct GearChartModel {
                 dashedTransitions = gearSegments.dropFirst().enumerated().map { index, segment in
                     let previousStage = result.stages[index]
                     return GearDashedTransition(
-                        xValues: [shiftRpm, segment.coreStartRpm.asDouble],
-                        yValues: [previousStage.shiftSpeedKmh.asDouble, segment.coreStartOutput.asDouble],
+                        xValues: [shiftRpm, segment.coreStartRpm],
+                        yValues: [previousStage.shiftSpeedKmh, segment.coreStartOutput],
                         color: gearColors[(index + 1) % gearColors.count].opacity(0.45)
                     )
                 }
@@ -525,8 +526,7 @@ private struct GearChartAxesView: View {
                     ZStack {
                         GearChartCanvasView(
                             model: model,
-                            selectedShiftPointId: $selectedShiftPointId,
-                            hitRadius: hitRadius
+                            selectedShiftPointId: $selectedShiftPointId
                         )
                         .frame(width: chartWidth, height: chartHeight)
 
@@ -767,7 +767,7 @@ private struct GearChartCanvasView: View {
                     with: .color(model.gearColors[speedIndex % model.gearColors.count].opacity(0.85))
                 )
             }
-            let shiftHeight = CGFloat(stage.shiftSpeedKmh.asDouble / model.chartMaxOutput) * chartHeight
+            let shiftHeight = CGFloat(stage.shiftSpeedKmh / model.chartMaxOutput) * chartHeight
             let shiftRect = CGRect(
                 x: groupCenterX - barWidth * 0.45,
                 y: chartBottom - shiftHeight,
