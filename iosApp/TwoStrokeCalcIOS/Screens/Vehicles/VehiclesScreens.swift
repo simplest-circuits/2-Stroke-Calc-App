@@ -121,8 +121,17 @@ struct VehicleFuelLogScreen: View {
                 Text("\(entry.liters) l · \(entry.odometerKm) km").font(.caption).foregroundStyle(colors.onSurfaceVariant)
             }
             Spacer()
-            Button("Bearbeiten", action: onEdit).font(.caption)
-            Button("Löschen", role: .destructive, action: onDelete).font(.caption)
+            Button(action: onEdit) {
+                Image(systemName: "square.and.pencil")
+                    .foregroundStyle(colors.primary)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Bearbeiten")
+            Button(role: .destructive, action: onDelete) {
+                Image(systemName: "trash")
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(S.delete)
         }
         .padding(.vertical, 4)
     }

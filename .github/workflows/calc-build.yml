@@ -96,6 +96,7 @@ jobs:
             -configuration Debug \
             -derivedDataPath build/ios/DerivedData \
             CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_ENTITLEMENTS=TwoStrokeCalcIOS/Resources/TwoStrokeCalcIOS.entitlements \
             ARCHS=arm64 \
             EXCLUDED_ARCHS=x86_64 \
             ONLY_ACTIVE_ARCH=YES \

@@ -173,8 +173,14 @@ final class AppState: ObservableObject {
             authError = error
             return
         }
+        await completeSuccessfulAuth()
+    }
+
+    func completeSuccessfulAuth() async {
         await refreshSessionFromShared()
         await SharedKitBridge.refreshVehicles(into: self)
+        showAuthGate = false
+        pendingAuthRoute = nil
     }
 
     func signOut() async {

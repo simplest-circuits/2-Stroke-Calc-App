@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import FirebaseAuth
 
 #if canImport(GoogleSignIn)
 import GoogleSignIn
@@ -9,7 +10,7 @@ enum GoogleSignInService {
     @MainActor
     static func signIn(appState: AppState) async {
         #if canImport(GoogleSignIn)
-        FirebaseBootstrap.configureGoogleSignInIfNeeded()
+        FirebaseBootstrap.configureIfNeeded()
         guard GIDSignIn.sharedInstance.configuration != nil else {
             appState.authError = "Google CLIENT_ID nicht in GoogleService-Info.plist gefunden."
             return
@@ -18,6 +19,10 @@ enum GoogleSignInService {
             appState.authError = "Kein ViewController für Google Sign-In verfügbar."
             return
         }
+        appState.authLoading = true
+        appState.authError = nil
+        defer { appState.authLoading = false }
+
         do {
             let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: presenter)
             guard let idToken = result.user.idToken?.tokenString else {
@@ -25,16 +30,49 @@ enum GoogleSignInService {
                 return
             }
             let accessToken = result.user.accessToken.tokenString
-            await appState.signInWithGoogle(idToken: idToken, accessToken: accessToken)
+            try await signInToFirebase(idToken: idToken, accessToken: accessToken)
+            await appState.completeSuccessfulAuth()
         } catch {
             if (error as NSError).code == GIDSignInError.canceled.rawValue {
                 return
             }
-            appState.authError = error.localizedDescription
+            appState.authError = friendlyAuthErrorMessage(error)
         }
         #else
         appState.authError = "GoogleSignIn SDK nicht verlinkt. Bitte GoogleSignIn-iOS via SPM hinzufügen."
         #endif
+    }
+
+    @MainActor
+    private static func signInToFirebase(idToken: String, accessToken: String) async throws {
+        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+        do {
+            _ = try await Auth.auth().signIn(with: credential)
+        } catch {
+            if isKeychainError(error) {
+                FirebaseBootstrap.configureAuthKeychainAccessIfNeeded()
+                _ = try await Auth.auth().signIn(with: credential)
+            } else {
+                throw error
+            }
+        }
+    }
+
+    private static func isKeychainError(_ error: Error) -> Bool {
+        let nsError = error as NSError
+        if nsError.domain == AuthErrorDomain,
+           nsError.code == AuthErrorCode.keychainError.rawValue {
+            return true
+        }
+        let message = nsError.localizedDescription.lowercased()
+        return message.contains("keychain")
+    }
+
+    private static func friendlyAuthErrorMessage(_ error: Error) -> String {
+        if isKeychainError(error) {
+            return "Anmeldung fehlgeschlagen: Keychain-Zugriff nicht möglich. Bitte App neu starten oder auf einem echten Gerät testen."
+        }
+        return error.localizedDescription
     }
 
     @discardableResult
