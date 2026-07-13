@@ -35,7 +35,7 @@ internal fun MaintenanceEntryDialog(
                 ?: maintenanceTypes.first().name,
         )
     }
-    var description by rememberSaveable(entry.id) { mutableStateOf(entry.description) }
+    var description by rememberSaveable(entry.id) { mutableStateOf(entry.entryDescription) }
     var cost by rememberSaveable(entry.id) { mutableStateOf(entry.cost) }
     var parts by rememberSaveable(entry.id) { mutableStateOf(entry.partsUsed) }
     var workshop by rememberSaveable(entry.id) { mutableStateOf(entry.workshop) }
@@ -102,7 +102,7 @@ internal fun MaintenanceEntryDialog(
                             date = date,
                             odometerKm = odometer,
                             type = MaintenanceType.valueOf(type),
-                            description = description,
+                            entryDescription = description,
                             cost = cost,
                             partsUsed = parts,
                             workshop = workshop,

@@ -727,8 +727,8 @@ private fun MaintenanceEntryCard(
             MaintenanceInfoRow(stringResource(R.string.vehicles_maintenance_odometer), "${entry.odometerKm} km")
         }
         MaintenanceInfoRow(stringResource(R.string.vehicles_maintenance_type), maintenanceTypeLabel(entry.type))
-        if (entry.description.isNotBlank()) {
-            MaintenanceInfoRow(stringResource(R.string.vehicles_maintenance_description), entry.description)
+        if (entry.entryDescription.isNotBlank()) {
+            MaintenanceInfoRow(stringResource(R.string.vehicles_maintenance_description), entry.entryDescription)
         }
         if (entry.cost.isNotBlank()) {
             MaintenanceInfoRow(stringResource(R.string.vehicles_maintenance_cost), "${entry.cost} €")

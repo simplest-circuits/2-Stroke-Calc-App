@@ -290,7 +290,7 @@ struct MaintenanceEntrySheet: View {
                     Button(S.save) {
                         onSave(IosKoinInitKt.iosNewMaintenanceEntry(
                             date: date,
-                            description: description,
+                            entryDescription: description,
                             cost: cost
                         ))
                         dismiss()

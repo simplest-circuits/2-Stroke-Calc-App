@@ -371,11 +371,11 @@ fun iosNewFuelLogEntry(
 
 fun iosNewMaintenanceEntry(
     date: String,
-    description: String,
+    entryDescription: String,
     cost: String,
 ): MaintenanceEntry = MaintenanceEntry(
     date = date,
-    description = description,
+    entryDescription = entryDescription,
     cost = cost,
 )
 

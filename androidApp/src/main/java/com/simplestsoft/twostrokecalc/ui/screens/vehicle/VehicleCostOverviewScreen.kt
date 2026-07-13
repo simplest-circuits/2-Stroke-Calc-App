@@ -517,9 +517,9 @@ private fun CostEntryListRow(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
-            if (entry.description.isNotBlank()) {
+            if (entry.entryDescription.isNotBlank()) {
                 Text(
-                    text = entry.description,
+                    text = entry.entryDescription,
                     style = MaterialTheme.typography.bodySmall,
                     color = AppColors.textSecondary(),
                     maxLines = 1,
@@ -567,8 +567,8 @@ private fun MaintenanceCostEntryDetail(
             stringResource(R.string.vehicles_maintenance_type),
             maintenanceTypeLabel(entry.type),
         )
-        if (entry.description.isNotBlank()) {
-            CostInfoRow(stringResource(R.string.vehicles_maintenance_description), entry.description)
+        if (entry.entryDescription.isNotBlank()) {
+            CostInfoRow(stringResource(R.string.vehicles_maintenance_description), entry.entryDescription)
         }
         CostInfoRow(stringResource(R.string.vehicles_maintenance_cost), formatEuro(item.cost))
         if (entry.partsUsed.isNotBlank()) {

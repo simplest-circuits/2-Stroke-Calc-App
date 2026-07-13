@@ -122,7 +122,7 @@ object VehicleDemoDataFactory {
         date = date,
         odometerKm = odometerKm,
         type = type,
-        description = description,
+        entryDescription = description,
         cost = cost,
     )
 
