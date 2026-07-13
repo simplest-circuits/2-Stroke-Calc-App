@@ -39,11 +39,11 @@ struct FuelMixCalculatorView: View {
     }
 
     private var snappedFuelLiters: Double {
-        FuelMixCalculator.shared.snapFuelLiters(fuelLiters: Double(inputAmount)).asDouble
+        FuelMixCalculator.shared.snapFuelLiters(fuelLiters: Double(inputAmount))
     }
 
     private var snappedOilMl: Double {
-        FuelMixCalculator.shared.snapOilMl(oilMl: Double(inputAmount)).asDouble
+        FuelMixCalculator.shared.snapOilMl(oilMl: Double(inputAmount))
     }
 
     private var resultOilMl: Double? {
@@ -175,18 +175,14 @@ struct FuelMixCalculatorView: View {
                 fuelLiters: snappedFuelLiters,
                 ratioPartsFuel: ratio
             ) {
-                inputAmount = Float(
-                    FuelMixCalculator.shared.snapOilMl(oilMl: oil.asDouble).asDouble
-                )
+                inputAmount = Float(FuelMixCalculator.shared.snapOilMl(oilMl: oil))
             }
         case (.oil, .fuel):
             if let fuel = FuelMixCalculator.shared.fuelLitersFromOilMilliliters(
                 oilMilliliters: snappedOilMl,
                 ratioPartsFuel: ratio
             ) {
-                inputAmount = Float(
-                    FuelMixCalculator.shared.snapFuelLiters(fuelLiters: fuel.asDouble).asDouble
-                )
+                inputAmount = Float(FuelMixCalculator.shared.snapFuelLiters(fuelLiters: fuel))
             }
         default:
             break
@@ -217,14 +213,11 @@ struct FuelMixCalculatorView: View {
     }
 
     private func formatFuelLiters(_ value: Double) -> String {
-        fmt(
-            FuelMixCalculator.shared.snapFuelLiters(fuelLiters: value).asDouble,
-            decimals: 1
-        )
+        fmt(FuelMixCalculator.shared.snapFuelLiters(fuelLiters: value), decimals: 1)
     }
 
     private func formatOilMilliliters(_ value: Double) -> String {
-        let snapped = FuelMixCalculator.shared.snapOilMl(oilMl: value).asDouble
+        let snapped = FuelMixCalculator.shared.snapOilMl(oilMl: value)
         return snapped >= 100 ? fmt(snapped, decimals: 0) : fmt(snapped, decimals: 1)
     }
 }
