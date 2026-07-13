@@ -139,7 +139,7 @@ struct GearCalculatorView: View {
                             referenceRpm: fixedReferenceRpms[0]
                         ),
                     ],
-                    fixedReferenceRpms: fixedReferenceRpms
+                    fixedReferenceRpms: fixedReferenceRpms.map { KotlinDouble(value: $0) }
                 )
             )
         case .singleStage:
@@ -161,7 +161,7 @@ struct GearCalculatorView: View {
                             referenceRpm: fixedReferenceRpms[0]
                         ),
                     ],
-                    fixedReferenceRpms: fixedReferenceRpms
+                    fixedReferenceRpms: fixedReferenceRpms.map { KotlinDouble(value: $0) }
                 )
             )
         default:

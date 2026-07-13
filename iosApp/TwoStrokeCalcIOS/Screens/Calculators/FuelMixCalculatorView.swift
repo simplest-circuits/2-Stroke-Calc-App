@@ -39,11 +39,11 @@ struct FuelMixCalculatorView: View {
     }
 
     private var snappedFuelLiters: Double {
-        FuelMixCalculator.shared.snapFuelLiters(Double(inputAmount))
+        FuelMixCalculator.shared.snapFuelLiters(fuelLiters: Double(inputAmount)).asDouble
     }
 
     private var snappedOilMl: Double {
-        FuelMixCalculator.shared.snapOilMl(Double(inputAmount))
+        FuelMixCalculator.shared.snapOilMl(oilMl: Double(inputAmount)).asDouble
     }
 
     private var resultOilMl: Double? {
@@ -53,7 +53,7 @@ struct FuelMixCalculatorView: View {
             return FuelMixCalculator.shared.oilMillilitersFromFuelLiters(
                 fuelLiters: snappedFuelLiters,
                 ratioPartsFuel: ratio
-            )
+            )?.asDouble
         case .oil:
             return snappedOilMl
         }
@@ -66,7 +66,7 @@ struct FuelMixCalculatorView: View {
             return FuelMixCalculator.shared.fuelLitersFromOilMilliliters(
                 oilMilliliters: snappedOilMl,
                 ratioPartsFuel: ratio
-            )
+            )?.asDouble
         case .fuel:
             return snappedFuelLiters
         }
@@ -175,14 +175,18 @@ struct FuelMixCalculatorView: View {
                 fuelLiters: snappedFuelLiters,
                 ratioPartsFuel: ratio
             ) {
-                inputAmount = Float(FuelMixCalculator.shared.snapOilMl(oil))
+                inputAmount = Float(
+                    FuelMixCalculator.shared.snapOilMl(oilMl: oil.asDouble).asDouble
+                )
             }
         case (.oil, .fuel):
             if let fuel = FuelMixCalculator.shared.fuelLitersFromOilMilliliters(
                 oilMilliliters: snappedOilMl,
                 ratioPartsFuel: ratio
             ) {
-                inputAmount = Float(FuelMixCalculator.shared.snapFuelLiters(fuel))
+                inputAmount = Float(
+                    FuelMixCalculator.shared.snapFuelLiters(fuelLiters: fuel.asDouble).asDouble
+                )
             }
         default:
             break
@@ -213,11 +217,14 @@ struct FuelMixCalculatorView: View {
     }
 
     private func formatFuelLiters(_ value: Double) -> String {
-        fmt(FuelMixCalculator.shared.snapFuelLiters(value), decimals: 1)
+        fmt(
+            FuelMixCalculator.shared.snapFuelLiters(fuelLiters: value).asDouble,
+            decimals: 1
+        )
     }
 
     private func formatOilMilliliters(_ value: Double) -> String {
-        let snapped = FuelMixCalculator.shared.snapOilMl(value)
+        let snapped = FuelMixCalculator.shared.snapOilMl(oilMl: value).asDouble
         return snapped >= 100 ? fmt(snapped, decimals: 0) : fmt(snapped, decimals: 1)
     }
 }
@@ -230,39 +237,38 @@ private struct FuelMixResultCard: View {
 
     var body: some View {
         CalculatorResultCard("") {
-            guard let ratioPartsFuel else {
+            if let ratioPartsFuel {
+                Text(L.tf("fuel_mix_result_header", String(ratioPartsFuel)))
+                    .font(.headline)
+
+                switch inputMode {
+                case .fuel:
+                    if let oil = resultOilMl {
+                        PrimaryResultText(
+                            text: L.tf("fuel_mix_result_oil_amount", formatAmount(oil))
+                        )
+                        SecondaryResultText(
+                            text: L.tf(
+                                "fuel_mix_result_oil_fluid_ounces",
+                                formatAmount(oil / mlPerFluidOunce)
+                            )
+                        )
+                    }
+                case .oil:
+                    if let fuel = resultFuelL {
+                        PrimaryResultText(
+                            text: L.tf("fuel_mix_result_fuel_amount", formatAmount(fuel))
+                        )
+                        SecondaryResultText(
+                            text: L.tf(
+                                "fuel_mix_result_fuel_us_gallons",
+                                formatAmount(fuel / litersPerUsGallon)
+                            )
+                        )
+                    }
+                }
+            } else {
                 CalculatorEmptyResultText(text: L.t("fuel_mix_result_invalid_ratio"))
-                return
-            }
-
-            Text(L.tf("fuel_mix_result_header", String(ratioPartsFuel)))
-                .font(.headline)
-
-            switch inputMode {
-            case .fuel:
-                if let oil = resultOilMl {
-                    PrimaryResultText(
-                        text: L.tf("fuel_mix_result_oil_amount", formatAmount(oil))
-                    )
-                    SecondaryResultText(
-                        text: L.tf(
-                            "fuel_mix_result_oil_fluid_ounces",
-                            formatAmount(oil / mlPerFluidOunce)
-                        )
-                    )
-                }
-            case .oil:
-                if let fuel = resultFuelL {
-                    PrimaryResultText(
-                        text: L.tf("fuel_mix_result_fuel_amount", formatAmount(fuel))
-                    )
-                    SecondaryResultText(
-                        text: L.tf(
-                            "fuel_mix_result_fuel_us_gallons",
-                            formatAmount(fuel / litersPerUsGallon)
-                        )
-                    )
-                }
             }
         }
     }
