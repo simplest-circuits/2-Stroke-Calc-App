@@ -8,7 +8,7 @@ struct HelpFaqView: View {
         VStack(alignment: .leading, spacing: 16) {
             Text(SettingsContent.helpIntro)
                 .foregroundStyle(colors.onSurfaceVariant)
-            Text("FAQ").font(.headline)
+            Text(L.t("settings_detail_help_faq_title")).font(.headline)
             ForEach(SettingsContent.faqItems) { item in
                 DisclosureGroup(
                     isExpanded: Binding(
@@ -31,7 +31,7 @@ struct HelpFaqView: View {
                 .background(colors.surface)
                 .clipShape(RoundedRectangle(cornerRadius: AppTheme.containerCornerRadius))
             }
-            Text("Tipps").font(.headline).padding(.top, 8)
+            Text(L.t("settings_detail_help_tips_title")).font(.headline).padding(.top, 8)
             ForEach(SettingsContent.helpTips, id: \.self) { tip in
                 HStack(alignment: .top, spacing: 8) {
                     Text("•")
@@ -62,12 +62,12 @@ struct ChangelogView: View {
                 }
             }
             HStack {
-                Button("Zurück") { if pageIndex > 0 { pageIndex -= 1 } }
+                Button(L.t("walkthrough_back")) { if pageIndex > 0 { pageIndex -= 1 } }
                     .disabled(pageIndex == 0)
                 Spacer()
                 Text("\(pageIndex + 1) / \(sections.count)").font(.caption)
                 Spacer()
-                Button("Weiter") { if pageIndex < sections.count - 1 { pageIndex += 1 } }
+                Button(L.t("walkthrough_next")) { if pageIndex < sections.count - 1 { pageIndex += 1 } }
                     .disabled(pageIndex >= sections.count - 1)
             }
             .padding(.top, 8)
@@ -113,23 +113,23 @@ struct ContactFormView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(isBugReport ? SettingsContent.bugIntro : SettingsContent.contactIntro)
                 .foregroundStyle(colors.onSurfaceVariant)
-            AppOutlinedField(label: "Name", text: $name)
-            AppOutlinedField(label: "E-Mail", text: $email)
-            AppOutlinedField(label: "Nachricht", text: $message)
+            AppOutlinedField(label: L.t("settings_contact_name_label"), text: $name)
+            AppOutlinedField(label: L.t("email_label"), text: $email)
+            AppOutlinedField(label: L.t("settings_contact_message_label"), text: $message)
             if let validationError {
                 Text(validationError).foregroundStyle(colors.error).font(.footnote)
             }
-            PrimaryButton(title: "Senden") { sendMail() }
+            PrimaryButton(title: L.t("settings_contact_send")) { sendMail() }
         }
     }
 
     private func sendMail() {
         guard !message.trimmingCharacters(in: .whitespaces).isEmpty else {
-            validationError = "Bitte eine Nachricht eingeben."
+            validationError = L.t("settings_contact_message_required")
             return
         }
         validationError = nil
-        let subject = isBugReport ? "Bug-Report 2-Stroke Calc iOS" : "Kontakt 2-Stroke Calc iOS"
+        let subject = isBugReport ? L.t("settings_bug_report_email_subject") : L.t("settings_detail_contact_form_title")
         let body = """
         Name: \(name)
         E-Mail: \(email)

@@ -7,7 +7,7 @@ struct ExhaustPortGeometryDiagramView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Port-Geometrie")
+            Text(L.t("port_area_geometry_diagram_title"))
                 .font(.headline)
             Canvas { context, size in
                 let padding = size.width * 0.06
@@ -53,9 +53,9 @@ struct ExhaustPortGeometryDiagramView: View {
                     }
                 }
 
-                let otText = Text("OT").font(.caption2.bold())
+                let otText = Text(L.t("port_area_exhaust_diagram_ot")).font(.caption2.bold())
                 context.draw(otText, at: CGPoint(x: originX + contentWidth / 2, y: originY - topLabel / 2))
-                let utText = Text("UT").font(.caption2.bold())
+                let utText = Text(L.t("port_area_exhaust_diagram_ut")).font(.caption2.bold())
                 context.draw(utText, at: CGPoint(x: originX + contentWidth / 2, y: originY + contentHeight + bottomLabel / 2))
             }
             .frame(maxWidth: .infinity)

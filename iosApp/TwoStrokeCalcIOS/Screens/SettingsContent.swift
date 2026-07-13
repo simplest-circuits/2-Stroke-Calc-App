@@ -13,106 +13,132 @@ enum SettingsContent {
         let points: [String]
     }
 
-    static let helpIntro = "Hier findest du Antworten auf häufige Fragen und Tipps zur Nutzung von 2-Stroke Calc."
-    static let contactIntro = "Du erreichst uns per E-Mail. Wir melden uns so schnell wie möglich."
-    static let bugIntro = "Beschreibe den Fehler möglichst genau – Gerät, App-Version und Schritte zur Reproduktion helfen uns."
-    static let termsIntro = "Mit der Nutzung von 2-Stroke Calc akzeptierst du die folgenden Bedingungen."
-    static let privacyIntro = "Wir nehmen den Schutz deiner Daten ernst. Nachfolgend findest du eine Übersicht, welche Daten verarbeitet werden."
-    static let dataProcessingIntro = "Diese Übersicht beschreibt, welche personenbezogenen Daten verarbeitet werden und zu welchem Zweck."
-    static let imprintIntro = "Anbieterkennzeichnung gemäß § 5 TMG."
-    static let supportEmail = "support@simplestsoft.com"
+    static var helpIntro: String { L.t("settings_detail_help_intro") }
+    static var contactIntro: String { L.t("settings_detail_contact_intro") }
+    static var bugIntro: String { L.t("settings_bug_report_info") }
+    static var termsIntro: String { L.t("settings_detail_terms_intro") }
+    static var privacyIntro: String { L.t("settings_detail_privacy_intro") }
+    static var dataProcessingIntro: String { L.t("settings_detail_processing_intro") }
+    static var imprintIntro: String { L.t("settings_detail_imprint_intro") }
+    static var supportEmail: String { L.t("settings_contact_support_email") }
 
-    static let faqItems: [FaqItem] = [
-        FaqItem(question: "Was berechnet 2-Stroke Calc?", answer: "Die App bietet verschiedene Rechner für typische Berechnungen rund um 2-Takt-Motoren. Alle verfügbaren Module findest du in der Rechner-Übersicht."),
-        FaqItem(question: "Werden meine Eingaben gespeichert?", answer: "Rechner-Eingaben werden lokal verarbeitet und nicht dauerhaft gespeichert. Mit einem Konto werden Fahrzeugdaten in der Cloud synchronisiert."),
-        FaqItem(question: "Welche Maßeinheiten nutzt die App?", answer: "Die Rechner verwenden feste Einheiten je nach Berechnung – überwiegend metrisch (mm, ccm, °, km/h usw.)."),
-        FaqItem(question: "Wie wechsle ich das Menü-Layout?", answer: "Unter Einstellungen → Darstellung → Menütyp kannst du zwischen Bottom-Menü und Seitenpanel wechseln."),
-        FaqItem(question: "Was ist die Pro-Version?", answer: "Einige Module sind Teil der Pro-Version. Du kannst sie über den App Store kaufen oder per freigeschaltetem Konto nutzen."),
-        FaqItem(question: "Wofür brauche ich ein Konto?", answer: "Ein Konto ermöglicht Cloud-Synchronisation, Pro-Kauf und Profilverwaltung. Rechner kannst du auch ohne Konto nutzen."),
-        FaqItem(question: "Wofür sind Push-Benachrichtigungen?", answer: "Sie erinnern dich an fällige Wartungen, TÜV-Termine und ablaufende Versicherungen deiner Fahrzeuge."),
-    ]
+    static var faqItems: [FaqItem] {
+        [
+            FaqItem(question: L.t("settings_detail_help_faq_question_1"), answer: L.t("settings_detail_help_faq_answer_1")),
+            FaqItem(question: L.t("settings_detail_help_faq_question_2"), answer: L.t("settings_detail_help_faq_answer_2")),
+            FaqItem(question: L.t("settings_detail_help_faq_question_3"), answer: L.t("settings_detail_help_faq_answer_3")),
+            FaqItem(question: L.t("settings_detail_help_faq_question_4"), answer: L.t("settings_detail_help_faq_answer_4")),
+            FaqItem(question: L.t("settings_detail_help_faq_question_5"), answer: L.t("settings_detail_help_faq_answer_5")),
+            FaqItem(question: L.t("settings_detail_help_faq_question_6"), answer: L.t("settings_detail_help_faq_answer_6")),
+            FaqItem(question: L.t("settings_detail_help_faq_question_7"), answer: L.t("settings_detail_help_faq_answer_7")),
+        ]
+    }
 
-    static let helpTips: [String] = [
-        "Tippe auf einen Rechner in der Übersicht, um die Detailberechnung zu öffnen.",
-        "In den Einstellungen kannst du Design, Sprache und Menütyp anpassen.",
-        "Mit Pro kannst du Fahrzeuge anlegen, bearbeiten und in der Cloud synchronisieren.",
-        "Der Walkthrough in den Einstellungen führt dich durch die wichtigsten Funktionen.",
-    ]
+    static var helpTips: [String] {
+        [
+            L.t("settings_detail_help_tip_1"),
+            L.t("settings_detail_help_tip_2"),
+            L.t("settings_detail_help_tip_3"),
+            L.t("settings_detail_help_tip_4"),
+        ]
+    }
 
-    static let changelogSections: [InfoSection] = [
-        InfoSection(title: "Version 1.2.6", points: [
-            "Vollbild-Landschaftsansicht stabilisiert",
-            "Vollbild-Dialoge optimiert",
-        ]),
-        InfoSection(title: "Version 1.2.5", points: [
-            "Neue Sprachen: Spanisch, Italienisch und Portugiesisch",
-            "Fahrzeug-Navigation stabilisiert",
-        ]),
-        InfoSection(title: "Version 1.2.4", points: [
-            "Stabilerer App-Start",
-            "Walkthrough-Overlay überarbeitet",
-            "Fahrzeug-Avatar optimiert",
-        ]),
-        InfoSection(title: "Version 1.2.3", points: [
-            "Fahrzeugdatenbank mit 4000+ Modellen",
-            "Neuer Fahrdynamik-Rechner",
-            "Neuer Schwungrad-Rechner",
-        ]),
-        InfoSection(title: "Version 1.1.0", points: [
-            "Freemium-Modell mit Demo-Fahrzeug",
-            "Pro-Dialog und Walkthrough",
-        ]),
-        InfoSection(title: "Version 1.0.0", points: ["Erste Veröffentlichung"]),
-    ]
+    static var changelogSections: [InfoSection] {
+        [
+            InfoSection(title: L.t("settings_changelog_v10_title"), points: [
+                L.t("settings_changelog_v10_item_1"),
+            ]),
+            InfoSection(title: L.t("settings_changelog_v9_title"), points: [
+                L.t("settings_changelog_v9_item_1"),
+                L.t("settings_changelog_v9_item_2"),
+            ]),
+            InfoSection(title: L.t("settings_changelog_v8_title"), points: [
+                L.t("settings_changelog_v8_item_1"),
+                L.t("settings_changelog_v8_item_4"),
+            ]),
+            InfoSection(title: L.t("settings_changelog_v7_title"), points: [
+                L.t("settings_changelog_v7_item_1"),
+                L.t("settings_changelog_v7_item_3"),
+                L.t("settings_changelog_v7_item_4"),
+            ]),
+            InfoSection(title: L.t("settings_changelog_v6_title"), points: [
+                L.t("settings_changelog_v6_item_1"),
+                L.t("settings_changelog_v6_item_2"),
+                L.t("settings_changelog_v6_item_3"),
+            ]),
+            InfoSection(title: L.t("settings_changelog_v2_title"), points: [
+                L.t("settings_changelog_v2_item_1"),
+                L.t("settings_changelog_v2_item_2"),
+            ]),
+            InfoSection(title: L.t("settings_changelog_v1_title"), points: [L.t("settings_changelog_v1_item_1")]),
+        ]
+    }
 
-    static let termsSections: [InfoSection] = [
-        InfoSection(title: "Nutzung", points: [
-            "Die App dient als Hilfsmittel für technische Berechnungen. Ergebnisse ersetzen keine fachliche Prüfung.",
-            "Die Nutzung erfolgt auf eigene Verantwortung.",
-        ]),
-        InfoSection(title: "Pro-Version", points: [
-            "Der Kauf erfolgt über den App Store. Abwicklung richtet sich nach den Apple-Richtlinien.",
-            "Freigeschaltete Käufe bleiben mit deinem Apple-Konto verknüpft.",
-        ]),
-        InfoSection(title: "Konto", points: [
-            "Für Cloud-Synchronisation und Pro-Kauf ist ein Konto erforderlich.",
-            "Du kannst dein Konto jederzeit löschen.",
-        ]),
-    ]
+    static var termsSections: [InfoSection] {
+        [
+            InfoSection(title: L.t("settings_detail_terms_usage_title"), points: [
+                L.t("settings_detail_terms_usage_item_1"),
+                L.t("settings_detail_terms_usage_item_2"),
+            ]),
+            InfoSection(title: L.t("settings_pro_section"), points: [
+                L.t("settings_detail_terms_pro_item_1"),
+                L.t("settings_detail_terms_pro_item_2"),
+            ]),
+            InfoSection(title: L.t("nav_account"), points: [
+                L.t("settings_detail_terms_account_item_1"),
+                L.t("settings_detail_terms_account_item_2"),
+            ]),
+        ]
+    }
 
-    static let privacySections: [InfoSection] = [
-        InfoSection(title: "Lokale Daten", points: [
-            "Rechner-Eingaben werden auf dem Gerät verarbeitet.",
-            "App-Einstellungen werden lokal gespeichert.",
-        ]),
-        InfoSection(title: "Cloud-Daten", points: [
-            "Mit Konto werden Fahrzeugdaten über Firebase synchronisiert.",
-            "Dazu gehören Stammdaten, Wartung und Tankbuch.",
-        ]),
-        InfoSection(title: "Käufe", points: [
-            "Pro-Käufe werden über den App Store abgewickelt.",
-        ]),
-        InfoSection(title: "Benachrichtigungen", points: [
-            "Wartungserinnerungen werden lokal auf dem Gerät geplant.",
-        ]),
-    ]
+    static var privacySections: [InfoSection] {
+        [
+            InfoSection(title: L.t("settings_detail_privacy_local_title"), points: [
+                L.t("settings_detail_privacy_local_item_1"),
+                L.t("settings_detail_privacy_local_item_2"),
+            ]),
+            InfoSection(title: L.t("settings_detail_privacy_cloud_title"), points: [
+                L.t("settings_detail_privacy_cloud_item_1"),
+                L.t("settings_detail_privacy_cloud_item_2"),
+            ]),
+            InfoSection(title: L.t("settings_detail_privacy_purchase_title"), points: [
+                L.t("settings_detail_privacy_purchase_item_1"),
+            ]),
+            InfoSection(title: L.t("settings_detail_privacy_notifications_title"), points: [
+                L.t("settings_detail_privacy_notifications_item_1"),
+            ]),
+        ]
+    }
 
-    static let dataProcessingSections: [InfoSection] = [
-        InfoSection(title: "Kontodaten", points: [
-            "E-Mail, Anzeigename und Rolleninformationen für Auth und Sync.",
-        ]),
-        InfoSection(title: "Fahrzeugdaten", points: [
-            "Stammdaten, Wartung, Tankbuch und Kosten bei Cloud-Sync.",
-        ]),
-        InfoSection(title: "Kontakt", points: [
-            "Bei Kontaktanfragen verarbeiten wir die von dir eingegebenen Daten zur Bearbeitung.",
-        ]),
-    ]
+    static var dataProcessingSections: [InfoSection] {
+        [
+            InfoSection(title: L.t("settings_detail_processing_basis_title"), points: [
+                L.t("settings_detail_processing_basis_item_1"),
+                L.t("settings_detail_processing_basis_item_2"),
+            ]),
+            InfoSection(title: L.t("settings_detail_processing_account_title"), points: [
+                L.t("settings_detail_processing_account_item_1"),
+                L.t("settings_detail_processing_account_item_2"),
+            ]),
+            InfoSection(title: L.t("settings_detail_processing_contact_title"), points: [
+                L.t("settings_detail_processing_contact_item_1"),
+                L.t("settings_detail_processing_contact_item_2"),
+            ]),
+            InfoSection(title: L.t("settings_detail_processing_local_title"), points: [
+                L.t("settings_detail_processing_local_item_1"),
+            ]),
+        ]
+    }
 
-    static let imprintSections: [InfoSection] = [
-        InfoSection(title: "Anbieter", points: ["SimplestSoft", SettingsContent.supportEmail]),
-        InfoSection(title: "Verantwortlich für den Inhalt", points: [
-            "SimplestSoft (Anschrift auf Anfrage über support@simplestsoft.com)",
-        ]),
-    ]
+    static var imprintSections: [InfoSection] {
+        [
+            InfoSection(title: L.t("settings_detail_imprint_provider_title"), points: [
+                L.t("settings_detail_imprint_provider_item_1"),
+                supportEmail,
+            ]),
+            InfoSection(title: L.t("settings_detail_imprint_responsible_title"), points: [
+                L.t("settings_detail_imprint_responsible_item_1"),
+            ]),
+        ]
+    }
 }

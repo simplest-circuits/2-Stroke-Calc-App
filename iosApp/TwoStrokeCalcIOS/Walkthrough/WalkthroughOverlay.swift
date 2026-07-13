@@ -40,7 +40,7 @@ struct WalkthroughOverlay: View {
                 .font(.body)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(colors.onSurfaceVariant)
-            Text(String(format: S.walkthroughStepCounter, stepIndex + 1, steps.count))
+            Text(S.walkthroughStepCounter(current: stepIndex + 1, total: steps.count))
                 .font(.caption)
                 .foregroundStyle(colors.onSurfaceVariant)
             HStack {

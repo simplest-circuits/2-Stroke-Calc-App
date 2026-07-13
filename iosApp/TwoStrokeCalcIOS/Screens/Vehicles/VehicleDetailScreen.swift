@@ -31,8 +31,8 @@ struct VehicleDetailScreenExpanded: View {
         }
         .background(colors.background)
         .onAppear(perform: loadFromShared)
-        .alert("Fahrzeug löschen?", isPresented: $showDeleteConfirm) {
-            Button("Löschen", role: .destructive) {
+        .alert(L.t("vehicles_delete_confirm_title"), isPresented: $showDeleteConfirm) {
+            Button(L.t("delete"), role: .destructive) {
                 Task { await appState.deleteVehicle(id: vehicleId); dismiss() }
             }
             Button(S.cancel, role: .cancel) {}
@@ -61,7 +61,7 @@ struct VehicleDetailScreenExpanded: View {
                     .foregroundStyle(colors.primary)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Tankbuch")
+            .accessibilityLabel(L.t("vehicles_quick_fuel_log"))
             Button {
                 if canEdit {
                     showMaintenanceSheet = true
@@ -73,7 +73,7 @@ struct VehicleDetailScreenExpanded: View {
                     .foregroundStyle(colors.primary)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Wartung")
+            .accessibilityLabel(L.t("vehicles_tab_maintenance"))
             if canEdit {
                 Button(role: .destructive) { showDeleteConfirm = true } label: {
                     Image(systemName: "trash")
@@ -107,61 +107,61 @@ struct VehicleDetailScreenExpanded: View {
     private var tabContent: some View {
         switch selectedTab {
         case .overview:
-            section("Kurzinfo") {
+            section(L.t("vehicles_tab_overview")) {
                 Text([draft.licensePlate, draft.year, draft.odometer.isEmpty ? "" : "\(draft.odometer) km"].filter { !$0.isEmpty }.joined(separator: " · "))
                 if !draft.notes.isEmpty { Text(draft.notes).foregroundStyle(colors.onSurfaceVariant) }
             }
         case .basic:
-            section("Stammdaten") {
-                field("Name", $draft.name)
-                field("Marke", $draft.brand)
-                field("Modell", $draft.model)
-                field("Kennzeichen", $draft.licensePlate)
-                field("Baujahr", $draft.year)
-                field("KM-Stand", $draft.odometer)
-                field("Notizen", $draft.notes)
+            section(L.t("vehicles_tab_basic")) {
+                field(L.t("vehicles_field_name"), $draft.name)
+                field(L.t("vehicles_field_brand"), $draft.brand)
+                field(L.t("vehicles_field_model"), $draft.model)
+                field(L.t("vehicles_field_license_plate"), $draft.licensePlate)
+                field(L.t("vehicles_field_year"), $draft.year)
+                field(L.t("vehicles_field_odometer"), $draft.odometer)
+                field(L.t("vehicles_section_notes"), $draft.notes)
             }
         case .engine:
-            section("Motor") {
-                field("Hubraum", $draft.engineDisplacement)
-                field("Bohrung", $draft.engineBore)
-                field("Hub", $draft.engineStroke)
-                field("Verdichtung", $draft.engineCompression)
-                field("Auspuff", $draft.engineExhaust)
-                field("Motornotizen", $draft.engineNotes)
+            section(L.t("vehicles_tab_engine")) {
+                field(L.t("compression_result_displacement"), $draft.engineDisplacement)
+                field(L.t("vehicles_field_bore"), $draft.engineBore)
+                field(L.t("pt_stroke"), $draft.engineStroke)
+                field(L.t("calculator_tab_compression"), $draft.engineCompression)
+                field(L.t("vehicles_maint_exhaust"), $draft.engineExhaust)
+                field(L.t("vehicles_field_engine_notes"), $draft.engineNotes)
             }
         case .tuning:
-            section("Vergaser/Zündung") {
-                field("Vergaser", $draft.carbType)
-                field("Hauptdüse", $draft.mainJet)
-                field("Gemisch", $draft.fuelMix)
-                field("Zündkerze", $draft.sparkPlug)
-                field("Zündung", $draft.ignitionTiming)
+            section(L.t("vehicles_tab_tuning")) {
+                field(L.t("vehicles_maint_carb"), $draft.carbType)
+                field(L.t("vehicles_field_main_jet"), $draft.mainJet)
+                field(L.t("vehicles_maint_fuel_mix"), $draft.fuelMix)
+                field(L.t("vehicles_maint_spark"), $draft.sparkPlug)
+                field(L.t("vehicles_section_ignition"), $draft.ignitionTiming)
             }
         case .drivetrain:
-            section("Antrieb") {
-                field("Variator", $draft.variatorBrand)
-                field("Gewichte", $draft.variatorWeights)
-                field("Kette", $draft.chainType)
-                field("Antrieb", $draft.driveType)
+            section(L.t("vehicles_tab_drivetrain")) {
+                field(L.t("vehicles_field_variator_brand"), $draft.variatorBrand)
+                field(L.t("vehicles_field_variator_weights"), $draft.variatorWeights)
+                field(L.t("vehicles_field_chain_type"), $draft.chainType)
+                field(L.t("vehicles_tab_drivetrain"), $draft.driveType)
             }
         case .chassis:
-            section("Fahrwerk") {
-                field("Reifen vorne", $draft.frontTire)
-                field("Reifen hinten", $draft.rearTire)
-                field("Bremsen vorne", $draft.frontBrake)
-                field("Bremsen hinten", $draft.rearBrake)
+            section(L.t("vehicles_tab_chassis")) {
+                field(L.t("vehicles_field_front_tire"), $draft.frontTire)
+                field(L.t("vehicles_field_rear_tire"), $draft.rearTire)
+                field(L.t("vehicles_field_front_brake"), $draft.frontBrake)
+                field(L.t("vehicles_field_rear_brake"), $draft.rearBrake)
             }
         case .electrical:
-            section("Elektrik") {
-                field("Batterie", $draft.battery)
-                field("Regler", $draft.regulator)
-                field("Zündspule", $draft.ignitionCoil)
+            section(L.t("vehicles_tab_electrical")) {
+                field(L.t("vehicles_field_battery"), $draft.battery)
+                field(L.t("vehicles_field_regulator"), $draft.regulator)
+                field(L.t("vehicles_field_ignition_coil"), $draft.ignitionCoil)
             }
         case .maintenance:
-            section("Wartung") {
+            section(L.t("vehicles_tab_maintenance")) {
                 if draft.maintenancePreview.isEmpty {
-                    Text("Noch keine Wartungseinträge").foregroundStyle(colors.onSurfaceVariant)
+                    Text(L.t("vehicles_maintenance_empty")).foregroundStyle(colors.onSurfaceVariant)
                 } else {
                     ForEach(draft.maintenancePreview, id: \.self) { line in
                         Text(line).font(.caption)
@@ -190,7 +190,7 @@ struct VehicleDetailScreenExpanded: View {
             HStack {
                 Text(label).foregroundStyle(colors.onSurfaceVariant)
                 Spacer()
-                Text(text.wrappedValue.isEmpty ? "—" : text.wrappedValue)
+                Text(text.wrappedValue.isEmpty ? L.t("gear_result_table_no_jump") : text.wrappedValue)
             }
             .font(.subheadline)
         }
@@ -332,14 +332,14 @@ enum VehicleDetailTab: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .overview: return "Übersicht"
-        case .basic: return "Stammdaten"
-        case .engine: return "Motor"
-        case .tuning: return "Vergaser/Zündung"
-        case .drivetrain: return "Antrieb"
-        case .chassis: return "Fahrwerk"
-        case .electrical: return "Elektrik"
-        case .maintenance: return "Wartung"
+        case .overview: return L.t("vehicles_tab_overview")
+        case .basic: return L.t("vehicles_tab_basic")
+        case .engine: return L.t("vehicles_tab_engine")
+        case .tuning: return L.t("vehicles_tab_tuning")
+        case .drivetrain: return L.t("vehicles_tab_drivetrain")
+        case .chassis: return L.t("vehicles_tab_chassis")
+        case .electrical: return L.t("vehicles_tab_electrical")
+        case .maintenance: return L.t("vehicles_tab_maintenance")
         }
     }
 }

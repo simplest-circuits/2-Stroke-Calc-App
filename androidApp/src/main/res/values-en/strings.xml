@@ -806,6 +806,9 @@
     <string name="language_german">German</string>
     <string name="language_spanish">Spanish</string>
     <string name="language_portuguese">Portuguese</string>
+    <string name="language_swedish">Swedish</string>
+    <string name="language_danish">Danish</string>
+    <string name="language_norwegian">Norwegian</string>
     <string name="language_system">System default</string>
     <string name="theme_system">System default</string>
     <string name="theme_light">Light</string>
@@ -847,7 +850,7 @@
     <string name="settings_imprint_title">Imprint</string>
     <string name="settings_imprint_subtitle">Provider information</string>
     <string name="settings_changelog_title">Changelog</string>
-    <string name="settings_changelog_subtitle">What\'s new in version 1.2.6</string>
+    <string name="settings_changelog_subtitle">What\'s new in version 1.2.7</string>
     <string name="settings_changelog_show_older">Show older versions (%1$d)</string>
     <string name="settings_changelog_show_less">Show less</string>
     <string name="settings_help_back">Back to settings</string>
@@ -936,7 +939,9 @@
     <string name="settings_detail_imprint_responsible_title">Responsible for content</string>
     <string name="settings_detail_imprint_responsible_item_1">SimplestSoft (address available on request via support@simplestsoft.com)</string>
 
-    <string name="settings_detail_changelog_intro">What\'s new in version 1.2.6 and overview of older versions.</string>
+    <string name="settings_detail_changelog_intro">What\'s new in version 1.2.7 and overview of older versions.</string>
+    <string name="settings_changelog_v10_title">Version 1.2.7</string>
+    <string name="settings_changelog_v10_item_1">New languages: Danish, Norwegian and Swedish available</string>
     <string name="settings_changelog_v9_title">Version 1.2.6</string>
     <string name="settings_changelog_v9_item_1">Stabilized fullscreen landscape view: no more freeze when rotating in gear and exhaust calculators</string>
     <string name="settings_changelog_v9_item_2">Optimized fullscreen dialogs: one-time window setup instead of reconfiguring on every redraw</string>

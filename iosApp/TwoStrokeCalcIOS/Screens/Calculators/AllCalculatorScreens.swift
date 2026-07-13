@@ -18,10 +18,10 @@ extension EnvironmentValues {
 
 private func portAssessmentLabel(_ assessment: PortAreaAssessment) -> String {
     switch assessment {
-    case .criticalLow: return "Kritisch niedrig"
-    case .series: return "Serie"
-    case .sporty: return "Sportlich"
-    case .aggressive: return "Aggressiv"
+    case .criticalLow: return L.t("port_area_assessment_critical")
+    case .series: return L.t("port_area_assessment_series")
+    case .sporty: return L.t("port_area_assessment_sporty")
+    case .aggressive: return L.t("port_area_assessment_aggressive")
     default: return assessment.name
     }
 }
@@ -67,18 +67,18 @@ struct PortTimingCalculatorView: View {
         var lines: [String] = []
 
         if let exhaust = result.exhaust {
-            lines.append("Auslass: \(fmt(exhaust.openBeforeBdc, decimals: 1))° vUT, Dauer \(fmt(exhaust.duration, decimals: 1))°")
+            lines.append("\(L.t("pt_exhaust")): \(fmt(exhaust.openBeforeBdc, decimals: 1))° vUT, \(L.t("pt_exhaust_duration")) \(fmt(exhaust.duration, decimals: 1))°")
         }
         if let transfer = result.transfer {
-            lines.append("Transfer: \(fmt(transfer.openBeforeBdc, decimals: 1))° vUT, Dauer \(fmt(transfer.duration, decimals: 1))°")
+            lines.append("\(L.t("pt_transfer")): \(fmt(transfer.openBeforeBdc, decimals: 1))° vUT, \(L.t("pt_transfer_duration")) \(fmt(transfer.duration, decimals: 1))°")
         }
         if let blowdown = result.blowdown {
-            lines.append("Vorauslass: \(fmt(blowdown, decimals: 1))°")
+            lines.append("\(L.t("pt_blowdown")): \(fmt(blowdown, decimals: 1))°")
         }
         if let intake = result.intake {
-            lines.append("Einlass vOT: \(fmt(intake.openBeforeTdc, decimals: 1))°")
-            lines.append("Einlass nOT: \(fmt(intake.closeAfterTdc, decimals: 1))°")
-            lines.append("Einlasszeit: \(fmt(intake.duration, decimals: 1))°")
+            lines.append("\(L.t("pt_intake_before_tdc")): \(fmt(intake.openBeforeTdc, decimals: 1))°")
+            lines.append("\(L.t("pt_intake_after_tdc")): \(fmt(intake.closeAfterTdc, decimals: 1))°")
+            lines.append("\(L.t("pt_intake_duration")): \(fmt(intake.duration, decimals: 1))°")
         }
         return lines
     }
@@ -87,32 +87,32 @@ struct PortTimingCalculatorView: View {
         CalculatorScaffold {
             CalculatorHeader(
                 title: S.calculatorTab(.timing),
-                subtitle: "Steuerzeiten aus Stichmaßen und Kolbenstand berechnen."
+                subtitle: L.t("calculator_overview_timing_desc")
             )
 
-            CalculatorSection("Einlassart") {
-                Picker("Einlassart", selection: $intakeSystem) {
-                    Text("Drehschieber").tag(IntakeSystem.rotaryValve)
-                    Text("Membran").tag(IntakeSystem.reedValve)
+            CalculatorSection(L.t("pt_intake_system")) {
+                Picker(L.t("pt_intake_system"), selection: $intakeSystem) {
+                    Text(L.t("pt_rotary_valve")).tag(IntakeSystem.rotaryValve)
+                    Text(L.t("pt_reed_valve")).tag(IntakeSystem.reedValve)
                 }
                 .pickerStyle(.segmented)
                 .disabled(!editingEnabled)
             }
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Hub", text: $stroke, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Pleuel", text: $connectingRod, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Auslass", text: $exhaustPort, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Transfer", text: $transferPort, suffix: "mm", enabled: editingEnabled)
+                DecimalField(label: L.t("pt_stroke"), text: $stroke, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                DecimalField(label: L.t("pt_connecting_rod"), text: $connectingRod, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                DecimalField(label: L.t("pt_exhaust"), text: $exhaustPort, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                DecimalField(label: L.t("pt_transfer"), text: $transferPort, suffix: L.t("pt_mm"), enabled: editingEnabled)
                 if intakeSystem == .rotaryValve {
-                    DecimalField(label: "Einlass auf", text: $intakeOpen, suffix: "mm", enabled: editingEnabled)
-                    DecimalField(label: "Einlass zu", text: $intakeClose, suffix: "mm", enabled: editingEnabled)
+                    DecimalField(label: L.t("pt_intake_open"), text: $intakeOpen, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                    DecimalField(label: L.t("pt_intake_close"), text: $intakeClose, suffix: L.t("pt_mm"), enabled: editingEnabled)
                 }
                 DecimalField(
-                    label: "Kolbenstand",
+                    label: L.t("pt_piston_deck"),
                     text: $pistonDeck,
-                    suffix: "mm",
-                    hint: "Abstand Kolbenoberkante zur Zylinderoberkante bei UT; negativ = Überstand",
+                    suffix: L.t("pt_mm"),
+                    hint: L.t("pt_piston_deck_hint"),
                     enabled: editingEnabled
                 )
             }
@@ -120,7 +120,7 @@ struct PortTimingCalculatorView: View {
             ResultCard(title: S.resultTitle, lines: resultLines)
 
             if let result = portTimingResult {
-                CalculatorSection("Diagramm") {
+                CalculatorSection(L.t("pt_section_diagram")) {
                     PortTimingDiagramView(result: result, showIntake: intakeSystem == .rotaryValve)
                 }
             }
@@ -164,14 +164,14 @@ struct IgnitionTimingCalculatorView: View {
                 connectingRodMm: connectingRod,
                 degreesBeforeTdc: inputValue
             ) else { return nil }
-            return "≙ \(formatIgnitionMillimeters(millimeters)) vor OT"
+            return L.tf("ignition_result_degrees", formatIgnitionMillimeters(millimeters))
         case .millimeters:
             guard let degrees = IgnitionTimingCalculator.shared.mmBeforeTdcToDegrees(
                 strokeMm: stroke,
                 connectingRodMm: connectingRod,
                 mmBeforeTdc: inputValue
             ) else { return nil }
-            return "≙ \(formatIgnitionDegrees(degrees)) vor OT"
+            return L.tf("ignition_result_millimeters", formatIgnitionDegrees(degrees))
         }
     }
 
@@ -179,24 +179,24 @@ struct IgnitionTimingCalculatorView: View {
         CalculatorScaffold {
             CalculatorHeader(
                 title: S.calculatorTab(.ignition),
-                subtitle: "Zündzeitpunkt vor OT in Grad und Millimeter gegenseitig umrechnen."
+                subtitle: L.t("calculator_overview_ignition_desc")
             )
 
             HStack(alignment: .top, spacing: 12) {
-                DecimalField(label: "Hub", text: $strokeText, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Pleuel", text: $connectingRodText, suffix: "mm", enabled: editingEnabled)
+                DecimalField(label: L.t("pt_stroke"), text: $strokeText, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                DecimalField(label: L.t("pt_connecting_rod"), text: $connectingRodText, suffix: L.t("pt_mm"), enabled: editingEnabled)
             }
 
             CalculatorBidirectionalField(
-                optionALabel: "Grad",
-                optionBLabel: "Millimeter",
+                optionALabel: L.t("ignition_input_mode_degrees"),
+                optionBLabel: L.t("ignition_input_mode_millimeters"),
                 useOptionA: useDegrees,
                 onUseOptionAChange: handleInputModeChange,
                 text: $inputText,
-                fieldLabelA: "Zündzeitpunkt vor OT",
-                fieldLabelB: "Kolbenstand vor OT",
-                suffixA: "° vOT",
-                suffixB: "mm",
+                fieldLabelA: L.t("ignition_degrees_label"),
+                fieldLabelB: L.t("ignition_millimeters_label"),
+                suffixA: L.t("ignition_unit_degrees"),
+                suffixB: L.t("pt_mm"),
                 enabled: editingEnabled
             )
 
@@ -204,7 +204,7 @@ struct IgnitionTimingCalculatorView: View {
                 if let resultLine {
                     PrimaryResultText(text: resultLine)
                 } else {
-                    Text("Werte eingeben…")
+                    Text(L.t("pt_not_calculated"))
                         .foregroundStyle(colors.onSurfaceVariant)
                 }
             }
@@ -265,10 +265,10 @@ struct DcCableCalculatorView: View {
               ) else { return [] }
 
         return [
-            "Mindestquerschnitt: \(fmt(result.minimumCrossSectionMm2, decimals: 2)) mm²",
-            "Empfohlen (Norm): \(fmt(result.recommendedCrossSectionMm2, decimals: 2)) mm²",
-            "Spannungsfall: \(fmt(result.voltageDropVolts, decimals: 2)) V (\(fmt(result.voltageDropPercent, decimals: 2)) %)",
-            "Zulässig: \(fmt(result.maxAllowedDropVolts, decimals: 2)) V (\(fmt(result.maxAllowedDropPercent, decimals: 1)) %)",
+            "\(L.t("dc_cable_result_minimum_label")): \(L.tf("dc_cable_result_minimum_value", fmt(result.minimumCrossSectionMm2, decimals: 2)))",
+            L.tf("dc_cable_result_recommended", fmt(result.recommendedCrossSectionMm2, decimals: 2)),
+            "\(L.t("dc_cable_result_voltage_drop_label")): \(L.tf("dc_cable_result_voltage_drop_value", fmt(result.voltageDropVolts, decimals: 2), fmt(result.voltageDropPercent, decimals: 2)))",
+            L.tf("dc_cable_result_drop_limit", fmt(result.maxAllowedDropVolts, decimals: 2), fmt(result.maxAllowedDropPercent, decimals: 1)),
         ]
     }
 
@@ -276,14 +276,14 @@ struct DcCableCalculatorView: View {
         CalculatorScaffold {
             CalculatorHeader(
                 title: S.calculatorTab(.dcCable),
-                subtitle: "Mindestquerschnitt für Gleichstrom-Leitungen nach Spannungsfall."
+                subtitle: L.t("calculator_overview_dc_cable_desc")
             )
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Betriebsspannung", text: $voltage, suffix: "V", enabled: editingEnabled)
-                DecimalField(label: "Strom", text: $current, suffix: "A", enabled: editingEnabled)
-                DecimalField(label: "Leitungslänge (einfach)", text: $length, suffix: "m", enabled: editingEnabled)
-                DecimalField(label: "Max. Spannungsfall", text: $maxDropPercent, suffix: "%", enabled: editingEnabled)
+                DecimalField(label: L.t("dc_cable_voltage_label"), text: $voltage, suffix: L.t("dc_cable_unit_volts"), enabled: editingEnabled)
+                DecimalField(label: L.t("dc_cable_current_label"), text: $current, suffix: L.t("dc_cable_unit_amps"), enabled: editingEnabled)
+                DecimalField(label: L.t("dc_cable_length_label"), text: $length, suffix: L.t("carb_jet_unit_m"), enabled: editingEnabled)
+                DecimalField(label: L.t("dc_cable_drop_label"), text: $maxDropPercent, suffix: L.t("squish_band_unit_percent"), enabled: editingEnabled)
             }
 
             ResultCard(title: S.resultTitle, lines: resultLines)
@@ -303,9 +303,9 @@ struct FluidCalculatorView: View {
                 subtitle: S.calculatorDescription(.fluid)
             )
 
-            Picker("Tab", selection: $selectedTab) {
-                Text("Elektrolyt").tag(0)
-                Text("Reinigungsmittel").tag(1)
+            Picker(L.t("calculator_tab_fluid"), selection: $selectedTab) {
+                Text(L.t("electrolyte_calculator_title")).tag(0)
+                Text(L.t("fluid_calculator_subtab_cleaning_agent")).tag(1)
             }
             .pickerStyle(.segmented)
 
@@ -344,17 +344,17 @@ private struct ElectrolyteCalculatorContent: View {
         ), let result = ElectrolyteCalculator.shared.calculate(state: synced) else { return [] }
 
         var lines = [
-            "Essigsäure: \(fmt(result.aceticAcidMl, decimals: 0)) ml (\(fmt(result.acidConcentrationPercent, decimals: 0)) %)",
-            "Wasser: \(fmt(result.waterLiters, decimals: 2)) l",
-            "Salz: \(fmt(result.saltG, decimals: 0)) g (\(fmt(result.saltGPerL, decimals: 1)) g/l)",
-            "Gesamt: \(fmt(result.totalLiquidLiters, decimals: 1)) l",
-            "Essigsäureanteil: \(fmt(result.finalAceticAcidPercent, decimals: 1)) %",
+            L.tf("electrolyte_result_acid_value", fmt(result.aceticAcidMl, decimals: 0), fmt(result.acidConcentrationPercent, decimals: 0)),
+            L.tf("electrolyte_result_water_value", fmt(result.waterLiters, decimals: 2)),
+            L.tf("electrolyte_result_salt_value", fmt(result.saltG, decimals: 0)),
+            "\(L.t("electrolyte_total_volume_label")): \(L.tf("electrolyte_total_volume_value", fmt(result.totalLiquidLiters, decimals: 1)))",
+            "\(L.t("electrolyte_result_acid_label")): \(fmt(result.finalAceticAcidPercent, decimals: 1)) %",
         ]
         if let zinc = result.zincDissolution {
             lines += [
-                "Zinkauflösung: \(fmt(zinc.targetDissolvedZincG, decimals: 0)) g",
-                "Spannung: \(fmt(zinc.voltageVolts, decimals: 1)) V bei \(fmt(zinc.currentAmps, decimals: 1)) A",
-                "Dauer: \(fmt(zinc.electrificationHours, decimals: 1)) h",
+                L.tf("electrolyte_zinc_target_value", fmt(zinc.targetDissolvedZincG, decimals: 0)),
+                "\(L.t("electrolyte_voltage_label")): \(fmt(zinc.voltageVolts, decimals: 1)) V \(L.t("electrolyte_zinc_time_label")) \(fmt(zinc.currentAmps, decimals: 1)) A",
+                "\(L.t("electrolyte_zinc_time_label")): \(fmt(zinc.electrificationHours, decimals: 1)) h",
             ]
         }
         return lines
@@ -362,10 +362,10 @@ private struct ElectrolyteCalculatorContent: View {
 
     var body: some View {
         CalculatorSection(S.sectionInput) {
-            DecimalField(label: "Gesamtvolumen", text: $totalLiters, suffix: "l", enabled: editingEnabled)
-            DecimalField(label: "Salz", text: $saltG, suffix: "g", enabled: editingEnabled)
-            DecimalField(label: "Säurekonzentration", text: $acidConcentration, suffix: "%", enabled: editingEnabled)
-            DecimalField(label: "Stromstärke", text: $current, suffix: "A", enabled: editingEnabled)
+            DecimalField(label: L.t("electrolyte_total_volume_label"), text: $totalLiters, suffix: "l", enabled: editingEnabled)
+            DecimalField(label: L.t("electrolyte_salt_label"), text: $saltG, suffix: L.t("vehicle_dynamics_unit_g"), enabled: editingEnabled)
+            DecimalField(label: L.t("electrolyte_acid_concentration_label"), text: $acidConcentration, suffix: L.t("squish_band_unit_percent"), enabled: editingEnabled)
+            DecimalField(label: L.t("electrolyte_current_label"), text: $current, suffix: L.t("dc_cable_unit_amps"), enabled: editingEnabled)
         }
         ResultCard(title: S.resultTitle, lines: resultLines)
     }
@@ -385,17 +385,17 @@ private struct CleaningAgentCalculatorContent: View {
         guard let result = CleaningAgentCalculator.shared.calculate(input: input) else { return [] }
 
         return [
-            "Reinigungsmittel: \(fmt(result.cleaningAgentMl, decimals: 0)) ml",
-            "Wasser: \(fmt(result.waterLiters, decimals: 2)) l",
-            "Konzentration: \(fmt(result.concentrationPercent, decimals: 1)) %",
-            "Gesamt: \(fmt(result.totalLiters, decimals: 1)) l",
+            L.tf("cleaning_agent_result_agent_value", fmt(result.cleaningAgentMl, decimals: 0), fmt(result.concentrationPercent, decimals: 1)),
+            L.tf("cleaning_agent_result_water_value", fmt(result.waterLiters, decimals: 2)),
+            "\(L.t("cleaning_agent_concentration_label")): \(fmt(result.concentrationPercent, decimals: 1)) %",
+            "\(L.t("dc_cable_result_title")): \(fmt(result.totalLiters, decimals: 1)) l",
         ]
     }
 
     var body: some View {
         CalculatorSection(S.sectionInput) {
-            DecimalField(label: "Gesamtvolumen", text: $totalLiters, suffix: "l", enabled: editingEnabled)
-            DecimalField(label: "Konzentration", text: $concentration, suffix: "%", enabled: editingEnabled)
+            DecimalField(label: L.t("electrolyte_total_volume_label"), text: $totalLiters, suffix: "l", enabled: editingEnabled)
+            DecimalField(label: L.t("cleaning_agent_concentration_label"), text: $concentration, suffix: L.t("squish_band_unit_percent"), enabled: editingEnabled)
         }
         ResultCard(title: S.resultTitle, lines: resultLines)
     }
@@ -432,11 +432,11 @@ struct CompressionCalculatorView: View {
                     squishBandMm: squish
                   ) else { return [] }
             return [
-                "Verdichtung: \(fmt(result.compressionRatio, decimals: 2)):1",
-                "Hubraum: \(fmt(result.displacementMl, decimals: 1)) ml",
-                "Quetschband-Volumen: \(fmt(result.squishBandVolumeMl, decimals: 2)) ml",
-                "Quetschfläche: \(fmt(result.squishAreaPercent, decimals: 1)) %",
-                "Bohrung/Hub: \(fmt(result.boreStrokeRatio, decimals: 2))",
+                L.tf("compression_result_ratio", fmt(result.compressionRatio, decimals: 2)),
+                "\(L.t("compression_result_displacement")): \(L.tf("compression_result_value_ml", fmt(result.displacementMl, decimals: 1)))",
+                "\(L.t("compression_result_squish_volume")): \(L.tf("compression_result_value_ml", fmt(result.squishBandVolumeMl, decimals: 2)))",
+                "\(L.t("compression_result_squish_area")): \(L.tf("compression_result_value_percent", fmt(result.squishAreaPercent, decimals: 1)))",
+                "\(L.t("compression_result_bore_stroke_ratio")): \(fmt(result.boreStrokeRatio, decimals: 2))",
             ]
 
         case .target:
@@ -458,12 +458,12 @@ struct CompressionCalculatorView: View {
             }
             guard let result else { return [] }
             var lines = [
-                "Brennraum gesamt: \(fmt(result.totalChamberVolumeMl, decimals: 2)) ml",
-                "Hubraum: \(fmt(result.displacementMl, decimals: 1)) ml",
-                "Ziel-Verdichtung: \(fmt(result.targetCompressionRatio, decimals: 2)):1",
+                "\(L.t("compression_target_result_total_chamber")): \(L.tf("compression_result_value_ml", fmt(result.totalChamberVolumeMl, decimals: 2)))",
+                "\(L.t("compression_result_displacement")): \(L.tf("compression_result_value_ml", fmt(result.displacementMl, decimals: 1)))",
+                L.tf("compression_target_result_ratio", fmt(result.targetCompressionRatio, decimals: 2)),
             ]
             if let dome = result.domeVolumeMl {
-                lines.append("Glockenvolumen: \(fmt(dome, decimals: 2)) ml")
+                lines.append("\(L.t("compression_target_result_dome")): \(L.tf("compression_result_value_ml", fmt(dome, decimals: 2)))")
             }
             return lines
 
@@ -477,11 +477,11 @@ struct CompressionCalculatorView: View {
                     targetCompressionRatio: target
                   ) else { return [] }
             return [
-                "Volumen entfernen: \(fmt(result.volumeToRemoveMl, decimals: 2)) ml",
-                "Frästiefe (Plan): \(fmt(result.millingDepthMm, decimals: 3)) mm",
-                "Aktuell: \(fmt(result.currentCompressionRatio, decimals: 2)):1 → Ziel: \(fmt(result.targetCompressionRatio, decimals: 2)):1",
-                "Brennraum aktuell: \(fmt(result.currentChamberVolumeMl, decimals: 2)) ml",
-                "Brennraum Ziel: \(fmt(result.targetChamberVolumeMl, decimals: 2)) ml",
+                L.tf("compression_change_result_remove", fmt(result.volumeToRemoveMl, decimals: 2)),
+                L.tf("compression_change_result_remove_depth", fmt(result.millingDepthMm, decimals: 3)),
+                "\(L.t("compression_current_ratio_label")): \(fmt(result.currentCompressionRatio, decimals: 2)):1 → \(L.t("compression_target_ratio_label")): \(fmt(result.targetCompressionRatio, decimals: 2)):1",
+                L.tf("compression_change_result_current_chamber", fmt(result.currentCompressionRatio, decimals: 2)),
+                L.tf("compression_change_result_target_chamber", fmt(result.targetCompressionRatio, decimals: 2)),
             ]
 
         default:
@@ -496,32 +496,32 @@ struct CompressionCalculatorView: View {
                 subtitle: S.calculatorDescription(.compression)
             )
 
-            CalculatorSection("Modus") {
-                Picker("Modus", selection: $mode) {
-                    Text("Vorwärts").tag(CompressionCalculationMode.forward)
-                    Text("Ziel-CR").tag(CompressionCalculationMode.target)
-                    Text("Ändern").tag(CompressionCalculationMode.change)
+            CalculatorSection(L.t("flywheel_section_mode")) {
+                Picker(L.t("flywheel_section_mode"), selection: $mode) {
+                    Text(L.t("compression_mode_forward")).tag(CompressionCalculationMode.forward)
+                    Text(L.t("compression_mode_target")).tag(CompressionCalculationMode.target)
+                    Text(L.t("compression_mode_change")).tag(CompressionCalculationMode.change)
                 }
                 .pickerStyle(.segmented)
                 .disabled(!editingEnabled)
             }
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Bohrung", text: $bore, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Hub", text: $stroke, suffix: "mm", enabled: editingEnabled)
+                DecimalField(label: L.t("vehicles_field_bore"), text: $bore, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                DecimalField(label: L.t("pt_stroke"), text: $stroke, suffix: L.t("pt_mm"), enabled: editingEnabled)
 
                 if mode == .forward {
-                    DecimalField(label: "Glockendurchmesser", text: $domeDiameter, suffix: "mm", enabled: editingEnabled)
-                    DecimalField(label: "Glockenvolumen", text: $domeVolume, suffix: "ml", enabled: editingEnabled)
-                    DecimalField(label: "Quetschband", text: $squishBand, suffix: "mm", enabled: editingEnabled)
+                    DecimalField(label: L.t("compression_dome_diameter_label"), text: $domeDiameter, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                    DecimalField(label: L.t("compression_dome_volume_label"), text: $domeVolume, suffix: L.t("compression_unit_ml"), enabled: editingEnabled)
+                    DecimalField(label: L.t("compression_squish_band_label"), text: $squishBand, suffix: L.t("pt_mm"), enabled: editingEnabled)
                 }
                 if mode == .target {
-                    DecimalField(label: "Ziel-Verdichtung", text: $targetCompression, suffix: ":1", enabled: editingEnabled)
-                    DecimalField(label: "Kolbenkonstante (optional)", text: $pistonConstant, suffix: "ml", enabled: editingEnabled)
+                    DecimalField(label: L.t("compression_target_ratio_label"), text: $targetCompression, suffix: ":1", enabled: editingEnabled)
+                    DecimalField(label: L.t("compression_piston_constant_label"), text: $pistonConstant, suffix: L.t("compression_unit_ml"), enabled: editingEnabled)
                 }
                 if mode == .change {
-                    DecimalField(label: "Aktuelle Verdichtung", text: $currentCompression, suffix: ":1", enabled: editingEnabled)
-                    DecimalField(label: "Ziel-Verdichtung", text: $targetCompression, suffix: ":1", enabled: editingEnabled)
+                    DecimalField(label: L.t("compression_current_ratio_label"), text: $currentCompression, suffix: ":1", enabled: editingEnabled)
+                    DecimalField(label: L.t("compression_target_ratio_label"), text: $targetCompression, suffix: ":1", enabled: editingEnabled)
                 }
             }
 
@@ -557,9 +557,9 @@ struct SquishBandCalculatorView: View {
 
         guard let r = result else { return [] }
         return [
-            "Quetschfläche: \(fmt(r.squishAreaPercent, decimals: 1)) %",
-            "Quetschkante: \(fmt(r.squishBandWidthMm, decimals: 2)) mm",
-            "Glockendurchmesser: \(fmt(r.domeDiameterMm, decimals: 2)) mm",
+            "\(L.t("compression_result_squish_area")): \(L.tf("compression_result_value_percent", fmt(r.squishAreaPercent, decimals: 1)))",
+            "\(L.t("squish_band_mode_width")): \(fmt(r.squishBandWidthMm, decimals: 2)) \(L.t("pt_mm"))",
+            "\(L.t("compression_dome_diameter_label")): \(fmt(r.domeDiameterMm, decimals: 2)) \(L.t("pt_mm"))",
         ]
     }
 
@@ -570,21 +570,21 @@ struct SquishBandCalculatorView: View {
                 subtitle: S.calculatorDescription(.squishBand)
             )
 
-            CalculatorSection("Modus") {
-                Picker("Modus", selection: $mode) {
-                    Text("Prozent").tag(SquishBandCalculationMode.percent)
-                    Text("Breite").tag(SquishBandCalculationMode.width)
+            CalculatorSection(L.t("flywheel_section_mode")) {
+                Picker(L.t("flywheel_section_mode"), selection: $mode) {
+                    Text(L.t("squish_band_mode_percent")).tag(SquishBandCalculationMode.percent)
+                    Text(L.t("squish_band_mode_width")).tag(SquishBandCalculationMode.width)
                 }
                 .pickerStyle(.segmented)
                 .disabled(!editingEnabled)
             }
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Bohrung", text: $bore, suffix: "mm", enabled: editingEnabled)
+                DecimalField(label: L.t("vehicles_field_bore"), text: $bore, suffix: L.t("pt_mm"), enabled: editingEnabled)
                 if mode == .percent {
-                    DecimalField(label: "Quetschfläche", text: $squishPercent, suffix: "%", enabled: editingEnabled)
+                    DecimalField(label: L.t("squish_band_percent_label"), text: $squishPercent, suffix: L.t("squish_band_unit_percent"), enabled: editingEnabled)
                 } else {
-                    DecimalField(label: "Quetschkantenbreite", text: $squishWidth, suffix: "mm", enabled: editingEnabled)
+                    DecimalField(label: L.t("squish_band_mode_width"), text: $squishWidth, suffix: L.t("pt_mm"), enabled: editingEnabled)
                 }
             }
 
@@ -616,11 +616,11 @@ struct MeanPressureCalculatorView: View {
               ) else { return [] }
 
         return [
-            "Mitteldruck: \(fmt(result.meanPressureBar, decimals: 2)) bar",
-            "Drehmoment: \(fmt(result.torqueNm, decimals: 2)) Nm",
-            "Hubraum: \(fmt(result.displacementCcm, decimals: 1)) ccm",
-            "Literleistung: \(fmt(result.specificPowerPsPerLiter, decimals: 1)) PS/l",
-            "Leistung: \(fmt(result.powerWatts / 1000.0, decimals: 2)) kW",
+            L.tf("mean_pressure_result_bar", fmt(result.meanPressureBar, decimals: 2)),
+            "\(L.t("mean_pressure_result_torque")): \(L.tf("mean_pressure_result_value_nm", fmt(result.torqueNm, decimals: 2)))",
+            "\(L.t("mean_pressure_result_displacement")): \(L.tf("mean_pressure_result_value_ccm", fmt(result.displacementCcm, decimals: 1)))",
+            "\(L.t("mean_pressure_result_specific_power")): \(L.tf("mean_pressure_result_value_ps_per_l", fmt(result.specificPowerPsPerLiter, decimals: 1)))",
+            "\(L.t("mean_pressure_result_power_watts")): \(fmt(result.powerWatts / 1000.0, decimals: 2)) kW",
         ]
     }
 
@@ -632,10 +632,10 @@ struct MeanPressureCalculatorView: View {
             )
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Leistung", text: $powerPs, suffix: "PS", enabled: editingEnabled)
-                DecimalField(label: "Drehzahl", text: $rpm, suffix: "U/min", enabled: editingEnabled)
-                DecimalField(label: "Bohrung", text: $bore, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Hub", text: $stroke, suffix: "mm", enabled: editingEnabled)
+                DecimalField(label: L.t("dc_cable_input_mode_power"), text: $powerPs, suffix: L.t("flywheel_unit_ps"), enabled: editingEnabled)
+                DecimalField(label: L.t("mean_pressure_rpm_label"), text: $rpm, suffix: L.t("gear_unit_rpm"), enabled: editingEnabled)
+                DecimalField(label: L.t("vehicles_field_bore"), text: $bore, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                DecimalField(label: L.t("pt_stroke"), text: $stroke, suffix: L.t("pt_mm"), enabled: editingEnabled)
             }
 
             ResultCard(title: S.resultTitle, lines: resultLines)
@@ -685,9 +685,9 @@ struct GearCalculatorView: View {
 
         return result.stages.enumerated().map { index, stage in
             let speed = stage.speedsAtReferenceRpmKmh.last?.asDouble ?? stage.shiftSpeedKmh
-            var line = "Gang \(index + 1): \(fmt(speed, decimals: 1)) km/h (i=\(fmt(stage.gearRatio, decimals: 2)))"
+            var line = "\(L.tf("gear_result_stage_header", index + 1)): \(L.tf("gear_result_speed_kmh", fmt(speed, decimals: 1))) (i=\(fmt(stage.gearRatio, decimals: 2)))"
             if let jump = stage.speedJumpKmh?.asDouble {
-                line += ", Sprung +\(fmt(jump, decimals: 1)) km/h"
+                line += ", Δ +\(fmt(jump, decimals: 1)) km/h"
             }
             return line
         }
@@ -701,138 +701,23 @@ struct GearCalculatorView: View {
             )
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Radumfang", text: $wheelCircumference, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Primär Ritzel", text: $primaryPinion, enabled: editingEnabled)
-                DecimalField(label: "Primär Rad", text: $primaryGear, enabled: editingEnabled)
-                DecimalField(label: "Sekundär Ritzel", text: $secondaryPinion, enabled: editingEnabled)
-                DecimalField(label: "Sekundär Rad", text: $secondaryGear, enabled: editingEnabled)
-                DecimalField(label: "Referenz-Drehzahl", text: $referenceRpm, suffix: "U/min", enabled: editingEnabled)
-                DecimalField(label: "Schalt-Drehzahl", text: $shiftRpm, suffix: "U/min", enabled: editingEnabled)
+                DecimalField(label: L.t("gear_wheel_circumference_label"), text: $wheelCircumference, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                DecimalField(label: L.t("vehicles_field_front_sprocket"), text: $primaryPinion, enabled: editingEnabled)
+                DecimalField(label: L.t("gear_primary_gear_label"), text: $primaryGear, enabled: editingEnabled)
+                DecimalField(label: L.t("vehicles_field_rear_sprocket"), text: $secondaryPinion, enabled: editingEnabled)
+                DecimalField(label: L.t("gear_secondary_gear_label"), text: $secondaryGear, enabled: editingEnabled)
+                DecimalField(label: L.t("gear_stage_reference_rpm_label"), text: $referenceRpm, suffix: L.t("gear_unit_rpm"), enabled: editingEnabled)
+                DecimalField(label: L.t("gear_shift_rpm_label"), text: $shiftRpm, suffix: L.t("gear_unit_rpm"), enabled: editingEnabled)
             }
 
             ResultCard(title: S.resultTitle, lines: resultLines)
 
             if !resultLines.isEmpty {
-                CalculatorSection("Diagramm") {
+                CalculatorSection(L.t("gear_chart_title")) {
                     GearChartView(speedLines: resultLines)
                 }
             }
         }
-    }
-}
-
-// MARK: - Exhaust (expansion chamber)
-
-struct ExhaustCalculatorView: View {
-    @Environment(\.calculatorEditingEnabled) private var editingEnabled
-
-    @State private var portWidth = "60"
-    @State private var portHeight = "28"
-    @State private var exhaustDuration = "180"
-    @State private var transferDuration = "120"
-    @State private var rpm = "9000"
-    @State private var powerPs = "45"
-    @State private var displacementCc = "125"
-    @State private var diffuserStages = ExpansionChamberDiffuserStages.two
-
-    private var resultLines: [String] {
-        guard let width = parseDouble(portWidth),
-              let height = parseDouble(portHeight),
-              let exhaustDeg = parseDouble(exhaustDuration),
-              let transferDeg = parseDouble(transferDuration),
-              let rpmVal = parseDouble(rpm),
-              let ps = parseDouble(powerPs),
-              let cc = parseDouble(displacementCc) else { return [] }
-
-        let coeffs = ExpansionChamberCoefficients(
-            k0: 0.70,
-            k1: 1.125,
-            k2: 2.25,
-            hornCoefficient: 1.5
-        )
-        let input = IosKoinInitKt.iosExpansionChamberInput(
-            exhaustPortWidthMm: width,
-            exhaustPortHeightMm: height,
-            exhaustPortDurationDeg: exhaustDeg,
-            transferPortDurationDeg: transferDeg,
-            rpm: rpmVal,
-            powerPs: ps,
-            displacementCc: cc,
-            diffuserStages: diffuserStages,
-            coefficients: coeffs
-        )
-        guard let result = ExpansionChamberCalculator.shared.calculate(input: input) else { return [] }
-
-        return [
-            "Abstimm-Länge: \(fmt(result.tunedLengthMm, decimals: 0)) mm",
-            "Gesamtlänge: \(fmt(result.totalLengthMm, decimals: 0)) mm",
-            "Portfläche: \(fmt(result.portAreaMm2, decimals: 1)) mm²",
-            "Äquivalent-Ø: \(fmt(result.equivalentPortDiameterMm, decimals: 1)) mm",
-            "BMEP: \(fmt(result.bmepBar, decimals: 2)) bar",
-            "Schallgeschwindigkeit: \(fmt(result.speedOfSoundMs, decimals: 0)) m/s",
-            "Diffusor-Segmente: \(result.diffuserStageCount)",
-        ]
-    }
-
-    var body: some View {
-        CalculatorScaffold {
-            CalculatorHeader(
-                title: S.calculatorTab(.exhaust),
-                subtitle: S.calculatorDescription(.exhaust)
-            )
-
-            CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Auslass Breite", text: $portWidth, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Auslass Höhe", text: $portHeight, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Auslasszeit", text: $exhaustDuration, suffix: "°", enabled: editingEnabled)
-                DecimalField(label: "Transferzeit", text: $transferDuration, suffix: "°", enabled: editingEnabled)
-                DecimalField(label: "Drehzahl", text: $rpm, suffix: "U/min", enabled: editingEnabled)
-                DecimalField(label: "Leistung", text: $powerPs, suffix: "PS", enabled: editingEnabled)
-                DecimalField(label: "Hubraum", text: $displacementCc, suffix: "ccm", enabled: editingEnabled)
-
-                Picker("Diffusor", selection: $diffuserStages) {
-                    Text("1-stufig").tag(ExpansionChamberDiffuserStages.one)
-                    Text("2-stufig").tag(ExpansionChamberDiffuserStages.two)
-                    Text("3-stufig").tag(ExpansionChamberDiffuserStages.three)
-                }
-                .pickerStyle(.segmented)
-                .disabled(!editingEnabled)
-            }
-
-            ResultCard(title: S.resultTitle, lines: resultLines)
-
-            if let result = expansionResult {
-                CalculatorSection("Skizze") {
-                    ExhaustPipeDiagramView(
-                        headerLength: result.tunedLengthMm * 0.12,
-                        diffuserLength: result.tunedLengthMm * 0.55,
-                        tailLength: max(0, result.totalLengthMm - result.tunedLengthMm * 0.67)
-                    )
-                }
-            }
-        }
-    }
-
-    private var expansionResult: ExpansionChamberResult? {
-        guard let width = parseDouble(portWidth),
-              let height = parseDouble(portHeight),
-              let exhaustDeg = parseDouble(exhaustDuration),
-              let transferDeg = parseDouble(transferDuration),
-              let rpmVal = parseDouble(rpm),
-              let ps = parseDouble(powerPs),
-              let cc = parseDouble(displacementCc) else { return nil }
-
-        return ExpansionChamberCalculator.shared.calculate(input: IosKoinInitKt.iosExpansionChamberInput(
-            exhaustPortWidthMm: width,
-            exhaustPortHeightMm: height,
-            exhaustPortDurationDeg: exhaustDeg,
-            transferPortDurationDeg: transferDeg,
-            rpm: rpmVal,
-            powerPs: ps,
-            displacementCc: cc,
-            diffuserStages: diffuserStages,
-            coefficients: ExpansionChamberCoefficients(k0: 0.70, k1: 1.125, k2: 2.25, hornCoefficient: 1.5)
-        ))
     }
 }
 
@@ -848,9 +733,9 @@ struct PortAreaCalculatorView: View {
                 subtitle: S.calculatorDescription(.portArea)
             )
 
-            Picker("Tab", selection: $selectedTab) {
-                Text("Transfer").tag(0)
-                Text("Auslass").tag(1)
+            Picker(L.t("calculator_tab_port_area"), selection: $selectedTab) {
+                Text(L.t("pt_transfer")).tag(0)
+                Text(L.t("pt_exhaust")).tag(1)
             }
             .pickerStyle(.segmented)
 
@@ -896,24 +781,24 @@ private struct TransferPortAreaContent: View {
         guard let result = PortAreaCalculator.shared.calculateTransfer(input: input) else { return [] }
 
         return [
-            "Fläche: \(fmt(result.areaMm2, decimals: 1)) mm²",
-            "Time-Area: \(fmt(result.timeAreaMm2Deg, decimals: 0)) mm²·°",
-            "Fläche/Bohrung: \(fmt(result.areaToBoreRatio * 100, decimals: 1)) %",
-            "TA/ccm: \(fmt(result.timeAreaPerCc, decimals: 0))",
-            "Hubraum: \(fmt(result.displacementCc, decimals: 1)) ccm",
-            "Bewertung: \(portAssessmentLabel(result.assessment))",
+            "\(L.t("port_area_result_area")): \(L.tf("port_area_result_area_value", fmt(result.areaMm2, decimals: 1)))",
+            L.tf("port_area_result_time_area", fmt(result.timeAreaMm2Deg, decimals: 0)),
+            "\(L.t("port_area_result_area"))/\(L.t("vehicles_field_bore")): \(fmt(result.areaToBoreRatio * 100, decimals: 1)) %",
+            "\(L.t("port_area_result_ta_per_cc")): \(L.tf("port_area_result_ta_per_cc_value", fmt(result.timeAreaPerCc, decimals: 0)))",
+            "\(L.t("port_area_result_displacement")): \(L.tf("port_area_result_displacement_value", fmt(result.displacementCc, decimals: 1)))",
+            portAssessmentLabel(result.assessment),
         ]
     }
 
     var body: some View {
         CalculatorSection(S.sectionInput) {
-            DecimalField(label: "Bohrung", text: $bore, suffix: "mm", enabled: editingEnabled)
-            DecimalField(label: "Hub", text: $stroke, suffix: "mm", enabled: editingEnabled)
-            DecimalField(label: "Breite", text: $width, suffix: "mm", enabled: editingEnabled)
-            DecimalField(label: "Höhe", text: $height, suffix: "mm", enabled: editingEnabled)
-            DecimalField(label: "Kanäle", text: $channelCount, enabled: editingEnabled)
-            DecimalField(label: "Seitenwinkel", text: $sideAngle, suffix: "°", enabled: editingEnabled)
-            DecimalField(label: "Steuerzeit", text: $duration, suffix: "°", enabled: editingEnabled)
+            DecimalField(label: L.t("vehicles_field_bore"), text: $bore, suffix: L.t("pt_mm"), enabled: editingEnabled)
+            DecimalField(label: L.t("pt_stroke"), text: $stroke, suffix: L.t("pt_mm"), enabled: editingEnabled)
+            DecimalField(label: L.t("port_area_transfer_width_label"), text: $width, suffix: L.t("pt_mm"), enabled: editingEnabled)
+            DecimalField(label: L.t("port_area_transfer_height_label"), text: $height, suffix: L.t("pt_mm"), enabled: editingEnabled)
+            DecimalField(label: L.t("port_area_transfer_channels_label"), text: $channelCount, enabled: editingEnabled)
+            DecimalField(label: L.t("port_area_transfer_side_angle_label"), text: $sideAngle, suffix: L.t("port_area_unit_deg"), enabled: editingEnabled)
+            DecimalField(label: L.t("port_area_transfer_duration_label"), text: $duration, suffix: L.t("port_area_unit_deg"), enabled: editingEnabled)
         }
         ResultCard(title: S.resultTitle, lines: resultLines)
     }
@@ -953,12 +838,12 @@ private struct ExhaustPortAreaContent: View {
         guard let result = PortAreaCalculator.shared.calculateExhaust(input: input) else { return [] }
 
         return [
-            "Fläche: \(fmt(result.areaMm2, decimals: 1)) mm²",
-            "Time-Area: \(fmt(result.timeAreaMm2Deg, decimals: 0)) mm²·°",
-            "Fläche/Bohrung: \(fmt(result.areaToBoreRatio * 100, decimals: 1)) %",
-            "TA/ccm: \(fmt(result.timeAreaPerCc, decimals: 0))",
-            "Hubraum: \(fmt(result.displacementCc, decimals: 1)) ccm",
-            "Bewertung: \(portAssessmentLabel(result.assessment))",
+            "\(L.t("port_area_result_area")): \(L.tf("port_area_result_area_value", fmt(result.areaMm2, decimals: 1)))",
+            L.tf("port_area_result_time_area", fmt(result.timeAreaMm2Deg, decimals: 0)),
+            "\(L.t("port_area_result_area"))/\(L.t("vehicles_field_bore")): \(fmt(result.areaToBoreRatio * 100, decimals: 1)) %",
+            "\(L.t("port_area_result_ta_per_cc")): \(L.tf("port_area_result_ta_per_cc_value", fmt(result.timeAreaPerCc, decimals: 0)))",
+            "\(L.t("port_area_result_displacement")): \(L.tf("port_area_result_displacement_value", fmt(result.displacementCc, decimals: 1)))",
+            portAssessmentLabel(result.assessment),
         ]
     }
 
@@ -986,13 +871,13 @@ private struct ExhaustPortAreaContent: View {
 
     var body: some View {
         CalculatorSection(S.sectionInput) {
-            DecimalField(label: "Bohrung", text: $bore, suffix: "mm", enabled: editingEnabled)
-            DecimalField(label: "Hub", text: $stroke, suffix: "mm", enabled: editingEnabled)
-            DecimalField(label: "Port-Höhe", text: $portHeight, suffix: "mm", enabled: editingEnabled)
-            DecimalField(label: "UT-Spannweite", text: $totalSpan, suffix: "mm", enabled: editingEnabled)
-            DecimalField(label: "OT-Spannweite (Sehne)", text: $topSpan, suffix: "mm", enabled: editingEnabled)
-            DecimalField(label: "Stegbreite", text: $bridgeWidth, suffix: "mm", enabled: editingEnabled)
-            DecimalField(label: "Steuerzeit", text: $duration, suffix: "°", enabled: editingEnabled)
+            DecimalField(label: L.t("vehicles_field_bore"), text: $bore, suffix: L.t("pt_mm"), enabled: editingEnabled)
+            DecimalField(label: L.t("pt_stroke"), text: $stroke, suffix: L.t("pt_mm"), enabled: editingEnabled)
+            DecimalField(label: L.t("port_area_exhaust_height_label"), text: $portHeight, suffix: L.t("pt_mm"), enabled: editingEnabled)
+            DecimalField(label: L.t("port_area_exhaust_bottom_span_label"), text: $totalSpan, suffix: L.t("pt_mm"), enabled: editingEnabled)
+            DecimalField(label: L.t("port_area_exhaust_top_span_label"), text: $topSpan, suffix: L.t("pt_mm"), enabled: editingEnabled)
+            DecimalField(label: L.t("port_area_exhaust_bridge_label"), text: $bridgeWidth, suffix: L.t("pt_mm"), enabled: editingEnabled)
+            DecimalField(label: L.t("port_area_exhaust_duration_label"), text: $duration, suffix: L.t("port_area_unit_deg"), enabled: editingEnabled)
         }
         if let layout = exhaustLayout {
             ExhaustPortGeometryDiagramView(layout: layout)
@@ -1020,7 +905,7 @@ struct CounterweightCalculatorView: View {
                 bigEndWeightGrams: big
               ) else { return [] }
 
-        return ["Wuchtfaktor: \(fmt(factor, decimals: 1)) %"]
+        return [L.tf("counterweight_result_factor", fmt(factor, decimals: 1))]
     }
 
     var body: some View {
@@ -1031,9 +916,9 @@ struct CounterweightCalculatorView: View {
             )
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Kolbengewicht", text: $pistonWeight, suffix: "g", enabled: editingEnabled)
-                DecimalField(label: "Pleuelhälfte", text: $rodHalf, suffix: "g", enabled: editingEnabled)
-                DecimalField(label: "Meistergewicht", text: $bigEnd, suffix: "g", enabled: editingEnabled)
+                DecimalField(label: L.t("counterweight_piston_weight_label"), text: $pistonWeight, suffix: L.t("vehicle_dynamics_unit_g"), enabled: editingEnabled)
+                DecimalField(label: L.t("counterweight_rod_half_label"), text: $rodHalf, suffix: L.t("vehicle_dynamics_unit_g"), enabled: editingEnabled)
+                DecimalField(label: L.t("counterweight_big_end_label"), text: $bigEnd, suffix: L.t("vehicle_dynamics_unit_g"), enabled: editingEnabled)
             }
 
             ResultCard(title: S.resultTitle, lines: resultLines)
@@ -1063,10 +948,10 @@ struct VariatorWeightCalculatorView: View {
               ) else { return [] }
 
         return [
-            "Physik: \(fmt(VariatorWeightCalculator.shared.roundToTenth(grams: result.physicsWeightGrams), decimals: 1)) g",
-            "Empirie: \(fmt(VariatorWeightCalculator.shared.roundToTenth(grams: result.empiricalWeightGrams), decimals: 1)) g",
-            "Δ Drehzahl: \(fmt(result.rpmDelta, decimals: 0)) U/min",
-            "Ziel-Drehzahl: \(fmt(result.targetRpm, decimals: 0)) U/min",
+            L.tf("variator_weight_result_physics", fmt(VariatorWeightCalculator.shared.roundToTenth(grams: result.physicsWeightGrams), decimals: 1)),
+            "\(L.t("variator_weight_result_empirical_label")): \(L.tf("variator_weight_result_empirical_value", fmt(VariatorWeightCalculator.shared.roundToTenth(grams: result.empiricalWeightGrams), decimals: 1)))",
+            "\(L.t("variator_weight_result_rpm_delta_label")): \(L.tf("gear_result_rpm_value", fmt(result.rpmDelta, decimals: 0)))",
+            "\(L.t("variator_weight_result_target_rpm_label")): \(L.tf("gear_result_rpm_value", fmt(result.targetRpm, decimals: 0)))",
         ]
     }
 
@@ -1078,16 +963,16 @@ struct VariatorWeightCalculatorView: View {
             )
 
             CalculatorSection(S.sectionInput) {
-                Picker("Typ", selection: $rollerType) {
-                    Text("Rollen").tag(VariatorWeightRollerType.rollers)
-                    Text("Gleitstücke").tag(VariatorWeightRollerType.sliders)
+                Picker(L.t("variator_weight_roller_type_label"), selection: $rollerType) {
+                    Text(L.t("variator_weight_roller_type_rollers")).tag(VariatorWeightRollerType.rollers)
+                    Text(L.t("vehicles_field_variator_rollers")).tag(VariatorWeightRollerType.sliders)
                 }
                 .pickerStyle(.segmented)
                 .disabled(!editingEnabled)
 
-                DecimalField(label: "Aktuelles Gewicht", text: $currentGrams, suffix: "g", enabled: editingEnabled)
-                DecimalField(label: "Aktuelle Drehzahl", text: $currentRpm, suffix: "U/min", enabled: editingEnabled)
-                DecimalField(label: "Ziel-Drehzahl", text: $targetRpm, suffix: "U/min", enabled: editingEnabled)
+                DecimalField(label: L.t("variator_weight_current_weight_label"), text: $currentGrams, suffix: L.t("vehicle_dynamics_unit_g"), enabled: editingEnabled)
+                DecimalField(label: L.t("variator_weight_current_rpm_label"), text: $currentRpm, suffix: L.t("gear_unit_rpm"), enabled: editingEnabled)
+                DecimalField(label: L.t("variator_weight_target_mode_rpm"), text: $targetRpm, suffix: L.t("gear_unit_rpm"), enabled: editingEnabled)
             }
 
             ResultCard(title: S.resultTitle, lines: resultLines)
@@ -1112,9 +997,9 @@ struct FuelMixCalculatorView: View {
               ) else { return [] }
 
         return [
-            "Ölmenge: \(fmt(oilMl, decimals: 0)) ml",
-            "Benzin: \(fmt(liters, decimals: 1)) l",
-            "Mischverhältnis: 1:\(ratio)",
+            L.tf("fuel_mix_result_oil_amount", fmt(oilMl, decimals: 0)),
+            L.tf("fuel_mix_result_fuel_amount", fmt(liters, decimals: 1)),
+            L.tf("fuel_mix_ratio_display", Int32(ratio) ?? 0),
         ]
     }
 
@@ -1126,8 +1011,8 @@ struct FuelMixCalculatorView: View {
             )
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Benzinmenge", text: $fuelLiters, suffix: "l", enabled: editingEnabled)
-                DecimalField(label: "Mischverhältnis 1:", text: $ratio, enabled: editingEnabled)
+                DecimalField(label: L.t("fuel_mix_fuel_amount_label"), text: $fuelLiters, suffix: L.t("fuel_mix_unit_liters"), enabled: editingEnabled)
+                DecimalField(label: L.t("fuel_mix_custom_ratio_label"), text: $ratio, enabled: editingEnabled)
             }
 
             ResultCard(title: S.resultTitle, lines: resultLines)
@@ -1161,12 +1046,12 @@ struct CarbJetCalculatorView: View {
               ) else { return [] }
 
         return [
-            "Korrigierte Hauptdüse: \(result.correctedMainJet) (exakt \(fmt(result.correctedMainJetExact, decimals: 1)))",
-            "Korrekturfaktor: \(fmt(result.correctionFactor, decimals: 4))",
-            "Luftdichte Referenz: \(fmt(result.referenceAirDensity, decimals: 2))",
-            "Luftdichte Ziel: \(fmt(result.targetAirDensity, decimals: 2))",
-            "Druck Referenz: \(fmt(result.referencePressureMbar, decimals: 1)) mbar",
-            "Druck Ziel: \(fmt(result.targetPressureMbar, decimals: 1)) mbar",
+            L.tf("carb_jet_result_corrected_jet", result.correctedMainJet, fmt(result.correctedMainJetExact, decimals: 1)),
+            L.tf("carb_jet_result_factor", fmt(result.correctionFactor * 100, decimals: 4)),
+            "\(L.t("carb_jet_result_reference_density")): \(fmt(result.referenceAirDensity, decimals: 2))",
+            "\(L.t("carb_jet_result_target_density")): \(fmt(result.targetAirDensity, decimals: 2))",
+            "\(L.t("carb_jet_result_reference_pressure")): \(L.tf("carb_jet_result_pressure_value", fmt(result.referencePressureMbar, decimals: 1)))",
+            "\(L.t("carb_jet_result_target_pressure")): \(L.tf("carb_jet_result_pressure_value", fmt(result.targetPressureMbar, decimals: 1)))",
         ]
     }
 
@@ -1178,11 +1063,11 @@ struct CarbJetCalculatorView: View {
             )
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Basis-Hauptdüse", text: $baseJet, enabled: editingEnabled)
-                DecimalField(label: "Referenz-Höhe", text: $refAltitude, suffix: "m", enabled: editingEnabled)
-                DecimalField(label: "Referenz-Temperatur", text: $refTemp, suffix: "°C", enabled: editingEnabled)
-                DecimalField(label: "Ziel-Höhe", text: $targetAltitude, suffix: "m", enabled: editingEnabled)
-                DecimalField(label: "Ziel-Temperatur", text: $targetTemp, suffix: "°C", enabled: editingEnabled)
+                DecimalField(label: L.t("carb_jet_base_main_jet_label"), text: $baseJet, enabled: editingEnabled)
+                DecimalField(label: L.t("carb_jet_reference_altitude_label"), text: $refAltitude, suffix: L.t("carb_jet_unit_m"), enabled: editingEnabled)
+                DecimalField(label: L.t("carb_jet_reference_temperature_label"), text: $refTemp, suffix: L.t("carb_jet_unit_celsius"), enabled: editingEnabled)
+                DecimalField(label: L.t("carb_jet_target_altitude_label"), text: $targetAltitude, suffix: L.t("carb_jet_unit_m"), enabled: editingEnabled)
+                DecimalField(label: L.t("carb_jet_target_temperature_label"), text: $targetTemp, suffix: L.t("carb_jet_unit_celsius"), enabled: editingEnabled)
             }
 
             ResultCard(title: S.resultTitle, lines: resultLines)
@@ -1218,12 +1103,12 @@ struct FlywheelInertiaCalculatorView: View {
         )
         guard let result = FlywheelInertiaCalculator.shared.inertiaFromGeometry(input: input) else { return [] }
 
-        var lines = ["Trägheitsmoment: \(fmt(result.inertiaKgm2, decimals: 4)) kg·m²"]
+        var lines = [L.tf("flywheel_result_inertia", fmt(result.inertiaKgm2, decimals: 4))]
         if let mass = result.massKg {
-            lines.append("Masse: \(fmt(mass, decimals: 2)) kg")
+            lines.append("\(L.t("flywheel_result_mass_label")): \(L.tf("flywheel_result_mass_value", fmt(mass, decimals: 2)))")
         }
         if let eq = result.equivalentMassKg {
-            lines.append("Äquivalente Masse: \(fmt(eq, decimals: 1)) kg")
+            lines.append("\(L.t("flywheel_result_equivalent_mass_label")): \(L.tf("flywheel_result_equivalent_mass_value", fmt(eq, decimals: 1)))")
         }
         return lines
     }
@@ -1236,10 +1121,10 @@ struct FlywheelInertiaCalculatorView: View {
             )
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Außendurchmesser", text: $outerDiameter, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Innendurchmesser", text: $innerDiameter, suffix: "mm", hint: "0 = Vollzylinder", enabled: editingEnabled)
-                DecimalField(label: "Länge", text: $length, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Walzenradius", text: $rollerRadius, suffix: "mm", enabled: editingEnabled)
+                DecimalField(label: L.t("flywheel_outer_diameter_label"), text: $outerDiameter, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                DecimalField(label: L.t("flywheel_inner_diameter_label"), text: $innerDiameter, suffix: L.t("pt_mm"), hint: L.t("flywheel_cylinder_solid"), enabled: editingEnabled)
+                DecimalField(label: L.t("exhaust_segment_detail_length"), text: $length, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                DecimalField(label: L.t("flywheel_roller_radius_label"), text: $rollerRadius, suffix: L.t("pt_mm"), enabled: editingEnabled)
             }
 
             ResultCard(title: S.resultTitle, lines: resultLines)
@@ -1310,18 +1195,20 @@ struct VehicleDynamicsCalculatorView: View {
 
         var lines: [String] = []
         if let top = result.topSpeedKmh {
-            let limit = result.topSpeedLimit == TopSpeedLimit.aerodynamic ? "aero" : "Drehzahl"
-            lines.append("Höchstgeschwindigkeit: \(fmt(top, decimals: 1)) km/h (Gang \(result.topSpeedGear ?? 0), \(limit))")
+            let limit = result.topSpeedLimit == TopSpeedLimit.aerodynamic
+                ? L.t("vehicle_dynamics_limit_aero")
+                : L.t("vehicle_dynamics_limit_rpm")
+            lines.append("\(L.t("vehicle_dynamics_result_top_speed_title")): \(L.tf("vehicle_dynamics_result_top_speed_value", fmt(top, decimals: 1))) (\(L.t("vehicle_dynamics_result_top_speed_gear")) \(result.topSpeedGear ?? 0), \(limit))")
         }
         if let gear = result.selectedGear {
-            lines.append("Beschleunigung @ \(fmt(analysis, decimals: 0)) km/h: \(fmt(gear.accelerationG, decimals: 2)) g")
-            lines.append("Zugkraft netto: \(fmt(gear.forces.netForceN, decimals: 0)) N")
+            lines.append("\(L.tf("vehicle_dynamics_result_power_at_speed", fmt(analysis, decimals: 0))): \(L.tf("vehicle_dynamics_result_acceleration_g", fmt(gear.accelerationG, decimals: 2)))")
+            lines.append("\(L.t("vehicle_dynamics_result_net_force")): \(fmt(gear.forces.netForceN, decimals: 0)) N")
         }
         if let sprint = result.sprintToTarget {
-            lines.append("Sprint auf \(fmt(target, decimals: 0)) km/h: \(fmt(sprint.timeSeconds, decimals: 1)) s")
+            lines.append(L.tf("vehicle_dynamics_result_sprint_time", fmt(sprint.timeSeconds, decimals: 1), fmt(target, decimals: 0)))
         }
         if let qm = result.quarterMileEstimateSeconds, let trap = result.quarterMileTrapSpeedKmh {
-            lines.append("¼ Meile: \(fmt(qm, decimals: 1)) s @ \(fmt(trap, decimals: 0)) km/h")
+            lines.append("\(L.t("vehicle_dynamics_result_quarter_mile_title")): \(fmt(qm, decimals: 1)) s @ \(L.tf("vehicle_dynamics_result_top_speed_value", fmt(trap, decimals: 0)))")
         }
         return lines
     }
@@ -1334,18 +1221,18 @@ struct VehicleDynamicsCalculatorView: View {
             )
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: "Fahrzeugmasse", text: $mass, suffix: "kg", enabled: editingEnabled)
-                DecimalField(label: "Leistung", text: $powerPs, suffix: "PS", enabled: editingEnabled)
-                DecimalField(label: "Motordrehzahl", text: $engineRpm, suffix: "U/min", enabled: editingEnabled)
-                DecimalField(label: "Max. Drehzahl", text: $maxRpm, suffix: "U/min", enabled: editingEnabled)
-                DecimalField(label: "Radumfang", text: $wheelCircumference, suffix: "mm", enabled: editingEnabled)
-                DecimalField(label: "Primär Ritzel/Rad", text: $primaryPinion, enabled: editingEnabled)
-                DecimalField(label: "", text: $primaryGear, enabled: editingEnabled)
-                DecimalField(label: "Sekundär Ritzel/Rad", text: $secondaryPinion, enabled: editingEnabled)
-                DecimalField(label: "", text: $secondaryGear, enabled: editingEnabled)
-                DecimalField(label: "Schalt-Drehzahl", text: $shiftRpm, suffix: "U/min", enabled: editingEnabled)
-                DecimalField(label: "Analyse-Geschwindigkeit", text: $analysisSpeed, suffix: "km/h", enabled: editingEnabled)
-                DecimalField(label: "Ziel-Geschwindigkeit", text: $targetSpeed, suffix: "km/h", enabled: editingEnabled)
+                DecimalField(label: L.t("vehicle_dynamics_mass_label"), text: $mass, suffix: L.t("flywheel_unit_kg"), enabled: editingEnabled)
+                DecimalField(label: L.t("dc_cable_input_mode_power"), text: $powerPs, suffix: L.t("flywheel_unit_ps"), enabled: editingEnabled)
+                DecimalField(label: L.t("vehicle_dynamics_result_rpm_at_speed"), text: $engineRpm, suffix: L.t("gear_unit_rpm"), enabled: editingEnabled)
+                DecimalField(label: L.t("vehicle_dynamics_max_rpm_label"), text: $maxRpm, suffix: L.t("gear_unit_rpm"), enabled: editingEnabled)
+                DecimalField(label: L.t("gear_wheel_circumference_label"), text: $wheelCircumference, suffix: L.t("pt_mm"), enabled: editingEnabled)
+                DecimalField(label: L.t("gear_primary_pinion_label"), text: $primaryPinion, enabled: editingEnabled)
+                DecimalField(label: L.t("gear_primary_gear_label"), text: $primaryGear, enabled: editingEnabled)
+                DecimalField(label: L.t("gear_secondary_pinion_label"), text: $secondaryPinion, enabled: editingEnabled)
+                DecimalField(label: L.t("gear_secondary_gear_label"), text: $secondaryGear, enabled: editingEnabled)
+                DecimalField(label: L.t("gear_shift_rpm_label"), text: $shiftRpm, suffix: L.t("gear_unit_rpm"), enabled: editingEnabled)
+                DecimalField(label: L.t("vehicle_dynamics_analysis_speed_label"), text: $analysisSpeed, suffix: L.t("gear_chart_axis_speed"), enabled: editingEnabled)
+                DecimalField(label: L.t("vehicle_dynamics_target_speed_label"), text: $targetSpeed, suffix: L.t("gear_chart_axis_speed"), enabled: editingEnabled)
             }
 
             ResultCard(title: S.resultTitle, lines: resultLines)

@@ -27,6 +27,7 @@ struct AppTheme {
             surface: Color(red: 1.0, green: 0.992, blue: 0.976),
             surfaceVariant: Color(red: 0.941, green: 0.922, blue: 0.890),
             onBackground: Color(red: 0.122, green: 0.106, blue: 0.086),
+            onSurface: Color(red: 0.122, green: 0.106, blue: 0.086),
             onSurfaceVariant: Color(red: 0.361, green: 0.333, blue: 0.282),
             outline: Color(red: 0.769, green: 0.722, blue: 0.659),
             error: .red
@@ -42,6 +43,7 @@ struct AppTheme {
             surface: Color(red: 0.122, green: 0.114, blue: 0.098),
             surfaceVariant: Color(red: 0.184, green: 0.169, blue: 0.145),
             onBackground: Color(red: 0.961, green: 0.941, blue: 0.910),
+            onSurface: Color(red: 0.961, green: 0.941, blue: 0.910),
             onSurfaceVariant: Color(red: 0.722, green: 0.686, blue: 0.627),
             outline: Color(red: 0.361, green: 0.333, blue: 0.282),
             error: Color(red: 1.0, green: 0.4, blue: 0.4)
@@ -57,6 +59,7 @@ struct ThemeColors {
     let surface: Color
     let surfaceVariant: Color
     let onBackground: Color
+    let onSurface: Color
     let onSurfaceVariant: Color
     let outline: Color
     let error: Color

@@ -11,6 +11,8 @@ enum NavStyle: String, CaseIterable {
 @MainActor
 final class AppState: ObservableObject {
     @Published var showSplash = true
+    @Published private(set) var preferencesLoaded = false
+    private var splashAnimationFinished = false
     @Published var welcomeCompleted = false
     @Published var walkthroughCompleted = false
     @Published var showWalkthrough = false
@@ -21,6 +23,7 @@ final class AppState: ObservableObject {
     @Published var themeMode: ThemeMode = .system
     @Published var navStyle: NavStyle = .bottomBar
     @Published var languageMode: LanguageMode = .system
+    @Published private(set) var localeRevision = UUID()
     @Published var notificationsEnabled = false
     @Published var displayName: String = ""
     @Published var accountEmail: String = ""
@@ -85,6 +88,17 @@ final class AppState: ObservableObject {
     }
 
     func completeSplash() {
+        splashAnimationFinished = true
+        dismissSplashIfReady()
+    }
+
+    func markPreferencesLoaded() {
+        preferencesLoaded = true
+        dismissSplashIfReady()
+    }
+
+    private func dismissSplashIfReady() {
+        guard splashAnimationFinished, preferencesLoaded else { return }
         showSplash = false
     }
 
@@ -111,7 +125,14 @@ final class AppState: ObservableObject {
 
     func updateLanguage(_ mode: LanguageMode) {
         languageMode = mode
+        AppLocalization.apply(languageMode: mode)
+        localeRevision = UUID()
         SharedKitBridge.persistLanguage(mode)
+    }
+
+    func applyLoadedPreferences() {
+        AppLocalization.apply(languageMode: languageMode)
+        localeRevision = UUID()
     }
 
     func updateNavStyle(_ style: NavStyle) {
@@ -134,7 +155,7 @@ final class AppState: ObservableObject {
         authError = nil
         defer { authLoading = false }
         guard !email.isEmpty, !password.isEmpty else {
-            authError = "Bitte E-Mail und Passwort eingeben."
+            authError = L.t("auth_error_generic")
             return
         }
         if let error = await SharedKitBridge.signIn(email: email, password: password) {
@@ -150,7 +171,7 @@ final class AppState: ObservableObject {
         authError = nil
         defer { authLoading = false }
         guard !email.isEmpty, password.count >= 6 else {
-            authError = "Passwort mindestens 6 Zeichen."
+            authError = L.t("auth_error_weak_password")
             return
         }
         if let error = await SharedKitBridge.register(email: email, password: password, displayName: name) {

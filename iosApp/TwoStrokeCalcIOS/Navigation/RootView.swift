@@ -7,7 +7,7 @@ struct RootView: View {
     var body: some View {
         ThemedRoot(appState: appState) {
             Group {
-                if appState.showSplash {
+                if appState.showSplash || !appState.preferencesLoaded {
                     SplashScreen {
                         appState.completeSplash()
                     }
@@ -28,6 +28,7 @@ struct RootView: View {
                 }
             }
         }
+        .id(appState.localeRevision)
     }
 }
 
@@ -36,29 +37,114 @@ struct MainShellView: View {
     @Environment(\.themeColors) private var colors
     @State private var drawerOpen = false
 
+    private let drawerWidth: CGFloat = 300
+
     var body: some View {
-        ZStack {
+        Group {
             if appState.navStyle == .drawer {
-                NavigationSplitView {
-                    drawerSidebar
-                } detail: {
-                    shellContent
-                }
+                drawerShell
             } else {
-                shellContent
+                bottomBarShell
             }
         }
+        .id(appState.navStyle)
         .background(colors.background)
+        .onChange(of: appState.navStyle) { _, _ in
+            drawerOpen = false
+        }
+        .onChange(of: appState.selectedTab) { _, _ in
+            drawerOpen = false
+        }
     }
 
-    private var shellContent: some View {
+    private var bottomBarShell: some View {
+        mainContent
+            .safeAreaInset(edge: .bottom) {
+                bottomBar
+            }
+    }
+
+    private var drawerShell: some View {
+        ZStack(alignment: .leading) {
+            VStack(spacing: 0) {
+                drawerTopBar
+                mainContent
+            }
+
+            if drawerOpen {
+                Color.black.opacity(0.35)
+                    .ignoresSafeArea()
+                    .onTapGesture { drawerOpen = false }
+
+                drawerPanel
+                    .frame(width: drawerWidth)
+                    .transition(.move(edge: .leading))
+            }
+        }
+        .animation(.easeInOut(duration: 0.22), value: drawerOpen)
+    }
+
+    private var drawerTopBar: some View {
+        HStack(spacing: 12) {
+            Button {
+                drawerOpen = true
+            } label: {
+                Image(systemName: "line.3.horizontal")
+                    .font(.title3)
+                    .frame(width: 44, height: 44)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(L.t("cd_menu"))
+
+            Text(navigationBarTitle)
+                .font(.headline)
+                .foregroundStyle(colors.onSurface)
+                .lineLimit(1)
+
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, 8)
+        .background(colors.surface)
+        .overlay(alignment: .bottom) {
+            Divider()
+        }
+    }
+
+    private var drawerPanel: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(S.appName)
+                .font(.title3.bold())
+                .foregroundStyle(colors.onSurface)
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 12)
+
+            ScrollView {
+                VStack(spacing: 4) {
+                    drawerNavRow(.calculator, label: S.navCalculator, icon: "gauge.with.dots.needle.67percent")
+                        .walkthroughAnchor(WalkthroughTargetIds.calculatorTab)
+                    drawerNavRow(.vehicles, label: S.navVehicles, icon: "bicycle")
+                        .walkthroughAnchor(WalkthroughTargetIds.vehiclesTab)
+                    drawerNavRow(.settings, label: S.settingsTitle, icon: "gearshape")
+                        .walkthroughAnchor(WalkthroughTargetIds.settingsTab)
+                    if appState.isAdmin && appState.isAuthenticated {
+                        drawerNavRow(.admin, label: S.adminPanelTitle, icon: "person.badge.key")
+                    }
+                }
+                .padding(.horizontal, 12)
+                .padding(.bottom, 16)
+            }
+
+            Spacer(minLength: 0)
+        }
+        .frame(maxHeight: .infinity)
+        .background(colors.surface)
+        .shadow(color: .black.opacity(0.15), radius: 8, x: 2, y: 0)
+    }
+
+    private var mainContent: some View {
         tabContent
             .walkthroughTargetSpace()
-            .safeAreaInset(edge: .bottom) {
-                if appState.navStyle == .bottomBar {
-                    bottomBar
-                }
-            }
             .overlay { overlays }
             .overlay {
                 if appState.showWalkthrough {
@@ -85,26 +171,6 @@ struct MainShellView: View {
                     appState.proUpsellModule = nil
                 }
             }
-        }
-    }
-
-    private var drawerSidebar: some View {
-        List {
-            drawerRow(.calculator, label: S.navCalculator, icon: "gauge.with.dots.needle.67percent")
-            drawerRow(.vehicles, label: S.navVehicles, icon: "bicycle")
-            drawerRow(.settings, label: S.settingsTitle, icon: "gearshape")
-            if appState.isAdmin && appState.isAuthenticated {
-                drawerRow(.admin, label: S.adminPanelTitle, icon: "person.badge.key")
-            }
-        }
-        .navigationTitle(S.appName)
-    }
-
-    private func drawerRow(_ route: AppRoute, label: String, icon: String) -> some View {
-        Button {
-            appState.selectedTab = route
-        } label: {
-            Label(label, systemImage: icon)
         }
     }
 
@@ -149,13 +215,30 @@ struct MainShellView: View {
         .overlay(alignment: .top) { Divider() }
     }
 
+    private func drawerNavRow(_ route: AppRoute, label: String, icon: String) -> some View {
+        let selected = isMainTabSelected(route)
+        return Button {
+            navigateToTab(route)
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: icon)
+                    .frame(width: 24)
+                Text(label)
+                    .font(.body.weight(selected ? .semibold : .regular))
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .foregroundStyle(selected ? colors.primary : colors.onSurface)
+            .background(selected ? colors.primaryContainer.opacity(0.65) : Color.clear)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .buttonStyle(.plain)
+    }
+
     private func tabItem(_ route: AppRoute, label: String, systemImage: String) -> some View {
         Button {
-            if route == .admin && !appState.isAuthenticated {
-                appState.showAuthGate = true
-                return
-            }
-            appState.selectedTab = route
+            navigateToTab(route)
         } label: {
             VStack(spacing: 4) {
                 Image(systemName: systemImage)
@@ -168,5 +251,48 @@ struct MainShellView: View {
             .foregroundStyle(appState.selectedTab == route ? colors.primary : colors.onSurfaceVariant)
         }
         .buttonStyle(.plain)
+    }
+
+    private func navigateToTab(_ route: AppRoute) {
+        if route == .admin && !appState.isAuthenticated {
+            appState.showAuthGate = true
+            return
+        }
+        drawerOpen = false
+        appState.selectedTab = route
+    }
+
+    private func isMainTabSelected(_ route: AppRoute) -> Bool {
+        switch route {
+        case .calculator:
+            return appState.selectedTab == .calculator
+        case .vehicles:
+            return appState.selectedTab == .vehicles
+        case .settings:
+            return appState.selectedTab == .settings || appState.selectedTab == .account
+        case .admin:
+            return appState.selectedTab == .admin
+        default:
+            return false
+        }
+    }
+
+    private var navigationBarTitle: String {
+        switch appState.selectedTab {
+        case .calculator:
+            return S.navCalculator
+        case .vehicles:
+            return S.navVehicles
+        case .settings, .account:
+            return S.settingsTitle
+        case .admin:
+            return S.adminPanelTitle
+        case .login:
+            return S.loginTitle
+        case .register:
+            return S.registerTitle
+        case .forgotPassword:
+            return S.forgotPasswordTitle
+        }
     }
 }

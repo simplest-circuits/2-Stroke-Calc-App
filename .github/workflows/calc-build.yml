@@ -118,6 +118,7 @@ jobs:
           retention-days: 14
 
       - name: Deploy to Appetize (browser simulator)
+        id: appetize
         if: vars.APPETIZE_ENABLED == 'true'
         uses: appetizeio/github-action-appetize@v1.0.5
         with:
@@ -125,6 +126,7 @@ jobs:
           appFile: build/ios/TwoStrokeCalcIOS-simulator.zip
           platform: ios
           publicKey: ${{ vars.APPETIZE_PUBLIC_KEY }}
+          note: ${{ github.repository }}@${{ github.sha }}
 
       - name: Job summary
         if: always()
@@ -135,7 +137,14 @@ jobs:
             echo "- **Artifact:** \`TwoStrokeCalcIOS-simulator.zip\` (Simulator-.app, 14 Tage)"
             echo "- **Browser-Test:** [IOS_TESTING_WITHOUT_MAC.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/iosApp/IOS_TESTING_WITHOUT_MAC.md)"
             if [ "${{ vars.APPETIZE_ENABLED }}" = "true" ]; then
-              echo "- **Appetize:** Upload ausgeführt – Link im Schritt „Deploy to Appetize“ oder auf appetize.io"
+              KEY="${{ steps.appetize.outputs.publicKey }}"
+              if [ -z "$KEY" ]; then KEY="${{ vars.APPETIZE_PUBLIC_KEY }}"; fi
+              if [ -n "$KEY" ]; then
+                echo "- **Appetize (Live):** https://appetize.io/app/$KEY"
+                echo "- **Appetize (Dashboard):** https://appetize.io/apps"
+              else
+                echo "- **Appetize:** Upload-Schritt fehlgeschlagen oder übersprungen – Log prüfen"
+              fi
             else
               echo "- **Appetize:** Repository-Variable \`APPETIZE_ENABLED=true\` + Secret \`APPETIZE_API_TOKEN\` setzen"
             fi

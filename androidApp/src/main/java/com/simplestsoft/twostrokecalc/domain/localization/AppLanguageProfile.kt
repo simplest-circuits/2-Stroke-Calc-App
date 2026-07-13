@@ -18,6 +18,9 @@ data class AppLanguageProfile(
             Language.ENGLISH -> Locale.US
             Language.SPANISH -> Locale.forLanguageTag("es")
             Language.PORTUGUESE -> Locale.forLanguageTag("pt")
+            Language.SWEDISH -> Locale.forLanguageTag("sv")
+            Language.DANISH -> Locale.forLanguageTag("da")
+            Language.NORWEGIAN -> Locale.forLanguageTag("nb")
         }
 
     val localeList: LocaleListCompat

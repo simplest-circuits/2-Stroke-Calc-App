@@ -571,6 +571,12 @@ private fun helpTipEntries(): List<String> = listOf(
 @Composable
 private fun changelogSections(): List<SettingsInfoSectionText> = listOf(
     SettingsInfoSectionText(
+        title = stringResource(R.string.settings_changelog_v10_title),
+        points = listOf(
+            stringResource(R.string.settings_changelog_v10_item_1),
+        ),
+    ),
+    SettingsInfoSectionText(
         title = stringResource(R.string.settings_changelog_v9_title),
         points = listOf(
             stringResource(R.string.settings_changelog_v9_item_1),
@@ -1450,6 +1456,9 @@ private fun languageModeLabel(mode: LanguageMode): String = when (mode) {
     LanguageMode.ENGLISH -> stringResource(R.string.language_english)
     LanguageMode.SPANISH -> stringResource(R.string.language_spanish)
     LanguageMode.PORTUGUESE -> stringResource(R.string.language_portuguese)
+    LanguageMode.SWEDISH -> stringResource(R.string.language_swedish)
+    LanguageMode.DANISH -> stringResource(R.string.language_danish)
+    LanguageMode.NORWEGIAN -> stringResource(R.string.language_norwegian)
 }
 
 @Composable

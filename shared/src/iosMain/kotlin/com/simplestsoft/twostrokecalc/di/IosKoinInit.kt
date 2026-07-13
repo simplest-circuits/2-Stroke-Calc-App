@@ -5,6 +5,7 @@ import com.simplestsoft.twostrokecalc.data.config.CalculatorAvailabilityReposito
 import com.simplestsoft.twostrokecalc.data.config.DemoVehiclesConfigRepository
 import com.simplestsoft.twostrokecalc.data.config.ProAccessRepository
 import com.simplestsoft.twostrokecalc.data.preferences.AppPreferencesStore
+import com.simplestsoft.twostrokecalc.data.settings.SharedUserSettingsFirestoreSync
 import com.simplestsoft.twostrokecalc.data.vehicles.SharedVehicleCatalogRepository
 import com.simplestsoft.twostrokecalc.data.vehicles.SharedVehicleRepository
 import com.simplestsoft.twostrokecalc.domain.calculation.CleaningAgentCalculator
@@ -75,6 +76,7 @@ data class IosAdminStateSnapshot(
 private val iosScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 private var authListenerJob: Job? = null
 private var authCallback: ((IosSessionSnapshot) -> Unit)? = null
+private var settingsSyncedForUid: String? = null
 
 fun startSharedKoin() {
     if (KoinPlatform.getKoinOrNull() == null) {
@@ -90,6 +92,7 @@ fun sharedAuthRepository(): SharedAuthRepository = koinGet()
 fun sharedVehicleRepository(): SharedVehicleRepository = koinGet()
 fun sharedVehicleCatalogRepository(): SharedVehicleCatalogRepository = koinGet()
 fun appPreferencesStore(): AppPreferencesStore = koinGet()
+fun sharedUserSettingsFirestoreSync(): SharedUserSettingsFirestoreSync = koinGet()
 fun proAccessRepository(): ProAccessRepository = koinGet()
 fun calculatorAvailabilityRepository(): CalculatorAvailabilityRepository = koinGet()
 fun demoVehiclesConfigRepository(): DemoVehiclesConfigRepository = koinGet()
@@ -117,6 +120,7 @@ suspend fun iosRefreshSession(): IosSessionSnapshot {
 
     val currentUser = auth.authState.first()
     if (currentUser == null) {
+        settingsSyncedForUid = null
         return IosSessionSnapshot(
             isAuthenticated = false,
             email = prefs.getAccountEmail().orEmpty(),
@@ -130,6 +134,10 @@ suspend fun iosRefreshSession(): IosSessionSnapshot {
 
     auth.ensureFirestoreUserProfile()
     auth.loadUserRoleFromFirestore()
+    if (settingsSyncedForUid != currentUser.uid) {
+        runCatching { sharedUserSettingsFirestoreSync().syncOnLogin(currentUser.uid) }
+        settingsSyncedForUid = currentUser.uid
+    }
     proRepo.refresh()
 
     val proState = proRepo.state.value
@@ -162,6 +170,7 @@ suspend fun iosSignInWithGoogle(idToken: String, accessToken: String? = null): S
     sharedAuthRepository().signInWithGoogleIdToken(idToken, accessToken).exceptionOrNull()?.message
 
 suspend fun iosSignOut() {
+    settingsSyncedForUid = null
     sharedAuthRepository().signOut()
 }
 
@@ -173,6 +182,10 @@ suspend fun iosLoadWalkthroughCompleted(): Boolean = appPreferencesStore().getWa
 suspend fun iosLoadNotificationsEnabled(): Boolean = appPreferencesStore().getNotificationsEnabled()
 suspend fun iosLoadFirstInstallPermissionsCompleted(): Boolean =
     appPreferencesStore().getFirstInstallPermissionsCompleted()
+
+fun iosIsFirstInstallPermissionsFlowNeeded(canPostNotifications: Boolean): Boolean =
+    com.simplestsoft.twostrokecalc.domain.permissions.FirstInstallPermissionsPolicy
+        .isFlowNeeded(canPostNotifications)
 
 fun iosSaveTheme(mode: String) {
     runCatching { ThemeMode.valueOf(mode) }.getOrNull()?.let { appPreferencesStore().setThemeMode(it) }
@@ -186,9 +199,21 @@ fun iosSaveNavStyle(style: String) {
     runCatching { NavStyle.valueOf(style) }.getOrNull()?.let { appPreferencesStore().setNavStyle(it) }
 }
 
-fun iosSaveWelcomeCompleted(done: Boolean) = appPreferencesStore().setWelcomeCompleted(done)
+fun iosSaveWelcomeCompleted(done: Boolean) {
+    appPreferencesStore().setWelcomeCompleted(done)
+    iosScope.launch {
+        runCatching { sharedUserSettingsFirestoreSync().persistWelcomeCompleted(done) }
+    }
+}
+
 fun iosSaveWalkthroughCompleted(done: Boolean) = appPreferencesStore().setWalkthroughCompleted(done)
-fun iosSaveNotificationsEnabled(enabled: Boolean) = appPreferencesStore().setNotificationsEnabled(enabled)
+
+fun iosSaveNotificationsEnabled(enabled: Boolean) {
+    appPreferencesStore().setNotificationsEnabled(enabled)
+    iosScope.launch {
+        runCatching { sharedUserSettingsFirestoreSync().persistNotificationsEnabled(enabled) }
+    }
+}
 fun iosSaveFirstInstallPermissionsCompleted(done: Boolean) =
     appPreferencesStore().setFirstInstallPermissionsCompleted(done)
 

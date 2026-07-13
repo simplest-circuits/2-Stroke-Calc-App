@@ -79,6 +79,7 @@
     <string name="calculator_tab_dyno_inertia">Schwungmasse</string>
     <string name="calculator_tab_vehicle_dynamics">Fahrdynamik</string>
     <string name="calculator_tab_port_area">Time-Area</string>
+    <string name="calculator_not_available">Rechner noch nicht verfügbar.</string>
     <string name="calculator_overview_port_area_desc">Transfer-Querschnitt, Time-Area und Auslassgeometrie mit Kennzahlen.</string>
 
     <string name="ignition_calculator_title">Zündzeitpunkt</string>
@@ -243,6 +244,9 @@
     <string name="carb_jet_result_reference_pressure">Luftdruck Referenz</string>
     <string name="carb_jet_result_target_pressure">Luftdruck Ziel</string>
     <string name="carb_jet_result_pressure_value">%1$s mbar</string>
+    <string name="carb_jet_result_reference_density">Luftdichte Referenz</string>
+    <string name="carb_jet_result_target_density">Luftdichte Ziel</string>
+    <string name="carb_jet_result_corrected_jet">Korrigierte Hauptdüse: %1$d (exakt %2$s)</string>
 
     <string name="counterweight_calculator_title">Wuchtfaktor Kurbelwelle/Kolben</string>
     <string name="counterweight_calculator_subtitle">Berechnet den Wuchtfaktor aus Kolben-, Pleuel- und Meistergewicht.</string>
@@ -806,6 +810,9 @@
     <string name="language_german">Deutsch</string>
     <string name="language_spanish">Spanisch</string>
     <string name="language_portuguese">Portugiesisch</string>
+    <string name="language_swedish">Schwedisch</string>
+    <string name="language_danish">Dänisch</string>
+    <string name="language_norwegian">Norwegisch</string>
     <string name="language_system">Systemstandard</string>
     <string name="theme_system">Systemstandard</string>
     <string name="theme_light">Hell</string>
@@ -826,6 +833,7 @@
     <string name="first_install_notifications_body">Erhalte Erinnerungen an fällige Wartungen, TÜV-Termine und Versicherungen für deine Fahrzeuge.</string>
     <string name="first_install_allow">Erlauben</string>
     <string name="first_install_skip">Nicht jetzt</string>
+    <string name="first_install_notifications_later_hint">Benachrichtigungen für Wartungserinnerungen können später in den Einstellungen aktiviert werden.</string>
     <string name="first_install_step_counter">Schritt %1$d von %2$d</string>
 
     <string name="settings_app_section">App</string>
@@ -847,7 +855,7 @@
     <string name="settings_imprint_title">Impressum</string>
     <string name="settings_imprint_subtitle">Anbieterkennzeichnung und Kontaktdaten</string>
     <string name="settings_changelog_title">Versionshistorie</string>
-    <string name="settings_changelog_subtitle">Neuigkeiten in Version 1.2.6</string>
+    <string name="settings_changelog_subtitle">Neuigkeiten in Version 1.2.7</string>
     <string name="settings_changelog_show_older">Ältere Versionen anzeigen (%1$d)</string>
     <string name="settings_changelog_show_less">Weniger anzeigen</string>
     <string name="settings_help_back">Zurück zu Einstellungen</string>
@@ -881,6 +889,7 @@
     <string name="settings_contact_name_label">Name (optional)</string>
     <string name="settings_contact_email_label">E-Mail für Rückfragen (optional)</string>
     <string name="settings_contact_message_label">Nachricht</string>
+    <string name="settings_contact_message_required">Bitte eine Nachricht eingeben.</string>
     <string name="settings_contact_send">Nachricht senden</string>
     <string name="settings_contact_missing_message">Bitte geben Sie eine Nachricht ein.</string>
     <string name="settings_contact_no_email_app">Es wurde keine E-Mail-App gefunden.</string>
@@ -936,7 +945,9 @@
     <string name="settings_detail_imprint_responsible_title">Verantwortlich für den Inhalt</string>
     <string name="settings_detail_imprint_responsible_item_1">SimplestSoft (Anschrift auf Anfrage über support@simplestsoft.com)</string>
 
-    <string name="settings_detail_changelog_intro">Neu in Version 1.2.6 und Übersicht älterer Versionen.</string>
+    <string name="settings_detail_changelog_intro">Neu in Version 1.2.7 und Übersicht älterer Versionen.</string>
+    <string name="settings_changelog_v10_title">Version 1.2.7</string>
+    <string name="settings_changelog_v10_item_1">Neue Sprachen: Dänisch, Norwegisch und Schwedisch verfügbar</string>
     <string name="settings_changelog_v9_title">Version 1.2.6</string>
     <string name="settings_changelog_v9_item_1">Vollbild-Landschaftsansicht stabilisiert: Kein Einfrieren mehr beim Drehen im Getriebe- und Auspuff-Rechner</string>
     <string name="settings_changelog_v9_item_2">Vollbild-Dialoge optimiert: Fensterkonfiguration einmalig statt bei jeder Neuzeichnung</string>
@@ -1111,6 +1122,7 @@
     <string name="port_area_exhaust_booster_ot_corner_radius_label">Eckradius OT Booster</string>
     <string name="port_area_section_exhaust_diagram">Auslassgeometrie</string>
     <string name="port_area_exhaust_diagram_empty">Auslassmaße eingeben, um die Geometrie zu sehen.</string>
+    <string name="port_area_geometry_diagram_title">Port-Geometrie</string>
     <string name="port_area_exhaust_geometry_summary">%1$s, %2$s: %3$s × %4$s mm je Fenster, Fläche %5$s mm²</string>
     <string name="port_area_exhaust_geometry_trapezoid_summary">%1$s, %2$s: oben %3$s / unten %4$s × %5$s mm, Fläche %6$s mm²</string>
     <string name="port_area_exhaust_geometry_trapezoid_multi_summary">%1$s, %2$s: Sehnenmaß %3$s mm, UT gesamt %4$s mm – je Fenster oben %5$s / unten %6$s × %7$s mm, Fläche %8$s mm²</string>
@@ -1196,8 +1208,15 @@
     <string name="auth_error_too_many_requests">Zu viele Versuche. Bitte später erneut versuchen.</string>
     <string name="auth_error_google_cancelled">Google-Anmeldung wurde abgebrochen.</string>
     <string name="auth_error_google_config">Google-Anmeldung fehlgeschlagen. Bitte prüfe die Internetverbindung und versuche es erneut.</string>
+    <string name="auth_error_google_sdk_missing">GoogleSignIn SDK nicht verlinkt. Bitte GoogleSignIn-iOS via SPM hinzufügen.</string>
+    <string name="auth_error_google_client_id_missing">Google CLIENT_ID nicht in GoogleService-Info.plist gefunden.</string>
+    <string name="auth_error_google_no_view_controller">Kein ViewController für Google Sign-In verfügbar.</string>
+    <string name="auth_error_google_id_token_missing">Google ID-Token fehlt.</string>
+    <string name="auth_error_keychain_access">Anmeldung fehlgeschlagen: Keychain-Zugriff nicht möglich. Bitte App neu starten oder auf einem echten Gerät testen.</string>
     <string name="settings_account_section">Konto</string>
     <string name="settings_account_subtitle">Anmeldung, Profil, Pro-Version und Sicherheit</string>
+    <string name="settings_account_tier_pro">Pro</string>
+    <string name="settings_account_tier_free">Free</string>
     <string name="delete">Löschen</string>
     <string name="change_password">Passwort ändern</string>
     <string name="current_password">Aktuelles Passwort</string>
@@ -1282,6 +1301,7 @@
     <string name="settings_pro_sign_in_required">Bitte melde dich an, um die Pro-Version zu kaufen.</string>
     <string name="settings_pro_billing_unavailable">Google Play Abrechnung ist derzeit nicht verfügbar.</string>
     <string name="settings_pro_product_unavailable">Das Pro-Produkt ist derzeit nicht verfügbar.</string>
+    <string name="billing_product_unavailable">Pro-Produkt nicht verfügbar.</string>
     <string name="settings_pro_verification_failed">Der Kauf konnte nicht verifiziert werden. Bitte versuche „Käufe wiederherstellen“.</string>
 
     <string name="walkthrough_free_welcome_title">Willkommen bei 2-Stroke Calc!</string>
@@ -1354,6 +1374,16 @@
     <string name="admin_reset_password_action">Passwort zurücksetzen</string>
     <string name="admin_more_actions">Weitere Aktionen</string>
     <string name="admin_refresh_statistics">Statistiken aktualisieren</string>
+    <string name="admin_search_users_hint">Nutzer suchen…</string>
+    <string name="admin_calculator_availability_title">Rechner-Verfügbarkeit</string>
+    <string name="admin_ban_user_action">Sperren</string>
+    <string name="admin_unban_user_action">Entsperren</string>
+    <string name="admin_grant_pro_action">Pro geben</string>
+    <string name="admin_revoke_pro_action">Pro entfernen</string>
+    <string name="admin_save_all_settings">Einstellungen speichern</string>
+    <string name="admin_panel_button">Admin-Panel</string>
+    <string name="admin_settings_saved_success">Einstellungen gespeichert</string>
+    <string name="admin_push_sent_success">Push gesendet</string>
 
     <string name="nav_vehicles">Fahrzeuge</string>
     <string name="vehicles_subtitle">Fuhrpark, Wartung und Einstellungen verwalten</string>
@@ -1378,6 +1408,12 @@
     <string name="vehicles_catalog_preview_carb">Vergaser: %1$s</string>
     <string name="vehicles_catalog_preview_frame">Rahmen: %1$s</string>
     <string name="vehicles_catalog_entries_count">%1$d Modelle in der Datenbank</string>
+    <string name="vehicles_catalog_search_hint">Suche Marke/Modell…</string>
+    <string name="vehicles_catalog_section_title">Katalog (%1$d Modelle)</string>
+    <string name="vehicles_cost_fuel_summary">Kraftstoff: %1$s €</string>
+    <string name="vehicles_cost_maintenance_summary">Wartung: %1$s €</string>
+    <string name="vehicles_cost_total_summary">Gesamt: %1$s €</string>
+    <string name="vehicles_add_input_mode">Eingabe</string>
     <string name="vehicles_back">Zurück</string>
     <string name="vehicles_save">Speichern</string>
     <string name="vehicles_delete">Löschen</string>
@@ -1606,6 +1642,7 @@
     <string name="vehicles_maintenance_type">Art</string>
     <string name="vehicles_maintenance_description">Beschreibung</string>
     <string name="vehicles_maintenance_cost">Kosten</string>
+    <string name="vehicles_maintenance_entry_line">%1$s · %2$s €</string>
     <string name="vehicles_maintenance_parts">Teile / Material</string>
     <string name="vehicles_maintenance_workshop">Werkstatt / Selbst</string>
 
@@ -1634,6 +1671,7 @@
     <string name="vehicles_fuel_log_average">Durchschnittsverbrauch</string>
     <string name="vehicles_fuel_log_average_unavailable">–</string>
     <string name="vehicles_fuel_log_average_hint">Mindestens zwei Einträge mit Kilometerstand oder Betriebsstunden nötig.</string>
+    <string name="vehicles_fuel_log_average_value">Ø %1$s %2$s</string>
     <string name="vehicles_fuel_log_chart_title">Verbrauchsentwicklung</string>
     <string name="vehicles_fuel_log_chart_tap_hint">Tippe auf einen Punkt für Tankdetails.</string>
     <string name="vehicles_fuel_log_chart_axis_date">Datum</string>

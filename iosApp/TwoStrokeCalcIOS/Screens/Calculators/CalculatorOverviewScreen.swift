@@ -65,7 +65,7 @@ struct CalculatorOverviewScreen: View {
                         .foregroundStyle(colors.onSurfaceVariant)
                         .padding(8)
                 }
-                .accessibilityLabel(viewMode == .list ? "Rasteransicht" : "Listenansicht")
+                .accessibilityLabel(viewMode == .list ? L.t("cd_calculator_overview_grid") : L.t("cd_calculator_overview_list"))
             }
             Text(S.calculatorOverviewSubtitle)
                 .font(.subheadline)

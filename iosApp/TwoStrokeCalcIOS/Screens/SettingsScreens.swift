@@ -40,7 +40,7 @@ struct SettingsScreen: View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text(S.settingsTitle).font(.title2.bold())
-                Text(appState.isPro || appState.isAdmin ? "Pro" : "Free")
+                Text(appState.isPro || appState.isAdmin ? L.t("settings_account_tier_pro") : L.t("settings_account_tier_free"))
                     .font(.caption.weight(.semibold))
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
@@ -132,6 +132,7 @@ struct SettingsScreen: View {
                 appState.walkthroughCompleted = false
                 appState.walkthroughStepIndex = 0
                 appState.showWalkthrough = true
+                SharedKitBridge.persistWalkthroughCompleted(false)
             }
             Text("2-Stroke Calc · v1.0")
                 .font(.caption2)
@@ -182,7 +183,19 @@ struct SettingsScreen: View {
     private var languagePickerSheet: some View {
         NavigationStack {
             List(LanguageMode.allCases) { mode in
-                Button(mode.label) { appState.updateLanguage(mode); languageDialog = false }
+                Button {
+                    appState.updateLanguage(mode)
+                    languageDialog = false
+                } label: {
+                    HStack {
+                        Text(mode.label)
+                        Spacer()
+                        if appState.languageMode == mode {
+                            Image(systemName: "checkmark")
+                                .foregroundStyle(Color.accentColor)
+                        }
+                    }
+                }
             }
             .navigationTitle(S.languageLabel)
             .toolbar { ToolbarItem(placement: .cancellationAction) { Button(S.cancel) { languageDialog = false } } }
@@ -192,7 +205,19 @@ struct SettingsScreen: View {
     private var navPickerSheet: some View {
         NavigationStack {
             List(NavStyle.allCases, id: \.self) { style in
-                Button(navLabel(style)) { appState.updateNavStyle(style); navDialog = false }
+                Button {
+                    appState.updateNavStyle(style)
+                    navDialog = false
+                } label: {
+                    HStack {
+                        Text(navLabel(style))
+                        Spacer()
+                        if appState.navStyle == style {
+                            Image(systemName: "checkmark")
+                                .foregroundStyle(Color.accentColor)
+                        }
+                    }
+                }
             }
             .navigationTitle(S.menuTypeLabel)
             .toolbar { ToolbarItem(placement: .cancellationAction) { Button(S.cancel) { navDialog = false } } }
@@ -201,16 +226,16 @@ struct SettingsScreen: View {
 
     private func themeLabel(_ mode: ThemeMode) -> String {
         switch mode {
-        case .system: return "System"
-        case .light: return "Hell"
-        case .dark: return "Dunkel"
+        case .system: return S.themeSystem
+        case .light: return S.themeLight
+        case .dark: return S.themeDark
         }
     }
 
     private func navLabel(_ style: NavStyle) -> String {
         switch style {
-        case .bottomBar: return "Leiste unten"
-        case .drawer: return "Seitenmenü"
+        case .bottomBar: return S.navStyleBottom
+        case .drawer: return S.navStyleDrawer
         }
     }
 }
@@ -253,7 +278,7 @@ struct AccountScreen: View {
                 HStack(spacing: 16) {
                     Image(systemName: "person.circle.fill").font(.system(size: 56)).foregroundStyle(colors.primary)
                     VStack(alignment: .leading) {
-                        Text(appState.displayName.isEmpty ? "Nutzer" : appState.displayName).font(.headline)
+                        Text(appState.displayName.isEmpty ? L.t("user_fallback_name") : appState.displayName).font(.headline)
                         Text(appState.accountEmail).foregroundStyle(colors.onSurfaceVariant)
                     }
                 }
@@ -262,11 +287,11 @@ struct AccountScreen: View {
                 } else {
                     AppOutlinedField(label: S.displayNameLabel, text: $displayName)
                     PrimaryButton(title: S.save) { appState.displayName = displayName }
-                    AppOutlinedField(label: "Aktuelles Passwort", text: $currentPassword, secure: true)
-                    AppOutlinedField(label: "Neues Passwort", text: $newPassword, secure: true)
-                    Button("Passwort ändern") {}
+                    AppOutlinedField(label: L.t("current_password"), text: $currentPassword, secure: true)
+                    AppOutlinedField(label: L.t("new_password"), text: $newPassword, secure: true)
+                    Button(L.t("change_password")) {}
                     if appState.isAdmin {
-                        Button("Admin-Panel") { appState.selectedTab = .admin }
+                        Button(L.t("admin_panel_button")) { appState.selectedTab = .admin }
                     }
                     Button(S.logout, role: .destructive) { showLogoutConfirm = true }
                 }
@@ -275,7 +300,7 @@ struct AccountScreen: View {
         }
         .background(colors.background)
         .onAppear { displayName = appState.displayName }
-        .alert("Abmelden?", isPresented: $showLogoutConfirm) {
+        .alert(L.t("logout_dialog_title"), isPresented: $showLogoutConfirm) {
             Button(S.logout, role: .destructive) {
                 Task { await appState.signOut() }
                 onBack?()
@@ -305,10 +330,10 @@ struct AdminPanelScreen: View {
                 if let message = viewModel.message {
                     Text(message).foregroundStyle(colors.primary).font(.footnote)
                 }
-                Toggle("Demo-Fahrzeuge", isOn: $viewModel.demoVehiclesEnabled)
-                TextField("Nutzer suchen…", text: $viewModel.searchQuery)
+                Toggle(L.t("admin_demo_vehicles_section_title"), isOn: $viewModel.demoVehiclesEnabled)
+                TextField(L.t("admin_search_users_hint"), text: $viewModel.searchQuery)
                     .textFieldStyle(.roundedBorder)
-                Text("Rechner-Verfügbarkeit").font(.headline)
+                Text(L.t("admin_calculator_availability_title")).font(.headline)
                 ForEach(CalculatorCatalog.displayOrder, id: \.name) { id in
                     Toggle(isOn: Binding(
                         get: { viewModel.calculatorToggles[id.name] ?? true },
@@ -317,7 +342,7 @@ struct AdminPanelScreen: View {
                         Text(S.calculatorTab(id))
                     }
                 }
-                Text("Pro-Module").font(.headline)
+                Text(L.t("admin_pro_modules_section_title")).font(.headline)
                 ForEach(Array(viewModel.proModuleToggles.keys.sorted()), id: \.self) { module in
                     Toggle(isOn: Binding(
                         get: { viewModel.proModuleToggles[module] ?? false },
@@ -326,25 +351,25 @@ struct AdminPanelScreen: View {
                         Text(module)
                     }
                 }
-                PrimaryButton(title: "Einstellungen speichern", loading: viewModel.loading) {
+                PrimaryButton(title: L.t("admin_save_all_settings"), loading: viewModel.loading) {
                     Task { await viewModel.saveSettings(); await appState.applyAdminRefresh() }
                 }
-                Text("Push an alle").font(.headline)
-                TextField("Titel", text: $viewModel.pushTitle).textFieldStyle(.roundedBorder)
-                TextField("Text", text: $viewModel.pushBody).textFieldStyle(.roundedBorder)
-                PrimaryButton(title: "Push senden", loading: viewModel.loading) {
+                Text(L.t("admin_push_send_all")).font(.headline)
+                TextField(L.t("admin_push_title_label"), text: $viewModel.pushTitle).textFieldStyle(.roundedBorder)
+                TextField(L.t("admin_push_body_label"), text: $viewModel.pushBody).textFieldStyle(.roundedBorder)
+                PrimaryButton(title: L.t("admin_push_send_all"), loading: viewModel.loading) {
                     Task { await viewModel.sendPush() }
                 }
-                Text("Nutzer (\(viewModel.filteredUsers.count))").font(.headline)
+                Text(L.tf("admin_users_count", viewModel.filteredUsers.count)).font(.headline)
                 ForEach(viewModel.filteredUsers, id: \.id) { user in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(user.displayName ?? user.email ?? user.id).font(.subheadline.bold())
-                        Text(user.email ?? "—").font(.caption).foregroundStyle(colors.onSurfaceVariant)
+                        Text(user.email ?? L.t("gear_result_table_no_jump")).font(.caption).foregroundStyle(colors.onSurfaceVariant)
                         HStack {
-                            Button(user.banned == true ? "Entsperren" : "Sperren") {
+                            Button(user.banned == true ? L.t("admin_unban_user_action") : L.t("admin_ban_user_action")) {
                                 Task { await viewModel.banUser(user, banned: user.banned != true) }
                             }
-                            Button(user.isPro == true ? "Pro entfernen" : "Pro geben") {
+                            Button(user.isPro == true ? L.t("admin_revoke_pro_action") : L.t("admin_grant_pro_action")) {
                                 Task { await viewModel.setPro(user, isPro: user.isPro != true) }
                             }
                         }

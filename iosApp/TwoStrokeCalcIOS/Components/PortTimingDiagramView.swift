@@ -22,8 +22,8 @@ struct PortTimingDiagramView: View {
                 context.stroke(Path(ellipseIn: rect), with: .color(colors.outline), lineWidth: 1)
 
                 drawCrosshair(context: &context, cx: cx, cy: cy, radius: radius)
-                drawMarker(context: &context, cx: cx, cy: cy, radius: radius, angle: tdcAngle, label: "OT")
-                drawMarker(context: &context, cx: cx, cy: cy, radius: radius, angle: bdcAngle, label: "UT")
+                drawMarker(context: &context, cx: cx, cy: cy, radius: radius, angle: tdcAngle, label: L.t("port_area_exhaust_diagram_ot"))
+                drawMarker(context: &context, cx: cx, cy: cy, radius: radius, angle: bdcAngle, label: L.t("port_area_exhaust_diagram_ut"))
 
                 if let exhaust = result.exhaust {
                     drawChannelArc(
@@ -52,9 +52,9 @@ struct PortTimingDiagramView: View {
             .frame(maxHeight: 280)
 
             HStack(spacing: 16) {
-                legendDot(color: .red, label: "Auslass")
-                legendDot(color: .blue, label: "Transfer")
-                if showIntake { legendDot(color: .green, label: "Einlass") }
+                legendDot(color: .red, label: L.t("pt_exhaust"))
+                legendDot(color: .blue, label: L.t("pt_transfer"))
+                if showIntake { legendDot(color: .green, label: L.t("pt_legend_intake")) }
             }
             .font(.caption)
         }

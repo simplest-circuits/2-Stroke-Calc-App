@@ -131,6 +131,9 @@ class UserSettingsFirestoreSync @Inject constructor(
             Language.ENGLISH -> LanguageMode.ENGLISH
             Language.SPANISH -> LanguageMode.SPANISH
             Language.PORTUGUESE -> LanguageMode.PORTUGUESE
+            Language.SWEDISH -> LanguageMode.SWEDISH
+            Language.DANISH -> LanguageMode.DANISH
+            Language.NORWEGIAN -> LanguageMode.NORWEGIAN
             else -> null
         }
 

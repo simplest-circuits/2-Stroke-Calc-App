@@ -53,7 +53,7 @@ struct RegisterScreen: View {
                 PrimaryButton(title: S.registerButton, loading: appState.authLoading) {
                     Task { await appState.register(email: email, password: password, name: displayName) }
                 }
-                Button("Zurück zum Login") { appState.selectedTab = .login }
+                Button(L.t("forgot_password_back_to_login")) { appState.selectedTab = .login }
             }
             .padding(24)
         }
@@ -72,7 +72,7 @@ struct ForgotPasswordScreen: View {
             Text(S.forgotPasswordTitle).font(.title2.bold())
             AppOutlinedField(label: S.emailLabel, text: $email)
             if sent {
-                Text("Reset-Link wurde gesendet. Bitte prüfe dein Postfach.").foregroundStyle(colors.primary)
+                Text(L.t("email_sent_message")).foregroundStyle(colors.primary)
             }
             PrimaryButton(title: S.forgotPasswordButton, loading: appState.authLoading) {
                 Task {
@@ -85,7 +85,7 @@ struct ForgotPasswordScreen: View {
                     }
                 }
             }
-            Button("Zurück") { appState.selectedTab = .login }
+            Button(L.t("walkthrough_back")) { appState.selectedTab = .login }
             Spacer()
         }
         .padding(24)
@@ -127,7 +127,7 @@ struct ProUpsellDialog: View {
             Color.black.opacity(0.4).ignoresSafeArea()
             VStack(spacing: 16) {
                 Text(S.proUpsellTitle).font(.headline)
-                Text("Modul \(moduleName) erfordert Pro.")
+                Text(L.t("pro_upsell_message"))
                 if let price = appState.storeKitPrice {
                     Text(price).font(.subheadline).foregroundStyle(.secondary)
                 }

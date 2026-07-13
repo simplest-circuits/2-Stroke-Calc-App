@@ -806,6 +806,9 @@
     <string name="language_german">Alemão</string>
     <string name="language_spanish">Espanhol</string>
     <string name="language_portuguese">Português</string>
+    <string name="language_swedish">Sueco</string>
+    <string name="language_danish">Dinamarquês</string>
+    <string name="language_norwegian">Norueguês</string>
     <string name="language_system">Padrão do sistema</string>
     <string name="theme_system">Padrão do sistema</string>
     <string name="theme_light">Brilhante</string>
@@ -847,7 +850,7 @@
     <string name="settings_imprint_title">imprimir</string>
     <string name="settings_imprint_subtitle">Identificação do fornecedor e detalhes de contato</string>
     <string name="settings_changelog_title">Histórico de versões</string>
-    <string name="settings_changelog_subtitle">O que há de novo na versão 1.2.6</string>
+    <string name="settings_changelog_subtitle">O que há de novo na versão 1.2.7</string>
     <string name="settings_changelog_show_older">Mostrar versões mais antigas (%1$d)</string>
     <string name="settings_changelog_show_less">Mostrar menos</string>
     <string name="settings_help_back">Voltar para configurações</string>
@@ -936,7 +939,9 @@
     <string name="settings_detail_imprint_responsible_title">Responsável pelo conteúdo</string>
     <string name="settings_detail_imprint_responsible_item_1">SimplestSoft (endereço mediante solicitação via support@simplestsoft.com)</string>
 
-    <string name="settings_detail_changelog_intro">Novo na versão 1.2.6 e visão geral de versões mais antigas.</string>
+    <string name="settings_detail_changelog_intro">Novo na versão 1.2.7 e visão geral de versões mais antigas.</string>
+    <string name="settings_changelog_v10_title">Versão 1.2.7</string>
+    <string name="settings_changelog_v10_item_1">Novos idiomas: dinamarquês, norueguês e sueco disponíveis</string>
     <string name="settings_changelog_v9_title">Versão 1.2.6</string>
     <string name="settings_changelog_v9_item_1">Visualização horizontal em tela cheia estabilizada: sem mais congelamento ao girar nas calculadoras de transmissão e escape</string>
     <string name="settings_changelog_v9_item_2">Diálogos em tela cheia otimizados: configuração de janela única em vez de reconfigurar a cada redesenho</string>

@@ -29,11 +29,11 @@ flowchart LR
    - **Variable:** `APPETIZE_ENABLED` = `true`  
    - **Variable (optional):** `APPETIZE_PUBLIC_KEY` = Public Key einer bestehenden App (sonst legt CI bei jedem Lauf eine neue an)
 
-4. **Push** auf `main` oder `iOS/Android-compatibility` → Workflow [`.github/workflows/ios-build.yml`](../.github/workflows/ios-build.yml) startet.
+4. **Push** auf `main` oder `iOS/Android-compatibility` → Workflow [`.github/workflows/calc-build.yml`](../.github/workflows/calc-build.yml) startet.
 
-5. **Link öffnen:** Im GitHub Actions Log den Schritt „Deploy to Appetize“ → Public URL, oder im Appetize-Dashboard die App starten.
+5. **Link öffnen:** https://appetize.io/app/DEIN_PUBLIC_KEY (oder im Actions-Job-Summary unter „Appetize (Live)“)
 
-6. **Manuell triggern:** GitHub → Actions → „iOS Build“ → **Run workflow**.
+6. **Manuell triggern:** GitHub → Actions → „Calc Build“ → **Run workflow**.
 
 ### Was du im Browser testen kannst
 

@@ -2,6 +2,15 @@ import Foundation
 import UserNotifications
 
 enum NotificationService {
+    static func authorizationStatus() async -> UNAuthorizationStatus {
+        await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+    }
+
+    static func canPostNotifications() async -> Bool {
+        let status = await authorizationStatus()
+        return status == .authorized || status == .provisional
+    }
+
     static func requestPermission() async -> Bool {
         await withCheckedContinuation { continuation in
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in

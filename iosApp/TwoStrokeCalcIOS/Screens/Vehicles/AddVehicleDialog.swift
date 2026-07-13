@@ -40,30 +40,30 @@ struct AddVehicleDialog: View {
     var body: some View {
         NavigationStack {
             Form {
-                Picker("Eingabe", selection: $inputMode) {
-                    Text("Manuell").tag(AddVehicleInputMode.manual)
-                    Text("Katalog").tag(AddVehicleInputMode.catalog)
+                Picker(L.t("vehicles_add_input_mode"), selection: $inputMode) {
+                    Text(L.t("vehicles_add_mode_manual")).tag(AddVehicleInputMode.manual)
+                    Text(L.t("vehicles_add_mode_catalog")).tag(AddVehicleInputMode.catalog)
                 }
                 .pickerStyle(.segmented)
 
                 if inputMode == .manual {
-                    Section("Stammdaten") {
-                        TextField("Name", text: $name)
-                        TextField("Marke", text: $brand)
-                        TextField("Modell", text: $model)
-                        TextField("Baujahr", text: $year)
-                        TextField("Kennzeichen", text: $licensePlate)
-                        TextField("KM-Stand", text: $odometer)
-                        Picker("Typ", selection: $vehicleType) {
-                            Text("Mofa").tag("MOFA")
-                            Text("Mokick").tag("MOKICK")
-                            Text("Roller").tag("ROLLER")
-                            Text("Cross").tag("CROSS")
+                    Section(L.t("vehicles_tab_basic")) {
+                        TextField(L.t("vehicles_field_name"), text: $name)
+                        TextField(L.t("vehicles_field_brand"), text: $brand)
+                        TextField(L.t("vehicles_field_model"), text: $model)
+                        TextField(L.t("vehicles_field_year"), text: $year)
+                        TextField(L.t("vehicles_field_license_plate"), text: $licensePlate)
+                        TextField(L.t("vehicles_field_odometer"), text: $odometer)
+                        Picker(L.t("vehicles_field_type"), selection: $vehicleType) {
+                            Text(L.t("vehicles_type_mofa")).tag("MOFA")
+                            Text(L.t("vehicles_type_mokick")).tag("MOKICK")
+                            Text(L.t("vehicle_dynamics_preset_roller")).tag("ROLLER")
+                            Text(L.t("exhaust_preset_cross")).tag("CROSS")
                         }
                     }
                 } else {
-                    Section("Katalog (\(SharedKitBridge.catalogEntryCount()) Modelle)") {
-                        TextField("Suche Marke/Modell…", text: $catalogSearch)
+                    Section(L.tf("vehicles_catalog_section_title", SharedKitBridge.catalogEntryCount())) {
+                        TextField(L.t("vehicles_catalog_search_hint"), text: $catalogSearch)
                         if !catalogSearch.isEmpty {
                             ForEach(IosKoinInitKt.iosCatalogSearch(query: catalogSearch, limit: 15) as [VehicleCatalogEntry], id: \.id) { entry in
                                 Button("\(entry.brand) \(entry.displayModel())") {
@@ -73,8 +73,8 @@ struct AddVehicleDialog: View {
                                 }
                             }
                         }
-                        Picker("Marke", selection: $catalogBrand) {
-                            Text("—").tag("")
+                        Picker(L.t("vehicles_field_brand"), selection: $catalogBrand) {
+                            Text(L.t("gear_result_table_no_jump")).tag("")
                             ForEach(catalogBrands, id: \.self) { Text($0).tag($0) }
                         }
                         .onChange(of: catalogBrand) { _, _ in
@@ -82,32 +82,32 @@ struct AddVehicleDialog: View {
                             catalogYear = ""
                             catalogVariantId = ""
                         }
-                        Picker("Modell", selection: $catalogModel) {
-                            Text("—").tag("")
+                        Picker(L.t("vehicles_field_model"), selection: $catalogModel) {
+                            Text(L.t("gear_result_table_no_jump")).tag("")
                             ForEach(models, id: \.self) { Text($0).tag($0) }
                         }
                         .onChange(of: catalogModel) { _, _ in
                             catalogYear = years.first.map(String.init) ?? ""
                             catalogVariantId = ""
                         }
-                        Picker("Baujahr", selection: $catalogYear) {
-                            Text("—").tag("")
+                        Picker(L.t("vehicles_field_year"), selection: $catalogYear) {
+                            Text(L.t("gear_result_table_no_jump")).tag("")
                             ForEach(years, id: \.self) { Text(String($0)).tag(String($0)) }
                         }
                         if !variants.isEmpty {
-                            Picker("Variante", selection: $catalogVariantId) {
+                            Picker(L.t("vehicles_catalog_variant"), selection: $catalogVariantId) {
                                 ForEach(variants, id: \.id) { entry in
                                     Text(entry.variant.isEmpty ? entry.model : entry.variant).tag(entry.id)
                                 }
                             }
                         }
-                        TextField("Kennzeichen", text: $licensePlate)
-                        TextField("KM-Stand", text: $odometer)
+                        TextField(L.t("vehicles_field_license_plate"), text: $licensePlate)
+                        TextField(L.t("vehicles_field_odometer"), text: $odometer)
                     }
                 }
 
                 if showValidationError {
-                    Text("Bitte Name oder Marke+Modell angeben.")
+                    Text(L.t("vehicles_add_validation_error"))
                         .foregroundStyle(colors.error)
                 }
             }

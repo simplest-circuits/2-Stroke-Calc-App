@@ -806,6 +806,9 @@
     <string name="language_german">Alemán</string>
     <string name="language_spanish">Español</string>
     <string name="language_portuguese">Portugués</string>
+    <string name="language_swedish">Sueco</string>
+    <string name="language_danish">Danés</string>
+    <string name="language_norwegian">Noruego</string>
     <string name="language_system">Estándar del sistema</string>
     <string name="theme_system">Estándar del sistema</string>
     <string name="theme_light">Brillante</string>
@@ -847,7 +850,7 @@
     <string name="settings_imprint_title">imprimir</string>
     <string name="settings_imprint_subtitle">Identificación del proveedor y datos de contacto.</string>
     <string name="settings_changelog_title">Historial de versiones</string>
-    <string name="settings_changelog_subtitle">Novedades de la versión 1.2.6</string>
+    <string name="settings_changelog_subtitle">Novedades de la versión 1.2.7</string>
     <string name="settings_changelog_show_older">Mostrar versiones anteriores (%1$d)</string>
     <string name="settings_changelog_show_less">Mostrar menos</string>
     <string name="settings_help_back">Volver a configuración</string>
@@ -936,7 +939,9 @@
     <string name="settings_detail_imprint_responsible_title">Responsable del contenido</string>
     <string name="settings_detail_imprint_responsible_item_1">SimplestSoft (dirección previa solicitud a través de support@simprestsoft.com)</string>
 
-    <string name="settings_detail_changelog_intro">Nuevo en la versión 1.2.6 y descripción general de versiones anteriores.</string>
+    <string name="settings_detail_changelog_intro">Nuevo en la versión 1.2.7 y descripción general de versiones anteriores.</string>
+    <string name="settings_changelog_v10_title">Versión 1.2.7</string>
+    <string name="settings_changelog_v10_item_1">Nuevos idiomas: danés, noruego y sueco disponibles</string>
     <string name="settings_changelog_v9_title">Versión 1.2.6</string>
     <string name="settings_changelog_v9_item_1">Vista horizontal a pantalla completa estabilizada: ya no se congela al rotar en las calculadoras de transmisión y escape</string>
     <string name="settings_changelog_v9_item_2">Diálogos a pantalla completa optimizados: configuración de ventana única en lugar de reconfigurar en cada redibujado</string>

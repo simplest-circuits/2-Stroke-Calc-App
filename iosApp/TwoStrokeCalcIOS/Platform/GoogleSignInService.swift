@@ -12,11 +12,11 @@ enum GoogleSignInService {
         #if canImport(GoogleSignIn)
         FirebaseBootstrap.configureIfNeeded()
         guard GIDSignIn.sharedInstance.configuration != nil else {
-            appState.authError = "Google CLIENT_ID nicht in GoogleService-Info.plist gefunden."
+            appState.authError = L.t("auth_error_google_client_id_missing")
             return
         }
         guard let presenter = presentingViewController() else {
-            appState.authError = "Kein ViewController für Google Sign-In verfügbar."
+            appState.authError = L.t("auth_error_google_no_view_controller")
             return
         }
         appState.authLoading = true
@@ -26,7 +26,7 @@ enum GoogleSignInService {
         do {
             let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: presenter)
             guard let idToken = result.user.idToken?.tokenString else {
-                appState.authError = "Google ID-Token fehlt."
+                appState.authError = L.t("auth_error_google_id_token_missing")
                 return
             }
             let accessToken = result.user.accessToken.tokenString
@@ -39,7 +39,7 @@ enum GoogleSignInService {
             appState.authError = friendlyAuthErrorMessage(error)
         }
         #else
-        appState.authError = "GoogleSignIn SDK nicht verlinkt. Bitte GoogleSignIn-iOS via SPM hinzufügen."
+        appState.authError = L.t("auth_error_google_sdk_missing")
         #endif
     }
 
@@ -70,7 +70,7 @@ enum GoogleSignInService {
 
     private static func friendlyAuthErrorMessage(_ error: Error) -> String {
         if isKeychainError(error) {
-            return "Anmeldung fehlgeschlagen: Keychain-Zugriff nicht möglich. Bitte App neu starten oder auf einem echten Gerät testen."
+            return L.t("auth_error_keychain_access")
         }
         return error.localizedDescription
     }

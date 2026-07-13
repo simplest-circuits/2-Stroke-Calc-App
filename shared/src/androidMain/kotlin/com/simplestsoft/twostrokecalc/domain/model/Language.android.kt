@@ -7,5 +7,8 @@ actual fun systemLanguage(): Language =
         "de" -> Language.GERMAN
         "es" -> Language.SPANISH
         "pt" -> Language.PORTUGUESE
+        "sv" -> Language.SWEDISH
+        "da" -> Language.DANISH
+        "nb", "no" -> Language.NORWEGIAN
         else -> Language.ENGLISH
     }

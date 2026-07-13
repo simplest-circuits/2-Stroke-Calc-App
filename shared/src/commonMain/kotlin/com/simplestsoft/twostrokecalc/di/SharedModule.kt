@@ -8,6 +8,7 @@ import com.simplestsoft.twostrokecalc.data.config.CalculatorAvailabilityReposito
 import com.simplestsoft.twostrokecalc.data.config.DemoVehiclesConfigRepository
 import com.simplestsoft.twostrokecalc.data.config.ProAccessRepository
 import com.simplestsoft.twostrokecalc.data.preferences.AppPreferencesStore
+import com.simplestsoft.twostrokecalc.data.settings.SharedUserSettingsFirestoreSync
 import com.simplestsoft.twostrokecalc.data.remote.createAccountApi
 import com.simplestsoft.twostrokecalc.data.remote.createAdminApi
 import com.simplestsoft.twostrokecalc.data.remote.createApiHttpClient
@@ -32,6 +33,7 @@ val sharedModule = module {
     single { SharedVehicleRepository(get(), get()) }
     single { SharedVehicleCatalogFirestoreSync(get()) }
     single { SharedVehicleCatalogRepository(get()) }
+    single { SharedUserSettingsFirestoreSync(get()) }
 }
 
 fun sharedKoinModules() = listOf(sharedModule)

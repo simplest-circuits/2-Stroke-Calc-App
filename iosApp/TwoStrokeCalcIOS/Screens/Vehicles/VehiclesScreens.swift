@@ -91,7 +91,7 @@ struct VehicleFuelLogScreen: View {
 
     var body: some View {
         CalculatorScaffold {
-            CalculatorHeader(title: "Tankbuch", subtitle: "Spritverbrauch erfassen")
+            CalculatorHeader(title: L.t("vehicles_quick_fuel_log"), subtitle: L.t("vehicles_fuel_log_add"))
             if let vehicle = appState.vehicle(for: vehicleId) {
                 ForEach(Array(vehicle.fuelLog.enumerated()), id: \.offset) { index, entry in
                     fuelRow(entry) {
@@ -102,10 +102,10 @@ struct VehicleFuelLogScreen: View {
                     }
                 }
                 if !vehicle.fuelLog.isEmpty {
-                    ResultCard(title: "Verbrauch", lines: consumptionLines(for: vehicle))
+                    ResultCard(title: L.t("vehicles_fuel_log_consumption"), lines: consumptionLines(for: vehicle))
                 }
             }
-            PrimaryButton(title: "Eintrag hinzufügen") { editEntry = nil; showAdd = true }
+            PrimaryButton(title: L.t("vehicles_maintenance_add")) { editEntry = nil; showAdd = true }
         }
         .sheet(isPresented: $showAdd) {
             FuelLogEntrySheet(entry: editEntry) { saved in
@@ -126,7 +126,7 @@ struct VehicleFuelLogScreen: View {
                     .foregroundStyle(colors.primary)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Bearbeiten")
+            .accessibilityLabel(L.t("vehicles_overview_edit"))
             Button(role: .destructive, action: onDelete) {
                 Image(systemName: "trash")
             }
@@ -138,14 +138,14 @@ struct VehicleFuelLogScreen: View {
 
     private func consumptionLines(for vehicle: Vehicle) -> [String] {
         let entries = vehicle.fuelLog
-        guard entries.count >= 2 else { return ["Mindestens 2 Einträge für Verbrauch"] }
+        guard entries.count >= 2 else { return [L.t("vehicles_fuel_log_average_hint")] }
         let sorted = entries.sorted { parseDouble($0.odometerKm) ?? 0 < parseDouble($1.odometerKm) ?? 0 }
         guard let first = sorted.first, let last = sorted.last else { return [] }
         let km = (parseDouble(last.odometerKm) ?? 0) - (parseDouble(first.odometerKm) ?? 0)
         guard km > 0 else { return [] }
         let liters = sorted.dropFirst().compactMap { parseDouble($0.liters) }.reduce(0, +)
         let per100 = liters / km * 100
-        return [String(format: "Ø Verbrauch: %.1f l/100 km", per100)]
+        return [L.tf("vehicles_fuel_log_average_value", fmt(per100, decimals: 1), L.t("vehicles_fuel_log_unit_km"))]
     }
 
     private func upsertEntry(_ entry: FuelLogEntry) async {
@@ -180,25 +180,25 @@ struct VehicleCostOverviewScreen: View {
 
     var body: some View {
         CalculatorScaffold {
-            CalculatorHeader(title: "Kostenübersicht", subtitle: "Wartung und Betriebskosten")
+            CalculatorHeader(title: L.t("vehicles_quick_cost_overview"), subtitle: L.t("vehicles_cost_overview_title"))
             if let vehicle = appState.vehicle(for: vehicleId) {
                 let lines = costSummary(for: vehicle)
-                ResultCard(title: S.resultTitle, lines: lines.isEmpty ? ["Noch keine Einträge"] : lines)
+                ResultCard(title: S.resultTitle, lines: lines.isEmpty ? [L.t("vehicles_cost_overview_empty")] : lines)
                 ForEach(Array(vehicle.maintenanceLog.enumerated()), id: \.offset) { index, entry in
                     HStack {
                         VStack(alignment: .leading) {
                             Text(entry.entryDescription).font(.subheadline)
-                            Text("\(entry.date) · \(entry.cost) €").font(.caption)
+                            Text(L.tf("vehicles_maintenance_entry_line", entry.date, entry.cost)).font(.caption)
                         }
                         Spacer()
-                        Button("Löschen") {
+                        Button(L.t("delete")) {
                             Task { await deleteMaintenance(at: index) }
                         }
                         .font(.caption)
                     }
                 }
             }
-            PrimaryButton(title: "Kostenposition hinzufügen") { showAdd = true }
+            PrimaryButton(title: L.t("vehicles_maintenance_add")) { showAdd = true }
         }
         .sheet(isPresented: $showAdd) {
             MaintenanceEntrySheet { entry in
@@ -211,9 +211,9 @@ struct VehicleCostOverviewScreen: View {
         let fuel = vehicle.fuelLog.compactMap { parseDouble($0.price) }.reduce(0, +)
         let maintenance = vehicle.maintenanceLog.compactMap { parseDouble($0.cost) }.reduce(0, +)
         var lines: [String] = []
-        if fuel > 0 { lines.append(String(format: "Kraftstoff: %.2f €", fuel)) }
-        if maintenance > 0 { lines.append(String(format: "Wartung: %.2f €", maintenance)) }
-        if fuel + maintenance > 0 { lines.append(String(format: "Gesamt: %.2f €", fuel + maintenance)) }
+        if fuel > 0 { lines.append(L.tf("vehicles_cost_fuel_summary", String(format: "%.2f", fuel))) }
+        if maintenance > 0 { lines.append(L.tf("vehicles_cost_maintenance_summary", String(format: "%.2f", maintenance))) }
+        if fuel + maintenance > 0 { lines.append(L.tf("vehicles_cost_total_summary", String(format: "%.2f", fuel + maintenance))) }
         return lines
     }
 
@@ -247,12 +247,12 @@ private struct FuelLogEntrySheet: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField("Datum", text: $date)
-                TextField("Liter", text: $liters)
-                TextField("Kilometerstand", text: $odometer)
-                TextField("Preis (€)", text: $price)
+                TextField(L.t("vehicles_maintenance_date"), text: $date)
+                TextField(L.t("vehicles_fuel_log_liters"), text: $liters)
+                TextField(L.t("vehicles_field_odometer"), text: $odometer)
+                TextField(L.t("vehicles_fuel_log_price"), text: $price)
             }
-            .navigationTitle("Tankbuch-Eintrag")
+            .navigationTitle(L.t("vehicles_fuel_log_edit"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button(S.cancel) { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
@@ -288,11 +288,11 @@ struct MaintenanceEntrySheet: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField("Datum", text: $date)
-                TextField("Beschreibung", text: $description)
-                TextField("Kosten (€)", text: $cost)
+                TextField(L.t("vehicles_maintenance_date"), text: $date)
+                TextField(L.t("vehicles_maintenance_description"), text: $description)
+                TextField(L.t("vehicles_maintenance_cost"), text: $cost)
             }
-            .navigationTitle("Kostenposition")
+            .navigationTitle(L.t("vehicles_maintenance_cost"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button(S.cancel) { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {

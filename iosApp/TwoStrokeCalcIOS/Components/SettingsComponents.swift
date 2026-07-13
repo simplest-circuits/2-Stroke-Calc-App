@@ -1,16 +1,8 @@
 import SwiftUI
 
 enum LanguageMode: String, CaseIterable, Identifiable {
-    case system, german, english
+    case system, german, english, spanish, portuguese, swedish, danish, norwegian
     var id: String { rawValue }
-
-    var label: String {
-        switch self {
-        case .system: return "System"
-        case .german: return "Deutsch"
-        case .english: return "English"
-        }
-    }
 }
 
 struct SettingsSectionCard<Content: View>: View {

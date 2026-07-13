@@ -73,8 +73,8 @@ enum StoreKitError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .productUnavailable: return "Pro-Produkt nicht verfügbar."
-        case .verificationFailed: return "Kauf konnte nicht verifiziert werden."
+        case .productUnavailable: return L.t("billing_product_unavailable")
+        case .verificationFailed: return L.t("settings_pro_verification_failed")
         }
     }
 }

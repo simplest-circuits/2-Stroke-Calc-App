@@ -42,7 +42,7 @@ struct CalculatorDetailView: View {
             default:
                 CalculatorScaffold {
                     CalculatorHeader(title: S.calculatorTab(calculatorId), subtitle: nil)
-                    ResultCard(title: S.resultTitle, lines: ["Rechner noch nicht verfügbar."])
+                    ResultCard(title: S.resultTitle, lines: [L.t("calculator_not_available")])
                 }
             }
         }

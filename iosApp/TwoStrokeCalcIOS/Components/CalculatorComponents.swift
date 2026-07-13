@@ -194,7 +194,7 @@ struct ResultCard: View {
     var body: some View {
         CalculatorSection(title) {
             if lines.isEmpty {
-                Text("Werte eingeben…")
+                Text(L.t("pt_not_calculated"))
                     .foregroundStyle(colors.onSurfaceVariant)
             } else {
                 ForEach(lines, id: \.self) { line in
@@ -290,4 +290,175 @@ func formatIgnitionDegrees(_ value: Double, round: Bool = true) -> String {
 
 func formatIgnitionMillimeters(_ value: Double) -> String {
     String(format: "%.2f mm", value)
+}
+
+struct CalculatorChoiceField: View {
+    @Environment(\.themeColors) private var colors
+    let label: String
+    let options: [(key: String, title: String)]
+    let selectedKey: String
+    var supportingText: String? = nil
+    var enabled: Bool = true
+    let onOptionSelected: (String) -> Void
+
+    private var selectedTitle: String {
+        options.first(where: { $0.key == selectedKey })?.title ?? selectedKey
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            if !label.isEmpty {
+                Text(label)
+                    .font(.caption)
+                    .foregroundStyle(colors.onSurfaceVariant)
+            }
+            Menu {
+                ForEach(options, id: \.key) { option in
+                    Button(option.title) { onOptionSelected(option.key) }
+                }
+            } label: {
+                HStack {
+                    Text(selectedTitle)
+                        .foregroundStyle(colors.onSurface)
+                    Spacer()
+                    Image(systemName: "chevron.down")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(colors.onSurfaceVariant)
+                }
+                .padding(12)
+                .background(colors.surfaceVariant.opacity(0.5))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+            .disabled(!enabled)
+
+            if let supportingText, !supportingText.isEmpty {
+                Text(supportingText)
+                    .font(.caption2)
+                    .foregroundStyle(colors.onSurfaceVariant)
+            }
+        }
+    }
+}
+
+struct CalculatorCollapsibleSection<Content: View>: View {
+    @Environment(\.themeColors) private var colors
+    let title: String
+    @State private var expanded = false
+    let content: Content
+
+    init(_ title: String, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.content = content()
+    }
+
+    var body: some View {
+        DisclosureGroup(isExpanded: $expanded) {
+            VStack(alignment: .leading, spacing: 12) {
+                content
+            }
+            .padding(.top, 8)
+        } label: {
+            Text(title)
+                .font(.headline)
+                .foregroundStyle(colors.primary)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(colors.surface)
+        .clipShape(RoundedRectangle(cornerRadius: AppTheme.containerCornerRadius))
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.containerCornerRadius)
+                .stroke(colors.outline.opacity(0.35), lineWidth: 1)
+        )
+    }
+}
+
+struct CalculatorResultCard<Content: View>: View {
+    @Environment(\.themeColors) private var colors
+    let title: String
+    let content: Content
+
+    init(_ title: String, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.content = content()
+    }
+
+    var body: some View {
+        CalculatorSection(title) {
+            content
+        }
+    }
+}
+
+struct CalculatorResultRow: View {
+    @Environment(\.themeColors) private var colors
+    let label: String
+    let value: String
+    var hint: String? = nil
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(label)
+                    .font(.subheadline)
+                    .foregroundStyle(colors.onSurfaceVariant)
+                Spacer(minLength: 8)
+                Text(value)
+                    .font(.subheadline.monospacedDigit().weight(.medium))
+                    .foregroundStyle(colors.onSurface)
+                    .multilineTextAlignment(.trailing)
+            }
+            if let hint {
+                Text(hint)
+                    .font(.caption2)
+                    .foregroundStyle(colors.onSurfaceVariant)
+            }
+        }
+    }
+}
+
+struct CalculatorResultDivider: View {
+    @Environment(\.themeColors) private var colors
+
+    var body: some View {
+        Divider()
+            .overlay(colors.outline.opacity(0.25))
+            .padding(.vertical, 4)
+    }
+}
+
+struct CalculatorEmptyResultText: View {
+    @Environment(\.themeColors) private var colors
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.body)
+            .foregroundStyle(colors.onSurfaceVariant)
+    }
+}
+
+struct CalculatorInvalidResultText: View {
+    @Environment(\.themeColors) private var colors
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.body)
+            .foregroundStyle(colors.error)
+    }
+}
+
+struct CalculatorFieldRow<Content: View>: View {
+    let content: Content
+
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    var body: some View {
+        HStack(spacing: 12) {
+            content
+        }
+    }
 }

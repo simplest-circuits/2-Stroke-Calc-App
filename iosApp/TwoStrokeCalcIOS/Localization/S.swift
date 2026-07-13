@@ -1,161 +1,165 @@
 import Foundation
 import sharedKit
 
-/// German UI strings aligned with Android `values/strings.xml`.
+/// Localized UI strings aligned with Android `strings.xml`.
 enum S {
-    static let appName = "2-Stroke Calc"
-    static let splashSlogan = "sonst brauchst Du nichts…"
-    static let navCalculator = "Rechner"
-    static let navVehicles = "Fahrzeuge"
-    static let settingsTitle = "Einstellungen"
-    static let adminPanelTitle = "Admin"
-    static let calculatorOverviewSubtitle = "Wähle einen Rechner für deine 2-Takt-Berechnung."
-    static let calculatorBack = "Zurück zur Übersicht"
-    static let loginTitle = "Anmelden"
-    static let loginSubtitle = "Melde dich an, um Fahrzeuge und Cloud-Sync zu nutzen."
-    static let emailLabel = "E-Mail"
-    static let passwordLabel = "Passwort"
-    static let loginButton = "Anmelden"
-    static let forgotPassword = "Passwort vergessen?"
-    static let signInGoogle = "Mit Google anmelden"
-    static let noAccountRegister = "Noch kein Konto? Registrieren"
-    static let registerTitle = "Registrieren"
-    static let registerButton = "Konto erstellen"
-    static let displayNameLabel = "Anzeigename"
-    static let forgotPasswordTitle = "Passwort zurücksetzen"
-    static let forgotPasswordButton = "Link senden"
-    static let accountTitle = "Konto"
-    static let logout = "Abmelden"
-    static let proReadOnly = "Pro-Modul – nur Lesen. Upgrade für volle Bearbeitung."
-    static let buyPro = "Pro kaufen"
-    static let welcomeTitle = "Willkommen bei 2-Stroke Calc"
-    static let welcomeContinue = "Weiter"
-    static let permissionsTitle = "Berechtigungen"
-    static let permissionsContinue = "Fortfahren"
-    static let vehiclesEmpty = "Noch keine Fahrzeuge"
-    static let vehiclesAdd = "Fahrzeug hinzufügen"
-    static let save = "Speichern"
-    static let cancel = "Abbrechen"
-    static let delete = "Löschen"
-    static let calculate = "Berechnen"
-    static let resultTitle = "Ergebnis"
-    static let sectionInput = "Dateneingabe"
-    static let proUpsellTitle = "Pro-Feature"
-    static let authGateTitle = "Anmeldung erforderlich"
-    static let authGateMessage = "Bitte melde dich an, um fortzufahren."
-    static let authGateLogin = "Zum Login"
+    private static var lang: AppLanguage { AppLocalization.language }
+    private static func t(_ key: StringKey) -> String { StringCatalog.text(key, language: lang) }
 
-    // Settings
-    static let settingsAccountSection = "Konto"
-    static let settingsAccountSubtitle = "Anmeldung, Profil, Pro-Version und Sicherheit"
-    static let settingsProSection = "Pro-Version"
-    static let settingsProSectionHint = "Schalte Fahrzeuge, Steuerzeiten, Kabelquerschnitt, Flüssigkeitsrechner und Getrieberechner frei."
-    static let settingsBuyPro = "Pro-Version kaufen"
-    static let settingsRestorePro = "Käufe wiederherstellen"
-    static let appearanceSection = "Darstellung"
-    static let themeLabel = "Design"
-    static let languageLabel = "Sprache"
-    static let menuTypeLabel = "Menütyp"
-    static let settingsPermissionsSection = "Berechtigungen"
-    static let settingsNotificationsTitle = "Push-Benachrichtigungen"
-    static let settingsNotificationsGranted = "Aktiv – Wartungserinnerungen für Fahrzeuge"
-    static let settingsNotificationsDenied = "Deaktiviert – keine Wartungserinnerungen"
-    static let settingsGeneralSection = "Allgemein"
-    static let settingsHelpTitle = "Hilfe & FAQ"
-    static let settingsHelpSubtitle = "Rechner, Fahrzeuge, Pro-Version und mehr"
-    static let settingsHelpBody = "Kurze Antworten und praktische Tipps zur Nutzung von 2-Stroke Calc.\n\n• Alle Rechner unter dem Tab Rechner.\n• Fahrzeuge mit Cloud-Sync bei angemeldetem Konto.\n• Pro schaltet Bearbeiten in gesperrten Modulen frei.\n• Design, Sprache und Menütyp unter Darstellung."
-    static let settingsChangelogTitle = "Versionshistorie"
-    static let settingsChangelogSubtitle = "Neuigkeiten in Version 1.2.6"
-    static let settingsChangelogBody = "Version 1.0 iOS: SwiftUI-App, 16 Rechner, Firebase-Auth, StoreKit, Fahrzeuge/Firestore, Walkthrough."
-    static let settingsContactTitle = "Kontakt"
-    static let settingsContactSubtitle = "Nachricht senden oder Fehler melden"
-    static let settingsContactBody = "Schreib uns gern direkt aus der App – ob Frage, Feedback oder Fehlerbericht."
-    static let settingsBugReportTitle = "Fehler melden"
-    static let settingsBugReportSubtitle = "Problem mit der App beschreiben"
-    static let settingsBugReportBody = "Beschreibe das Problem so genau wie möglich. Geräteinformationen werden automatisch angehängt."
-    static let settingsLegalSection = "Rechtliches"
-    static let settingsPrivacyTitle = "Datenschutz"
-    static let settingsPrivacyBody = "Rechner-Eingaben werden lokal verarbeitet. Fahrzeugdaten synchronisieren über Firebase. Pro-Käufe über App Store."
-    static let settingsTermsTitle = "AGB"
-    static let settingsTermsBody = "Die App dient als Hilfsmittel für technische Berechnungen. Ergebnisse ersetzen keine fachliche Prüfung. Pro-Käufe unterliegen App-Store-Richtlinien."
-    static let settingsDataProcessingTitle = "Datenverarbeitung"
-    static let settingsImprintTitle = "Impressum"
-    static let settingsRestartWalkthrough = "App-Tour erneut starten"
+    static var accountTitle: String { t(.accountTitle) }
+    static var adminPanelTitle: String { t(.adminPanelTitle) }
+    static var appName: String { t(.appName) }
+    static var appearanceSection: String { t(.appearanceSection) }
+    static var authGateLogin: String { t(.authGateLogin) }
+    static var authGateMessage: String { t(.authGateMessage) }
+    static var authGateTitle: String { t(.authGateTitle) }
+    static var buyPro: String { t(.buyPro) }
+    static var calculate: String { t(.calculate) }
+    static var calculatorBack: String { t(.calculatorBack) }
+    static var calculatorOverviewSubtitle: String { t(.calculatorOverviewSubtitle) }
+    static var cancel: String { t(.cancel) }
+    static var delete: String { t(.delete) }
+    static var displayNameLabel: String { t(.displayNameLabel) }
+    static var emailLabel: String { t(.emailLabel) }
+    static var forgotPassword: String { t(.forgotPassword) }
+    static var forgotPasswordButton: String { t(.forgotPasswordButton) }
+    static var forgotPasswordTitle: String { t(.forgotPasswordTitle) }
+    static var languageDanish: String { t(.languageDanish) }
+    static var languageEnglish: String { t(.languageEnglish) }
+    static var languageGerman: String { t(.languageGerman) }
+    static var languageLabel: String { t(.languageLabel) }
+    static var languageNorwegian: String { t(.languageNorwegian) }
+    static var languagePortuguese: String { t(.languagePortuguese) }
+    static var languageSpanish: String { t(.languageSpanish) }
+    static var languageSwedish: String { t(.languageSwedish) }
+    static var languageSystem: String { t(.languageSystem) }
+    static var loginButton: String { t(.loginButton) }
+    static var loginSubtitle: String { t(.loginSubtitle) }
+    static var loginTitle: String { t(.loginTitle) }
+    static var logout: String { t(.logout) }
+    static var menuTypeLabel: String { t(.menuTypeLabel) }
+    static var navCalculator: String { t(.navCalculator) }
+    static var navStyleBottom: String { t(.navStyleBottom) }
+    static var navStyleDrawer: String { t(.navStyleDrawer) }
+    static var navVehicles: String { t(.navVehicles) }
+    static var noAccountRegister: String { t(.noAccountRegister) }
+    static var passwordLabel: String { t(.passwordLabel) }
+    static var permissionsContinue: String { t(.permissionsContinue) }
+    static var permissionsTitle: String { t(.permissionsTitle) }
+    static var proReadOnly: String { t(.proReadOnly) }
+    static var proUpsellTitle: String { t(.proUpsellTitle) }
+    static var registerButton: String { t(.registerButton) }
+    static var registerTitle: String { t(.registerTitle) }
+    static var resultTitle: String { t(.resultTitle) }
+    static var save: String { t(.save) }
+    static var sectionInput: String { t(.sectionInput) }
+    static var settingsAccountSection: String { t(.settingsAccountSection) }
+    static var settingsAccountSubtitle: String { t(.settingsAccountSubtitle) }
+    static var settingsBugReportBody: String { t(.settingsBugReportBody) }
+    static var settingsBugReportSubtitle: String { t(.settingsBugReportSubtitle) }
+    static var settingsBugReportTitle: String { t(.settingsBugReportTitle) }
+    static var settingsBuyPro: String { t(.settingsBuyPro) }
+    static var settingsChangelogBody: String { t(.settingsChangelogBody) }
+    static var settingsChangelogSubtitle: String { t(.settingsChangelogSubtitle) }
+    static var settingsChangelogTitle: String { t(.settingsChangelogTitle) }
+    static var settingsContactBody: String { t(.settingsContactBody) }
+    static var settingsContactSubtitle: String { t(.settingsContactSubtitle) }
+    static var settingsContactTitle: String { t(.settingsContactTitle) }
+    static var settingsDataProcessingTitle: String { t(.settingsDataProcessingTitle) }
+    static var settingsGeneralSection: String { t(.settingsGeneralSection) }
+    static var settingsHelpBody: String { t(.settingsHelpBody) }
+    static var settingsHelpSubtitle: String { t(.settingsHelpSubtitle) }
+    static var settingsHelpTitle: String { t(.settingsHelpTitle) }
+    static var settingsImprintTitle: String { t(.settingsImprintTitle) }
+    static var settingsLegalSection: String { t(.settingsLegalSection) }
+    static var settingsNotificationsDenied: String { t(.settingsNotificationsDenied) }
+    static var settingsNotificationsGranted: String { t(.settingsNotificationsGranted) }
+    static var settingsNotificationsTitle: String { t(.settingsNotificationsTitle) }
+    static var settingsPermissionsSection: String { t(.settingsPermissionsSection) }
+    static var settingsPrivacyBody: String { t(.settingsPrivacyBody) }
+    static var settingsPrivacyTitle: String { t(.settingsPrivacyTitle) }
+    static var settingsProSection: String { t(.settingsProSection) }
+    static var settingsProSectionHint: String { t(.settingsProSectionHint) }
+    static var settingsRestartWalkthrough: String { t(.settingsRestartWalkthrough) }
+    static var settingsRestorePro: String { t(.settingsRestorePro) }
+    static var settingsTermsBody: String { t(.settingsTermsBody) }
+    static var settingsTermsTitle: String { t(.settingsTermsTitle) }
+    static var settingsTitle: String { t(.settingsTitle) }
+    static var signInGoogle: String { t(.signInGoogle) }
+    static var splashSlogan: String { t(.splashSlogan) }
+    static var themeDark: String { t(.themeDark) }
+    static var themeLabel: String { t(.themeLabel) }
+    static var themeLight: String { t(.themeLight) }
+    static var themeSystem: String { t(.themeSystem) }
+    static var vehiclesAdd: String { t(.vehiclesAdd) }
+    static var vehiclesEmpty: String { t(.vehiclesEmpty) }
+    static var walkthroughBack: String { t(.walkthroughBack) }
+    static var walkthroughCalculatorNavTitle: String { t(.walkthroughCalculatorNavTitle) }
+    static var walkthroughFinish: String { t(.walkthroughFinish) }
+    static var walkthroughFreeCalculatorBody: String { t(.walkthroughFreeCalculatorBody) }
+    static var walkthroughFreeCalculatorNavBody: String { t(.walkthroughFreeCalculatorNavBody) }
+    static var walkthroughFreeCalculatorTitle: String { t(.walkthroughFreeCalculatorTitle) }
+    static var walkthroughFreeSettingsNavBody: String { t(.walkthroughFreeSettingsNavBody) }
+    static var walkthroughFreeVehiclesNavBody: String { t(.walkthroughFreeVehiclesNavBody) }
+    static var walkthroughFreeVehiclesNavTitle: String { t(.walkthroughFreeVehiclesNavTitle) }
+    static var walkthroughFreeWelcomeBody: String { t(.walkthroughFreeWelcomeBody) }
+    static var walkthroughFreeWelcomeTitle: String { t(.walkthroughFreeWelcomeTitle) }
+    static var walkthroughLockedCalculatorBody: String { t(.walkthroughLockedCalculatorBody) }
+    static var walkthroughLockedCalculatorTitle: String { t(.walkthroughLockedCalculatorTitle) }
+    static var walkthroughNext: String { t(.walkthroughNext) }
+    static var walkthroughProCalculatorListBody: String { t(.walkthroughProCalculatorListBody) }
+    static var walkthroughProCalculatorListTitle: String { t(.walkthroughProCalculatorListTitle) }
+    static var walkthroughProCalculatorNavBody: String { t(.walkthroughProCalculatorNavBody) }
+    static var walkthroughProSettingsNavBody: String { t(.walkthroughProSettingsNavBody) }
+    static var walkthroughProVehiclesAddBody: String { t(.walkthroughProVehiclesAddBody) }
+    static var walkthroughProVehiclesNavBody: String { t(.walkthroughProVehiclesNavBody) }
+    static var walkthroughProWelcomeBody: String { t(.walkthroughProWelcomeBody) }
+    static var walkthroughProWelcomeTitle: String { t(.walkthroughProWelcomeTitle) }
+    static var walkthroughSettingsAppearanceBody: String { t(.walkthroughSettingsAppearanceBody) }
+    static var walkthroughSettingsAppearanceTitle: String { t(.walkthroughSettingsAppearanceTitle) }
+    static var walkthroughSettingsNavTitle: String { t(.walkthroughSettingsNavTitle) }
+    static var walkthroughSettingsProBody: String { t(.walkthroughSettingsProBody) }
+    static var walkthroughSettingsProTitle: String { t(.walkthroughSettingsProTitle) }
+    static var walkthroughSkip: String { t(.walkthroughSkip) }
+    static var walkthroughVehiclesAddTitle: String { t(.walkthroughVehiclesAddTitle) }
+    static var walkthroughVehiclesNavTitle: String { t(.walkthroughVehiclesNavTitle) }
+    static var welcomeContinue: String { t(.welcomeContinue) }
+    static var welcomeTitle: String { t(.welcomeTitle) }
 
-    // Walkthrough
-    static let walkthroughFreeWelcomeTitle = "Willkommen bei 2-Stroke Calc!"
-    static let walkthroughFreeWelcomeBody = "In der kostenlosen Version kannst du alle Rechner und Fahrzeuge ansehen. Bearbeiten schaltest du mit Pro frei."
-    static let walkthroughProWelcomeTitle = "Willkommen bei 2-Stroke Calc Pro!"
-    static let walkthroughProWelcomeBody = "Du hast die Pro-Version – wir zeigen dir kurz Rechner, Fahrzeuge und Einstellungen."
-    static let walkthroughCalculatorNavTitle = "Rechner"
-    static let walkthroughFreeCalculatorNavBody = "Hier findest du alle 2-Takt-Rechner. Das PRO-Badge markiert Rechner, deren Eingaben Pro erfordern."
-    static let walkthroughProCalculatorNavBody = "Hier findest du alle 2-Takt-Rechner – inklusive Steuerzeiten, Kabelquerschnitt und Getriebe."
-    static let walkthroughFreeCalculatorTitle = "Voll nutzbare Rechner"
-    static let walkthroughFreeCalculatorBody = "Diese Rechner kannst du vollständig nutzen – öffnen, Werte eingeben und Ergebnisse berechnen."
-    static let walkthroughLockedCalculatorTitle = "Rechner mit PRO-Badge"
-    static let walkthroughLockedCalculatorBody = "Diese Rechner kannst du ansehen. Eingaben ändern ist Teil der Pro-Version."
-    static let walkthroughProCalculatorListTitle = "Rechner auswählen"
-    static let walkthroughProCalculatorListBody = "Tippe auf einen Rechner, um Berechnungen durchzuführen."
-    static let walkthroughFreeVehiclesNavTitle = "Fahrzeuge"
-    static let walkthroughFreeVehiclesNavBody = "Demo-Fahrzeuge ansehen ist kostenlos – bearbeiten, hinzufügen und löschen erfordert Pro."
-    static let walkthroughVehiclesNavTitle = "Fahrzeuge"
-    static let walkthroughProVehiclesNavBody = "Verwalte deinen Fuhrpark – Stammdaten, Wartung, Tuning und Verbrauch dokumentieren."
-    static let walkthroughVehiclesAddTitle = "Fahrzeug anlegen"
-    static let walkthroughProVehiclesAddBody = "Mit dem Plus-Button legst du ein neues Moped, Mokick oder einen Roller an."
-    static let walkthroughSettingsNavTitle = "Einstellungen"
-    static let walkthroughFreeSettingsNavBody = "Design, Sprache, Konto und der Bereich Pro-Version findest du hier."
-    static let walkthroughProSettingsNavBody = "Design, Sprache, Konto und weitere App-Optionen findest du hier."
-    static let walkthroughSettingsProTitle = "Pro-Version kaufen"
-    static let walkthroughSettingsProBody = "Hier kaufst oder stellst du die Pro-Version wieder her – für Bearbeiten in Rechnern und Fahrzeugen."
-    static let walkthroughSettingsAppearanceTitle = "Darstellung anpassen"
-    static let walkthroughSettingsAppearanceBody = "Wähle helles oder dunkles Design, Sprache und Menütyp nach deinem Geschmack."
-    static let walkthroughStepCounter = "Schritt %d von %d"
-    static let walkthroughSkip = "Überspringen"
-    static let walkthroughBack = "Zurück"
-    static let walkthroughNext = "Weiter"
-    static let walkthroughFinish = "Fertig"
+    static func walkthroughStepCounter(current: Int, total: Int) -> String {
+        let template = t(.walkthroughStepCounter)
+        let parts = template.components(separatedBy: "%@")
+        guard parts.count == 3 else { return template }
+        return parts[0] + "\(current)" + parts[1] + "\(total)" + parts[2]
+    }
 
     static func calculatorTab(_ id: CalculatorId) -> String {
-        switch id {
-        case .timing: return "Steuerzeiten"
-        case .portArea: return "Time-Area"
-        case .ignition: return "Zündzeitpunkt"
-        case .dcCable: return "Kabelquerschnitt"
-        case .fluid: return "Flüssigkeitsrechner"
-        case .compression: return "Verdichtung"
-        case .squishBand: return "Quetschfläche"
-        case .meanPressure: return "Mitteldruck"
-        case .gear: return "Getriebe"
-        case .exhaust: return "Resorohr"
-        case .counterweight: return "Wuchtfaktor"
-        case .variatorWeight: return "Variogewichte"
-        case .fuelMix: return "Öl/Benzin"
-        case .carbJet: return "Vergaserdüse"
-        case .dynoInertia: return "Schwungmasse"
-        case .vehicleDynamics: return "Fahrdynamik"
-        default: return id.name
-        }
+        StringCatalog.calculatorTab(calculatorCatalogKey(id), language: lang)
     }
 
     static func calculatorDescription(_ id: CalculatorId) -> String {
+        StringCatalog.calculatorDescription(calculatorCatalogKey(id), language: lang)
+    }
+
+    private static func calculatorCatalogKey(_ id: CalculatorId) -> String {
         switch id {
-        case .timing: return "Steuerzeiten, Überströmgrad und Diagramm aus Stichmaßen."
-        case .portArea: return "Transfer-Querschnitt, Time-Area und Auslassgeometrie mit Kennzahlen."
-        case .ignition: return "Zündzeitpunkt vor OT in Grad und Millimeter umrechnen."
-        case .dcCable: return "DC-Kabelquerschnitt aus Strom, Leitungslänge und zulässigem Spannungsfall."
-        case .fluid: return "Flüssigkeitsmischungen für Werkstatt und Galvanik."
-        case .compression: return "Verdichtungsverhältnis, Brennraum und Quetschfläche berechnen."
-        case .squishBand: return "Quetschfläche und Quetschkantenbreite aus Bohrung und Glocke."
-        case .meanPressure: return "Mitteldruck, Drehmoment und Literleistung aus Leistungsdaten."
-        case .gear: return "Geschwindigkeiten, Schaltpunkte und Drehzahlsprung aus Getriebeübersetzungen."
-        case .exhaust: return "Resorohr nach Blair berechnen – Diffusor-Segmente mit Vorschau."
-        case .counterweight: return "Wuchtfaktor aus Kolben-, Pleuel- und Meistergewicht."
-        case .variatorWeight: return "Variogewichte für Roller/Mofa schätzen."
-        case .fuelMix: return "Öl- und Benzinmenge für das Mischverhältnis berechnen."
-        case .carbJet: return "Hauptdüse für Höhe und Temperatur anpassen."
-        case .dynoInertia: return "Trägheitsmoment und äquivalente Masse für Prüfstandswalzen."
-        case .vehicleDynamics: return "Beschleunigung, Zugkraft und Höchstgeschwindigkeit berechnen."
-        default: return ""
+        case .timing: return "timing"
+        case .portArea: return "portArea"
+        case .ignition: return "ignition"
+        case .dcCable: return "dcCable"
+        case .fluid: return "fluid"
+        case .compression: return "compression"
+        case .squishBand: return "squishBand"
+        case .meanPressure: return "meanPressure"
+        case .gear: return "gear"
+        case .exhaust: return "exhaust"
+        case .counterweight: return "counterweight"
+        case .variatorWeight: return "variatorWeight"
+        case .fuelMix: return "fuelMix"
+        case .carbJet: return "carbJet"
+        case .dynoInertia: return "dynoInertia"
+        case .vehicleDynamics: return "vehicleDynamics"
+        default: return id.name.lowercased()
         }
     }
 }

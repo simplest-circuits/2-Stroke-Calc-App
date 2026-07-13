@@ -62,7 +62,7 @@ struct FirstInstallPermissionsScreen: View {
         VStack(alignment: .leading, spacing: 20) {
             Text(S.permissionsTitle)
                 .font(.title2.bold())
-            Text("Benachrichtigungen für Wartungserinnerungen können später in den Einstellungen aktiviert werden.")
+            Text(L.t("first_install_notifications_later_hint"))
                 .foregroundStyle(colors.onSurfaceVariant)
             Spacer()
             PrimaryButton(title: S.permissionsContinue, action: onContinue)

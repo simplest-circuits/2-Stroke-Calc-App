@@ -12,6 +12,9 @@ enum class LanguageMode {
     ENGLISH,
     SPANISH,
     PORTUGUESE,
+    SWEDISH,
+    DANISH,
+    NORWEGIAN,
     ;
 
     fun resolveLanguage(): Language = when (this) {
@@ -20,6 +23,9 @@ enum class LanguageMode {
         ENGLISH -> Language.ENGLISH
         SPANISH -> Language.SPANISH
         PORTUGUESE -> Language.PORTUGUESE
+        SWEDISH -> Language.SWEDISH
+        DANISH -> Language.DANISH
+        NORWEGIAN -> Language.NORWEGIAN
     }
 }
 

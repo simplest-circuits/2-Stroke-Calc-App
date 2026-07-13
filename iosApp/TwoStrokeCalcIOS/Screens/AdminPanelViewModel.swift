@@ -59,7 +59,7 @@ final class AdminPanelViewModel: ObservableObject {
         if let err = try? await IosKoinInitKt.iosAdminSaveSettings(settings: current) {
             error = err
         } else {
-            message = "Einstellungen gespeichert"
+            message = L.t("admin_settings_saved_success")
             settings = current
         }
         loading = false
@@ -94,7 +94,7 @@ final class AdminPanelViewModel: ObservableObject {
         if let err = try? await IosKoinInitKt.iosAdminSendPush(title: pushTitle, body: pushBody) {
             error = err
         } else {
-            message = "Push gesendet"
+            message = L.t("admin_push_sent_success")
             pushTitle = ""
             pushBody = ""
         }
