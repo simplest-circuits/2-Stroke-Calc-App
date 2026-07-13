@@ -175,14 +175,14 @@ struct FuelMixCalculatorView: View {
                 fuelLiters: snappedFuelLiters,
                 ratioPartsFuel: ratio
             ) {
-                inputAmount = Float(FuelMixCalculator.shared.snapOilMl(oilMl: oil))
+                inputAmount = Float(FuelMixCalculator.shared.snapOilMl(oilMl: oil.asDouble))
             }
         case (.oil, .fuel):
             if let fuel = FuelMixCalculator.shared.fuelLitersFromOilMilliliters(
                 oilMilliliters: snappedOilMl,
                 ratioPartsFuel: ratio
             ) {
-                inputAmount = Float(FuelMixCalculator.shared.snapFuelLiters(fuelLiters: fuel))
+                inputAmount = Float(FuelMixCalculator.shared.snapFuelLiters(fuelLiters: fuel.asDouble))
             }
         default:
             break
