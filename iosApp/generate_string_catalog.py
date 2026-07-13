@@ -285,7 +285,32 @@ enum L {
     static func tf(_ key: String, _ args: CVarArg...) -> String {
         let template = t(key)
         guard !args.isEmpty else { return template }
-        return String(format: template, locale: Locale.current, arguments: args)
+        let bridged = args.map { formatArgument($0) }
+        return String(format: template, locale: Locale.current, arguments: bridged)
+    }
+
+    /// Android `%d` placeholders are converted to `%@` for iOS; bridge numbers to NSNumber.
+    private static func formatArgument(_ value: CVarArg) -> CVarArg {
+        switch value {
+        case let string as String:
+            return string
+        case let number as NSNumber:
+            return number
+        case let int as Int:
+            return NSNumber(value: int)
+        case let int32 as Int32:
+            return NSNumber(value: int32)
+        case let int64 as Int64:
+            return NSNumber(value: int64)
+        case let uint as UInt:
+            return NSNumber(value: uint)
+        case let double as Double:
+            return NSNumber(value: double)
+        case let float as Float:
+            return NSNumber(value: float)
+        default:
+            return value
+        }
     }
 }
 """
