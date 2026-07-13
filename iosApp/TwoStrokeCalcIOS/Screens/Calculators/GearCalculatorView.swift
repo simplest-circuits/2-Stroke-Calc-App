@@ -13,10 +13,13 @@ private let gearRpmConstant = 16_000.0
 
 struct GearCalculatorView: View {
     @Environment(\.calculatorEditingEnabled) private var editingEnabled
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     @State private var driveModeName = GearDriveMode.multiSpeed.name
     @State private var outputTypeName = GearOutputType.vehicleSpeed.name
     @State private var presetName = GearPreset.vespaPx200.name
+    @State private var chartStyleName = "LINE"
+    @State private var selectedShiftPointId: Int?
 
     @State private var wheelCircumference = "1307"
     @State private var shiftRpm = "8000"
@@ -169,7 +172,40 @@ struct GearCalculatorView: View {
         }
     }
 
+    private var isLandscape: Bool {
+        verticalSizeClass == .compact
+    }
+
+    private var chartDataReady: Bool {
+        guard hasInput, result != nil else { return false }
+        switch driveMode {
+        case .multiSpeed:
+            return parseDouble(shiftRpm) != nil && parseDouble(wheelCircumference) != nil
+        default:
+            return outputType == .outputRpm || parseDouble(wheelCircumference) != nil
+        }
+    }
+
     var body: some View {
+        Group {
+            if isLandscape {
+                GearChartLandscapeView(
+                    chartDataReady: chartDataReady,
+                    result: result,
+                    shiftRpm: driveMode == .multiSpeed ? parseDouble(shiftRpm) : nil,
+                    wheelCircumferenceMm: parseDouble(wheelCircumference),
+                    resonanceEntryRpm: parseDouble(resonanceEntryRpm),
+                    resonancePeakRpm: parseDouble(resonancePeakRpm),
+                    chartStyleName: $chartStyleName,
+                    selectedShiftPointId: $selectedShiftPointId
+                )
+            } else if !isLandscape {
+                calculatorContent
+            }
+        }
+    }
+
+    private var calculatorContent: some View {
         CalculatorScaffold {
             CalculatorHeader(
                 title: L.t("gear_calculator_title"),
@@ -346,12 +382,18 @@ struct GearCalculatorView: View {
 
             GearResultsCard(result: result, hasInput: hasInput, outputType: outputType)
 
-            if let result, hasInput {
+            if chartDataReady, let result {
                 CalculatorSection(L.t("gear_chart_title")) {
-                    GearChartView(stages: result.stages, outputType: result.outputType)
-                    Text(L.t("gear_chart_subtitle_bar"))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    GearSpeedChartView(
+                        result: result,
+                        shiftRpm: driveMode == .multiSpeed ? parseDouble(shiftRpm) : nil,
+                        wheelCircumferenceMm: parseDouble(wheelCircumference),
+                        resonanceEntryRpm: parseDouble(resonanceEntryRpm),
+                        resonancePeakRpm: parseDouble(resonancePeakRpm),
+                        displayMode: .embedded,
+                        chartStyleName: $chartStyleName,
+                        selectedShiftPointId: $selectedShiftPointId
+                    )
                 }
             }
         }
