@@ -69,7 +69,7 @@ struct ExhaustCalculatorView: View {
             powerPs: powerPs,
             displacementCc: displacement,
             rpm: rpm
-        )
+        )?.asDouble
     }
 
     private var autoExhaustTemp: Double? {
@@ -89,7 +89,7 @@ struct ExhaustCalculatorView: View {
             exhaustGasTempCelsius: temp,
             specificHeatRatio: gamma ?? 1.4,
             gasConstant: gasConstant ?? 287
-        )
+        )?.asDouble
     }
 
     private var autoPortArea: Double? {
@@ -99,7 +99,7 @@ struct ExhaustCalculatorView: View {
 
     private var autoEqPortDiameter: Double? {
         if let autoPortArea {
-            return ExpansionChamberCalculator.shared.calculateEquivalentPortDiameterMm(portAreaMm2: autoPortArea)
+            return ExpansionChamberCalculator.shared.calculateEquivalentPortDiameterMm(portAreaMm2: autoPortArea)?.asDouble
         }
         return eqPortDiameterOverride
     }
