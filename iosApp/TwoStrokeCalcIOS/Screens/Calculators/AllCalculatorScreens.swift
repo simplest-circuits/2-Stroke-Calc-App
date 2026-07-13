@@ -916,8 +916,8 @@ struct CounterweightCalculatorView: View {
             )
 
             CalculatorSection(S.sectionInput) {
-                DecimalField(label: L.t("counterweight_piston_weight_label"), text: $pistonWeight, suffix: L.t("vehicle_dynamics_unit_g"), enabled: editingEnabled)
-                DecimalField(label: L.t("counterweight_rod_half_label"), text: $rodHalf, suffix: L.t("vehicle_dynamics_unit_g"), enabled: editingEnabled)
+                DecimalField(label: L.t("counterweight_piston_label"), text: $pistonWeight, suffix: L.t("vehicle_dynamics_unit_g"), enabled: editingEnabled)
+                DecimalField(label: L.t("counterweight_connecting_rod_half_label"), text: $rodHalf, suffix: L.t("vehicle_dynamics_unit_g"), enabled: editingEnabled)
                 DecimalField(label: L.t("counterweight_big_end_label"), text: $bigEnd, suffix: L.t("vehicle_dynamics_unit_g"), enabled: editingEnabled)
             }
 
