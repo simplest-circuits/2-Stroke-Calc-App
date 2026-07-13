@@ -1,6 +1,5 @@
 import Foundation
 
-@MainActor
 enum AppLocalization {
     static var language: AppLanguage = AppLanguage.fromSystem()
 

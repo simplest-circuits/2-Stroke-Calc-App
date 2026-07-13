@@ -684,7 +684,7 @@ struct GearCalculatorView: View {
         guard let result = GearCalculator.shared.calculate(input: input) else { return [] }
 
         return result.stages.enumerated().map { index, stage in
-            let speed = stage.speedsAtReferenceRpmKmh.last?.asDouble ?? stage.shiftSpeedKmh
+            let speed = stage.speedsAtReferenceRpmKmh.last?.asDouble ?? stage.shiftSpeedKmh.asDouble
             var line = "\(L.tf("gear_result_stage_header", index + 1)): \(L.tf("gear_result_speed_kmh", fmt(speed, decimals: 1))) (i=\(fmt(stage.gearRatio, decimals: 2)))"
             if let jump = stage.speedJumpKmh?.asDouble {
                 line += ", Δ +\(fmt(jump, decimals: 1)) km/h"

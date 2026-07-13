@@ -7,6 +7,10 @@ extension KotlinDouble {
     var asDouble: Double { doubleValue }
 }
 
+extension Dictionary where Value == KotlinDouble {
+    var asDoubleDict: [Key: Double] { mapValues(\.asDouble) }
+}
+
 extension KotlinBoolean {
     var asBool: Bool { boolValue }
 }

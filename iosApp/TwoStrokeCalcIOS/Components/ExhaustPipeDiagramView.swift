@@ -401,7 +401,7 @@ private struct LandscapeDiameterMetrics: View {
     let result: ExpansionChamberResult
 
     var body: some View {
-        let diameterEntries = result.diametersMm as [String: Double]
+        let diameterEntries = result.diametersMm.asDoubleDict
         ForEach(diameterEntries.keys.sorted(), id: \.self) { key in
             if let value = diameterEntries[key] {
                 HStack(spacing: 4) {
