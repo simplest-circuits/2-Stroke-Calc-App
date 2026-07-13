@@ -69,15 +69,15 @@ struct ExhaustCalculatorView: View {
             powerPs: powerPs,
             displacementCc: displacement,
             rpm: rpm
-        )?.asDouble
+        )
     }
 
     private var autoExhaustTemp: Double? {
         if let bmepOverride {
-            return ExpansionChamberCalculator.shared.exhaustTemperatureFromBmep(bmepBar: bmepOverride).asDouble
+            return ExpansionChamberCalculator.shared.exhaustTemperatureFromBmep(bmepBar: bmepOverride)
         }
         if let autoBmep {
-            return ExpansionChamberCalculator.shared.exhaustTemperatureFromBmep(bmepBar: autoBmep).asDouble
+            return ExpansionChamberCalculator.shared.exhaustTemperatureFromBmep(bmepBar: autoBmep)
         }
         return nil
     }
@@ -89,7 +89,7 @@ struct ExhaustCalculatorView: View {
             exhaustGasTempCelsius: temp,
             specificHeatRatio: gamma ?? 1.4,
             gasConstant: gasConstant ?? 287
-        )?.asDouble
+        )
     }
 
     private var autoPortArea: Double? {
@@ -99,7 +99,7 @@ struct ExhaustCalculatorView: View {
 
     private var autoEqPortDiameter: Double? {
         if let autoPortArea {
-            return ExpansionChamberCalculator.shared.calculateEquivalentPortDiameterMm(portAreaMm2: autoPortArea)?.asDouble
+            return ExpansionChamberCalculator.shared.calculateEquivalentPortDiameterMm(portAreaMm2: autoPortArea)
         }
         return eqPortDiameterOverride
     }
@@ -340,7 +340,7 @@ struct ExhaustCalculatorView: View {
                         .foregroundStyle(.secondary)
                         .padding(.top, 4)
                 } else {
-                    CalculatorEmptyResultText(L.t("exhaust_result_empty"))
+                    CalculatorEmptyResultText(text: L.t("exhaust_result_empty"))
                 }
             }
         }
@@ -394,9 +394,9 @@ struct ExhaustCalculatorView: View {
     private var exhaustResultsCard: some View {
         CalculatorResultCard(L.t("pt_result_title")) {
             if !hasInput {
-                CalculatorEmptyResultText(L.t("exhaust_result_empty"))
+                CalculatorEmptyResultText(text: L.t("exhaust_result_empty"))
             } else if result == nil {
-                CalculatorInvalidResultText(L.t("exhaust_result_invalid"))
+                CalculatorInvalidResultText(text: L.t("exhaust_result_invalid"))
             } else if let result {
                 let manualHint = L.t("exhaust_optional_manual_hint")
                 CalculatorResultRow(
