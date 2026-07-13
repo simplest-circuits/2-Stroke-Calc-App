@@ -295,18 +295,18 @@ enum L {
     }
 
     private static func stringValue(for value: CVarArg) -> String {
-        if let string = value as? String { return string }
-        if let number = value as? NSNumber { return number.stringValue }
-        switch value {
-        case let int as Int: return String(int)
-        case let int32 as Int32: return String(int32)
-        case let int64 as Int64: return String(int64)
-        case let uint as UInt: return String(uint)
-        case let double as Double: return String(double)
-        case let float as Float: return String(float)
-        default:
-            return String(describing: value)
-        }
+        // CVarArg type-erases integers; cast to Any before switching on concrete types.
+        let any: Any = value
+        if let string = any as? String { return string }
+        if let int = any as? Int { return String(int) }
+        if let int32 = any as? Int32 { return String(int32) }
+        if let int64 = any as? Int64 { return String(int64) }
+        if let uint = any as? UInt { return String(uint) }
+        if let uint32 = any as? UInt32 { return String(uint32) }
+        if let double = any as? Double { return String(double) }
+        if let float = any as? Float { return String(float) }
+        if let number = any as? NSNumber { return number.stringValue }
+        return String(describing: any)
     }
 }
 """

@@ -62,7 +62,7 @@ struct AddVehicleDialog: View {
                         }
                     }
                 } else {
-                    Section(L.tf("vehicles_catalog_section_title", SharedKitBridge.catalogEntryCount())) {
+                    Section(L.tf("vehicles_catalog_section_title", String(SharedKitBridge.catalogEntryCount()))) {
                         TextField(L.t("vehicles_catalog_search_hint"), text: $catalogSearch)
                         if !catalogSearch.isEmpty {
                             ForEach(IosKoinInitKt.iosCatalogSearch(query: catalogSearch, limit: 15) as [VehicleCatalogEntry], id: \.id) { entry in

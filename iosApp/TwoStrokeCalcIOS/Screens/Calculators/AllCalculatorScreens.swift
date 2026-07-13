@@ -685,7 +685,7 @@ struct GearCalculatorView: View {
 
         return result.stages.enumerated().map { index, stage in
             let speed = stage.speedsAtReferenceRpmKmh.last?.asDouble ?? stage.shiftSpeedKmh
-            var line = "\(L.tf("gear_result_stage_header", index + 1)): \(L.tf("gear_result_speed_kmh", fmt(speed, decimals: 1))) (i=\(fmt(stage.gearRatio, decimals: 2)))"
+            var line = "\(L.tf("gear_result_stage_header", String(index + 1))): \(L.tf("gear_result_speed_kmh", fmt(speed, decimals: 1))) (i=\(fmt(stage.gearRatio, decimals: 2)))"
             if let jump = stage.speedJumpKmh?.asDouble {
                 line += ", Δ +\(fmt(jump, decimals: 1)) km/h"
             }
@@ -999,7 +999,7 @@ struct FuelMixCalculatorView: View {
         return [
             L.tf("fuel_mix_result_oil_amount", fmt(oilMl, decimals: 0)),
             L.tf("fuel_mix_result_fuel_amount", fmt(liters, decimals: 1)),
-            L.tf("fuel_mix_ratio_display", Int32(ratio) ?? 0),
+            L.tf("fuel_mix_ratio_display", String(ratioParts)),
         ]
     }
 
@@ -1046,7 +1046,7 @@ struct CarbJetCalculatorView: View {
               ) else { return [] }
 
         return [
-            L.tf("carb_jet_result_corrected_jet", result.correctedMainJet, fmt(result.correctedMainJetExact, decimals: 1)),
+            L.tf("carb_jet_result_corrected_jet", String(result.correctedMainJet), fmt(result.correctedMainJetExact, decimals: 1)),
             L.tf("carb_jet_result_factor", fmt(result.correctionFactor * 100, decimals: 4)),
             "\(L.t("carb_jet_result_reference_density")): \(fmt(result.referenceAirDensity, decimals: 2))",
             "\(L.t("carb_jet_result_target_density")): \(fmt(result.targetAirDensity, decimals: 2))",

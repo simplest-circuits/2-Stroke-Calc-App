@@ -360,7 +360,7 @@ struct AdminPanelScreen: View {
                 PrimaryButton(title: L.t("admin_push_send_all"), loading: viewModel.loading) {
                     Task { await viewModel.sendPush() }
                 }
-                Text(L.tf("admin_users_count", viewModel.filteredUsers.count)).font(.headline)
+                Text(L.tf("admin_users_count", String(viewModel.filteredUsers.count))).font(.headline)
                 ForEach(viewModel.filteredUsers, id: \.id) { user in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(user.displayName ?? user.email ?? user.id).font(.subheadline.bold())
