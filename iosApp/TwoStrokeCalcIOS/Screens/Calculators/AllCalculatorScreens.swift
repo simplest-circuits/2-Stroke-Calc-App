@@ -164,14 +164,14 @@ struct IgnitionTimingCalculatorView: View {
                 connectingRodMm: connectingRod,
                 degreesBeforeTdc: inputValue
             ) else { return nil }
-            return L.tf("ignition_result_degrees", formatIgnitionMillimeters(millimeters))
+            return L.tf("ignition_result_degrees", formatIgnitionMillimeters(millimeters.asDouble))
         case .millimeters:
             guard let degrees = IgnitionTimingCalculator.shared.mmBeforeTdcToDegrees(
                 strokeMm: stroke,
                 connectingRodMm: connectingRod,
                 mmBeforeTdc: inputValue
             ) else { return nil }
-            return L.tf("ignition_result_millimeters", formatIgnitionDegrees(degrees))
+            return L.tf("ignition_result_millimeters", formatIgnitionDegrees(degrees.asDouble))
         }
     }
 
