@@ -292,6 +292,54 @@ func formatIgnitionMillimeters(_ value: Double) -> String {
     String(format: "%.2f mm", value)
 }
 
+struct SecondaryResultText: View {
+    @Environment(\.themeColors) private var colors
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.subheadline)
+            .foregroundStyle(colors.onSurfaceVariant)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+struct CalculatorSliderField: View {
+    @Environment(\.themeColors) private var colors
+    let label: String
+    @Binding var value: Double
+    let range: ClosedRange<Double>
+    let step: Double
+    let valueDisplay: String
+    var enabled: Bool = true
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(label)
+                    .font(.caption)
+                    .foregroundStyle(colors.onSurfaceVariant)
+                Spacer()
+                Text(valueDisplay)
+                    .font(.subheadline.monospacedDigit())
+                    .foregroundStyle(colors.onSurface)
+            }
+            Slider(
+                value: $value,
+                in: range,
+                step: step
+            )
+            .disabled(!enabled)
+        }
+    }
+}
+
+func parsePositiveInt(_ text: String) -> Int32? {
+    let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard let value = Int32(trimmed), value > 0 else { return nil }
+    return value
+}
+
 struct CalculatorChoiceField: View {
     @Environment(\.themeColors) private var colors
     let label: String
