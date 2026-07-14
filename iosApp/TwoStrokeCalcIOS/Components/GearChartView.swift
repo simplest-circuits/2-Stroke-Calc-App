@@ -135,6 +135,7 @@ struct GearSpeedChartView: View {
                     .padding(.top, 4)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var chartSubtitle: String {
@@ -225,6 +226,7 @@ struct GearChartLandscapeView: View {
                             }
                             .padding(.horizontal, 8)
                         }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 } else {
                     Text(L.t("gear_chart_fullscreen_empty"))
@@ -235,6 +237,7 @@ struct GearChartLandscapeView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.vertical, 4)
         }
     }
@@ -483,123 +486,303 @@ private struct GearChartModel {
 // MARK: - Axes + canvas
 
 private struct GearChartAxesView: View {
-    @Environment(\.themeColors) private var colors
-
     let model: GearChartModel
     let expandToFill: Bool
+    @Binding var selectedShiftPointId: Int?
+
+    var body: some View {
+        if expandToFill {
+            GearChartAxesFillView(
+                model: model,
+                selectedShiftPointId: $selectedShiftPointId
+            )
+        } else {
+            GearChartAxesEmbeddedView(
+                model: model,
+                selectedShiftPointId: $selectedShiftPointId
+            )
+        }
+    }
+}
+
+private struct GearChartAxesEmbeddedView: View {
+    let model: GearChartModel
     @Binding var selectedShiftPointId: Int?
 
     private let yAxisWidth: CGFloat = 48
     private let xAxisHeight: CGFloat = 56
     private let chartTopInset: CGFloat = 18
     private let hitRadius: CGFloat = 28
+    private let xTickLabelWidth: CGFloat = 44
 
     var body: some View {
         GeometryReader { geometry in
             let chartWidth = geometry.size.width - yAxisWidth
             let chartHeight = geometry.size.height - xAxisHeight
 
-            ZStack(alignment: .topLeading) {
-                Text(model.yAxisTitle)
-                    .font(.caption2)
-                    .foregroundStyle(colors.onSurfaceVariant)
-                    .frame(width: yAxisWidth, alignment: .center)
-                    .padding(.top, 2)
+            GearChartAxesLayout(
+                model: model,
+                selectedShiftPointId: $selectedShiftPointId,
+                yAxisWidth: yAxisWidth,
+                chartTopInset: chartTopInset,
+                xTickAreaHeight: xAxisHeight - 20,
+                xTickLabelWidth: xTickLabelWidth,
+                chartWidth: chartWidth,
+                chartHeight: chartHeight,
+                hitRadius: hitRadius,
+                showXAxisTitleBelowTicks: true
+            )
+        }
+        .aspectRatio(1.55, contentMode: .fit)
+        .frame(maxWidth: .infinity)
+        .padding(.top, 8)
+    }
+}
 
-                ZStack(alignment: .topLeading) {
-                    ForEach(Array(model.yTicks.enumerated()), id: \.offset) { _, tick in
-                        Text(tick.label)
-                            .font(.caption2.monospacedDigit())
-                            .foregroundStyle(colors.onSurfaceVariant)
-                            .frame(width: yAxisWidth - 4, alignment: .trailing)
-                            .offset(
-                                y: chartTopInset + plotAxisFraction(
-                                    inset: gearChartInsetFraction,
-                                    dataFraction: 1 - tick.fraction
-                                ) * chartHeight - 7
-                            )
+private struct GearChartAxesFillView: View {
+    @Environment(\.themeColors) private var colors
+
+    let model: GearChartModel
+    @Binding var selectedShiftPointId: Int?
+
+    private let yAxisWidth: CGFloat = 48
+    private let yTitleHeight: CGFloat = 16
+    private let xTickAreaHeight: CGFloat = 30
+    private let xTitleHeight: CGFloat = 16
+    private let hitRadius: CGFloat = 28
+    private let xTickLabelWidth: CGFloat = 36
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(alignment: .top, spacing: 0) {
+                VStack(spacing: 0) {
+                    Text(model.yAxisTitle)
+                        .font(.caption2)
+                        .foregroundStyle(colors.onSurfaceVariant)
+                        .frame(width: yAxisWidth, height: yTitleHeight)
+                        .lineLimit(1)
+
+                    GeometryReader { geometry in
+                        GearChartYAxisTicksView(
+                            ticks: model.yTicks,
+                            plotHeight: geometry.size.height,
+                            yAxisWidth: yAxisWidth,
+                            chartTopInset: 0
+                        )
                     }
                 }
-                .frame(width: yAxisWidth, height: chartHeight + chartTopInset, alignment: .topLeading)
+                .frame(width: yAxisWidth)
 
                 VStack(spacing: 0) {
-                    ZStack {
-                        GearChartCanvasView(
+                    GeometryReader { geometry in
+                        GearChartPlotView(
                             model: model,
-                            selectedShiftPointId: $selectedShiftPointId
+                            selectedShiftPointId: $selectedShiftPointId,
+                            chartSize: geometry.size,
+                            hitRadius: hitRadius
                         )
-                        .frame(width: chartWidth, height: chartHeight)
-
-                        ForEach(model.shiftPoints) { point in
-                            let center = shiftPointCenter(
-                                point: point,
-                                chartSize: CGSize(width: chartWidth, height: chartHeight)
-                            )
-                            Circle()
-                                .fill(Color.clear)
-                                .frame(width: hitRadius * 2, height: hitRadius * 2)
-                                .position(center)
-                                .contentShape(Circle())
-                                .onTapGesture {
-                                    if selectedShiftPointId == point.stageNumber {
-                                        selectedShiftPointId = nil
-                                    } else {
-                                        selectedShiftPointId = point.stageNumber
-                                    }
-                                }
-                        }
                     }
-                    .padding(.top, chartTopInset)
 
-                    ZStack(alignment: .topLeading) {
-                        ForEach(Array(model.xTicks.enumerated()), id: \.offset) { _, tick in
-                            Text(tick.label)
-                                .font(.caption2.monospacedDigit())
-                                .foregroundStyle(colors.onSurfaceVariant)
-                                .frame(width: 44)
-                                .offset(
-                                    x: clampAxisTickOffset(
-                                        tickAreaWidth: chartWidth,
-                                        labelWidth: 44,
-                                        dataFraction: tick.fraction
-                                    ),
-                                    y: 4
-                                )
-                        }
-                    }
-                    .frame(width: chartWidth, height: xAxisHeight - 20, alignment: .topLeading)
+                    GearChartXAxisTicksView(
+                        ticks: model.xTicks,
+                        tickAreaWidth: nil,
+                        tickAreaHeight: xTickAreaHeight,
+                        labelWidth: xTickLabelWidth
+                    )
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
 
+            HStack(spacing: 0) {
+                Color.clear.frame(width: yAxisWidth, height: xTitleHeight)
+                Text(model.xAxisTitle)
+                    .font(.caption2)
+                    .foregroundStyle(colors.onSurfaceVariant)
+                    .frame(maxWidth: .infinity, height: xTitleHeight)
+                    .lineLimit(1)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+private struct GearChartAxesLayout: View {
+    @Environment(\.themeColors) private var colors
+
+    let model: GearChartModel
+    @Binding var selectedShiftPointId: Int?
+    let yAxisWidth: CGFloat
+    let chartTopInset: CGFloat
+    let xTickAreaHeight: CGFloat
+    let xTickLabelWidth: CGFloat
+    let chartWidth: CGFloat
+    let chartHeight: CGFloat
+    let hitRadius: CGFloat
+    let showXAxisTitleBelowTicks: Bool
+
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            Text(model.yAxisTitle)
+                .font(.caption2)
+                .foregroundStyle(colors.onSurfaceVariant)
+                .frame(width: yAxisWidth, alignment: .center)
+                .padding(.top, 2)
+
+            GearChartYAxisTicksView(
+                ticks: model.yTicks,
+                plotHeight: chartHeight,
+                yAxisWidth: yAxisWidth,
+                chartTopInset: chartTopInset
+            )
+            .frame(width: yAxisWidth, height: chartHeight + chartTopInset, alignment: .topLeading)
+
+            VStack(spacing: 0) {
+                GearChartPlotView(
+                    model: model,
+                    selectedShiftPointId: $selectedShiftPointId,
+                    chartSize: CGSize(width: chartWidth, height: chartHeight),
+                    hitRadius: hitRadius
+                )
+                .padding(.top, chartTopInset)
+
+                GearChartXAxisTicksView(
+                    ticks: model.xTicks,
+                    tickAreaWidth: chartWidth,
+                    tickAreaHeight: xTickAreaHeight,
+                    labelWidth: xTickLabelWidth
+                )
+
+                if showXAxisTitleBelowTicks {
                     Text(model.xAxisTitle)
                         .font(.caption2)
                         .foregroundStyle(colors.onSurfaceVariant)
                         .frame(width: chartWidth, alignment: .center)
                 }
-                .offset(x: yAxisWidth)
+            }
+            .offset(x: yAxisWidth)
+        }
+    }
+}
+
+private struct GearChartYAxisTicksView: View {
+    @Environment(\.themeColors) private var colors
+
+    let ticks: [ChartAxisTick]
+    let plotHeight: CGFloat
+    let yAxisWidth: CGFloat
+    let chartTopInset: CGFloat
+
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            ForEach(Array(ticks.enumerated()), id: \.offset) { _, tick in
+                Text(tick.label)
+                    .font(.caption2.monospacedDigit())
+                    .foregroundStyle(colors.onSurfaceVariant)
+                    .frame(width: yAxisWidth - 4, alignment: .trailing)
+                    .offset(
+                        y: chartTopInset + plotAxisFraction(
+                            inset: gearChartInsetFraction,
+                            dataFraction: 1 - tick.fraction
+                        ) * plotHeight - 7
+                    )
             }
         }
-        .aspectRatio(expandToFill ? nil : 1.55, contentMode: .fit)
-        .frame(maxWidth: .infinity, maxHeight: expandToFill ? .infinity : nil)
-        .padding(.top, expandToFill ? 0 : 8)
     }
+}
 
-    private func shiftPointCenter(point: GearShiftPoint, chartSize: CGSize) -> CGPoint {
-        let chartLeft = chartSize.width * gearChartInsetFraction
-        let chartRight = chartSize.width * (1 - gearChartInsetFraction)
-        let chartTop = chartSize.height * gearChartInsetFraction
-        let chartBottom = chartSize.height * (1 - gearChartInsetFraction)
+private struct GearChartXAxisTicksView: View {
+    @Environment(\.themeColors) private var colors
 
-        switch model.chartStyle {
-        case .line:
-            let x = chartLeft + CGFloat(point.rpm / model.chartMaxRpm) * (chartRight - chartLeft)
-            let y = chartBottom - CGFloat(point.speedKmh / model.chartMaxOutput) * (chartBottom - chartTop)
-            return CGPoint(x: x, y: y)
-        case .bar:
-            let barGroupWidth = (chartRight - chartLeft) / CGFloat(model.result.stages.count + 1)
-            let groupCenterX = chartLeft + barGroupWidth * CGFloat(point.stageNumber)
-            let chartHeight = chartBottom - chartTop
-            let shiftHeight = CGFloat(point.speedKmh / model.chartMaxOutput) * chartHeight
-            return CGPoint(x: groupCenterX, y: chartBottom - shiftHeight / 2)
+    let ticks: [ChartAxisTick]
+    let tickAreaWidth: CGFloat?
+    let tickAreaHeight: CGFloat
+    let labelWidth: CGFloat
+
+    var body: some View {
+        GeometryReader { geometry in
+            let areaWidth = tickAreaWidth ?? geometry.size.width
+            ZStack(alignment: .topLeading) {
+                ForEach(Array(ticks.enumerated()), id: \.offset) { _, tick in
+                    Text(tick.label)
+                        .font(.caption2.monospacedDigit())
+                        .foregroundStyle(colors.onSurfaceVariant)
+                        .frame(width: labelWidth)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
+                        .offset(
+                            x: clampAxisTickOffset(
+                                tickAreaWidth: areaWidth,
+                                labelWidth: labelWidth,
+                                dataFraction: tick.fraction
+                            ),
+                            y: 4
+                        )
+                }
+            }
+            .frame(width: areaWidth, height: tickAreaHeight, alignment: .topLeading)
         }
+        .frame(height: tickAreaHeight)
+    }
+}
+
+private struct GearChartPlotView: View {
+    let model: GearChartModel
+    @Binding var selectedShiftPointId: Int?
+    let chartSize: CGSize
+    let hitRadius: CGFloat
+
+    var body: some View {
+        ZStack {
+            GearChartCanvasView(
+                model: model,
+                selectedShiftPointId: $selectedShiftPointId
+            )
+            .frame(width: chartSize.width, height: chartSize.height)
+
+            ForEach(model.shiftPoints) { point in
+                let center = shiftPointCenter(
+                    point: point,
+                    chartSize: chartSize,
+                    model: model
+                )
+                Circle()
+                    .fill(Color.clear)
+                    .frame(width: hitRadius * 2, height: hitRadius * 2)
+                    .position(center)
+                    .contentShape(Circle())
+                    .onTapGesture {
+                        if selectedShiftPointId == point.stageNumber {
+                            selectedShiftPointId = nil
+                        } else {
+                            selectedShiftPointId = point.stageNumber
+                        }
+                    }
+            }
+        }
+    }
+}
+
+private func shiftPointCenter(
+    point: GearShiftPoint,
+    chartSize: CGSize,
+    model: GearChartModel
+) -> CGPoint {
+    let chartLeft = chartSize.width * gearChartInsetFraction
+    let chartRight = chartSize.width * (1 - gearChartInsetFraction)
+    let chartTop = chartSize.height * gearChartInsetFraction
+    let chartBottom = chartSize.height * (1 - gearChartInsetFraction)
+
+    switch model.chartStyle {
+    case .line:
+        let x = chartLeft + CGFloat(point.rpm / model.chartMaxRpm) * (chartRight - chartLeft)
+        let y = chartBottom - CGFloat(point.speedKmh / model.chartMaxOutput) * (chartBottom - chartTop)
+        return CGPoint(x: x, y: y)
+    case .bar:
+        let barGroupWidth = (chartRight - chartLeft) / CGFloat(model.result.stages.count + 1)
+        let groupCenterX = chartLeft + barGroupWidth * CGFloat(point.stageNumber)
+        let chartHeight = chartBottom - chartTop
+        let shiftHeight = CGFloat(point.speedKmh / model.chartMaxOutput) * chartHeight
+        return CGPoint(x: groupCenterX, y: chartBottom - shiftHeight / 2)
     }
 }
 
