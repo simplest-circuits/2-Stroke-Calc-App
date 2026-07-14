@@ -404,6 +404,23 @@ fun iosNewMaintenanceEntry(
     cost = cost,
 )
 
+fun iosUpdateMaintenanceEntry(
+    entry: MaintenanceEntry,
+    date: String,
+    odometerKm: String,
+    entryDescription: String,
+    cost: String,
+    partsUsed: String,
+    workshop: String,
+): MaintenanceEntry = entry.copy(
+    date = date,
+    odometerKm = odometerKm,
+    entryDescription = entryDescription,
+    cost = cost,
+    partsUsed = partsUsed,
+    workshop = workshop,
+)
+
 fun iosVehicleWithOdometer(vehicle: Vehicle, odometerKm: String): Vehicle =
     vehicle.copy(currentOdometerKm = odometerKm)
 

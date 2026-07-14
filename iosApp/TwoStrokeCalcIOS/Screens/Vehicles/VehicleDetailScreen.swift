@@ -55,13 +55,13 @@ struct VehicleDetailScreenExpanded: View {
                 .lineLimit(1)
             Spacer()
             NavigationLink {
-                VehicleFuelLogScreen(vehicleId: vehicleId)
+                VehicleCostOverviewScreen(vehicleId: vehicleId)
             } label: {
-                Image(systemName: "fuelpump.fill")
+                Image(systemName: "eurosign.circle.fill")
                     .foregroundStyle(colors.primary)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(L.t("vehicles_quick_fuel_log"))
+            .accessibilityLabel(L.t("vehicles_quick_cost_overview"))
             Button {
                 if canEdit {
                     showMaintenanceSheet = true
@@ -73,7 +73,15 @@ struct VehicleDetailScreenExpanded: View {
                     .foregroundStyle(colors.primary)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(L.t("vehicles_tab_maintenance"))
+            .accessibilityLabel(L.t("vehicles_quick_maintenance"))
+            NavigationLink {
+                VehicleFuelLogScreen(vehicleId: vehicleId)
+            } label: {
+                Image(systemName: "fuelpump.fill")
+                    .foregroundStyle(colors.primary)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(L.t("vehicles_quick_fuel_log"))
             if canEdit {
                 Button(role: .destructive) { showDeleteConfirm = true } label: {
                     Image(systemName: "trash")

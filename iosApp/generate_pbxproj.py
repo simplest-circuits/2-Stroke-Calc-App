@@ -40,6 +40,8 @@ swift_files = [
     "TwoStrokeCalcIOS/Screens/Calculators/GearCalculatorView.swift",
     "TwoStrokeCalcIOS/Screens/Vehicles/VehiclesScreens.swift",
     "TwoStrokeCalcIOS/Screens/Vehicles/VehicleDetailScreen.swift",
+    "TwoStrokeCalcIOS/Screens/Vehicles/VehicleCostCalculator.swift",
+    "TwoStrokeCalcIOS/Screens/Vehicles/VehicleCostOverviewScreen.swift",
     "TwoStrokeCalcIOS/Screens/Vehicles/AddVehicleDialog.swift",
     "TwoStrokeCalcIOS/Screens/Vehicles/VehicleMapper.swift",
     "TwoStrokeCalcIOS/Platform/FirebaseBootstrap.swift",

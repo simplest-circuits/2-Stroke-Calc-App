@@ -173,68 +173,6 @@ struct VehicleFuelLogScreen: View {
     }
 }
 
-struct VehicleCostOverviewScreen: View {
-    @EnvironmentObject private var appState: AppState
-    let vehicleId: String
-    @State private var showAdd = false
-
-    var body: some View {
-        CalculatorScaffold {
-            CalculatorHeader(title: L.t("vehicles_quick_cost_overview"), subtitle: L.t("vehicles_cost_overview_title"))
-            if let vehicle = appState.vehicle(for: vehicleId) {
-                let lines = costSummary(for: vehicle)
-                ResultCard(title: S.resultTitle, lines: lines.isEmpty ? [L.t("vehicles_cost_overview_empty")] : lines)
-                ForEach(Array(vehicle.maintenanceLog.enumerated()), id: \.offset) { index, entry in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(entry.entryDescription).font(.subheadline)
-                            Text(L.tf("vehicles_maintenance_entry_line", entry.date, entry.cost)).font(.caption)
-                        }
-                        Spacer()
-                        Button(L.t("delete")) {
-                            Task { await deleteMaintenance(at: index) }
-                        }
-                        .font(.caption)
-                    }
-                }
-            }
-            PrimaryButton(title: L.t("vehicles_maintenance_add")) { showAdd = true }
-        }
-        .sheet(isPresented: $showAdd) {
-            MaintenanceEntrySheet { entry in
-                Task { await addMaintenance(entry) }
-            }
-        }
-    }
-
-    private func costSummary(for vehicle: Vehicle) -> [String] {
-        let fuel = vehicle.fuelLog.compactMap { parseDouble($0.price) }.reduce(0, +)
-        let maintenance = vehicle.maintenanceLog.compactMap { parseDouble($0.cost) }.reduce(0, +)
-        var lines: [String] = []
-        if fuel > 0 { lines.append(L.tf("vehicles_cost_fuel_summary", String(format: "%.2f", fuel))) }
-        if maintenance > 0 { lines.append(L.tf("vehicles_cost_maintenance_summary", String(format: "%.2f", maintenance))) }
-        if fuel + maintenance > 0 { lines.append(L.tf("vehicles_cost_total_summary", String(format: "%.2f", fuel + maintenance))) }
-        return lines
-    }
-
-    private func addMaintenance(_ entry: MaintenanceEntry) async {
-        guard var vehicle = appState.vehicle(for: vehicleId) else { return }
-        var log = vehicle.maintenanceLog
-        log.append(entry)
-        vehicle = IosKoinInitKt.iosUpdateMaintenanceLog(vehicle: vehicle, entries: log)
-        await appState.saveVehicle(vehicle)
-    }
-
-    private func deleteMaintenance(at index: Int) async {
-        guard var vehicle = appState.vehicle(for: vehicleId) else { return }
-        var log = vehicle.maintenanceLog
-        guard log.indices.contains(index) else { return }
-        log.remove(at: index)
-        vehicle = IosKoinInitKt.iosUpdateMaintenanceLog(vehicle: vehicle, entries: log)
-        await appState.saveVehicle(vehicle)
-    }
-}
-
 private struct FuelLogEntrySheet: View {
     @Environment(\.dismiss) private var dismiss
     let entry: FuelLogEntry?
