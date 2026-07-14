@@ -92,7 +92,7 @@ private func chordRatingLabel(_ rating: ExhaustChordRating) -> String {
 // MARK: - DC cable
 
 struct DcCableResultCard: View {
-    let result: DcCableCrossSectionCalculatorResult?
+    let result: DcCableCrossSectionResult?
     let hasInput: Bool
     var showCurrentRow: Bool = false
 

@@ -238,7 +238,7 @@ struct DcCableCalculatorView: View {
         !voltage.isEmpty || !current.isEmpty || !length.isEmpty || !maxDropPercent.isEmpty
     }
 
-    private var dcCableResult: DcCableCrossSectionCalculatorResult? {
+    private var dcCableResult: DcCableCrossSectionResult? {
         guard let v = parseDouble(voltage),
               let a = parseDouble(current),
               let len = parseDouble(length),
@@ -337,7 +337,7 @@ private struct ElectrolyteCalculatorContent: View {
             DecimalField(label: L.t("electrolyte_acid_concentration_label"), text: $acidConcentration, suffix: L.t("squish_band_unit_percent"), enabled: editingEnabled)
             DecimalField(label: L.t("electrolyte_current_label"), text: $current, suffix: L.t("dc_cable_unit_amps"), enabled: editingEnabled)
         }
-        ElectrolyteResultCard(result: electrolyteResult, loadVoltage: nil)
+        ElectrolyteResultCard(result: electrolyteResult, loadVoltage: Optional<Double>.none)
     }
 }
 
@@ -788,7 +788,7 @@ struct CounterweightCalculatorView: View {
             pistonWeightGrams: piston,
             connectingRodHalfGrams: half,
             bigEndWeightGrams: big
-        )
+        )?.asDouble
     }
 
     var body: some View {
