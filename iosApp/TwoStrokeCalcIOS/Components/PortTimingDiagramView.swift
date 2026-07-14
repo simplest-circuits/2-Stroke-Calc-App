@@ -220,7 +220,7 @@ struct PortTimingDiagramView: View {
                 path.move(to: CGPoint(x: 0, y: size.height / 2))
                 path.addLine(to: CGPoint(x: size.width, y: size.height / 2))
                 context.stroke(path, with: .color(color), lineWidth: 2.5)
-                let r = size.minDimension * 0.22
+                let r = min(size.width, size.height) * 0.22
                 let y = size.height / 2
                 context.stroke(Path(ellipseIn: CGRect(x: size.width * 0.28 - r, y: y - r, width: r * 2, height: r * 2)), with: .color(color), lineWidth: 2.5)
                 context.stroke(Path(ellipseIn: CGRect(x: size.width * 0.72 - r, y: y - r, width: r * 2, height: r * 2)), with: .color(color), lineWidth: 2.5)
@@ -494,8 +494,8 @@ struct PortTimingDiagramView: View {
 
         var path = Path()
         path.move(to: CGPoint(
-            x: cx + outerRadius * cos(startRadians),
-            y: cy + outerRadius * sin(startRadians)
+            x: cx + outerRadius * CGFloat(cos(startRadians)),
+            y: cy + outerRadius * CGFloat(sin(startRadians))
         ))
         path.addArc(
             center: CGPoint(x: cx, y: cy),
@@ -505,8 +505,8 @@ struct PortTimingDiagramView: View {
             clockwise: true
         )
         path.addLine(to: CGPoint(
-            x: cx + innerRadius * cos(endRadians),
-            y: cy + innerRadius * sin(endRadians)
+            x: cx + innerRadius * CGFloat(cos(endRadians)),
+            y: cy + innerRadius * CGFloat(sin(endRadians))
         ))
         path.addArc(
             center: CGPoint(x: cx, y: cy),
@@ -529,8 +529,8 @@ struct PortTimingDiagramView: View {
         for angle in [startAngle, endAngle] {
             let radians = angle * .pi / 180
             var path = Path()
-            path.move(to: CGPoint(x: cx + innerRadius * cos(radians), y: cy + innerRadius * sin(radians)))
-            path.addLine(to: CGPoint(x: cx + outerRadius * cos(radians), y: cy + outerRadius * sin(radians)))
+            path.move(to: CGPoint(x: cx + innerRadius * CGFloat(cos(radians)), y: cy + innerRadius * CGFloat(sin(radians))))
+            path.addLine(to: CGPoint(x: cx + outerRadius * CGFloat(cos(radians)), y: cy + outerRadius * CGFloat(sin(radians))))
             context.stroke(path, with: .color(color), lineWidth: 2.5)
         }
     }

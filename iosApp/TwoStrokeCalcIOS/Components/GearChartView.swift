@@ -598,7 +598,8 @@ private struct GearChartAxesFillView: View {
                 Text(model.xAxisTitle)
                     .font(.caption2)
                     .foregroundStyle(colors.onSurfaceVariant)
-                    .frame(maxWidth: .infinity, height: xTitleHeight)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: xTitleHeight)
                     .lineLimit(1)
             }
         }
