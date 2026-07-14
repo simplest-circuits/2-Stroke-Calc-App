@@ -9,13 +9,6 @@ enum class VariatorWeightRollerType(val rpmPerGram: Double) {
 
 object VariatorWeightCalculator {
 
-    data class Result(
-        val physicsWeightGrams: Double,
-        val empiricalWeightGrams: Double,
-        val targetRpm: Double,
-        val rpmDelta: Double,
-    )
-
     /**
      * Physics mode: at the shift point F_c = m·ω²·r is constant, so m₁·RPM₁² = m₂·RPM₂².
      */
@@ -65,11 +58,11 @@ object VariatorWeightCalculator {
         currentRpm: Double,
         targetRpm: Double,
         rollerType: VariatorWeightRollerType,
-    ): Result? {
+    ): VariatorWeightCalculatorResult? {
         val physicsWeight = weightForTargetRpmPhysics(currentGrams, currentRpm, targetRpm) ?: return null
         val rpmDelta = rpmDeltaFromTarget(currentRpm, targetRpm) ?: return null
         val empiricalWeight = weightForRpmDeltaEmpirical(currentGrams, rpmDelta, rollerType) ?: return null
-        return Result(
+        return VariatorWeightCalculatorResult(
             physicsWeightGrams = physicsWeight,
             empiricalWeightGrams = empiricalWeight,
             targetRpm = targetRpm,

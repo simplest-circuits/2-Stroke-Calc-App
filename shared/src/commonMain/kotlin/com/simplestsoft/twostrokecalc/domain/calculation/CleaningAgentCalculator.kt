@@ -27,13 +27,6 @@ object CleaningAgentCalculator {
         val concentrationPercent: Double,
     )
 
-    data class Result(
-        val totalLiters: Double,
-        val concentrationPercent: Double,
-        val cleaningAgentMl: Double,
-        val waterLiters: Double,
-    )
-
     fun snapTotalLiters(totalLiters: Double): Double {
         val stepIndex = ((totalLiters - MIN_TOTAL_LITERS) / TOTAL_VOLUME_STEP_LITERS)
             .roundToInt()
@@ -48,7 +41,7 @@ object CleaningAgentCalculator {
             .coerceIn(MIN_CONCENTRATION_PERCENT, MAX_CONCENTRATION_PERCENT)
     }
 
-    fun calculate(input: Input): Result? {
+    fun calculate(input: Input): CleaningAgentCalculatorResult? {
         if (input.totalLiters <= 0.0 || input.concentrationPercent <= 0.0) return null
 
         val totalLiters = snapTotalLiters(input.totalLiters)
@@ -58,7 +51,7 @@ object CleaningAgentCalculator {
         val waterLiters = totalLiters - cleaningAgentMl / 1000.0
         if (waterLiters < 0.0) return null
 
-        return Result(
+        return CleaningAgentCalculatorResult(
             totalLiters = totalLiters,
             concentrationPercent = concentrationPercent,
             cleaningAgentMl = cleaningAgentMl,

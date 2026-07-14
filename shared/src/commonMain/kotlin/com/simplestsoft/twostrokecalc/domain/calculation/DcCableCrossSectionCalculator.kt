@@ -21,16 +21,6 @@ object DcCableCrossSectionCalculator {
         50.0,
     )
 
-    data class Result(
-        val currentAmps: Double,
-        val minimumCrossSectionMm2: Double,
-        val recommendedCrossSectionMm2: Double,
-        val voltageDropVolts: Double,
-        val voltageDropPercent: Double,
-        val maxAllowedDropVolts: Double,
-        val maxAllowedDropPercent: Double,
-    )
-
     fun currentFromPower(watts: Double, voltage: Double): Double? {
         if (watts <= 0.0 || voltage <= 0.0) return null
         return watts / voltage
@@ -65,13 +55,13 @@ object DcCableCrossSectionCalculator {
         currentAmps: Double,
         oneWayLengthM: Double,
         maxDropPercent: Double,
-    ): Result? {
+    ): DcCableCrossSectionResult? {
         if (voltage <= 0.0 || currentAmps <= 0.0 || oneWayLengthM <= 0.0 || maxDropPercent <= 0.0) return null
         val maxDropVolts = voltage * maxDropPercent / 100.0
         val minArea = minimumCrossSectionMm2(currentAmps, oneWayLengthM, maxDropVolts) ?: return null
         val recommended = recommendStandardSize(minArea) ?: return null
         val actualDrop = voltageDrop(currentAmps, oneWayLengthM, recommended) ?: return null
-        return Result(
+        return DcCableCrossSectionResult(
             currentAmps = currentAmps,
             minimumCrossSectionMm2 = minArea,
             recommendedCrossSectionMm2 = recommended,

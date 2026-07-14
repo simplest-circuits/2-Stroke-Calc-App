@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.simplestsoft.twostrokecalc.R
 import com.simplestsoft.twostrokecalc.domain.calculation.VariatorWeightCalculator
+import com.simplestsoft.twostrokecalc.domain.calculation.VariatorWeightCalculatorResult
 import com.simplestsoft.twostrokecalc.domain.calculation.VariatorWeightRollerType
 import com.simplestsoft.twostrokecalc.ui.components.AppColors
 import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorDecimalField
@@ -168,7 +169,7 @@ fun VariatorWeightCalculatorScreen() {
 
 @Composable
 private fun VariatorWeightResultCard(
-    result: VariatorWeightCalculator.Result?,
+    result: VariatorWeightCalculatorResult?,
     currentWeight: Double?,
     hasInput: Boolean,
 ) {

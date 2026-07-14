@@ -79,33 +79,6 @@ object ElectrolyteCalculator {
         val electrificationCurrentAmps: Double,
     )
 
-    data class Result(
-        val aceticAcidMl: Double,
-        val waterMl: Double,
-        val waterLiters: Double,
-        val saltG: Double,
-        val saltGPerL: Double,
-        val saltGPerWaterL: Double,
-        val totalLiquidMl: Double,
-        val totalLiquidLiters: Double,
-        val scaleFactor: Double,
-        val acidConcentrationPercent: Double,
-        val aceticAcidVolumePercent: Double,
-        val waterVolumePercent: Double,
-        val finalAceticAcidPercent: Double,
-        val zincDissolution: ZincDissolutionResult?,
-    )
-
-    data class ZincDissolutionResult(
-        val targetDissolvedZincG: Double,
-        val targetConcentrationGPerL: Double,
-        val currentAmps: Double,
-        val voltageVolts: Double,
-        val powerWatts: Double,
-        val dissolutionRateGPerHour: Double,
-        val electrificationHours: Double,
-    )
-
     fun referenceSliderState(): SliderState = SliderState(
         totalLiters = BASE_TOTAL_LIQUID_LITERS,
         waterLiters = BASE_WATER_LITERS,
@@ -258,7 +231,7 @@ object ElectrolyteCalculator {
         return raw.coerceIn(MIN_ELECTRIFICATION_VOLTAGE_VOLTS, MAX_ELECTRIFICATION_VOLTAGE_VOLTS)
     }
 
-    fun calculate(state: SliderState): Result? {
+    fun calculate(state: SliderState): ElectrolyteCalculatorResult? {
         if (
             state.totalLiters <= 0.0 ||
             state.saltG <= 0.0 ||
@@ -286,7 +259,7 @@ object ElectrolyteCalculator {
             currentAmps = state.electrificationCurrentAmps,
         )
 
-        return Result(
+        return ElectrolyteCalculatorResult(
             aceticAcidMl = aceticAcidMl,
             waterMl = waterMl,
             waterLiters = state.waterLiters,
@@ -314,7 +287,7 @@ object ElectrolyteCalculator {
         totalLiquidLiters: Double,
         currentAmps: Double,
         targetDissolvedZincGPerL: Double = TARGET_DISSOLVED_ZINC_G_PER_L,
-    ): ZincDissolutionResult? {
+    ): ElectrolyteZincDissolutionResult? {
         if (totalLiquidLiters <= 0.0 || currentAmps <= 0.0 || targetDissolvedZincGPerL <= 0.0) {
             return null
         }
@@ -325,7 +298,7 @@ object ElectrolyteCalculator {
         val voltageVolts = voltageForLoad(currentAmps, totalLiquidLiters) ?: return null
         val powerWatts = voltageVolts * currentAmps
 
-        return ZincDissolutionResult(
+        return ElectrolyteZincDissolutionResult(
             targetDissolvedZincG = targetDissolvedZincG,
             targetConcentrationGPerL = targetDissolvedZincGPerL,
             currentAmps = currentAmps,
