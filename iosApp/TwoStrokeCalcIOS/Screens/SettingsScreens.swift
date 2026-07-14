@@ -134,12 +134,20 @@ struct SettingsScreen: View {
                 appState.showWalkthrough = true
                 SharedKitBridge.persistWalkthroughCompleted(false)
             }
-            Text("2-Stroke Calc · v1.0")
+            Text(buildFooterLabel)
                 .font(.caption2)
                 .foregroundStyle(colors.onSurfaceVariant)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 8)
+    }
+
+    private var buildFooterLabel: String {
+        if let commit = Bundle.main.object(forInfoDictionaryKey: "CIBuildCommit") as? String,
+           !commit.isEmpty {
+            return "2-Stroke Calc · CI \(commit)"
+        }
+        return "2-Stroke Calc · v1.0"
     }
 
     @ViewBuilder

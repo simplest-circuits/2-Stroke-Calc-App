@@ -31,7 +31,11 @@ flowchart LR
 
 4. **Push** auf `main` oder `iOS/Android-compatibility` → Workflow [`.github/workflows/calc-build.yml`](../.github/workflows/calc-build.yml) startet.
 
-5. **Link öffnen:** https://appetize.io/app/DEIN_PUBLIC_KEY (oder im Actions-Job-Summary unter „Appetize (Live)“)
+5. **Link öffnen:** https://appetize.io/app/DEIN_PUBLIC_KEY (aktuell: `bavyx77eukw5dwlqqhyozivqvq`)
+
+   Nach jedem CI-Lauf: **Session beenden** (Restart/Stop im Simulator) und die Seite **neu laden** (Strg+F5). Appetize startet laufende Sessions nicht automatisch mit dem neuen Upload.
+
+   Build-Version prüfen: Einstellungen → unten steht `CI abc1234` (Git-Commit des CI-Builds).
 
 6. **Manuell triggern:** GitHub → Actions → „Calc Build“ → **Run workflow**.
 
@@ -85,6 +89,8 @@ Du kannst es herunterladen, aber **auf Windows nicht starten** – Simulator-.ap
 **Firebase `ERROR_INVALID_CREDENTIAL` (17004) bei Google-Anmeldung:** Google Sign-In scheitert im Browser-Simulator oft (OAuth-Redirect, abgelaufene Tokens). **E-Mail-Login/Registrierung** nutzen – oder auf einem echten Gerät testen.
 
 **Free-Limit Appetize:** Link bookmarken; gleiche App mit `APPETIZE_PUBLIC_KEY` updaten statt neue App pro Build.
+
+**Altes Build auf Appetize:** CI-Upload war erfolgreich, aber die **laufende Browser-Session** nutzt oft noch das vorherige Build. Session stoppen/restarten, Tab schließen und Link neu öffnen. In den Einstellungen der App muss unten der aktuelle `CI`-Commit stehen (z. B. `CI 489c9f2`).
 
 ---
 

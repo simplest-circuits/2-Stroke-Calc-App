@@ -87,6 +87,14 @@ jobs:
             -derivedDataPath build/ios/DerivedData \
             -resolvePackageDependencies
 
+      - name: Stamp CI build metadata
+        run: |
+          PLIST="iosApp/TwoStrokeCalcIOS/Resources/Info.plist"
+          SHORT_SHA="${GITHUB_SHA::7}"
+          /usr/libexec/PlistBuddy -c "Delete :CIBuildCommit" "$PLIST" 2>/dev/null || true
+          /usr/libexec/PlistBuddy -c "Add :CIBuildCommit string $SHORT_SHA" "$PLIST"
+          echo "Stamped CIBuildCommit=$SHORT_SHA"
+
       - name: Build iOS app (Simulator .app)
         run: |
           xcodebuild \
@@ -128,6 +136,23 @@ jobs:
           publicKey: ${{ vars.APPETIZE_PUBLIC_KEY }}
           note: ${{ github.repository }}@${{ github.sha }}
 
+      - name: Verify Appetize deploy metadata
+        if: vars.APPETIZE_ENABLED == 'true'
+        env:
+          APPETIZE_API_TOKEN: ${{ secrets.APPETIZE_API_TOKEN }}
+          APPETIZE_PUBLIC_KEY: ${{ vars.APPETIZE_PUBLIC_KEY }}
+        run: |
+          curl -sS -H "X-API-KEY: $APPETIZE_API_TOKEN" \
+            "https://api.appetize.io/v1/apps/$APPETIZE_PUBLIC_KEY" > appetize-app.json
+          python3 - <<'PY'
+          import json
+          with open("appetize-app.json", encoding="utf-8") as handle:
+              payload = json.load(handle)
+          app = payload if isinstance(payload, dict) and "publicKey" in payload else payload.get("data", payload)
+          print(f"Appetize updated: {app.get('updated', 'unknown')}")
+          print(f"Appetize versionCode: {app.get('versionCode', 'unknown')}")
+          PY
+
       - name: Job summary
         if: always()
         run: |
@@ -140,8 +165,10 @@ jobs:
               KEY="${{ steps.appetize.outputs.publicKey }}"
               if [ -z "$KEY" ]; then KEY="${{ vars.APPETIZE_PUBLIC_KEY }}"; fi
               if [ -n "$KEY" ]; then
+                echo "- **CI-Build:** \`${GITHUB_SHA::7}\`"
                 echo "- **Appetize (Live):** https://appetize.io/app/$KEY"
                 echo "- **Appetize (Dashboard):** https://appetize.io/apps"
+                echo "- **Hinweis:** Laufende Appetize-Session beenden und Seite neu laden, damit das neue Build startet."
               else
                 echo "- **Appetize:** Upload-Schritt fehlgeschlagen oder übersprungen – Log prüfen"
               fi
