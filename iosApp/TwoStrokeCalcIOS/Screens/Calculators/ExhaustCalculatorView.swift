@@ -392,7 +392,7 @@ struct ExhaustCalculatorView: View {
 
     @ViewBuilder
     private var exhaustResultsCard: some View {
-        CalculatorResultCard(L.t("pt_result_title")) {
+        CalculatorResultCard(L.t("exhaust_result_title")) {
             if !hasInput {
                 CalculatorEmptyResultText(text: L.t("exhaust_result_empty"))
             } else if result == nil {
@@ -411,7 +411,7 @@ struct ExhaustCalculatorView: View {
                 )
                 CalculatorResultRow(
                     label: L.t("exhaust_result_diffuser_stages"),
-                    value: "\(result.diffuserStageCount) Segmente"
+                    value: L.tf("exhaust_diffuser_stages_option", String(result.diffuserStageCount))
                 )
                 if result.diffuserStageCount > 1 {
                     CalculatorResultRow(

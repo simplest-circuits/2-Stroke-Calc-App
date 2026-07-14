@@ -231,8 +231,9 @@ private struct FuelMixResultCard: View {
     var body: some View {
         CalculatorResultCard("") {
             if let ratioPartsFuel {
-                Text(L.tf("fuel_mix_result_header", String(ratioPartsFuel)))
-                    .font(.headline)
+                CalculatorResultSectionHeader(
+                    text: L.tf("fuel_mix_result_header", String(ratioPartsFuel))
+                )
 
                 switch inputMode {
                 case .fuel:
@@ -240,7 +241,7 @@ private struct FuelMixResultCard: View {
                         PrimaryResultText(
                             text: L.tf("fuel_mix_result_oil_amount", formatAmount(oil))
                         )
-                        SecondaryResultText(
+                        CalculatorTertiaryResultText(
                             text: L.tf(
                                 "fuel_mix_result_oil_fluid_ounces",
                                 formatAmount(oil / mlPerFluidOunce)
@@ -252,7 +253,7 @@ private struct FuelMixResultCard: View {
                         PrimaryResultText(
                             text: L.tf("fuel_mix_result_fuel_amount", formatAmount(fuel))
                         )
-                        SecondaryResultText(
+                        CalculatorTertiaryResultText(
                             text: L.tf(
                                 "fuel_mix_result_fuel_us_gallons",
                                 formatAmount(fuel / litersPerUsGallon)

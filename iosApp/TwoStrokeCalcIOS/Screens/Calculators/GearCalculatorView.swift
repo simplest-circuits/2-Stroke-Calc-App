@@ -619,7 +619,7 @@ private struct GearResultsCard: View {
                 CalculatorInvalidResultText(text: L.t("gear_result_invalid"))
             } else if let result {
                 if result.driveMode != .multiSpeed {
-                    SecondaryResultText(
+                    CalculatorResultHighlightText(
                         text: result.outputType == .outputRpm
                             ? L.t("gear_result_mode_output_rpm")
                             : L.t("gear_result_mode_vehicle_speed")

@@ -14,18 +14,6 @@ extension EnvironmentValues {
     }
 }
 
-// MARK: - Shared helpers
-
-private func portAssessmentLabel(_ assessment: PortAreaAssessment) -> String {
-    switch assessment {
-    case .criticalLow: return L.t("port_area_assessment_critical")
-    case .series: return L.t("port_area_assessment_series")
-    case .sporty: return L.t("port_area_assessment_sporty")
-    case .aggressive: return L.t("port_area_assessment_aggressive")
-    default: return assessment.name
-    }
-}
-
 // MARK: - Port timing
 
 struct PortTimingCalculatorView: View {
@@ -39,8 +27,9 @@ struct PortTimingCalculatorView: View {
     @State private var intakeClose = "15.9"
     @State private var pistonDeck = "-0.5"
     @State private var intakeSystem = IntakeSystem.rotaryValve
+    @State private var roundResults = false
 
-    private var portTimingResult: PortTimingResult? {
+    private var portTimingInput: PortTimingInput? {
         guard let strokeMm = parseDouble(stroke),
               let rodMm = parseDouble(connectingRod),
               let exhaustMm = parseDouble(exhaustPort),
@@ -49,7 +38,7 @@ struct PortTimingCalculatorView: View {
               let closeMm = parseDouble(intakeClose),
               let deckMm = parseDouble(pistonDeck) else { return nil }
 
-        return PortTimingCalculator.shared.calculate(input: PortTimingInput(
+        return PortTimingInput(
             strokeMm: strokeMm,
             connectingRodMm: rodMm,
             exhaustPortMm: exhaustMm,
@@ -58,29 +47,13 @@ struct PortTimingCalculatorView: View {
             intakeCloseMm: closeMm,
             pistonDeckMm: deckMm,
             intakeSystem: intakeSystem,
-            roundResults: false
-        ))
+            roundResults: roundResults
+        )
     }
 
-    private var resultLines: [String] {
-        guard let result = portTimingResult else { return [] }
-        var lines: [String] = []
-
-        if let exhaust = result.exhaust {
-            lines.append("\(L.t("pt_exhaust")): \(fmt(exhaust.openBeforeBdc, decimals: 1))° vUT, \(L.t("pt_exhaust_duration")) \(fmt(exhaust.duration, decimals: 1))°")
-        }
-        if let transfer = result.transfer {
-            lines.append("\(L.t("pt_transfer")): \(fmt(transfer.openBeforeBdc, decimals: 1))° vUT, \(L.t("pt_transfer_duration")) \(fmt(transfer.duration, decimals: 1))°")
-        }
-        if let blowdown = result.blowdown {
-            lines.append("\(L.t("pt_blowdown")): \(fmt(blowdown, decimals: 1))°")
-        }
-        if let intake = result.intake {
-            lines.append("\(L.t("pt_intake_before_tdc")): \(fmt(intake.openBeforeTdc, decimals: 1))°")
-            lines.append("\(L.t("pt_intake_after_tdc")): \(fmt(intake.closeAfterTdc, decimals: 1))°")
-            lines.append("\(L.t("pt_intake_duration")): \(fmt(intake.duration, decimals: 1))°")
-        }
-        return lines
+    private var portTimingResult: PortTimingResult? {
+        guard let input = portTimingInput else { return nil }
+        return PortTimingCalculator.shared.calculate(input: input)
     }
 
     var body: some View {
@@ -117,7 +90,12 @@ struct PortTimingCalculatorView: View {
                 )
             }
 
-            ResultCard(title: S.resultTitle, lines: resultLines)
+            PortTimingResultsCard(
+                result: portTimingResult,
+                input: portTimingInput,
+                roundResults: roundResults,
+                onRoundResultsChange: { roundResults = $0 }
+            )
 
             if let result = portTimingResult {
                 CalculatorSection(L.t("pt_section_diagram")) {
@@ -137,7 +115,6 @@ private enum IgnitionInputMode {
 
 struct IgnitionTimingCalculatorView: View {
     @Environment(\.calculatorEditingEnabled) private var editingEnabled
-    @Environment(\.themeColors) private var colors
 
     @State private var strokeText = "57"
     @State private var connectingRodText = "110"
@@ -154,6 +131,10 @@ struct IgnitionTimingCalculatorView: View {
     }
 
     private var useDegrees: Bool { inputMode == .degrees }
+
+    private var hasInput: Bool {
+        !strokeText.isEmpty || !connectingRodText.isEmpty || !inputText.isEmpty
+    }
 
     private var resultLine: String? {
         guard geometryValid, let inputValue, let stroke, let connectingRod else { return nil }
@@ -200,12 +181,13 @@ struct IgnitionTimingCalculatorView: View {
                 enabled: editingEnabled
             )
 
-            CalculatorSection(S.resultTitle) {
-                if let resultLine {
+            CalculatorResultCard(L.t("ignition_result_title")) {
+                if !hasInput || !geometryValid || inputValue == nil {
+                    CalculatorEmptyResultText(text: L.t("pt_not_calculated"))
+                } else if let resultLine {
                     PrimaryResultText(text: resultLine)
                 } else {
-                    Text(L.t("pt_not_calculated"))
-                        .foregroundStyle(colors.onSurfaceVariant)
+                    CalculatorEmptyResultText(text: L.t("pt_not_calculated"))
                 }
             }
         }
@@ -252,24 +234,22 @@ struct DcCableCalculatorView: View {
     @State private var length = "3"
     @State private var maxDropPercent = "3"
 
-    private var resultLines: [String] {
+    private var hasInput: Bool {
+        !voltage.isEmpty || !current.isEmpty || !length.isEmpty || !maxDropPercent.isEmpty
+    }
+
+    private var dcCableResult: DcCableCrossSectionCalculatorResult? {
         guard let v = parseDouble(voltage),
               let a = parseDouble(current),
               let len = parseDouble(length),
-              let drop = parseDouble(maxDropPercent),
-              let result = DcCableCrossSectionCalculator.shared.calculate(
-                voltage: v,
-                currentAmps: a,
-                oneWayLengthM: len,
-                maxDropPercent: drop
-              ) else { return [] }
+              let drop = parseDouble(maxDropPercent) else { return nil }
 
-        return [
-            "\(L.t("dc_cable_result_minimum_label")): \(L.tf("dc_cable_result_minimum_value", fmt(result.minimumCrossSectionMm2, decimals: 2)))",
-            L.tf("dc_cable_result_recommended", fmt(result.recommendedCrossSectionMm2, decimals: 2)),
-            "\(L.t("dc_cable_result_voltage_drop_label")): \(L.tf("dc_cable_result_voltage_drop_value", fmt(result.voltageDropVolts, decimals: 2), fmt(result.voltageDropPercent, decimals: 2)))",
-            L.tf("dc_cable_result_drop_limit", fmt(result.maxAllowedDropVolts, decimals: 2), fmt(result.maxAllowedDropPercent, decimals: 1)),
-        ]
+        return DcCableCrossSectionCalculator.shared.calculate(
+            voltage: v,
+            currentAmps: a,
+            oneWayLengthM: len,
+            maxDropPercent: drop
+        )
     }
 
     var body: some View {
@@ -286,7 +266,7 @@ struct DcCableCalculatorView: View {
                 DecimalField(label: L.t("dc_cable_drop_label"), text: $maxDropPercent, suffix: L.t("squish_band_unit_percent"), enabled: editingEnabled)
             }
 
-            ResultCard(title: S.resultTitle, lines: resultLines)
+            DcCableResultCard(result: dcCableResult, hasInput: hasInput)
         }
     }
 }
@@ -326,11 +306,15 @@ private struct ElectrolyteCalculatorContent: View {
     @State private var acidConcentration = "60"
     @State private var current = "1.6"
 
-    private var resultLines: [String] {
+    private var hasInput: Bool {
+        !totalLiters.isEmpty || !saltG.isEmpty || !acidConcentration.isEmpty || !current.isEmpty
+    }
+
+    private var electrolyteResult: ElectrolyteCalculatorResult? {
         guard let liters = parseDouble(totalLiters),
               let salt = parseDouble(saltG),
               let acid = parseDouble(acidConcentration),
-              let amps = parseDouble(current) else { return [] }
+              let amps = parseDouble(current) else { return nil }
 
         let ref = ElectrolyteCalculator.shared.referenceSliderState()
         guard let synced = ElectrolyteCalculator.shared.syncSliders(
@@ -341,23 +325,9 @@ private struct ElectrolyteCalculatorContent: View {
             saltG: salt,
             acidConcentrationPercent: acid,
             electrificationCurrentAmps: amps
-        ), let result = ElectrolyteCalculator.shared.calculate(state: synced) else { return [] }
+        ) else { return nil }
 
-        var lines = [
-            L.tf("electrolyte_result_acid_value", fmt(result.aceticAcidMl, decimals: 0), fmt(result.acidConcentrationPercent, decimals: 0)),
-            L.tf("electrolyte_result_water_value", fmt(result.waterLiters, decimals: 2)),
-            L.tf("electrolyte_result_salt_value", fmt(result.saltG, decimals: 0)),
-            "\(L.t("electrolyte_total_volume_label")): \(L.tf("electrolyte_total_volume_value", fmt(result.totalLiquidLiters, decimals: 1)))",
-            "\(L.t("electrolyte_result_acid_label")): \(fmt(result.finalAceticAcidPercent, decimals: 1)) %",
-        ]
-        if let zinc = result.zincDissolution {
-            lines += [
-                L.tf("electrolyte_zinc_target_value", fmt(zinc.targetDissolvedZincG, decimals: 0)),
-                "\(L.t("electrolyte_voltage_label")): \(fmt(zinc.voltageVolts, decimals: 1)) V \(L.t("electrolyte_zinc_time_label")) \(fmt(zinc.currentAmps, decimals: 1)) A",
-                "\(L.t("electrolyte_zinc_time_label")): \(fmt(zinc.electrificationHours, decimals: 1)) h",
-            ]
-        }
-        return lines
+        return ElectrolyteCalculator.shared.calculate(state: synced)
     }
 
     var body: some View {
@@ -367,7 +337,7 @@ private struct ElectrolyteCalculatorContent: View {
             DecimalField(label: L.t("electrolyte_acid_concentration_label"), text: $acidConcentration, suffix: L.t("squish_band_unit_percent"), enabled: editingEnabled)
             DecimalField(label: L.t("electrolyte_current_label"), text: $current, suffix: L.t("dc_cable_unit_amps"), enabled: editingEnabled)
         }
-        ResultCard(title: S.resultTitle, lines: resultLines)
+        ElectrolyteResultCard(result: electrolyteResult, loadVoltage: nil)
     }
 }
 
@@ -377,19 +347,12 @@ private struct CleaningAgentCalculatorContent: View {
     @State private var totalLiters = "7.0"
     @State private var concentration = "3.0"
 
-    private var resultLines: [String] {
+    private var cleaningAgentResult: CleaningAgentCalculatorResult? {
         guard let liters = parseDouble(totalLiters),
-              let conc = parseDouble(concentration) else { return [] }
+              let conc = parseDouble(concentration) else { return nil }
 
         let input = IosKoinInitKt.iosCleaningAgentInput(totalLiters: liters, concentrationPercent: conc)
-        guard let result = CleaningAgentCalculator.shared.calculate(input: input) else { return [] }
-
-        return [
-            L.tf("cleaning_agent_result_agent_value", fmt(result.cleaningAgentMl, decimals: 0), fmt(result.concentrationPercent, decimals: 1)),
-            L.tf("cleaning_agent_result_water_value", fmt(result.waterLiters, decimals: 2)),
-            "\(L.t("cleaning_agent_concentration_label")): \(fmt(result.concentrationPercent, decimals: 1)) %",
-            "\(L.t("dc_cable_result_title")): \(fmt(result.totalLiters, decimals: 1)) l",
-        ]
+        return CleaningAgentCalculator.shared.calculate(input: input)
     }
 
     var body: some View {
@@ -397,7 +360,7 @@ private struct CleaningAgentCalculatorContent: View {
             DecimalField(label: L.t("electrolyte_total_volume_label"), text: $totalLiters, suffix: "l", enabled: editingEnabled)
             DecimalField(label: L.t("cleaning_agent_concentration_label"), text: $concentration, suffix: L.t("squish_band_unit_percent"), enabled: editingEnabled)
         }
-        ResultCard(title: S.resultTitle, lines: resultLines)
+        CleaningAgentResultCard(result: cleaningAgentResult)
     }
 }
 
@@ -416,77 +379,66 @@ struct CompressionCalculatorView: View {
     @State private var pistonConstant = ""
     @State private var currentCompression = "7.2"
 
-    private var resultLines: [String] {
-        guard let boreMm = parseDouble(bore), let strokeMm = parseDouble(stroke) else { return [] }
+    private var forwardHasInput: Bool {
+        !bore.isEmpty || !domeDiameter.isEmpty || !stroke.isEmpty || !domeVolume.isEmpty || !squishBand.isEmpty
+    }
 
-        switch mode {
-        case .forward:
-            guard let domeD = parseDouble(domeDiameter),
-                  let domeV = parseDouble(domeVolume),
-                  let squish = parseDouble(squishBand),
-                  let result = CompressionCalculator.shared.calculate(
-                    boreMm: boreMm,
-                    domeDiameterMm: domeD,
-                    strokeMm: strokeMm,
-                    domeVolumeMl: domeV,
-                    squishBandMm: squish
-                  ) else { return [] }
-            return [
-                L.tf("compression_result_ratio", fmt(result.compressionRatio, decimals: 2)),
-                "\(L.t("compression_result_displacement")): \(L.tf("compression_result_value_ml", fmt(result.displacementMl, decimals: 1)))",
-                "\(L.t("compression_result_squish_volume")): \(L.tf("compression_result_value_ml", fmt(result.squishBandVolumeMl, decimals: 2)))",
-                "\(L.t("compression_result_squish_area")): \(L.tf("compression_result_value_percent", fmt(result.squishAreaPercent, decimals: 1)))",
-                "\(L.t("compression_result_bore_stroke_ratio")): \(fmt(result.boreStrokeRatio, decimals: 2))",
-            ]
+    private var targetHasInput: Bool {
+        !bore.isEmpty || !stroke.isEmpty || !targetCompression.isEmpty || !pistonConstant.isEmpty
+    }
 
-        case .target:
-            guard let target = parseDouble(targetCompression) else { return [] }
-            let result: CompressionTargetResult?
-            if let piston = parseDouble(pistonConstant) {
-                result = IosKoinInitKt.iosCompressionCalculateTargetWithPistonConstant(
-                    boreMm: boreMm,
-                    strokeMm: strokeMm,
-                    targetCompressionRatio: target,
-                    pistonConstantMl: piston
-                )
-            } else {
-                result = IosKoinInitKt.iosCompressionCalculateTarget(
-                    boreMm: boreMm,
-                    strokeMm: strokeMm,
-                    targetCompressionRatio: target
-                )
-            }
-            guard let result else { return [] }
-            var lines = [
-                "\(L.t("compression_target_result_total_chamber")): \(L.tf("compression_result_value_ml", fmt(result.totalChamberVolumeMl, decimals: 2)))",
-                "\(L.t("compression_result_displacement")): \(L.tf("compression_result_value_ml", fmt(result.displacementMl, decimals: 1)))",
-                L.tf("compression_target_result_ratio", fmt(result.targetCompressionRatio, decimals: 2)),
-            ]
-            if let dome = result.domeVolumeMl {
-                lines.append("\(L.t("compression_target_result_dome")): \(L.tf("compression_result_value_ml", fmt(dome, decimals: 2)))")
-            }
-            return lines
+    private var changeHasInput: Bool {
+        !bore.isEmpty || !stroke.isEmpty || !currentCompression.isEmpty || !targetCompression.isEmpty
+    }
 
-        case .change:
-            guard let current = parseDouble(currentCompression),
-                  let target = parseDouble(targetCompression),
-                  let result = CompressionCalculator.shared.calculateChange(
-                    boreMm: boreMm,
-                    strokeMm: strokeMm,
-                    currentCompressionRatio: current,
-                    targetCompressionRatio: target
-                  ) else { return [] }
-            return [
-                L.tf("compression_change_result_remove", fmt(result.volumeToRemoveMl, decimals: 2)),
-                L.tf("compression_change_result_remove_depth", fmt(result.millingDepthMm, decimals: 3)),
-                "\(L.t("compression_current_ratio_label")): \(fmt(result.currentCompressionRatio, decimals: 2)):1 → \(L.t("compression_target_ratio_label")): \(fmt(result.targetCompressionRatio, decimals: 2)):1",
-                L.tf("compression_change_result_current_chamber", fmt(result.currentCompressionRatio, decimals: 2)),
-                L.tf("compression_change_result_target_chamber", fmt(result.targetCompressionRatio, decimals: 2)),
-            ]
+    private var forwardResult: CompressionResult? {
+        guard let boreMm = parseDouble(bore),
+              let domeD = parseDouble(domeDiameter),
+              let strokeMm = parseDouble(stroke),
+              let domeV = parseDouble(domeVolume),
+              let squish = parseDouble(squishBand) else { return nil }
 
-        default:
-            return []
+        return CompressionCalculator.shared.calculate(
+            boreMm: boreMm,
+            domeDiameterMm: domeD,
+            strokeMm: strokeMm,
+            domeVolumeMl: domeV,
+            squishBandMm: squish
+        )
+    }
+
+    private var targetResult: CompressionTargetResult? {
+        guard let boreMm = parseDouble(bore),
+              let strokeMm = parseDouble(stroke),
+              let target = parseDouble(targetCompression) else { return nil }
+
+        if let piston = parseDouble(pistonConstant) {
+            return IosKoinInitKt.iosCompressionCalculateTargetWithPistonConstant(
+                boreMm: boreMm,
+                strokeMm: strokeMm,
+                targetCompressionRatio: target,
+                pistonConstantMl: piston
+            )
         }
+        return IosKoinInitKt.iosCompressionCalculateTarget(
+            boreMm: boreMm,
+            strokeMm: strokeMm,
+            targetCompressionRatio: target
+        )
+    }
+
+    private var changeResult: CompressionChangeResult? {
+        guard let boreMm = parseDouble(bore),
+              let strokeMm = parseDouble(stroke),
+              let current = parseDouble(currentCompression),
+              let target = parseDouble(targetCompression) else { return nil }
+
+        return CompressionCalculator.shared.calculateChange(
+            boreMm: boreMm,
+            strokeMm: strokeMm,
+            currentCompressionRatio: current,
+            targetCompressionRatio: target
+        )
     }
 
     var body: some View {
@@ -525,7 +477,16 @@ struct CompressionCalculatorView: View {
                 }
             }
 
-            ResultCard(title: S.resultTitle, lines: resultLines)
+            switch mode {
+            case .forward:
+                CompressionForwardResultCard(result: forwardResult, hasInput: forwardHasInput)
+            case .target:
+                CompressionTargetResultCard(result: targetResult, hasInput: targetHasInput)
+            case .change:
+                CompressionChangeResultCard(result: changeResult, hasInput: changeHasInput)
+            default:
+                EmptyView()
+            }
         }
     }
 }
@@ -540,27 +501,30 @@ struct SquishBandCalculatorView: View {
     @State private var squishPercent = "40"
     @State private var squishWidth = "1.2"
 
-    private var resultLines: [String] {
-        guard let boreMm = parseDouble(bore) else { return [] }
-
-        let result: SquishBandResult?
+    private var hasInput: Bool {
         switch mode {
         case .percent:
-            guard let pct = parseDouble(squishPercent) else { return [] }
-            result = SquishBandCalculator.shared.calculateFromPercent(boreMm: boreMm, squishAreaPercent: pct)
+            return !bore.isEmpty || !squishPercent.isEmpty
         case .width:
-            guard let width = parseDouble(squishWidth) else { return [] }
-            result = SquishBandCalculator.shared.calculateFromWidth(boreMm: boreMm, squishBandWidthMm: width)
+            return !bore.isEmpty || !squishWidth.isEmpty
         default:
-            result = nil
+            return !bore.isEmpty
         }
+    }
 
-        guard let r = result else { return [] }
-        return [
-            "\(L.t("compression_result_squish_area")): \(L.tf("compression_result_value_percent", fmt(r.squishAreaPercent, decimals: 1)))",
-            "\(L.t("squish_band_mode_width")): \(fmt(r.squishBandWidthMm, decimals: 2)) \(L.t("pt_mm"))",
-            "\(L.t("compression_dome_diameter_label")): \(fmt(r.domeDiameterMm, decimals: 2)) \(L.t("pt_mm"))",
-        ]
+    private var squishResult: SquishBandResult? {
+        guard let boreMm = parseDouble(bore) else { return nil }
+
+        switch mode {
+        case .percent:
+            guard let pct = parseDouble(squishPercent) else { return nil }
+            return SquishBandCalculator.shared.calculateFromPercent(boreMm: boreMm, squishAreaPercent: pct)
+        case .width:
+            guard let width = parseDouble(squishWidth) else { return nil }
+            return SquishBandCalculator.shared.calculateFromWidth(boreMm: boreMm, squishBandWidthMm: width)
+        default:
+            return nil
+        }
     }
 
     var body: some View {
@@ -588,7 +552,7 @@ struct SquishBandCalculatorView: View {
                 }
             }
 
-            ResultCard(title: S.resultTitle, lines: resultLines)
+            SquishBandResultCard(result: squishResult, hasInput: hasInput, mode: mode)
         }
     }
 }
@@ -603,25 +567,22 @@ struct MeanPressureCalculatorView: View {
     @State private var bore = "72"
     @State private var stroke = "62"
 
-    private var resultLines: [String] {
+    private var hasInput: Bool {
+        !powerPs.isEmpty || !rpm.isEmpty || !bore.isEmpty || !stroke.isEmpty
+    }
+
+    private var meanPressureResult: MeanPressureResult? {
         guard let ps = parseDouble(powerPs),
               let rpmVal = parseDouble(rpm),
               let boreMm = parseDouble(bore),
-              let strokeMm = parseDouble(stroke),
-              let result = MeanPressureCalculator.shared.calculate(
-                powerPs: ps,
-                rpm: rpmVal,
-                boreMm: boreMm,
-                strokeMm: strokeMm
-              ) else { return [] }
+              let strokeMm = parseDouble(stroke) else { return nil }
 
-        return [
-            L.tf("mean_pressure_result_bar", fmt(result.meanPressureBar, decimals: 2)),
-            "\(L.t("mean_pressure_result_torque")): \(L.tf("mean_pressure_result_value_nm", fmt(result.torqueNm, decimals: 2)))",
-            "\(L.t("mean_pressure_result_displacement")): \(L.tf("mean_pressure_result_value_ccm", fmt(result.displacementCcm, decimals: 1)))",
-            "\(L.t("mean_pressure_result_specific_power")): \(L.tf("mean_pressure_result_value_ps_per_l", fmt(result.specificPowerPsPerLiter, decimals: 1)))",
-            "\(L.t("mean_pressure_result_power_watts")): \(fmt(result.powerWatts / 1000.0, decimals: 2)) kW",
-        ]
+        return MeanPressureCalculator.shared.calculate(
+            powerPs: ps,
+            rpm: rpmVal,
+            boreMm: boreMm,
+            strokeMm: strokeMm
+        )
     }
 
     var body: some View {
@@ -638,7 +599,7 @@ struct MeanPressureCalculatorView: View {
                 DecimalField(label: L.t("pt_stroke"), text: $stroke, suffix: L.t("pt_mm"), enabled: editingEnabled)
             }
 
-            ResultCard(title: S.resultTitle, lines: resultLines)
+            MeanPressureResultCard(result: meanPressureResult, hasInput: hasInput)
         }
     }
 }
@@ -681,14 +642,19 @@ private struct TransferPortAreaContent: View {
     @State private var duration = "120"
     @State private var sideAngle = "15"
 
-    private var resultLines: [String] {
+    private var hasInput: Bool {
+        !bore.isEmpty || !stroke.isEmpty || !width.isEmpty || !height.isEmpty
+            || !channelCount.isEmpty || !duration.isEmpty || !sideAngle.isEmpty
+    }
+
+    private var transferResult: PortAreaResult? {
         guard let boreMm = parseDouble(bore),
               let strokeMm = parseDouble(stroke),
               let w = parseDouble(width),
               let h = parseDouble(height),
               let count = Int32(channelCount),
               let dur = parseDouble(duration),
-              let angle = parseDouble(sideAngle) else { return [] }
+              let angle = parseDouble(sideAngle) else { return nil }
 
         let input = IosKoinInitKt.iosTransferPortInput(
             boreMm: boreMm,
@@ -700,16 +666,7 @@ private struct TransferPortAreaContent: View {
             correctionFactor: 1.0,
             durationDeg: dur
         )
-        guard let result = PortAreaCalculator.shared.calculateTransfer(input: input) else { return [] }
-
-        return [
-            "\(L.t("port_area_result_area")): \(L.tf("port_area_result_area_value", fmt(result.areaMm2, decimals: 1)))",
-            L.tf("port_area_result_time_area", fmt(result.timeAreaMm2Deg, decimals: 0)),
-            "\(L.t("port_area_result_area"))/\(L.t("vehicles_field_bore")): \(fmt(result.areaToBoreRatio * 100, decimals: 1)) %",
-            "\(L.t("port_area_result_ta_per_cc")): \(L.tf("port_area_result_ta_per_cc_value", fmt(result.timeAreaPerCc, decimals: 0)))",
-            "\(L.t("port_area_result_displacement")): \(L.tf("port_area_result_displacement_value", fmt(result.displacementCc, decimals: 1)))",
-            portAssessmentLabel(result.assessment),
-        ]
+        return PortAreaCalculator.shared.calculateTransfer(input: input)
     }
 
     var body: some View {
@@ -722,7 +679,7 @@ private struct TransferPortAreaContent: View {
             DecimalField(label: L.t("port_area_transfer_side_angle_label"), text: $sideAngle, suffix: L.t("port_area_unit_deg"), enabled: editingEnabled)
             DecimalField(label: L.t("port_area_transfer_duration_label"), text: $duration, suffix: L.t("port_area_unit_deg"), enabled: editingEnabled)
         }
-        ResultCard(title: S.resultTitle, lines: resultLines)
+        TransferPortAreaResultCard(result: transferResult, hasInput: hasInput)
     }
 }
 
@@ -737,14 +694,19 @@ private struct ExhaustPortAreaContent: View {
     @State private var bridgeWidth = "8"
     @State private var duration = "166"
 
-    private var resultLines: [String] {
+    private var hasInput: Bool {
+        !bore.isEmpty || !stroke.isEmpty || !portHeight.isEmpty || !totalSpan.isEmpty
+            || !topSpan.isEmpty || !bridgeWidth.isEmpty || !duration.isEmpty
+    }
+
+    private var exhaustResult: PortAreaResult? {
         guard let boreMm = parseDouble(bore),
               let strokeMm = parseDouble(stroke),
               let height = parseDouble(portHeight),
               let bottom = parseDouble(totalSpan),
               let top = parseDouble(topSpan),
               let bridge = parseDouble(bridgeWidth),
-              let dur = parseDouble(duration) else { return [] }
+              let dur = parseDouble(duration) else { return nil }
 
         let input = IosKoinInitKt.iosSimpleExhaustPortInput(
             boreMm: boreMm,
@@ -757,16 +719,7 @@ private struct ExhaustPortAreaContent: View {
             bridgeWidthMm: bridge,
             durationDeg: dur
         )
-        guard let result = PortAreaCalculator.shared.calculateExhaust(input: input) else { return [] }
-
-        return [
-            "\(L.t("port_area_result_area")): \(L.tf("port_area_result_area_value", fmt(result.areaMm2, decimals: 1)))",
-            L.tf("port_area_result_time_area", fmt(result.timeAreaMm2Deg, decimals: 0)),
-            "\(L.t("port_area_result_area"))/\(L.t("vehicles_field_bore")): \(fmt(result.areaToBoreRatio * 100, decimals: 1)) %",
-            "\(L.t("port_area_result_ta_per_cc")): \(L.tf("port_area_result_ta_per_cc_value", fmt(result.timeAreaPerCc, decimals: 0)))",
-            "\(L.t("port_area_result_displacement")): \(L.tf("port_area_result_displacement_value", fmt(result.displacementCc, decimals: 1)))",
-            portAssessmentLabel(result.assessment),
-        ]
+        return PortAreaCalculator.shared.calculateExhaust(input: input)
     }
 
     private var exhaustLayout: PortGeometryLayout? {
@@ -804,7 +757,12 @@ private struct ExhaustPortAreaContent: View {
         if let layout = exhaustLayout {
             ExhaustPortGeometryDiagramView(layout: layout)
         }
-        ResultCard(title: S.resultTitle, lines: resultLines)
+        ExhaustPortAreaResultCard(
+            result: exhaustResult,
+            hasInput: hasInput,
+            layout: exhaustLayout,
+            boreMm: parseDouble(bore)
+        )
     }
 }
 
@@ -817,17 +775,20 @@ struct CounterweightCalculatorView: View {
     @State private var rodHalf = "80"
     @State private var bigEnd = "180"
 
-    private var resultLines: [String] {
+    private var hasInput: Bool {
+        !pistonWeight.isEmpty || !rodHalf.isEmpty || !bigEnd.isEmpty
+    }
+
+    private var factor: Double? {
         guard let piston = parseDouble(pistonWeight),
               let half = parseDouble(rodHalf),
-              let big = parseDouble(bigEnd),
-              let factor = CounterweightFactorCalculator.shared.factorPercent(
-                pistonWeightGrams: piston,
-                connectingRodHalfGrams: half,
-                bigEndWeightGrams: big
-              ) else { return [] }
+              let big = parseDouble(bigEnd) else { return nil }
 
-        return [L.tf("counterweight_result_factor", fmt(factor, decimals: 1))]
+        return CounterweightFactorCalculator.shared.factorPercent(
+            pistonWeightGrams: piston,
+            connectingRodHalfGrams: half,
+            bigEndWeightGrams: big
+        )
     }
 
     var body: some View {
@@ -843,7 +804,7 @@ struct CounterweightCalculatorView: View {
                 DecimalField(label: L.t("counterweight_big_end_label"), text: $bigEnd, suffix: L.t("vehicle_dynamics_unit_g"), enabled: editingEnabled)
             }
 
-            ResultCard(title: S.resultTitle, lines: resultLines)
+            CounterweightResultCard(factorPercent: factor, hasInput: hasInput)
         }
     }
 }
@@ -858,23 +819,21 @@ struct VariatorWeightCalculatorView: View {
     @State private var targetRpm = "7000"
     @State private var rollerType = VariatorWeightRollerType.rollers
 
-    private var resultLines: [String] {
+    private var hasInput: Bool {
+        !currentGrams.isEmpty || !currentRpm.isEmpty || !targetRpm.isEmpty
+    }
+
+    private var variatorResult: VariatorWeightCalculatorResult? {
         guard let grams = parseDouble(currentGrams),
               let current = parseDouble(currentRpm),
-              let target = parseDouble(targetRpm),
-              let result = VariatorWeightCalculator.shared.calculate(
-                currentGrams: grams,
-                currentRpm: current,
-                targetRpm: target,
-                rollerType: rollerType
-              ) else { return [] }
+              let target = parseDouble(targetRpm) else { return nil }
 
-        return [
-            L.tf("variator_weight_result_physics", fmt(VariatorWeightCalculator.shared.roundToTenth(grams: result.physicsWeightGrams), decimals: 1)),
-            "\(L.t("variator_weight_result_empirical_label")): \(L.tf("variator_weight_result_empirical_value", fmt(VariatorWeightCalculator.shared.roundToTenth(grams: result.empiricalWeightGrams), decimals: 1)))",
-            "\(L.t("variator_weight_result_rpm_delta_label")): \(L.tf("gear_result_rpm_value", fmt(result.rpmDelta, decimals: 0)))",
-            "\(L.t("variator_weight_result_target_rpm_label")): \(L.tf("gear_result_rpm_value", fmt(result.targetRpm, decimals: 0)))",
-        ]
+        return VariatorWeightCalculator.shared.calculate(
+            currentGrams: grams,
+            currentRpm: current,
+            targetRpm: target,
+            rollerType: rollerType
+        )
     }
 
     var body: some View {
@@ -897,7 +856,11 @@ struct VariatorWeightCalculatorView: View {
                 DecimalField(label: L.t("variator_weight_target_mode_rpm"), text: $targetRpm, suffix: L.t("gear_unit_rpm"), enabled: editingEnabled)
             }
 
-            ResultCard(title: S.resultTitle, lines: resultLines)
+            VariatorWeightResultCard(
+                result: variatorResult,
+                currentWeight: parseDouble(currentGrams),
+                hasInput: hasInput
+            )
         }
     }
 }
@@ -912,11 +875,15 @@ struct FlywheelInertiaCalculatorView: View {
     @State private var length = "100"
     @State private var rollerRadius = "150"
 
-    private var resultLines: [String] {
+    private var hasInput: Bool {
+        !outerDiameter.isEmpty || !innerDiameter.isEmpty || !length.isEmpty || !rollerRadius.isEmpty
+    }
+
+    private var flywheelResult: FlywheelInertiaResult? {
         guard let outer = parseDouble(outerDiameter),
               let inner = parseDouble(innerDiameter),
               let len = parseDouble(length),
-              let roller = parseDouble(rollerRadius) else { return [] }
+              let roller = parseDouble(rollerRadius) else { return nil }
 
         let input = IosKoinInitKt.iosFlywheelGeometryInput(
             cylinderType: inner > 0 ? .hollow : .solid,
@@ -928,16 +895,7 @@ struct FlywheelInertiaCalculatorView: View {
             rollerRadiusMm: roller,
             additionalInertiaKgm2: 0
         )
-        guard let result = FlywheelInertiaCalculator.shared.inertiaFromGeometry(input: input) else { return [] }
-
-        var lines = [L.tf("flywheel_result_inertia", fmt(result.inertiaKgm2, decimals: 4))]
-        if let mass = result.massKg {
-            lines.append("\(L.t("flywheel_result_mass_label")): \(L.tf("flywheel_result_mass_value", fmt(mass, decimals: 2)))")
-        }
-        if let eq = result.equivalentMassKg {
-            lines.append("\(L.t("flywheel_result_equivalent_mass_label")): \(L.tf("flywheel_result_equivalent_mass_value", fmt(eq, decimals: 1)))")
-        }
-        return lines
+        return FlywheelInertiaCalculator.shared.inertiaFromGeometry(input: input)
     }
 
     var body: some View {
@@ -954,7 +912,7 @@ struct FlywheelInertiaCalculatorView: View {
                 DecimalField(label: L.t("flywheel_roller_radius_label"), text: $rollerRadius, suffix: L.t("pt_mm"), enabled: editingEnabled)
             }
 
-            ResultCard(title: S.resultTitle, lines: resultLines)
+            FlywheelGeometryResultCard(result: flywheelResult, hasInput: hasInput)
         }
     }
 }
@@ -977,7 +935,14 @@ struct VehicleDynamicsCalculatorView: View {
     @State private var analysisSpeed = "60"
     @State private var targetSpeed = "80"
 
-    private var resultLines: [String] {
+    private var hasInput: Bool {
+        !mass.isEmpty || !powerPs.isEmpty || !engineRpm.isEmpty || !maxRpm.isEmpty
+            || !wheelCircumference.isEmpty || !primaryPinion.isEmpty || !primaryGear.isEmpty
+            || !secondaryPinion.isEmpty || !secondaryGear.isEmpty || !shiftRpm.isEmpty
+            || !analysisSpeed.isEmpty || !targetSpeed.isEmpty
+    }
+
+    private var vehicleDynamicsResult: VehicleDynamicsResult? {
         guard let massKg = parseDouble(mass),
               let ps = parseDouble(powerPs),
               let rpm = parseDouble(engineRpm),
@@ -989,7 +954,7 @@ struct VehicleDynamicsCalculatorView: View {
               let sGear = Int32(secondaryGear),
               let shift = parseDouble(shiftRpm),
               let analysis = parseDouble(analysisSpeed),
-              let target = parseDouble(targetSpeed) else { return [] }
+              let target = parseDouble(targetSpeed) else { return nil }
 
         let preset = VehicleDynamicsPreset.roller.values()
         let stage = VehicleDynamicsGearInput(secondaryPinion: sPin, secondaryGear: sGear)
@@ -1018,26 +983,7 @@ struct VehicleDynamicsCalculatorView: View {
             selectedGearIndex: 0,
             rpmConstant: 16000
         )
-        guard let result = VehicleDynamicsCalculator.shared.calculate(input: input) else { return [] }
-
-        var lines: [String] = []
-        if let top = result.topSpeedKmh {
-            let limit = result.topSpeedLimit == TopSpeedLimit.aerodynamic
-                ? L.t("vehicle_dynamics_limit_aero")
-                : L.t("vehicle_dynamics_limit_rpm")
-            lines.append("\(L.t("vehicle_dynamics_result_top_speed_title")): \(L.tf("vehicle_dynamics_result_top_speed_value", fmt(top, decimals: 1))) (\(L.t("vehicle_dynamics_result_top_speed_gear")) \(result.topSpeedGear ?? 0), \(limit))")
-        }
-        if let gear = result.selectedGear {
-            lines.append("\(L.tf("vehicle_dynamics_result_power_at_speed", fmt(analysis, decimals: 0))): \(L.tf("vehicle_dynamics_result_acceleration_g", fmt(gear.accelerationG, decimals: 2)))")
-            lines.append("\(L.t("vehicle_dynamics_result_net_force")): \(fmt(gear.forces.netForceN, decimals: 0)) N")
-        }
-        if let sprint = result.sprintToTarget {
-            lines.append(L.tf("vehicle_dynamics_result_sprint_time", fmt(sprint.timeSeconds, decimals: 1), fmt(target, decimals: 0)))
-        }
-        if let qm = result.quarterMileEstimateSeconds, let trap = result.quarterMileTrapSpeedKmh {
-            lines.append("\(L.t("vehicle_dynamics_result_quarter_mile_title")): \(fmt(qm, decimals: 1)) s @ \(L.tf("vehicle_dynamics_result_top_speed_value", fmt(trap, decimals: 0)))")
-        }
-        return lines
+        return VehicleDynamicsCalculator.shared.calculate(input: input)
     }
 
     var body: some View {
@@ -1062,7 +1008,11 @@ struct VehicleDynamicsCalculatorView: View {
                 DecimalField(label: L.t("vehicle_dynamics_target_speed_label"), text: $targetSpeed, suffix: L.t("gear_chart_axis_speed"), enabled: editingEnabled)
             }
 
-            ResultCard(title: S.resultTitle, lines: resultLines)
+            VehicleDynamicsResultsSection(
+                result: vehicleDynamicsResult,
+                hasInput: hasInput,
+                targetSpeed: parseDouble(targetSpeed)
+            )
         }
     }
 }

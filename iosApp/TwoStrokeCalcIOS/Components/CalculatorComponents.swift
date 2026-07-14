@@ -180,12 +180,61 @@ struct PrimaryResultText: View {
 
     var body: some View {
         Text(text)
-            .font(.title3.weight(.semibold))
+            .font(.title2.weight(.bold))
             .foregroundStyle(colors.primary)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
+struct SecondaryResultText: View {
+    @Environment(\.themeColors) private var colors
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.title3.weight(.semibold))
+            .foregroundStyle(colors.onSurface)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+struct CalculatorTertiaryResultText: View {
+    @Environment(\.themeColors) private var colors
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.subheadline)
+            .foregroundStyle(colors.onSurfaceVariant)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+struct CalculatorResultHighlightText: View {
+    @Environment(\.themeColors) private var colors
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(colors.primary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+struct CalculatorResultSectionHeader: View {
+    @Environment(\.themeColors) private var colors
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.headline.weight(.semibold))
+            .foregroundStyle(colors.onSurface)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+/// Legacy plain-text result section (vehicles / non-calculator screens).
 struct ResultCard: View {
     @Environment(\.themeColors) private var colors
     let title: String
@@ -290,18 +339,6 @@ func formatIgnitionDegrees(_ value: Double, round: Bool = true) -> String {
 
 func formatIgnitionMillimeters(_ value: Double) -> String {
     String(format: "%.2f mm", value)
-}
-
-struct SecondaryResultText: View {
-    @Environment(\.themeColors) private var colors
-    let text: String
-
-    var body: some View {
-        Text(text)
-            .font(.subheadline)
-            .foregroundStyle(colors.onSurfaceVariant)
-            .frame(maxWidth: .infinity, alignment: .leading)
-    }
 }
 
 struct CalculatorSliderField: View {
@@ -446,19 +483,16 @@ struct CalculatorResultRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(label)
-                    .font(.subheadline)
-                    .foregroundStyle(colors.onSurfaceVariant)
-                Spacer(minLength: 8)
-                Text(value)
-                    .font(.subheadline.monospacedDigit().weight(.medium))
-                    .foregroundStyle(colors.onSurface)
-                    .multilineTextAlignment(.trailing)
-            }
+            Text(label)
+                .font(.subheadline)
+                .foregroundStyle(colors.onSurfaceVariant)
+            Text(value)
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(colors.onSurface)
+                .monospacedDigit()
             if let hint {
                 Text(hint)
-                    .font(.caption2)
+                    .font(.caption)
                     .foregroundStyle(colors.onSurfaceVariant)
             }
         }

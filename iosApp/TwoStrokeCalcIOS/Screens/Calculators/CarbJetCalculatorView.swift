@@ -113,13 +113,13 @@ private struct CarbJetResultCard: View {
                         fmt(result.correctedMainJetExact, decimals: 1)
                     )
                 )
-                SecondaryResultText(
+                CalculatorTertiaryResultText(
                     text: L.tf(
                         "carb_jet_result_factor",
                         fmt(result.correctionFactor * 100, decimals: 1)
                     )
                 )
-                SecondaryResultText(text: L.t("carb_jet_result_rounding_hint"))
+                CalculatorTertiaryResultText(text: L.t("carb_jet_result_rounding_hint"))
                 CalculatorResultDivider()
                 CalculatorResultRow(
                     label: L.t("carb_jet_result_reference_pressure"),

@@ -13,6 +13,8 @@ swift_files = [
     "TwoStrokeCalcIOS/Localization/L.swift",
     "TwoStrokeCalcIOS/Localization/AppLocalization.swift",
     "TwoStrokeCalcIOS/Components/CalculatorComponents.swift",
+    "TwoStrokeCalcIOS/Components/CalculatorResultViews.swift",
+    "TwoStrokeCalcIOS/Components/PortTimingResultsView.swift",
     "TwoStrokeCalcIOS/Components/SettingsComponents.swift",
     "TwoStrokeCalcIOS/Components/PortTimingDiagramView.swift",
     "TwoStrokeCalcIOS/Components/ExhaustPipeDiagramView.swift",
