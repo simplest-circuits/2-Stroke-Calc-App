@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_App)
+        applyComposeInsetsWorkaround()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         Log.i("MainActivity", "Hello from shared module: ${Greeting().greet()}")
@@ -78,5 +79,30 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         mainViewModel.refreshSystemLanguage()
+    }
+
+    /**
+     * Keep Compose on the newer WindowInsets pipeline.
+     *
+     * Older ModifierLocal-based insets handling can trigger heavy snapshot churn on the main
+     * thread in some edge cases, so we explicitly keep the optimized path enabled when flags are
+     * available in the current Compose version.
+     */
+    private fun applyComposeInsetsWorkaround() {
+        runCatching {
+            val flagsClass = Class.forName("androidx.compose.foundation.layout.ComposeFoundationLayoutFlags")
+            val fieldNames = listOf(
+                "isWindowInsetsOptimizationEnabled",
+                "isWindowInsetsModifierLocalNodeImplementationEnabled",
+            )
+            fieldNames.forEach { fieldName ->
+                runCatching {
+                    val field = flagsClass.getField(fieldName)
+                    field.setBoolean(null, true)
+                }
+            }
+        }.onFailure { throwable ->
+            Log.w("MainActivity", "Compose WindowInsets workaround unavailable", throwable)
+        }
     }
 }

@@ -7,7 +7,7 @@ import com.russhwolf.settings.SharedPreferencesSettings
 private lateinit var appContext: Context
 
 fun initAndroidSettings(context: Context) {
-    appContext = context.applicationContext
+    appContext = context.applicationContext ?: context
 }
 
 actual fun createSettings(name: String): Settings =

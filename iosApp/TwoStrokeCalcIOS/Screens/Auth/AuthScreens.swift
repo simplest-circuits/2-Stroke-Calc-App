@@ -122,24 +122,26 @@ struct ProUpsellDialog: View {
     let moduleName: String
     let onDismiss: () -> Void
 
+    private var buyButtonTitle: String {
+        if let price = appState.storeKitPrice {
+            return L.tf("settings_buy_pro_with_price", price)
+        }
+        return S.buyPro
+    }
+
     var body: some View {
         ZStack {
             Color.black.opacity(0.4).ignoresSafeArea()
             VStack(spacing: 16) {
                 Text(S.proUpsellTitle).font(.headline)
                 Text(L.t("pro_upsell_message"))
-                if let price = appState.storeKitPrice {
-                    Text(price).font(.subheadline).foregroundStyle(.secondary)
-                }
                 HStack {
                     Button(S.cancel, action: onDismiss)
-                    Button(S.buyPro) {
-                        Task {
-                            await appState.purchasePro()
-                            onDismiss()
-                        }
+                    Button(buyButtonTitle) {
+                        startPurchase()
                     }
                     .buttonStyle(.borderedProminent)
+                    .disabled(appState.isPurchasing)
                 }
             }
             .padding(24)
@@ -147,5 +149,15 @@ struct ProUpsellDialog: View {
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .padding(32)
         }
+    }
+
+    private func startPurchase() {
+        if !appState.isAuthenticated {
+            onDismiss()
+            appState.selectedTab = .login
+            return
+        }
+        onDismiss()
+        Task { await appState.purchasePro() }
     }
 }

@@ -243,6 +243,10 @@ final class AppState: ObservableObject {
     }
 
     func purchasePro() async {
+        guard isAuthenticated else {
+            billingError = L.t("settings_pro_sign_in_required")
+            return
+        }
         isPurchasing = true
         billingError = nil
         defer { isPurchasing = false }

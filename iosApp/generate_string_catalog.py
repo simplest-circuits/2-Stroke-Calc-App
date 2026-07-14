@@ -160,6 +160,97 @@ MANUAL_OVERRIDES: dict[str, dict[str, str]] = {
     },
 }
 
+# iOS uses the App Store (StoreKit), not Google Play Billing.
+IOS_STORE_OVERRIDES: dict[str, dict[str, str]] = {
+    "pro_upsell_message": {
+        "german": "Dieses Modul ist Teil der Pro-Version. Schalte es über den In-App-Kauf im App Store frei.",
+        "english": "This module is part of the Pro version. Unlock it with an in-app purchase via the App Store.",
+        "spanish": "Este módulo es parte de la versión Pro. Desbloquéalo mediante compra dentro de la app en el App Store.",
+        "portuguese": "Este módulo faz parte da versão Pro. Desbloqueie-o por meio de compra no aplicativo na App Store.",
+        "swedish": "Denna modul är en del av Pro-versionen. Lås upp den via köp i appen i App Store.",
+        "danish": "Dette modul er en del af Pro-versionen. Lås den op via køb i appen i App Store.",
+        "norwegian": "Denne modulen er en del av Pro-versjonen. Lås den opp via kjøp i appen i App Store.",
+    },
+    "settings_pro_billing_unavailable": {
+        "german": "App Store-Käufe sind derzeit nicht verfügbar.",
+        "english": "App Store purchases are currently unavailable.",
+        "spanish": "Las compras del App Store no están disponibles actualmente.",
+        "portuguese": "As compras da App Store não estão disponíveis no momento.",
+        "swedish": "App Store-köp är för närvarande inte tillgängliga.",
+        "danish": "App Store-køb er i øjeblikket ikke tilgængelige.",
+        "norwegian": "App Store-kjøp er for øyeblikket utilgjengelige.",
+    },
+    "walkthrough_settings_pro_body": {
+        "german": "Hier kaufst oder stellst du die Pro-Version über den App Store wieder her – für Bearbeiten in Rechnern und Fahrzeugen.",
+        "english": "Buy or restore the Pro version via the App Store here – to edit calculators and vehicles.",
+        "spanish": "Aquí puedes comprar o restaurar la versión Pro a través del App Store, para editar calculadoras y vehículos.",
+        "portuguese": "Aqui você pode comprar ou restaurar a versão Pro via App Store – para edição em calculadoras e veículos.",
+        "swedish": "Här kan du köpa eller återställa Pro-versionen via App Store – för redigering i miniräknare och fordon.",
+        "danish": "Her kan du købe eller gendanne Pro-versionen via App Store – til redigering i lommeregnere og køretøjer.",
+        "norwegian": "Her kan du kjøpe eller gjenopprette Pro-versjonen via App Store – for redigering i kalkulatorer og kjøretøy.",
+    },
+    "settings_detail_help_faq_answer_5": {
+        "german": "Einige Module sind Teil der Pro-Version – standardmäßig Fahrzeuge, Steuerzeiten, Kabelquerschnitt, Flüssigkeitsrechner und Getriebe. Du kannst sie über den App Store kaufen oder per freigeschaltetem Konto nutzen.",
+        "english": "Some modules are part of the Pro version – by default vehicles, port timing, wire gauge, liquid calculator and gearbox. You can buy them via the App Store or use them with an unlocked account.",
+        "spanish": "Algunos módulos forman parte de la versión Pro: vehículos, sincronización, sección de cable, calculadora de fluidos y caja de cambios. Puedes comprarlos en el App Store o usarlos con una cuenta activada.",
+        "portuguese": "Alguns módulos fazem parte da versão Pro – veículos, sincronização, seção de cabo, calculadora de fluidos e caixa de câmbio. Você pode comprá-los na App Store ou usá-los com uma conta ativada.",
+        "swedish": "Vissa moduler ingår i Pro-versionen – standardfordon, timing, kabeltvärsnitt, vätskekalkylator och växellåda. Du kan köpa dem via App Store eller använda dem med ett aktiverat konto.",
+        "danish": "Nogle moduler er en del af Pro-versionen – standardkøretøjer, timing, kabeltværsnit, væskeberegner og gearkasse. Du kan købe dem via App Store eller bruge dem med en aktiveret konto.",
+        "norwegian": "Noen moduler er en del av Pro-versjonen – standard kjøretøy, timing, kabeltverrsnitt, væskekalkulator og girkasse. Du kan kjøpe dem via App Store eller bruke dem med en aktivert konto.",
+    },
+    "settings_detail_help_faq_answer_6": {
+        "german": "Ein Konto ermöglicht die Cloud-Synchronisation deiner Fahrzeuge, den Pro-Kauf über den App Store und die Verwaltung deines Profils. Rechner kannst du auch ohne Konto nutzen.",
+        "english": "An account enables cloud sync for your vehicles, Pro purchase via the App Store and profile management. You can use calculators without an account.",
+        "spanish": "Una cuenta te permite sincronizar tus vehículos en la nube, comprar Pro a través del App Store y administrar tu perfil. También puedes usar las calculadoras sin una cuenta.",
+        "portuguese": "Uma conta permite sincronizar seus veículos na nuvem, comprar o Pro na App Store e gerenciar seu perfil. Você também pode usar as calculadoras sem uma conta.",
+        "swedish": "Ett konto låter dig molnsynkronisera dina fordon, köpa Pro via App Store och hantera din profil. Du kan också använda miniräknarna utan konto.",
+        "danish": "En konto giver dig mulighed for at skysynkronisere dine køretøjer, købe Pro via App Store og administrere din profil. Du kan også bruge lommeregnere uden en konto.",
+        "norwegian": "En konto lar deg skysynkronisere kjøretøyene dine, kjøpe Pro via App Store og administrere profilen din. Du kan også bruke kalkulatorene uten konto.",
+    },
+    "settings_detail_terms_pro_item_1": {
+        "german": "Der Kauf der Pro-Version erfolgt über den App Store. Abwicklung, Rückerstattung und Widerruf richten sich nach den App-Store-Richtlinien.",
+        "english": "Pro version purchases are made via the App Store. Processing, refunds and cancellation follow App Store policies.",
+        "spanish": "La versión Pro se compra a través del App Store. El procesamiento, los reembolsos y las cancelaciones se basan en las políticas del App Store.",
+        "portuguese": "A versão Pro é adquirida na App Store. O processamento, reembolsos e cancelamentos seguem as diretrizes da App Store.",
+        "swedish": "Pro-versionen köps via App Store. Behandling, återbetalningar och avbokningar följer App Stores riktlinjer.",
+        "danish": "Pro-versionen købes via App Store. Behandling, refusioner og annulleringer følger App Stores retningslinjer.",
+        "norwegian": "Pro-versjonen kjøpes via App Store. Behandling, refusjoner og kanselleringer følger App Stores retningslinjer.",
+    },
+    "settings_detail_terms_pro_item_2": {
+        "german": "Welche Module Pro erfordern, kann sich ändern. Freigeschaltete Käufe bleiben mit deiner Apple-ID verknüpft.",
+        "english": "Which modules require Pro may change. Unlocked purchases remain linked to your Apple ID.",
+        "spanish": "Los módulos que requieren Pro pueden cambiar. Las compras desbloqueadas permanecen vinculadas a tu Apple ID.",
+        "portuguese": "Quais módulos exigem Pro podem mudar. Compras desbloqueadas permanecem vinculadas à sua Apple ID.",
+        "swedish": "Vilka moduler som kräver Pro kan ändras. Upplåsta köp förblir kopplade till ditt Apple-ID.",
+        "danish": "Hvilke moduler der kræver Pro kan ændre sig. Låste køb forbliver knyttet til dit Apple-ID.",
+        "norwegian": "Hvilke moduler som krever Pro kan endres. Opplåste kjøp forblir knyttet til Apple-ID-en din.",
+    },
+    "settings_detail_privacy_purchase_item_1": {
+        "german": "Pro-Käufe werden über den App Store abgewickelt. Zahlungsdaten werden von Apple verarbeitet, nicht von uns.",
+        "english": "Pro purchases are processed via the App Store. Payment data is handled by Apple, not by us.",
+        "spanish": "Las compras Pro se procesan a través del App Store. Los datos de pago son procesados por Apple, no por nosotros.",
+        "portuguese": "As compras Pro são processadas na App Store. Os dados de pagamento são processados pela Apple, não por nós.",
+        "swedish": "Pro-köp bearbetas via App Store. Betalningsdata hanteras av Apple, inte av oss.",
+        "danish": "Pro-køb behandles via App Store. Betalingsdata behandles af Apple, ikke af os.",
+        "norwegian": "Pro-kjøp behandles via App Store. Betalingsdata behandles av Apple, ikke av oss.",
+    },
+    "settings_rate_subtitle": {
+        "german": "Bewerte uns im App Store",
+        "english": "Rate us on the App Store",
+        "spanish": "Califícanos en el App Store",
+        "portuguese": "Avalie-nos na App Store",
+        "swedish": "Betygsätt oss i App Store",
+        "danish": "Bedøm os i App Store",
+        "norwegian": "Vurder oss i App Store",
+    },
+}
+
+
+def apply_ios_store_overrides(tables: dict[str, dict[str, str]]) -> None:
+    for key, per_lang in IOS_STORE_OVERRIDES.items():
+        for lang, value in per_lang.items():
+            tables[lang][key] = value
+
 CALC_TABS = {
     "timing": ("calculator_tab_timing", "calculator_overview_timing_desc"),
     "portArea": ("calculator_tab_port_area", "calculator_overview_port_area_desc"),
@@ -471,6 +562,7 @@ def emit_s_swift(keys: list[str]) -> None:
 
 def main() -> None:
     tables = {lang: parse_strings(path) for lang, path in LOCALES.items()}
+    apply_ios_store_overrides(tables)
     LOC_DIR.mkdir(parents=True, exist_ok=True)
 
     emit_android_strings(tables)

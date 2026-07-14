@@ -24,7 +24,7 @@ class AppApplication : Application(), Configuration.Provider {
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
-        initAndroidSettings(this)
+        initAndroidSettings(base)
         if (GlobalContext.getOrNull() == null) {
             startKoin {
                 androidContext(this@AppApplication)

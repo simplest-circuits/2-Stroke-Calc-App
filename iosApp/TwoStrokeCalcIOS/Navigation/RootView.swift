@@ -55,6 +55,17 @@ struct MainShellView: View {
         .onChange(of: appState.selectedTab) { _, _ in
             drawerOpen = false
         }
+        .alert(
+            appState.billingError ?? "",
+            isPresented: Binding(
+                get: { appState.billingError != nil },
+                set: { if !$0 { appState.billingError = nil } }
+            )
+        ) {
+            Button(S.cancel, role: .cancel) {
+                appState.billingError = nil
+            }
+        }
     }
 
     private var bottomBarShell: some View {
