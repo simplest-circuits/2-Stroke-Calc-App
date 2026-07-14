@@ -243,6 +243,15 @@ IOS_STORE_OVERRIDES: dict[str, dict[str, str]] = {
         "danish": "Bedøm os i App Store",
         "norwegian": "Vurder oss i App Store",
     },
+    "auth_error_google_simulator": {
+        "german": "Google-Anmeldung ist im Browser-Simulator nicht verfügbar. Bitte E-Mail-Login nutzen oder auf einem echten iPhone testen.",
+        "english": "Google sign-in is not available in the browser simulator. Use email sign-in or test on a real iPhone.",
+        "spanish": "El inicio de sesión con Google no está disponible en el simulador del navegador. Usa el inicio de sesión por correo o prueba en un iPhone real.",
+        "portuguese": "O login com Google não está disponível no simulador do navegador. Use login por e-mail ou teste em um iPhone real.",
+        "swedish": "Google-inloggning är inte tillgänglig i webbläsarsimulatorn. Använd e-postinloggning eller testa på en riktig iPhone.",
+        "danish": "Google-login er ikke tilgængelig i browser-simulatoren. Brug e-mail-login eller test på en rigtig iPhone.",
+        "norwegian": "Google-pålogging er ikke tilgjengelig i nettlesersimulatoren. Bruk e-postpålogging eller test på en ekte iPhone.",
+    },
 }
 
 

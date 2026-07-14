@@ -13,7 +13,8 @@ final class StoreKitService {
             let products = try await Product.products(for: [Self.proProductId])
             appState.storeKitPrice = products.first?.displayPrice
         } catch {
-            appState.billingError = error.localizedDescription
+            // App Store / StoreKit is unavailable in Simulator and browser testers (e.g. Appetize).
+            appState.storeKitPrice = nil
         }
     }
 
@@ -55,6 +56,17 @@ final class StoreKitService {
             }
         }
         return restored
+    }
+
+    static func friendlyMessage(for error: Error) -> String {
+        if let storeKit = error as? StoreKitError {
+            return storeKit.localizedDescription
+        }
+        let nsError = error as NSError
+        if nsError.domain == NSURLErrorDomain || nsError.domain == "SKErrorDomain" {
+            return L.t("settings_pro_billing_unavailable")
+        }
+        return error.localizedDescription
     }
 
     private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {

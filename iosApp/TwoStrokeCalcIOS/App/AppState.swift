@@ -256,7 +256,7 @@ final class AppState: ObservableObject {
                 await refreshSessionFromShared()
             }
         } catch {
-            billingError = error.localizedDescription
+            billingError = StoreKitService.friendlyMessage(for: error)
         }
     }
 
@@ -270,7 +270,7 @@ final class AppState: ObservableObject {
                 await refreshSessionFromShared()
             }
         } catch {
-            billingError = error.localizedDescription
+            billingError = StoreKitService.friendlyMessage(for: error)
         }
     }
 

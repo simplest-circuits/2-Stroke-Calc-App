@@ -80,6 +80,10 @@ Du kannst es herunterladen, aber **auf Windows nicht starten** – Simulator-.ap
 
 **Appetize startet nicht:** Nur **Simulator-Builds** (`.app`), keine `.ipa`. Unser CI baut mit `-sdk iphonesimulator` und `CODE_SIGNING_ALLOWED=NO`.
 
+**`NSURLErrorDomain -1008` beim Start oder Pro-Kauf:** Der App Store ist in Appetize/Simulator nicht erreichbar. Das ist erwartet – UI und Rechner kannst du trotzdem testen. Pro-Käufe funktionieren nur auf einem echten iPhone mit App-Store-Connect-Produkt.
+
+**Firebase `ERROR_INVALID_CREDENTIAL` (17004) bei Google-Anmeldung:** Google Sign-In scheitert im Browser-Simulator oft (OAuth-Redirect, abgelaufene Tokens). **E-Mail-Login/Registrierung** nutzen – oder auf einem echten Gerät testen.
+
 **Free-Limit Appetize:** Link bookmarken; gleiche App mit `APPETIZE_PUBLIC_KEY` updaten statt neue App pro Build.
 
 ---

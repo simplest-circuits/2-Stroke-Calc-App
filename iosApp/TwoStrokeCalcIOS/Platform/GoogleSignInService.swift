@@ -69,8 +69,16 @@ enum GoogleSignInService {
     }
 
     private static func friendlyAuthErrorMessage(_ error: Error) -> String {
+        let nsError = error as NSError
         if isKeychainError(error) {
             return L.t("auth_error_keychain_access")
+        }
+        if nsError.domain == AuthErrorDomain,
+           nsError.code == AuthErrorCode.invalidCredential.rawValue {
+            return L.t("auth_error_google_simulator")
+        }
+        if nsError.domain == NSURLErrorDomain {
+            return L.t("auth_error_network")
         }
         return error.localizedDescription
     }
