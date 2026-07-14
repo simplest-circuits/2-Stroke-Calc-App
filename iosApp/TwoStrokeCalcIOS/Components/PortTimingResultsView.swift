@@ -114,16 +114,19 @@ private func buildPortTimingResultRows(
         )
     }
 
-    if let blowdown = result.blowdown, blowdown > 0.05 {
-        rows.append(
-            .value(
-                PortTimingValueItem(
-                    label: L.t("pt_blowdown"),
-                    value: formatPortTimingDegrees(blowdown, round: input.roundResults),
-                    channel: .blowdown
+    if let blowdownRaw = result.blowdown {
+        let blowdown = blowdownRaw.asDouble
+        if blowdown > 0.05 {
+            rows.append(
+                .value(
+                    PortTimingValueItem(
+                        label: L.t("pt_blowdown"),
+                        value: formatPortTimingDegrees(blowdown, round: input.roundResults),
+                        channel: .blowdown
+                    )
                 )
             )
-        )
+        }
     }
 
     if let transfer = result.transfer {

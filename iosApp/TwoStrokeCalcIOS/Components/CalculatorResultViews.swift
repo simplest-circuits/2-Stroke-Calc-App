@@ -699,9 +699,8 @@ private struct PortAreaResultCardContent: View {
                         ),
                         hint: L.t("port_area_exhaust_ut_width_result_hint")
                     )
-                    if let rating = PortAreaCalculator.shared.rateChordPercent(chordPercent: chordMetrics.chordPercentOfBore) {
-                        CalculatorTertiaryResultText(text: chordRatingLabel(rating))
-                    }
+                    let rating = PortAreaCalculator.shared.rateChordPercent(chordPercent: chordMetrics.chordPercentOfBore)
+                    CalculatorTertiaryResultText(text: chordRatingLabel(rating))
                 }
             }
         }
@@ -834,7 +833,7 @@ private struct VehicleDynamicsTopSpeedCard: View {
                 )
                 CalculatorResultRow(
                     label: L.t("vehicle_dynamics_result_top_speed_gear"),
-                    value: L.tf("vehicle_dynamics_gear_chip", String(result.topSpeedGear ?? 0))
+                    value: L.tf("vehicle_dynamics_gear_chip", String(result.topSpeedGear?.intValue ?? 0))
                 )
                 CalculatorResultRow(
                     label: L.t("vehicle_dynamics_result_top_speed_limit"),
