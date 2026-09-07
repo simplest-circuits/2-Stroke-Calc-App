@@ -95,6 +95,7 @@ fun appPreferencesStore(): AppPreferencesStore = koinGet()
 fun sharedUserSettingsFirestoreSync(): SharedUserSettingsFirestoreSync = koinGet()
 fun proAccessRepository(): ProAccessRepository = koinGet()
 fun calculatorAvailabilityRepository(): CalculatorAvailabilityRepository = koinGet()
+fun toolAvailabilityRepository(): com.simplestsoft.twostrokecalc.data.config.ToolAvailabilityRepository = koinGet()
 fun demoVehiclesConfigRepository(): DemoVehiclesConfigRepository = koinGet()
 fun accountApi(): AccountApi = koinGet()
 fun adminApi(): AdminApi = koinGet()
@@ -116,6 +117,7 @@ suspend fun iosRefreshSession(): IosSessionSnapshot {
 
     proRepo.refresh()
     calcRepo.refresh()
+    runCatching { toolAvailabilityRepository().refresh() }
     demoVehiclesConfigRepository().refresh()
 
     val currentUser = auth.authState.first()
@@ -309,6 +311,7 @@ suspend fun iosAdminSaveSettings(settings: AdminSettingsDto): String? {
         val success = adminApi().updateSettings(settings)
         if (!success) error("Speichern fehlgeschlagen")
         calculatorAvailabilityRepository().applyAvailabilityMap(settings.calculatorAvailability)
+        toolAvailabilityRepository().applyAvailabilityMap(settings.toolAvailability)
         proAccessRepository().applyProModulesMap(settings.proModules)
         demoVehiclesConfigRepository().applyEnabledFlag(settings.demoVehiclesEnabled)
         appPreferencesStore().setDemoVehiclesEnabled(settings.demoVehiclesEnabled)

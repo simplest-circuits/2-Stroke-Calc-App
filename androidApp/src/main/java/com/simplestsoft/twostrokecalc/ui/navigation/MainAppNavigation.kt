@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -17,6 +16,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.TwoWheeler
 import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.icons.filled.Menu
@@ -53,7 +53,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -91,13 +90,16 @@ import com.simplestsoft.twostrokecalc.ui.screens.AdminPanelScreen
 import com.simplestsoft.twostrokecalc.ui.screens.CalculatorScreen
 import com.simplestsoft.twostrokecalc.ui.screens.SettingsScreen
 import com.simplestsoft.twostrokecalc.ui.SplashScreen
+import com.simplestsoft.twostrokecalc.ui.screens.ToolsScreen
 import com.simplestsoft.twostrokecalc.ui.screens.VehicleDetailScreen
+import com.simplestsoft.twostrokecalc.domain.model.ToolId
 import com.simplestsoft.twostrokecalc.ui.screens.vehicle.VehicleCostOverviewScreen
 import com.simplestsoft.twostrokecalc.ui.screens.vehicle.VehicleFuelLogScreen
 import com.simplestsoft.twostrokecalc.ui.screens.VehiclesScreen
 import com.simplestsoft.twostrokecalc.ui.vehicles.VehiclesViewModel
 import com.simplestsoft.twostrokecalc.ui.util.LocalScreenInsets
 import com.simplestsoft.twostrokecalc.ui.util.ScreenInsetsConfig
+import com.simplestsoft.twostrokecalc.ui.util.rememberIsImeVisible
 import com.simplestsoft.twostrokecalc.ui.util.findComponentActivity
 import com.simplestsoft.twostrokecalc.ui.walkthrough.WalkthroughCoachMarksOverlay
 import com.simplestsoft.twostrokecalc.ui.walkthrough.WalkthroughTargets
@@ -112,6 +114,7 @@ private enum class PendingAuthAction {
     OpenAccount,
     OpenAdmin,
     LaunchProPurchase,
+    SignInOnly,
 }
 
 private data class MainDestination(
@@ -132,6 +135,8 @@ fun MainAppNavigation(
     onWalkthroughComplete: () -> Unit = {},
     pendingVehicleId: String? = null,
     onPendingVehicleConsumed: () -> Unit = {},
+    pendingCommunitySetupId: String? = null,
+    onPendingCommunitySetupConsumed: () -> Unit = {},
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -160,8 +165,23 @@ fun MainAppNavigation(
         onPendingVehicleConsumed()
     }
 
-    val density = LocalDensity.current
-    val isKeyboardVisible = WindowInsets.ime.getBottom(density) > 0
+    LaunchedEffect(pendingCommunitySetupId, currentRoute) {
+        if (currentRoute == Routes.SPLASH) return@LaunchedEffect
+        val setupId = pendingCommunitySetupId ?: return@LaunchedEffect
+        navController.navigate(Routes.TOOLS) {
+            launchSingleTop = true
+            restoreState = true
+        }
+        runCatching {
+            navController.getBackStackEntry(Routes.TOOLS).savedStateHandle.apply {
+                set("open_tool", ToolId.COMMUNITY_SETUPS.name)
+                set("community_setup_id", setupId)
+            }
+        }
+        onPendingCommunitySetupConsumed()
+    }
+
+    val isKeyboardVisible = rememberIsImeVisible()
     val scope = rememberCoroutineScope()
     var authGateVisible by remember { mutableStateOf(false) }
     var pendingAuthAction by remember { mutableStateOf(PendingAuthAction.None) }
@@ -230,6 +250,7 @@ fun MainAppNavigation(
     fun isOnMainTabRoute(): Boolean {
         val route = currentDestination?.route
         return route == Routes.CALCULATOR ||
+            route == Routes.TOOLS ||
             route == Routes.VEHICLES ||
             route == Routes.VEHICLES_LIST ||
             route == Routes.SETTINGS
@@ -277,6 +298,7 @@ fun MainAppNavigation(
             PendingAuthAction.LaunchProPurchase -> {
                 activity?.let { billingViewModel.launchProPurchase(it) }
             }
+            PendingAuthAction.SignInOnly,
             PendingAuthAction.None -> Unit
         }
         pendingAuthAction = PendingAuthAction.None
@@ -291,6 +313,7 @@ fun MainAppNavigation(
 
     val tabDestinations = buildList {
         add(MainDestination(Routes.CALCULATOR, R.string.nav_calculator, Icons.Default.Speed))
+        add(MainDestination(Routes.TOOLS, R.string.nav_tools, Icons.Default.Build))
         add(MainDestination(Routes.VEHICLES, R.string.nav_vehicles, Icons.Default.TwoWheeler))
         add(MainDestination(Routes.SETTINGS, R.string.settings_title, Icons.Default.Settings))
         if (preferences.isAdmin && isAuthenticated) {
@@ -298,16 +321,20 @@ fun MainAppNavigation(
         }
     }
 
-    val isBottomBarVisible =
+    // Keep inset ownership tied to nav style / route, NOT keyboard visibility.
+    // Flipping LocalScreenInsets when the IME opens/closes caused nested WindowInsets
+    // unions and recursive UnionInsets.equals work on the main thread (ANR while typing
+    // in Settings → Kontakt → Fehler melden).
+    val wantsBottomBar =
         currentRoute != null &&
             currentRoute != Routes.SPLASH &&
-            !isKeyboardVisible &&
             preferences.navStyle == NavStyle.BOTTOM_BAR
+    val showBottomBarTabs = wantsBottomBar && !isKeyboardVisible
     val isTopBarVisible =
         currentRoute != null &&
             currentRoute != Routes.SPLASH &&
             preferences.navStyle == NavStyle.DRAWER
-    val bottomBarHandlesNavInsets = isBottomBarVisible
+    val bottomBarHandlesNavInsets = wantsBottomBar
     val topBarHandlesStatusInsets = isTopBarVisible
 
     fun navigateToTab(route: String) {
@@ -348,9 +375,14 @@ fun MainAppNavigation(
             WalkthroughTargets.CALCULATOR_FREE,
             WalkthroughTargets.CALCULATOR_LOCKED,
             WalkthroughTargets.CALCULATOR_NAV,
+            WalkthroughTargets.TOOLS_NAV,
             null,
             -> {
-                if (currentDestination?.route != Routes.CALCULATOR) {
+                if (targetKey == WalkthroughTargets.TOOLS_NAV) {
+                    if (currentDestination?.route != Routes.TOOLS) {
+                        navigateToTab(Routes.TOOLS)
+                    }
+                } else if (currentDestination?.route != Routes.CALCULATOR) {
                     navigateToTab(Routes.CALCULATOR)
                 }
             }
@@ -366,6 +398,7 @@ fun MainAppNavigation(
 
     fun walkthroughNavTargetForRoute(route: String): String? = when (route) {
         Routes.CALCULATOR -> WalkthroughTargets.CALCULATOR_NAV
+        Routes.TOOLS -> WalkthroughTargets.TOOLS_NAV
         Routes.VEHICLES -> WalkthroughTargets.VEHICLES_NAV
         Routes.SETTINGS -> WalkthroughTargets.SETTINGS_NAV
         else -> null
@@ -382,58 +415,64 @@ fun MainAppNavigation(
         } == true
 
     val bottomBar: @Composable () -> Unit = {
-        if (isBottomBarVisible) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(AppColors.surface())
-                    .onGloballyPositioned { coordinates ->
-                        walkthroughTargets[WalkthroughTargets.NAV_SURFACE] = coordinates.boundsInRoot()
-                    },
-            ) {
-                HorizontalDivider(color = AppColors.borderSubtle())
-                NavigationBar(
-                    modifier = Modifier.height(64.dp),
-                    containerColor = Color.Transparent,
-                    windowInsets = WindowInsets(0, 0, 0, 0),
+        if (wantsBottomBar) {
+            if (showBottomBarTabs) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(AppColors.surface())
+                        .onGloballyPositioned { coordinates ->
+                            walkthroughTargets[WalkthroughTargets.NAV_SURFACE] = coordinates.boundsInRoot()
+                        },
                 ) {
-                    tabDestinations.forEach { dest ->
-                        val selected = isTabSelected(dest)
-                        val navTargetKey = walkthroughNavTargetForRoute(dest.route)
-                        NavigationBarItem(
-                            selected = selected,
-                            onClick = { navigateToTab(dest.route) },
-                            alwaysShowLabel = true,
-                            modifier = if (navTargetKey != null) {
-                                Modifier.onGloballyPositioned { coordinates ->
-                                    walkthroughTargets[navTargetKey] = coordinates.boundsInRoot()
-                                }
-                            } else {
-                                Modifier
-                            },
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = AppColors.primaryBlue(),
-                                selectedTextColor = AppColors.primaryBlue(),
-                                unselectedIconColor = AppColors.textSecondary(),
-                                unselectedTextColor = AppColors.textSecondary(),
-                                indicatorColor = Color.Transparent,
-                            ),
-                            icon = { Icon(dest.icon, contentDescription = null) },
-                            label = {
-                                Text(
-                                    text = stringResource(dest.labelRes),
-                                    modifier = Modifier.fillMaxWidth(),
-                                    fontSize = 11.sp,
-                                    lineHeight = 13.sp,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    softWrap = false,
-                                    textAlign = TextAlign.Center,
-                                )
-                            },
-                        )
+                    HorizontalDivider(color = AppColors.borderSubtle())
+                    NavigationBar(
+                        modifier = Modifier.height(64.dp),
+                        containerColor = Color.Transparent,
+                        windowInsets = WindowInsets(0, 0, 0, 0),
+                    ) {
+                        tabDestinations.forEach { dest ->
+                            val selected = isTabSelected(dest)
+                            val navTargetKey = walkthroughNavTargetForRoute(dest.route)
+                            NavigationBarItem(
+                                selected = selected,
+                                onClick = { navigateToTab(dest.route) },
+                                alwaysShowLabel = true,
+                                modifier = if (navTargetKey != null) {
+                                    Modifier.onGloballyPositioned { coordinates ->
+                                        walkthroughTargets[navTargetKey] = coordinates.boundsInRoot()
+                                    }
+                                } else {
+                                    Modifier
+                                },
+                                colors = NavigationBarItemDefaults.colors(
+                                    selectedIconColor = AppColors.primaryBlue(),
+                                    selectedTextColor = AppColors.primaryBlue(),
+                                    unselectedIconColor = AppColors.textSecondary(),
+                                    unselectedTextColor = AppColors.textSecondary(),
+                                    indicatorColor = Color.Transparent,
+                                ),
+                                icon = { Icon(dest.icon, contentDescription = null) },
+                                label = {
+                                    Text(
+                                        text = stringResource(dest.labelRes),
+                                        modifier = Modifier.fillMaxWidth(),
+                                        fontSize = 11.sp,
+                                        lineHeight = 13.sp,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        softWrap = false,
+                                        textAlign = TextAlign.Center,
+                                    )
+                                },
+                            )
+                        }
                     }
+                    Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
                 }
+            } else {
+                // Keep navigation-bar inset ownership stable while the IME is open
+                // (tabs hidden) so content insets do not reshuffle and ANR.
                 Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
             }
         }
@@ -470,6 +509,66 @@ fun MainAppNavigation(
                         isAuthenticated = isAuthenticated,
                         onSignInRequired = {
                             openAuthGate(PendingAuthAction.LaunchProPurchase)
+                        },
+                        onOpenRpmTool = { targetRpm ->
+                            navController.navigate(Routes.TOOLS) {
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                            runCatching {
+                                navController.getBackStackEntry(Routes.TOOLS).savedStateHandle.apply {
+                                    set("open_tool", ToolId.RPM_TACHOMETER.name)
+                                    set("target_rpm", targetRpm)
+                                }
+                            }
+                        },
+                        onOpenPortTimingTool = {
+                            navController.navigate(Routes.TOOLS) {
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                            runCatching {
+                                navController.getBackStackEntry(Routes.TOOLS).savedStateHandle
+                                    .set("open_tool", ToolId.PORT_TIMING_ASSIST.name)
+                            }
+                        },
+                        onOpenVibrationTool = {
+                            navController.navigate(Routes.TOOLS) {
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                            runCatching {
+                                navController.getBackStackEntry(Routes.TOOLS).savedStateHandle
+                                    .set("open_tool", ToolId.VIBRATION_ANALYZER.name)
+                            }
+                        },
+                    )
+                }
+                composable(Routes.TOOLS) { backStackEntry ->
+                    val openToolName by backStackEntry.savedStateHandle
+                        .getStateFlow<String?>("open_tool", null)
+                        .collectAsStateWithLifecycle()
+                    val targetRpm by backStackEntry.savedStateHandle
+                        .getStateFlow<Double?>("target_rpm", null)
+                        .collectAsStateWithLifecycle()
+                    val communitySetupId by backStackEntry.savedStateHandle
+                        .getStateFlow<String?>("community_setup_id", null)
+                        .collectAsStateWithLifecycle()
+                    ToolsScreen(
+                        initialToolId = openToolName?.let { ToolId.fromName(it) },
+                        initialTargetRpm = targetRpm,
+                        initialCommunitySetupId = communitySetupId,
+                        isAuthenticated = isAuthenticated,
+                        onSignInRequired = {
+                            openAuthGate(PendingAuthAction.LaunchProPurchase)
+                        },
+                        onCommunitySignInRequired = {
+                            openAuthGate(PendingAuthAction.SignInOnly)
+                        },
+                        onInitialToolConsumed = {
+                            backStackEntry.savedStateHandle["open_tool"] = null
+                            backStackEntry.savedStateHandle["target_rpm"] = null
+                            backStackEntry.savedStateHandle["community_setup_id"] = null
                         },
                     )
                 }

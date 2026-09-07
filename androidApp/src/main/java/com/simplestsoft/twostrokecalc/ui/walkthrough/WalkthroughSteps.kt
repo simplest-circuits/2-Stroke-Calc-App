@@ -47,6 +47,13 @@ private fun buildFreeWalkthroughSteps(): List<WalkthroughStep> = buildList {
     )
     add(
         WalkthroughStep(
+            R.string.walkthrough_tools_nav_title,
+            R.string.walkthrough_tools_nav_body,
+            WalkthroughTargets.TOOLS_NAV,
+        ),
+    )
+    add(
+        WalkthroughStep(
             R.string.walkthrough_free_vehicles_nav_title,
             R.string.walkthrough_free_vehicles_nav_body,
             WalkthroughTargets.VEHICLES_NAV,
@@ -89,6 +96,13 @@ private fun buildProWalkthroughSteps(): List<WalkthroughStep> = buildList {
             R.string.walkthrough_pro_calculator_list_title,
             R.string.walkthrough_pro_calculator_list_body,
             WalkthroughTargets.CALCULATOR_LIST,
+        ),
+    )
+    add(
+        WalkthroughStep(
+            R.string.walkthrough_tools_nav_title,
+            R.string.walkthrough_tools_nav_body,
+            WalkthroughTargets.TOOLS_NAV,
         ),
     )
     add(

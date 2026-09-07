@@ -26,14 +26,17 @@ val baseUrl = if (baseUrlRaw.endsWith("/")) baseUrlRaw else "$baseUrlRaw/"
 @Suppress("DEPRECATION")
 android {
     namespace = "com.simplestsoft.twostrokecalc"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.simplestsoft.twostrokecalc"
-        minSdk = 26
-        targetSdk = 35
-        versionCode = 10
-        versionName = "1.2.7"
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = 36
+        ndk {
+            abiFilters += listOf("arm64-v8a", "x86_64")
+        }
+        versionCode = 19
+        versionName = "1.2.14"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -46,7 +49,9 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            // R8: shrink, obfuscate, and optimize (Play Console app optimization).
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -65,9 +70,30 @@ android {
     }
 
     packaging {
+        jniLibs {
+            // Compressed native libs avoid 16 KB ZIP-alignment issues in generated APKs.
+            useLegacyPackaging = true
+        }
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+}
+
+configurations.configureEach {
+    resolutionStrategy {
+        force(
+            "androidx.datastore:datastore:1.2.1",
+            "androidx.datastore:datastore-android:1.2.1",
+            "androidx.datastore:datastore-core:1.2.1",
+            "androidx.datastore:datastore-core-android:1.2.1",
+            "androidx.datastore:datastore-core-okio:1.2.1",
+            "androidx.datastore:datastore-core-okio-jvm:1.2.1",
+            "androidx.datastore:datastore-preferences:1.2.1",
+            "androidx.datastore:datastore-preferences-android:1.2.1",
+            "androidx.datastore:datastore-preferences-core:1.2.1",
+            "androidx.datastore:datastore-preferences-core-jvm:1.2.1",
+        )
     }
 }
 
@@ -108,9 +134,10 @@ dependencies {
     implementation("androidx.hilt:hilt-work:1.2.0")
     ksp("androidx.hilt:hilt-compiler:1.2.0")
 
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.datastore:datastore-preferences:1.2.1")
+    implementation("androidx.graphics:graphics-path:1.1.0")
     implementation("com.google.android.play:review-ktx:2.0.2")
-    implementation("com.android.billingclient:billing-ktx:7.1.1")
+    implementation("com.android.billingclient:billing-ktx:9.1.0")
 
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")

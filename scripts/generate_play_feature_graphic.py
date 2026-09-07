@@ -1,15 +1,15 @@
-"""Generate Google Play feature graphic (1024x500) from app icon assets."""
+"""Generate Google Play feature graphics (1024x500) from the current app icon."""
 from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
-RES = ROOT / "app" / "src" / "main" / "res"
-OUT_DIR = ROOT / "store-assets" / "google-play"
+ICON_PATH = ROOT / "androidApp" / "src" / "main" / "res" / "drawable" / "appstore.png"
+OUT_DIR = ROOT / "docs" / "store-assets" / "google-play"
 
 WIDTH = 1024
 HEIGHT = 500
@@ -17,7 +17,7 @@ GOLD = (232, 197, 71)
 GOLD_DIM = (212, 175, 55)
 CREAM = (245, 230, 184)
 WHITE = (255, 255, 255)
-TITLE = "2-Stroke Calc"
+TITLE = "2-Stroke Lab"
 
 
 @dataclass(frozen=True)
@@ -30,25 +30,25 @@ class LocaleCopy:
 LOCALES: dict[str, LocaleCopy] = {
     "de": LocaleCopy(
         folder="de-DE",
-        subtitle="Dein Werkzeug für 2-Takt-Berechnungen",
+        subtitle="Rechner, Werkzeuge und Garage für Zweitakter",
         pills=[
-            "Getriebe",
-            "Steuerzeiten",
-            "Zündzeitpunkt",
-            "Gemisch",
-            "Fahrzeugverwaltung",
+            "Werkzeuge",
+            "Rechner",
+            "Dyno",
+            "Garage",
+            "Community",
             "uvm.",
         ],
     ),
     "en": LocaleCopy(
         folder="en-US",
-        subtitle="Your toolkit for 2-stroke calculations",
+        subtitle="Calculators, tools and garage for two-strokes",
         pills=[
-            "Gearbox",
-            "Port timing",
-            "Ignition timing",
-            "Oil/fuel mix",
-            "Vehicles",
+            "Tools",
+            "Calculators",
+            "Dyno",
+            "Garage",
+            "Community",
             "and more",
         ],
     ),
@@ -190,19 +190,32 @@ def measure_text_block_height(
     return title_h + title_subtitle_gap + subtitle_h + subtitle_pills_gap + pills_height
 
 
-def generate_feature_graphic(locale: LocaleCopy) -> Path:
-    icon_path = RES / "drawable-nodpi" / "ic_splash_icon.png"
-    if not icon_path.exists():
-        icon_path = RES / "drawable" / "appstore.png"
+def crop_icon_content(icon: Image.Image, padding: int = 28, threshold: int = 18) -> Image.Image:
+    """Trim the transparent/black store-icon canvas so the engine fills the graphic."""
+    luminance = icon.convert("L").point(lambda p: 255 if p > threshold else 0)
+    if icon.mode == "RGBA":
+        alpha = icon.split()[-1].point(lambda p: 255 if p > threshold else 0)
+        luminance = ImageChops.lighter(luminance, alpha)
+    bbox = luminance.getbbox()
+    if bbox is None:
+        return icon
+    left, top, right, bottom = bbox
+    left = max(0, left - padding)
+    top = max(0, top - padding)
+    right = min(icon.width, right + padding)
+    bottom = min(icon.height, bottom + padding)
+    return icon.crop((left, top, right, bottom))
 
-    icon = Image.open(icon_path).convert("RGBA")
-    icon_height = 360
+
+def generate_feature_graphic(locale: LocaleCopy) -> Path:
+    icon = crop_icon_content(Image.open(ICON_PATH).convert("RGBA"))
+    icon_height = 430
     icon_width = int(icon.width * icon_height / icon.height)
     icon = icon.resize((icon_width, icon_height), Image.Resampling.LANCZOS)
 
     canvas = Image.new("RGB", (WIDTH, HEIGHT), (0, 0, 0))
 
-    icon_x = 8
+    icon_x = 28
     icon_y = (HEIGHT - icon.height) // 2
     canvas.paste(icon, (icon_x, icon_y), icon)
 
@@ -212,7 +225,7 @@ def generate_feature_graphic(locale: LocaleCopy) -> Path:
     title_font = load_font(54, bold=True)
     subtitle_font = load_font(24)
     pill_font = load_font(14)
-    text_x = 430
+    text_x = icon_x + icon.width + 28
     max_x = WIDTH - 24
     pills = list(locale.pills)
 
@@ -245,7 +258,11 @@ def generate_feature_graphic(locale: LocaleCopy) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "feature-graphic-1024x500.png"
     canvas.save(out_path, format="PNG", optimize=True)
-    print(f"Saved {out_path} ({canvas.width}x{canvas.height}) from {icon_path.name}")
+    print(f"Saved {out_path} ({canvas.width}x{canvas.height}) from {ICON_PATH.name}")
+    if locale.folder == "de-DE":
+        default_path = OUT_DIR / "feature-graphic-1024x500.png"
+        canvas.save(default_path, format="PNG", optimize=True)
+        print(f"Saved {default_path} ({canvas.width}x{canvas.height})")
     return out_path
 
 

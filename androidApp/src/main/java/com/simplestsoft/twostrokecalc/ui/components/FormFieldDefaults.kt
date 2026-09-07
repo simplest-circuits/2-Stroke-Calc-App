@@ -2,6 +2,7 @@ package com.simplestsoft.twostrokecalc.ui.components
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -86,6 +87,7 @@ fun AppOutlinedTextField(
     label: String,
     modifier: Modifier = Modifier,
     supportingText: String? = null,
+    placeholder: String? = null,
     suffix: String? = null,
     singleLine: Boolean = true,
     minLines: Int = if (singleLine) 1 else 2,
@@ -109,6 +111,9 @@ fun AppOutlinedTextField(
         else -> MaterialTheme.colorScheme.onSurface
     }
     val labelFloatValue = value.ifEmpty { LABEL_FLOAT_SENTINEL }
+    // DecorationBox gets a sentinel when empty (to keep the label floated), so Material's
+    // built-in placeholder would never show – render it ourselves instead.
+    val showPlaceholder = value.isEmpty() && !placeholder.isNullOrEmpty()
 
     BasicTextField(
         value = value,
@@ -128,7 +133,18 @@ fun AppOutlinedTextField(
             OutlinedTextFieldDefaults.DecorationBox(
                 value = labelFloatValue,
                 visualTransformation = visualTransformation,
-                innerTextField = innerTextField,
+                innerTextField = {
+                    Box {
+                        if (showPlaceholder) {
+                            Text(
+                                text = placeholder!!,
+                                style = textStyle,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                            )
+                        }
+                        innerTextField()
+                    }
+                },
                 placeholder = null,
                 label = { FormFieldDefaults.Label(label) },
                 leadingIcon = null,

@@ -3,6 +3,7 @@ package com.simplestsoft.twostrokecalc.data.config
 import com.simplestsoft.twostrokecalc.data.preferences.AppPreferencesStore
 import com.simplestsoft.twostrokecalc.domain.model.CalculatorId
 import com.simplestsoft.twostrokecalc.domain.model.ProModuleId
+import com.simplestsoft.twostrokecalc.domain.model.ToolId
 import com.simplestsoft.twostrokecalc.domain.model.remote.AppConfigApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,11 +22,23 @@ data class ProAccessState(
 
     fun hasVehiclesAccess(): Boolean = hasAccess(ProModuleId.VEHICLES)
 
+    fun hasToolAccess(id: ToolId): Boolean {
+        val module = ProModuleId.fromTool(id) ?: return true
+        return hasAccess(module)
+    }
+
+    fun canSaveToolSession(id: ToolId): Boolean = hasToolAccess(id)
+
     fun canEditVehicles(): Boolean = hasVehiclesAccess()
 
     fun canEditCalculator(id: CalculatorId): Boolean = hasCalculatorAccess(id)
 
     fun isCalculatorReadOnly(id: CalculatorId): Boolean = isCalculatorLocked(id)
+
+    fun isToolReadOnly(id: ToolId): Boolean {
+        val module = ProModuleId.fromTool(id) ?: return false
+        return isLocked(module)
+    }
 
     fun isLocked(module: ProModuleId): Boolean = module in proModules && !hasAccess(module)
 

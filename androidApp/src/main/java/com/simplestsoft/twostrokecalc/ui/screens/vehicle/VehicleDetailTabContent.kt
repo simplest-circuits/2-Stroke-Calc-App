@@ -4,54 +4,66 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Switch
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.simplestsoft.twostrokecalc.R
 import com.simplestsoft.twostrokecalc.domain.model.EngineCycleType
 import com.simplestsoft.twostrokecalc.domain.model.MaintenanceEntry
 import com.simplestsoft.twostrokecalc.domain.model.MaintenanceType
 import com.simplestsoft.twostrokecalc.domain.model.Vehicle
+import com.simplestsoft.twostrokecalc.domain.model.VehicleAttachment
 import com.simplestsoft.twostrokecalc.domain.model.VehicleCarbIgnitionSpecs
 import com.simplestsoft.twostrokecalc.domain.model.VehicleChassisSpecs
 import com.simplestsoft.twostrokecalc.domain.model.VehicleDocumentInfo
 import com.simplestsoft.twostrokecalc.domain.model.VehicleDrivetrainSpecs
 import com.simplestsoft.twostrokecalc.domain.model.VehicleElectricalSpecs
 import com.simplestsoft.twostrokecalc.domain.model.VehicleEngineSpecs
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ScrollableTabRow
-import androidx.compose.material3.Tab
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import com.simplestsoft.twostrokecalc.domain.model.VehicleAttachment
 import com.simplestsoft.twostrokecalc.domain.model.VehicleServiceSchedule
-import com.simplestsoft.twostrokecalc.ui.theme.ContainerCornerRadius
 import com.simplestsoft.twostrokecalc.domain.model.VehicleType
+import com.simplestsoft.twostrokecalc.domain.model.community.CUSTOM_ENGINE_FAMILY_ID
+import com.simplestsoft.twostrokecalc.domain.model.community.EngineFamilyEntry
+import com.simplestsoft.twostrokecalc.domain.model.community.EngineTransmissionType
 import com.simplestsoft.twostrokecalc.domain.vehicles.VehicleCapabilities
 import com.simplestsoft.twostrokecalc.domain.vehicles.resolvedValveClearances
 import com.simplestsoft.twostrokecalc.domain.vehicles.withCylinderCount
 import com.simplestsoft.twostrokecalc.domain.vehicles.withValveClearances
 import com.simplestsoft.twostrokecalc.ui.components.AppColors
-import com.simplestsoft.twostrokecalc.ui.pro.LocalVehicleEditingEnabled
-import com.simplestsoft.twostrokecalc.ui.components.FormFieldDefaults
 import com.simplestsoft.twostrokecalc.ui.components.AppOutlinedTextField
-import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorDecimalField
+import com.simplestsoft.twostrokecalc.ui.components.FormFieldDefaults
 import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorChoiceField
+import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorDecimalField
+import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorDropdownField
 import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorDropdownOption
+import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorFilterChip
+import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorFilterChipRow
 import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorInputModeSwitch
 import com.simplestsoft.twostrokecalc.ui.components.calculator.CalculatorSection
+import com.simplestsoft.twostrokecalc.ui.pro.LocalVehicleEditingEnabled
+import com.simplestsoft.twostrokecalc.ui.theme.ContainerCornerRadius
 
 @Composable
 fun VehicleBasicDataTabContent(
@@ -149,11 +161,135 @@ fun VehicleBasicDataTabContent(
 @Composable
 fun VehicleEngineTabContent(
     engine: VehicleEngineSpecs,
+    engineFamilyId: String,
+    engineFamilyCustomName: String,
+    transmissionType: EngineTransmissionType,
+    engineFamilies: List<EngineFamilyEntry>,
+    onEngineFamilyChange: (id: String, customName: String, transmission: EngineTransmissionType) -> Unit,
     onUpdate: (VehicleEngineSpecs) -> Unit,
 ) {
+    val context = LocalContext.current
     val isTwoStroke = engine.cycleType == EngineCycleType.TWO_STROKE
+    val isCustomFamily = engineFamilyId == CUSTOM_ENGINE_FAMILY_ID ||
+        (engineFamilyId.isBlank() && engineFamilyCustomName.isNotBlank())
+    val selectedFamilyKey = when {
+        isCustomFamily -> CUSTOM_ENGINE_FAMILY_ID
+        engineFamilyId.isNotBlank() -> engineFamilyId
+        else -> ""
+    }
+    var manualEngineName by rememberSaveable(engineFamilyCustomName) {
+        mutableStateOf(engineFamilyCustomName)
+    }
+    val noneLabel = stringResource(R.string.vehicles_engine_family_none)
+    val customLabel = stringResource(R.string.community_engine_manual)
+    val familyOptions = remember(engineFamilies, noneLabel, customLabel, context) {
+        buildList {
+            add(CalculatorDropdownOption(key = "", label = noneLabel))
+            engineFamilies.forEach { entry ->
+                add(
+                    CalculatorDropdownOption(
+                        key = entry.id,
+                        label = buildString {
+                            append(entry.displayTitle())
+                            when (entry.transmissionType) {
+                                EngineTransmissionType.VARIATOR ->
+                                    append(" · ")
+                                        .append(context.getString(R.string.community_transmission_variator))
+                                EngineTransmissionType.GEARBOX ->
+                                    append(" · ")
+                                        .append(context.getString(R.string.community_transmission_gearbox))
+                                EngineTransmissionType.UNKNOWN -> Unit
+                            }
+                        },
+                    ),
+                )
+            }
+            add(CalculatorDropdownOption(key = CUSTOM_ENGINE_FAMILY_ID, label = customLabel))
+        }
+    }
+    val supportingText = when {
+        selectedFamilyKey.isBlank() -> stringResource(R.string.vehicles_engine_family_hint)
+        transmissionType == EngineTransmissionType.VARIATOR ->
+            stringResource(R.string.community_transmission_variator)
+        transmissionType == EngineTransmissionType.GEARBOX ->
+            stringResource(R.string.community_transmission_gearbox)
+        else -> null
+    }
 
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        CalculatorSection(title = stringResource(R.string.vehicles_section_engine_family)) {
+            CalculatorDropdownField(
+                label = stringResource(R.string.vehicles_section_engine_family),
+                options = familyOptions,
+                selectedKey = selectedFamilyKey,
+                onOptionSelected = { key ->
+                    when (key) {
+                        "" -> {
+                            manualEngineName = ""
+                            onEngineFamilyChange("", "", EngineTransmissionType.UNKNOWN)
+                        }
+                        CUSTOM_ENGINE_FAMILY_ID -> {
+                            val name = manualEngineName.trim().ifBlank { engineFamilyCustomName }
+                            val transmission = if (transmissionType != EngineTransmissionType.UNKNOWN) {
+                                transmissionType
+                            } else {
+                                EngineTransmissionType.VARIATOR
+                            }
+                            onEngineFamilyChange(CUSTOM_ENGINE_FAMILY_ID, name, transmission)
+                        }
+                        else -> {
+                            val entry = engineFamilies.firstOrNull { it.id == key } ?: return@CalculatorDropdownField
+                            manualEngineName = ""
+                            onEngineFamilyChange(entry.id, "", entry.transmissionType)
+                        }
+                    }
+                },
+                supportingText = supportingText,
+            )
+            if (isCustomFamily) {
+                AppOutlinedTextField(
+                    value = manualEngineName,
+                    onValueChange = { value ->
+                        manualEngineName = value
+                        val transmission = if (transmissionType != EngineTransmissionType.UNKNOWN) {
+                            transmissionType
+                        } else {
+                            EngineTransmissionType.VARIATOR
+                        }
+                        onEngineFamilyChange(
+                            CUSTOM_ENGINE_FAMILY_ID,
+                            value.trim(),
+                            transmission,
+                        )
+                    },
+                    label = stringResource(R.string.community_engine_manual),
+                )
+                CalculatorFilterChipRow {
+                    CalculatorFilterChip(
+                        label = stringResource(R.string.community_transmission_variator),
+                        selected = transmissionType == EngineTransmissionType.VARIATOR,
+                        onClick = {
+                            onEngineFamilyChange(
+                                CUSTOM_ENGINE_FAMILY_ID,
+                                manualEngineName.trim().ifBlank { engineFamilyCustomName },
+                                EngineTransmissionType.VARIATOR,
+                            )
+                        },
+                    )
+                    CalculatorFilterChip(
+                        label = stringResource(R.string.community_transmission_gearbox),
+                        selected = transmissionType == EngineTransmissionType.GEARBOX,
+                        onClick = {
+                            onEngineFamilyChange(
+                                CUSTOM_ENGINE_FAMILY_ID,
+                                manualEngineName.trim().ifBlank { engineFamilyCustomName },
+                                EngineTransmissionType.GEARBOX,
+                            )
+                        },
+                    )
+                }
+            }
+        }
         CalculatorSection(title = stringResource(R.string.vehicles_section_engine_cycle)) {
             CalculatorInputModeSwitch(
                 optionALabel = stringResource(R.string.vehicles_engine_two_stroke),
@@ -216,6 +352,26 @@ fun VehicleEngineTabContent(
             ),
         ) {
             if (isTwoStroke) {
+                VehicleTextField(
+                    value = engine.transferPortsNotes,
+                    label = stringResource(R.string.vehicles_field_transfer_ports),
+                    supportingText = stringResource(R.string.vehicles_field_transfer_ports_hint),
+                    singleLine = false,
+                    onValueChange = { onUpdate(engine.copy(transferPortsNotes = it)) },
+                )
+                VehicleTextField(
+                    value = engine.exhaustPortNotes,
+                    label = stringResource(R.string.vehicles_field_exhaust_port),
+                    supportingText = stringResource(R.string.vehicles_field_exhaust_port_hint),
+                    singleLine = false,
+                    onValueChange = { onUpdate(engine.copy(exhaustPortNotes = it)) },
+                )
+                VehicleTextField(
+                    value = engine.intakePortNotes,
+                    label = stringResource(R.string.vehicles_field_intake_port),
+                    singleLine = false,
+                    onValueChange = { onUpdate(engine.copy(intakePortNotes = it)) },
+                )
                 VehicleTextField(
                     value = engine.portTimingNotes,
                     label = stringResource(R.string.vehicles_field_port_timing),

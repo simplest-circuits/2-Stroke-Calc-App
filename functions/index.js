@@ -1,10 +1,12 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const { onSchedule } = require("firebase-functions/v2/scheduler");
+const { onDocumentWritten } = require("firebase-functions/v2/firestore");
 const { defineSecret } = require("firebase-functions/params");
 const functionsV1 = require("firebase-functions/v1");
 const crypto = require("node:crypto");
 
 const googlePlayServiceAccountJson = defineSecret("GOOGLE_PLAY_SERVICE_ACCOUNT_JSON");
+const adminWebChannelSecret = defineSecret("ADMIN_WEB_CHANNEL_SECRET");
 const express = require("express");
 const cors = require("cors");
 const { admin, db } = require("./lib/firebase");
@@ -16,7 +18,13 @@ const userLifecycle = createUserLifecycleService({ admin, db });
 
 const app = express();
 app.use(cors({ origin: true }));
-app.use(express.json());
+app.use(
+  express.json({
+    verify: (req, _res, buf) => {
+      req.rawBody = buf;
+    },
+  }),
+);
 
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
@@ -40,7 +48,7 @@ exports.api = onRequest(
     memory: "512MiB",
     cors: true,
     invoker: "public",
-    secrets: [googlePlayServiceAccountJson],
+    secrets: [googlePlayServiceAccountJson, adminWebChannelSecret],
   },
   app,
 );
@@ -58,6 +66,40 @@ exports.onAuthUserCreated = functionsV1
       throw error;
     }
   });
+
+/** Aggregiert Sterne-Bewertungen serverseitig auf communitySetups/{setupId}. */
+exports.onCommunitySetupRatingWritten = onDocumentWritten(
+  {
+    region: "europe-west3",
+    document: "communitySetups/{setupId}/ratings/{userId}",
+    memory: "256MiB",
+    timeoutSeconds: 60,
+  },
+  async (event) => {
+    const setupId = event.params.setupId;
+    if (!setupId) return;
+
+    const ratingsSnap = await db.collection("communitySetups").doc(setupId).collection("ratings").get();
+    let sum = 0;
+    let count = 0;
+    ratingsSnap.forEach((doc) => {
+      const value = Number(doc.data()?.value);
+      if (Number.isFinite(value) && value >= 1 && value <= 5) {
+        sum += value;
+        count += 1;
+      }
+    });
+    const ratingAverage = count > 0 ? Math.round((sum / count) * 100) / 100 : 0;
+    await db.collection("communitySetups").doc(setupId).set(
+      {
+        ratingAverage,
+        ratingCount: count,
+        updatedAtMs: Date.now(),
+      },
+      { merge: true },
+    );
+  },
+);
 
 exports.syncVoidedPurchases = onSchedule(
   {

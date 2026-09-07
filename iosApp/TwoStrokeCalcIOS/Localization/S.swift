@@ -41,6 +41,7 @@ enum S {
     static var navCalculator: String { t(.navCalculator) }
     static var navStyleBottom: String { t(.navStyleBottom) }
     static var navStyleDrawer: String { t(.navStyleDrawer) }
+    static var navTools: String { t(.navTools) }
     static var navVehicles: String { t(.navVehicles) }
     static var noAccountRegister: String { t(.noAccountRegister) }
     static var passwordLabel: String { t(.passwordLabel) }
@@ -153,6 +154,7 @@ enum S {
         case .meanPressure: return "meanPressure"
         case .gear: return "gear"
         case .exhaust: return "exhaust"
+        case .stinger: return "stinger"
         case .counterweight: return "counterweight"
         case .variatorWeight: return "variatorWeight"
         case .fuelMix: return "fuelMix"

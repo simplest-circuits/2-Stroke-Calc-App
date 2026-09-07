@@ -1,6 +1,6 @@
-2-Stroke Calc ist das Werkzeug für Tuner, Bastler und Motorsport-Enthusiasten, die an 2-Takt-Motoren arbeiten — von Moped und Roller bis Cross und Custom-Build.
+2-Stroke Lab ist die Werkstatt-App für Tuner, Bastler und Motorsport-Enthusiasten an 2-Takt-Motoren — von Moped und Roller bis Cross und Custom-Build. Rechnen, messen, dokumentieren und Setups teilen: sonst brauchst du nichts.
 
-14 Rechner in einer App:
+Rechner:
 • Steuerzeiten — mit Diagramm aus Stichmaßen
 • Time-Area — Transfer-Querschnitt und Auslassgeometrie
 • Zündzeitpunkt — Grad und Millimeter vor OT
@@ -13,26 +13,38 @@
 • Vergaserdüse — Korrektur für Höhe und Temperatur
 • Getriebe — Geschwindigkeiten und Schaltpunkte
 • Resorohr — Blair-Expansion Chamber mit Vorschau
+• Stinger — theoretischer Endrohr-Querschnitt
+• Schwungmasse — Trägheit für Dyno-Rollen und Schwungräder
+• Fahrdynamik — Beschleunigung und Leistungsabschätzung
 • DC-Kabelquerschnitt — für die Fahrzeugelektrik
 • Flüssigkeitsrechner — Elektrolyt und Reinigungsmittel-Konzentration
 
-Fahrzeugverwaltung:
+Werkzeuge:
+• Drehzahlmesser — RPM per Mikrofon am Auspuff, ohne Hardware-Tacho
+• Steuerzeiten-Assistent — geführte Messung am Motor mit Gradscheibe
+• Winkelmesser — 0–360° mit den Sensoren des Smartphones
+• Vibrationsanalyse — Rahmenvibrationen messen und Wuchtfaktor vergleichen
+• Straßen-Dyno — Leistung und Beschleunigung aus GPS und Sensoren
+• Community Setups — Motortyp-Setups teilen, bewerten und als Favoriten speichern
+
+Garage:
 • Stammdaten, Wartungsplan, Tankbuch und Kosten
 • Dokumente, TÜV- und Versicherungserinnerungen
+• Messergebnisse an Fahrzeuge hängen
 • Cloud-Sync mit deinem Konto
 
 Free & Pro:
-• Kostenlos: Alle Rechner und Fahrzeuge ansehen, Demo-Fahrzeug erkunden
-• Pro: Bearbeiten, Hinzufügen und Löschen — einmaliger Kauf über Google Play
-• Pro-Module (Standard): Fahrzeuge, Steuerzeiten, Kabelquerschnitt, Flüssigkeitsrechner, Getriebe
+• Kostenlos: Alle Rechner, Werkzeuge und Fahrzeuge ansehen, Demo-Fahrzeug erkunden
+• Pro: Bearbeiten, hinzufügen, speichern und vergleichen — einmaliger Kauf über Google Play
+• Pro-Module (Standard): Fahrzeuge, Steuerzeiten, Kabelquerschnitt, Flüssigkeitsrechner, Getriebe, Werkzeuge
 
 Weitere Features:
-• Alle Rechner-Berechnungen lokal auf dem Gerät
-• Deutsch und Englisch
+• Berechnungen lokal auf dem Gerät
+• Deutsch, Englisch, Spanisch, Portugiesisch, Schwedisch, Dänisch, Norwegisch
 • Helles und dunkles Design
 • Bottom-Menü oder Seitenpanel
 • Hilfe, FAQ und Kontakt in der App
 
 Hinweis: Die App dient als technisches Hilfsmittel. Ergebnisse ersetzen keine fachliche Prüfung am Motor. Bitte Messwerte vor dem Umbau doppelt prüfen.
 
-Support: support@simplestsoft.com
+Support: support@simplestsoft.de

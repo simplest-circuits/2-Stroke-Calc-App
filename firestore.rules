@@ -21,6 +21,38 @@ service cloud.firestore {
         .hasAny(['isAdmin', 'isPro', 'role', 'banned', 'active']);
     }
 
+    function communitySetupPath(setupId) {
+      return /databases/$(database)/documents/communitySetups/$(setupId);
+    }
+
+    function communitySetupData(setupId) {
+      return get(communitySetupPath(setupId)).data;
+    }
+
+    function canReadCommunitySetup() {
+      return resource.data.status == 'PUBLISHED'
+        || (isSignedIn() && resource.data.authorId == request.auth.uid)
+        || isAdmin();
+    }
+
+    function isCommunitySetupAuthor() {
+      return isSignedIn() && resource.data.authorId == request.auth.uid;
+    }
+
+    function authorMayUpdateCommunitySetup() {
+      return isCommunitySetupAuthor()
+        && request.resource.data.authorId == resource.data.authorId
+        && request.resource.data.status == 'PENDING_REVIEW'
+        && !request.resource.data.diff(resource.data).affectedKeys()
+          .hasAny(['ratingAverage', 'ratingCount', 'favoriteCount', 'reportCount']);
+    }
+
+    function onlyCommunityCountersUpdate() {
+      return isSignedIn()
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['favoriteCount', 'reportCount', 'updatedAtMs']);
+    }
+
     match /users/{userId} {
       allow read: if isSelf(userId) || isAdmin();
       allow create: if isSelf(userId)
@@ -36,6 +68,14 @@ service cloud.firestore {
       }
 
       match /vehicles/{vehicleId} {
+        allow read, write: if isSelf(userId) || isAdmin();
+      }
+
+      match /toolSessions/{sessionId} {
+        allow read, write: if isSelf(userId) || isAdmin();
+      }
+
+      match /favoriteSetups/{setupId} {
         allow read, write: if isSelf(userId) || isAdmin();
       }
     }
@@ -63,6 +103,47 @@ service cloud.firestore {
     match /vehicleCatalog/{docId} {
       allow read: if true;
       allow write: if isAdmin();
+    }
+
+    match /engineCatalog/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /communitySetups/{setupId} {
+      allow read: if canReadCommunitySetup();
+      allow create: if isSignedIn()
+        && request.resource.data.authorId == request.auth.uid
+        && request.resource.data.status == 'PENDING_REVIEW';
+      allow update: if isAdmin() || authorMayUpdateCommunitySetup() || onlyCommunityCountersUpdate();
+      allow delete: if isAdmin() || isCommunitySetupAuthor();
+
+      match /ratings/{userId} {
+        allow read: if isAdmin()
+          || (exists(communitySetupPath(setupId))
+              && (communitySetupData(setupId).status == 'PUBLISHED'
+                  || (isSignedIn() && communitySetupData(setupId).authorId == request.auth.uid)));
+        allow create, update: if isSelf(userId)
+          && request.resource.data.userId == request.auth.uid
+          && request.resource.data.value is int
+          && request.resource.data.value >= 1
+          && request.resource.data.value <= 5
+          && (request.resource.data.value > 2
+              || (request.resource.data.comment is string
+                  && request.resource.data.comment.size() >= 3))
+          && exists(communitySetupPath(setupId))
+          && communitySetupData(setupId).status == 'PUBLISHED'
+          && communitySetupData(setupId).authorId != request.auth.uid;
+        allow delete: if isSelf(userId) || isAdmin();
+      }
+
+      match /reports/{reportId} {
+        allow read: if isAdmin();
+        allow create: if isSignedIn()
+          && request.resource.data.reporterId == request.auth.uid
+          && exists(communitySetupPath(setupId));
+        allow update, delete: if isAdmin();
+      }
     }
 
     match /{document=**} {

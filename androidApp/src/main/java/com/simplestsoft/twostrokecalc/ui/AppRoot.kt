@@ -24,6 +24,8 @@ fun AppRoot(
     authRepository: AuthRepository,
     pendingVehicleId: String? = null,
     onPendingVehicleConsumed: () -> Unit = {},
+    pendingCommunitySetupId: String? = null,
+    onPendingCommunitySetupConsumed: () -> Unit = {},
 ) {
     val uiState by mainViewModel.uiState.collectAsStateWithLifecycle()
     val prefs = uiState.preferences
@@ -51,6 +53,8 @@ fun AppRoot(
                     onWalkthroughComplete = mainViewModel::completeWelcome,
                     pendingVehicleId = pendingVehicleId,
                     onPendingVehicleConsumed = onPendingVehicleConsumed,
+                    pendingCommunitySetupId = pendingCommunitySetupId,
+                    onPendingCommunitySetupConsumed = onPendingCommunitySetupConsumed,
                 )
             }
         }

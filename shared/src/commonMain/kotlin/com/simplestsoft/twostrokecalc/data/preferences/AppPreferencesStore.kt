@@ -46,6 +46,7 @@ class AppPreferencesStore(
 
     fun setDisplayName(name: String?) {
         if (name.isNullOrBlank()) settings.remove(KEY_DISPLAY_NAME) else settings[KEY_DISPLAY_NAME] = name
+        markSettingsLocallyModified()
     }
 
     fun getAccountEmail(): String? = settings.getStringOrNull(KEY_ACCOUNT_EMAIL)
@@ -66,6 +67,7 @@ class AppPreferencesStore(
 
     fun setThemeMode(mode: ThemeMode) {
         settings[KEY_THEME] = mode.name
+        markSettingsLocallyModified()
     }
 
     fun getLanguageMode(): LanguageMode = settings.getStringOrNull(KEY_LANGUAGE)?.let {
@@ -74,6 +76,7 @@ class AppPreferencesStore(
 
     fun setLanguageMode(mode: LanguageMode) {
         settings[KEY_LANGUAGE] = mode.name
+        markSettingsLocallyModified()
     }
 
     fun getNavStyle(): NavStyle = settings.getStringOrNull(KEY_NAV_STYLE)?.let {
@@ -82,12 +85,14 @@ class AppPreferencesStore(
 
     fun setNavStyle(style: NavStyle) {
         settings[KEY_NAV_STYLE] = style.name
+        markSettingsLocallyModified()
     }
 
     fun getWelcomeCompleted(): Boolean = settings.getBoolean(KEY_WELCOME_DONE, false)
 
     fun setWelcomeCompleted(done: Boolean) {
         settings[KEY_WELCOME_DONE] = done
+        markSettingsLocallyModified()
     }
 
     fun getWalkthroughCompleted(): Boolean = settings.getBoolean(KEY_WALKTHROUGH_DONE, false)
@@ -100,6 +105,7 @@ class AppPreferencesStore(
 
     fun setNotificationsEnabled(enabled: Boolean) {
         settings[KEY_NOTIFICATIONS] = enabled
+        markSettingsLocallyModified()
     }
 
     fun getFirstInstallPermissionsCompleted(): Boolean =
@@ -152,6 +158,28 @@ class AppPreferencesStore(
         if (value.isEmpty()) settings.remove(KEY_DISABLED_CALCULATORS) else settings[KEY_DISABLED_CALCULATORS] = value
     }
 
+    fun getDisabledTools(): Set<com.simplestsoft.twostrokecalc.domain.model.ToolId> {
+        val raw = settings.getStringOrNull(KEY_DISABLED_TOOLS) ?: return emptySet()
+        if (raw.isBlank()) return emptySet()
+        return raw.split(",")
+            .mapNotNull { token ->
+                val name = token.trim()
+                if (name.isEmpty()) null else com.simplestsoft.twostrokecalc.domain.model.ToolId.fromName(name)
+            }
+            .toSet()
+    }
+
+    fun setDisabledTools(ids: Set<com.simplestsoft.twostrokecalc.domain.model.ToolId>) {
+        val value = ids.joinToString(",") { it.name }
+        if (value.isEmpty()) settings.remove(KEY_DISABLED_TOOLS) else settings[KEY_DISABLED_TOOLS] = value
+    }
+
+    fun getToolSessionsJson(): String? = settings.getStringOrNull(KEY_TOOL_SESSIONS_JSON)
+
+    fun setToolSessionsJson(value: String?) {
+        if (value.isNullOrEmpty()) settings.remove(KEY_TOOL_SESSIONS_JSON) else settings[KEY_TOOL_SESSIONS_JSON] = value
+    }
+
     fun getVehicleCatalogVersion(): Int = settings.getInt(KEY_VEHICLE_CATALOG_VERSION, 0)
 
     fun setVehicleCatalogVersion(version: Int) {
@@ -164,6 +192,46 @@ class AppPreferencesStore(
         if (value.isNullOrEmpty()) settings.remove(KEY_VEHICLE_CATALOG_JSON) else settings[KEY_VEHICLE_CATALOG_JSON] = value
     }
 
+    fun getEngineCatalogVersion(): Int = settings.getInt(KEY_ENGINE_CATALOG_VERSION, 0)
+
+    fun setEngineCatalogVersion(version: Int) {
+        settings[KEY_ENGINE_CATALOG_VERSION] = version
+    }
+
+    fun getEngineCatalogJson(): String? = settings.getStringOrNull(KEY_ENGINE_CATALOG_JSON)
+
+    fun setEngineCatalogJson(value: String?) {
+        if (value.isNullOrEmpty()) settings.remove(KEY_ENGINE_CATALOG_JSON) else settings[KEY_ENGINE_CATALOG_JSON] = value
+    }
+
+    fun getSettingsUpdatedAt(): Long = settings.getLong(KEY_SETTINGS_UPDATED_AT, 0L)
+
+    fun setSettingsUpdatedAt(timestamp: Long) {
+        settings[KEY_SETTINGS_UPDATED_AT] = timestamp
+    }
+
+    fun applySettingsFromCloud(
+        themeMode: ThemeMode? = null,
+        languageMode: LanguageMode? = null,
+        navStyle: NavStyle? = null,
+        welcomeCompleted: Boolean? = null,
+        notificationsEnabled: Boolean? = null,
+        displayName: String? = null,
+        updatedAt: Long,
+    ) {
+        themeMode?.let { settings[KEY_THEME] = it.name }
+        languageMode?.let { settings[KEY_LANGUAGE] = it.name }
+        navStyle?.let { settings[KEY_NAV_STYLE] = it.name }
+        welcomeCompleted?.let { settings[KEY_WELCOME_DONE] = it }
+        notificationsEnabled?.let { settings[KEY_NOTIFICATIONS] = it }
+        displayName?.takeIf { it.isNotBlank() }?.let { settings[KEY_DISPLAY_NAME] = it }
+        settings[KEY_SETTINGS_UPDATED_AT] = updatedAt
+    }
+
+    private fun markSettingsLocallyModified() {
+        setSettingsUpdatedAt(System.currentTimeMillis())
+    }
+
     private companion object {
         const val KEY_USER_ID = "user_id"
         const val KEY_IS_ADMIN = "is_admin"
@@ -173,8 +241,12 @@ class AppPreferencesStore(
         const val KEY_DISPLAY_NAME = "display_name"
         const val KEY_ACCOUNT_EMAIL = "account_email"
         const val KEY_DISABLED_CALCULATORS = "disabled_calculators"
+        const val KEY_DISABLED_TOOLS = "disabled_tools"
+        const val KEY_TOOL_SESSIONS_JSON = "tool_sessions_json"
         const val KEY_VEHICLE_CATALOG_VERSION = "vehicle_catalog_version"
         const val KEY_VEHICLE_CATALOG_JSON = "vehicle_catalog_json"
+        const val KEY_ENGINE_CATALOG_VERSION = "engine_catalog_version"
+        const val KEY_ENGINE_CATALOG_JSON = "engine_catalog_json"
         const val KEY_THEME = "theme_mode"
         const val KEY_LANGUAGE = "language_mode"
         const val KEY_NAV_STYLE = "nav_style"
@@ -182,5 +254,6 @@ class AppPreferencesStore(
         const val KEY_WALKTHROUGH_DONE = "walkthrough_completed"
         const val KEY_NOTIFICATIONS = "notifications_enabled"
         const val KEY_FIRST_INSTALL_PERMISSIONS = "first_install_permissions_completed"
+        const val KEY_SETTINGS_UPDATED_AT = "settings_updated_at"
     }
 }

@@ -31,7 +31,13 @@ class UserSettingsFirestoreSync @Inject constructor(
             pushAllFromLocal(uid)
             return
         }
-        loadFromDocument(doc)
+        val localUpdatedAt = preferencesManager.getSettingsUpdatedAt()
+        val cloudUpdatedAt = doc.getTimestamp(FIELD_SETTINGS_UPDATED_AT)?.toDate()?.time ?: 0L
+        if (localUpdatedAt >= cloudUpdatedAt) {
+            pushAllFromLocal(uid)
+            return
+        }
+        loadFromDocument(doc, cloudUpdatedAt)
     }
 
     suspend fun persistTheme(mode: ThemeMode) {
@@ -77,32 +83,46 @@ class UserSettingsFirestoreSync @Inject constructor(
         prefs.displayName?.takeIf { it.isNotBlank() }?.let { payload[FIELD_DISPLAY_NAME] = it }
         runCatching {
             userDocument(uid).set(payload, SetOptions.merge()).await()
+            preferencesManager.setSettingsUpdatedAt(System.currentTimeMillis())
         }.onFailure { errorLogger.log("UserSettingsFirestoreSync", "pushAllFromLocal", it) }
     }
 
-    private suspend fun loadFromDocument(doc: DocumentSnapshot) {
-        doc.getString(FIELD_THEME_MODE)?.let { value ->
+    private suspend fun loadFromDocument(doc: DocumentSnapshot, cloudUpdatedAt: Long) {
+        val localUpdatedAt = preferencesManager.getSettingsUpdatedAt()
+        if (localUpdatedAt >= cloudUpdatedAt) return
+
+        val themeMode = doc.getString(FIELD_THEME_MODE)?.let { value ->
             runCatching { ThemeMode.valueOf(value) }.getOrNull()
-                ?.let { preferencesManager.setThemeMode(it) }
         }
-        doc.getString(FIELD_LANGUAGE_MODE)?.let { value ->
+        val languageMode = doc.getString(FIELD_LANGUAGE_MODE)?.let { value ->
             runCatching { LanguageMode.valueOf(value) }.getOrNull()
-                ?.let { preferencesManager.setLanguageMode(it) }
         } ?: doc.getString(FIELD_LANGUAGE)?.let { code ->
-            languageModeFromCode(code)?.let { preferencesManager.setLanguageMode(it) }
+            languageModeFromCode(code)
         }
-        doc.getString(FIELD_NAV_STYLE)?.let { value ->
+        val navStyle = doc.getString(FIELD_NAV_STYLE)?.let { value ->
             runCatching { NavStyle.valueOf(value) }.getOrNull()
-                ?.let { preferencesManager.setNavStyle(it) }
         }
-        if (doc.contains(FIELD_WELCOME_COMPLETED)) {
-            preferencesManager.setWelcomeCompleted(doc.getBoolean(FIELD_WELCOME_COMPLETED) == true)
+        val welcomeCompleted = if (doc.contains(FIELD_WELCOME_COMPLETED)) {
+            doc.getBoolean(FIELD_WELCOME_COMPLETED) == true
+        } else {
+            null
         }
-        if (doc.contains(FIELD_NOTIFICATIONS_ENABLED)) {
-            preferencesManager.setNotificationsEnabled(doc.getBoolean(FIELD_NOTIFICATIONS_ENABLED) == true)
+        val notificationsEnabled = if (doc.contains(FIELD_NOTIFICATIONS_ENABLED)) {
+            doc.getBoolean(FIELD_NOTIFICATIONS_ENABLED) == true
+        } else {
+            null
         }
-        doc.getString(FIELD_DISPLAY_NAME)?.takeIf { it.isNotBlank() }
-            ?.let { preferencesManager.setDisplayName(it) }
+        val displayName = doc.getString(FIELD_DISPLAY_NAME)?.takeIf { it.isNotBlank() }
+
+        preferencesManager.applySettingsFromCloud(
+            themeMode = themeMode,
+            languageMode = languageMode,
+            navStyle = navStyle,
+            welcomeCompleted = welcomeCompleted,
+            notificationsEnabled = notificationsEnabled,
+            displayName = displayName,
+            updatedAt = cloudUpdatedAt,
+        )
     }
 
     private suspend fun persistFields(fields: Map<String, Any>) {
@@ -111,6 +131,7 @@ class UserSettingsFirestoreSync @Inject constructor(
         payload[FIELD_SETTINGS_UPDATED_AT] = FieldValue.serverTimestamp()
         runCatching {
             userDocument(uid).set(payload, SetOptions.merge()).await()
+            preferencesManager.setSettingsUpdatedAt(System.currentTimeMillis())
         }.onFailure { errorLogger.log("UserSettingsFirestoreSync", "persistFields", it) }
     }
 

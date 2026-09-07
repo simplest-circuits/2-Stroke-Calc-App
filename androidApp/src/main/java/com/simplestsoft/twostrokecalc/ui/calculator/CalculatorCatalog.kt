@@ -40,6 +40,7 @@ fun CalculatorId.tabLabelRes(): Int = when (this) {
     CalculatorId.SQUISH_BAND -> R.string.calculator_tab_squish_band
     CalculatorId.GEAR -> R.string.calculator_tab_gear
     CalculatorId.EXHAUST -> R.string.calculator_tab_exhaust
+    CalculatorId.STINGER -> R.string.calculator_tab_stinger
     CalculatorId.DYNO_INERTIA -> R.string.calculator_tab_dyno_inertia
     CalculatorId.VEHICLE_DYNAMICS -> R.string.calculator_tab_vehicle_dynamics
 }
@@ -59,6 +60,7 @@ fun CalculatorId.overviewDescriptionRes(): Int = when (this) {
     CalculatorId.SQUISH_BAND -> R.string.calculator_overview_squish_band_desc
     CalculatorId.GEAR -> R.string.calculator_overview_gear_desc
     CalculatorId.EXHAUST -> R.string.calculator_overview_exhaust_desc
+    CalculatorId.STINGER -> R.string.calculator_overview_stinger_desc
     CalculatorId.DYNO_INERTIA -> R.string.calculator_overview_dyno_inertia_desc
     CalculatorId.VEHICLE_DYNAMICS -> R.string.calculator_overview_vehicle_dynamics_desc
 }
@@ -78,6 +80,7 @@ fun CalculatorId.icon(): ImageVector = when (this) {
     CalculatorId.SQUISH_BAND -> Icons.Default.PieChart
     CalculatorId.GEAR -> Icons.Default.Settings
     CalculatorId.EXHAUST -> Icons.Default.Tune
+    CalculatorId.STINGER -> Icons.Default.Air
     CalculatorId.DYNO_INERTIA -> Icons.Default.Album
     CalculatorId.VEHICLE_DYNAMICS -> Icons.AutoMirrored.Filled.TrendingUp
 }

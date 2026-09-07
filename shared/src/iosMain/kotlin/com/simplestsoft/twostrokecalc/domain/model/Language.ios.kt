@@ -17,3 +17,8 @@ actual fun systemLanguage(): Language {
         else -> Language.ENGLISH
     }
 }
+
+actual fun isAppSystemLanguageSupported(): Boolean {
+    val code = NSLocale.currentLocale.languageCode?.lowercase() ?: return false
+    return Language.supportedSystemLanguageCodes.contains(code)
+}

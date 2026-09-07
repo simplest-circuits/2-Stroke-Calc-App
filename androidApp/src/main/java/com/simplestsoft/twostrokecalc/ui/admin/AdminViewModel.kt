@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.simplestsoft.twostrokecalc.R
+import com.simplestsoft.twostrokecalc.data.admin.AdminUserVehiclesFetcher
 import com.simplestsoft.twostrokecalc.data.config.CalculatorAvailabilityRepository
 import com.simplestsoft.twostrokecalc.data.config.DemoVehiclesConfigRepository
 import com.simplestsoft.twostrokecalc.data.config.ProAccessRepository
+import com.simplestsoft.twostrokecalc.data.config.ToolAvailabilityRepository
 import com.simplestsoft.twostrokecalc.data.preferences.PreferencesManager
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminApi
 import com.simplestsoft.twostrokecalc.data.vehicles.VehicleRepository
@@ -25,6 +27,9 @@ import com.simplestsoft.twostrokecalc.ui.util.NetworkExceptionMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -36,6 +41,8 @@ data class AdminUiState(
     val users: List<AdminUserDto> = emptyList(),
     val statistics: AdminStatisticsResponse? = null,
     val settings: AdminSettingsDto? = null,
+    val pendingCommunitySetups: List<com.simplestsoft.twostrokecalc.domain.model.community.CommunitySetup> = emptyList(),
+    val reportedCommunitySetups: List<com.simplestsoft.twostrokecalc.domain.model.community.CommunitySetup> = emptyList(),
     val error: String? = null,
     val message: String? = null,
 )
@@ -45,10 +52,13 @@ class AdminViewModel @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val adminApi: AdminApi,
     private val preferencesManager: PreferencesManager,
+    private val adminUserVehiclesFetcher: AdminUserVehiclesFetcher,
     private val calculatorAvailabilityRepository: CalculatorAvailabilityRepository,
+    private val toolAvailabilityRepository: ToolAvailabilityRepository,
     private val demoVehiclesConfigRepository: DemoVehiclesConfigRepository,
     private val proAccessRepository: ProAccessRepository,
     private val vehicleRepository: VehicleRepository,
+    private val communitySetupRepository: com.simplestsoft.twostrokecalc.data.community.CommunitySetupRepository,
     private val firebaseAuth: FirebaseAuth,
 ) : ViewModel() {
 
@@ -63,7 +73,10 @@ class AdminViewModel @Inject constructor(
             }
             _state.update { it.copy(loading = true, error = null, message = null) }
             runCatching { adminApi.listUsers() }
-                .onSuccess { res -> _state.update { it.copy(loading = false, users = res.users) } }
+                .onSuccess { res ->
+                    val users = enrichUsersWithFirestoreVehicles(res.users)
+                    _state.update { it.copy(loading = false, users = users) }
+                }
                 .onFailure { e ->
                     _state.update {
                         it.copy(
@@ -115,6 +128,74 @@ class AdminViewModel @Inject constructor(
         }
     }
 
+    fun loadCommunityReview() {
+        viewModelScope.launch {
+            _state.update { it.copy(loading = true, error = null, message = null) }
+            runCatching {
+                communitySetupRepository.refreshPendingReview()
+                val reported = communitySetupRepository.refreshReportedSetups()
+                communitySetupRepository.pendingReview.value to reported
+            }.onSuccess { (pending, reported) ->
+                _state.update {
+                    it.copy(
+                        loading = false,
+                        pendingCommunitySetups = pending,
+                        reportedCommunitySetups = reported,
+                    )
+                }
+            }.onFailure { e ->
+                _state.update {
+                    it.copy(
+                        loading = false,
+                        error = e.message ?: "Community-Setups konnten nicht geladen werden",
+                    )
+                }
+            }
+        }
+    }
+
+    fun approveCommunitySetup(setupId: String) = moderateCommunitySetup(
+        setupId = setupId,
+        status = com.simplestsoft.twostrokecalc.domain.model.community.CommunitySetupStatus.PUBLISHED,
+        note = "",
+        successMessage = "Setup freigegeben",
+    )
+
+    fun rejectCommunitySetup(setupId: String, note: String) = moderateCommunitySetup(
+        setupId = setupId,
+        status = com.simplestsoft.twostrokecalc.domain.model.community.CommunitySetupStatus.REJECTED,
+        note = note,
+        successMessage = "Setup abgelehnt",
+    )
+
+    fun hideCommunitySetup(setupId: String, note: String) = moderateCommunitySetup(
+        setupId = setupId,
+        status = com.simplestsoft.twostrokecalc.domain.model.community.CommunitySetupStatus.HIDDEN,
+        note = note,
+        successMessage = "Setup ausgeblendet",
+    )
+
+    private fun moderateCommunitySetup(
+        setupId: String,
+        status: com.simplestsoft.twostrokecalc.domain.model.community.CommunitySetupStatus,
+        note: String,
+        successMessage: String,
+    ) {
+        viewModelScope.launch {
+            _state.update { it.copy(loading = true, error = null, message = null) }
+            communitySetupRepository.setStatus(setupId, status, note)
+                .onSuccess {
+                    loadCommunityReview()
+                    _state.update { it.copy(message = successMessage) }
+                }
+                .onFailure { e ->
+                    _state.update {
+                        it.copy(loading = false, error = e.message ?: "Moderation fehlgeschlagen")
+                    }
+                }
+        }
+    }
+
     fun saveSettings(settings: AdminSettingsDto) {
         viewModelScope.launch {
             _state.update { it.copy(loading = true, error = null, message = null) }
@@ -124,6 +205,7 @@ class AdminViewModel @Inject constructor(
             }
                 .onSuccess {
                     calculatorAvailabilityRepository.applyAvailabilityMap(settings.calculatorAvailability)
+                    toolAvailabilityRepository.applyAvailabilityMap(settings.toolAvailability)
                     proAccessRepository.applyProModulesMap(settings.proModules)
                     viewModelScope.launch {
                         demoVehiclesConfigRepository.applyEnabledFlag(settings.demoVehiclesEnabled)
@@ -299,10 +381,11 @@ class AdminViewModel @Inject constructor(
                 .onSuccess { message ->
                     runCatching { adminApi.listUsers() }
                         .onSuccess { res ->
+                            val users = enrichUsersWithFirestoreVehicles(res.users)
                             _state.update {
                                 it.copy(
                                     loading = false,
-                                    users = res.users,
+                                    users = users,
                                     message = message ?: successMessage,
                                 )
                             }
@@ -326,6 +409,22 @@ class AdminViewModel @Inject constructor(
                 }
         }
     }
+
+    private suspend fun enrichUsersWithFirestoreVehicles(users: List<AdminUserDto>): List<AdminUserDto> =
+        coroutineScope {
+            users.map { user ->
+                async {
+                    runCatching { adminUserVehiclesFetcher.fetchVehicleSummaries(user.id) }
+                        .getOrDefault(emptyList())
+                        .let { vehicles ->
+                            user.copy(
+                                vehicleCount = vehicles.size,
+                                vehicles = vehicles.take(5),
+                            )
+                        }
+                }
+            }.awaitAll()
+        }
 
     private fun blockedAdminApiMessage(): String? {
         if (firebaseAuth.currentUser != null) return null

@@ -55,6 +55,31 @@ object SharedBridgeModule {
 
     @Provides
     @Singleton
+    fun provideToolAvailabilityRepository(): com.simplestsoft.twostrokecalc.data.config.ToolAvailabilityRepository =
+        GlobalContext.get().get()
+
+    @Provides
+    @Singleton
+    fun provideToolSessionRepository(): com.simplestsoft.twostrokecalc.data.tools.ToolSessionRepository =
+        GlobalContext.get().get()
+
+    @Provides
+    @Singleton
+    fun provideToolSessionFirestoreSync(): com.simplestsoft.twostrokecalc.data.tools.ToolSessionFirestoreSync =
+        GlobalContext.get().get()
+
+    @Provides
+    @Singleton
     fun provideDemoVehiclesConfigRepository(): DemoVehiclesConfigRepository =
+        GlobalContext.get().get()
+
+    @Provides
+    @Singleton
+    fun provideEngineCatalogRepository(): com.simplestsoft.twostrokecalc.data.community.SharedEngineCatalogRepository =
+        GlobalContext.get().get()
+
+    @Provides
+    @Singleton
+    fun provideCommunitySetupRepository(): com.simplestsoft.twostrokecalc.data.community.CommunitySetupRepository =
         GlobalContext.get().get()
 }

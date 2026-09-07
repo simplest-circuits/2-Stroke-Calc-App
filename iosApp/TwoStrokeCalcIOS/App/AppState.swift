@@ -305,7 +305,7 @@ struct VehicleItem: Identifiable, Hashable {
 }
 
 enum AppRoute: Hashable {
-    case calculator, vehicles, settings, account, admin, login, register, forgotPassword
+    case calculator, tools, vehicles, settings, account, admin, login, register, forgotPassword
 }
 
 enum CalculatorCatalog {

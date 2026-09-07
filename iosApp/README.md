@@ -1,6 +1,6 @@
 # iOS App (SwiftUI)
 
-Die iOS-App für 2-Stroke Calc nutzt **SwiftUI** als native UI und bindet die gemeinsame Kotlin-Logik über das Framework **`sharedKit`** ein (Modul `:shared`).
+Die iOS-App für 2-Stroke Lab nutzt **SwiftUI** als native UI und bindet die gemeinsame Kotlin-Logik über das Framework **`sharedKit`** ein (Modul `:shared`).
 
 ## Voraussetzungen
 

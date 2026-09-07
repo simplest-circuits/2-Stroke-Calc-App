@@ -1,0 +1,683 @@
+{
+  "version": 3,
+  "source": "curated-mvp-2026",
+  "entries": [
+    {
+      "id": "minarelli-horizontal",
+      "manufacturer": "Minarelli",
+      "familyName": "Horizontal",
+      "orientation": "LIEGEND",
+      "coolingType": "Luft",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Minarelli liegend",
+        "Yamaha horizontal"
+      ],
+      "commonVehicles": [
+        "Yamaha DT50",
+        "Yamaha TZR50",
+        "MBK X-Limit"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "minarelli-vertical",
+      "manufacturer": "Minarelli",
+      "familyName": "Vertical",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Minarelli stehend"
+      ],
+      "commonVehicles": [
+        "Yamaha Jog",
+        "MBK Booster",
+        "Yamaha BW's"
+      ],
+      "transmissionType": "VARIATOR"
+    },
+    {
+      "id": "minarelli-am6",
+      "manufacturer": "Minarelli",
+      "familyName": "AM6",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "AM6",
+        "Aprilia AM6"
+      ],
+      "commonVehicles": [
+        "Aprilia RS50",
+        "Yamaha DT50 R",
+        "Malaguti XSM"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "peugeot-vertical",
+      "manufacturer": "Peugeot",
+      "familyName": "Vertical",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Peugeot stehend",
+        "Peugeot SC"
+      ],
+      "commonVehicles": [
+        "Peugeot Speedfight",
+        "Peugeot Trekker",
+        "Peugeot Vivacity"
+      ],
+      "transmissionType": "VARIATOR"
+    },
+    {
+      "id": "piaggio-hiper2",
+      "manufacturer": "Piaggio",
+      "familyName": "Hi-PER2",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Hi-Per2",
+        "Hiper2",
+        "Piaggio 2T"
+      ],
+      "commonVehicles": [
+        "Piaggio NRG",
+        "Gilera Runner",
+        "Aprilia SR50"
+      ],
+      "transmissionType": "VARIATOR"
+    },
+    {
+      "id": "piaggio-purejet",
+      "manufacturer": "Piaggio",
+      "familyName": "PureJet",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Pure Jet",
+        "Piaggio DI"
+      ],
+      "commonVehicles": [
+        "Piaggio NRG PureJet",
+        "Gilera Runner PureJet"
+      ],
+      "transmissionType": "VARIATOR"
+    },
+    {
+      "id": "piaggio-maxi",
+      "manufacturer": "Piaggio",
+      "familyName": "Maxi",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "125-180",
+      "aliasNames": [
+        "Piaggio Quasar",
+        "Piaggio Maxi 2T",
+        "Quasar 125",
+        "Quasar 180"
+      ],
+      "commonVehicles": [
+        "Piaggio Hexagon",
+        "Piaggio Skipper",
+        "Piaggio SKR",
+        "Gilera Runner 125",
+        "Gilera Runner 180",
+        "Gilera Runner VX",
+        "Gilera Runner VXR"
+      ],
+      "transmissionType": "VARIATOR"
+    },
+    {
+      "id": "derbi-euro2",
+      "manufacturer": "Derbi",
+      "familyName": "Euro2 / EBE",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Derbi EBE",
+        "Derbi Euro 2"
+      ],
+      "commonVehicles": [
+        "Derbi Senda",
+        "Derbi GPR",
+        "Gilera SMT"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "derbi-euro3",
+      "manufacturer": "Derbi",
+      "familyName": "Euro3 / D50B0",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "D50B0",
+        "Derbi Euro 3"
+      ],
+      "commonVehicles": [
+        "Derbi Senda R",
+        "Aprilia SX50",
+        "Gilera RCR"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "ktm-exc-125",
+      "manufacturer": "KTM",
+      "familyName": "EXC 125",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "125",
+      "aliasNames": [
+        "KTM 125 EXC",
+        "EXC125"
+      ],
+      "commonVehicles": [
+        "KTM 125 EXC",
+        "Husqvarna TE 125"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "ktm-exc-250",
+      "manufacturer": "KTM",
+      "familyName": "EXC 250",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "250",
+      "aliasNames": [
+        "KTM 250 EXC",
+        "EXC250"
+      ],
+      "commonVehicles": [
+        "KTM 250 EXC",
+        "Husqvarna TE 250"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "ktm-exc-300",
+      "manufacturer": "KTM",
+      "familyName": "EXC 300",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "300",
+      "aliasNames": [
+        "KTM 300 EXC",
+        "EXC300"
+      ],
+      "commonVehicles": [
+        "KTM 300 EXC",
+        "Husqvarna TE 300"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "simson-m531",
+      "manufacturer": "Simson",
+      "familyName": "M531",
+      "orientation": "STEHEND",
+      "coolingType": "Luft",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "M 531",
+        "Simson 50"
+      ],
+      "commonVehicles": [
+        "Simson S51",
+        "Simson SR50",
+        "Simson S70"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "simson-m541",
+      "manufacturer": "Simson",
+      "familyName": "M541",
+      "orientation": "STEHEND",
+      "coolingType": "Luft",
+      "typicalDisplacementCc": "70",
+      "aliasNames": [
+        "M 541",
+        "Simson 70"
+      ],
+      "commonVehicles": [
+        "Simson S70",
+        "Simson SR80"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "sachs-505",
+      "manufacturer": "Sachs",
+      "familyName": "505",
+      "orientation": "STEHEND",
+      "coolingType": "Luft",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Sachs 50"
+      ],
+      "commonVehicles": [
+        "Hercules Prima",
+        "Sachs Saxonette"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "morini-m1",
+      "manufacturer": "Morini",
+      "familyName": "M1",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Franco Morini",
+        "Morini"
+      ],
+      "commonVehicles": [
+        "Aprilia Habana",
+        "Italjet Formula",
+        "Malaguti F12"
+      ],
+      "transmissionType": "VARIATOR"
+    },
+    {
+      "id": "puch-maxi",
+      "manufacturer": "Puch",
+      "familyName": "Maxi",
+      "orientation": "STEHEND",
+      "coolingType": "Luft",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Puch E50",
+        "Maxi Motor"
+      ],
+      "commonVehicles": [
+        "Puch Maxi",
+        "Puch Maxi N",
+        "Puch Maxi S"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "suzuki-ac50",
+      "manufacturer": "Suzuki",
+      "familyName": "AC50 / Address",
+      "orientation": "STEHEND",
+      "coolingType": "Luft",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Suzuki Address",
+        "AC50"
+      ],
+      "commonVehicles": [
+        "Suzuki Address",
+        "Suzuki Katana",
+        "Suzuki Sepia"
+      ],
+      "transmissionType": "VARIATOR"
+    },
+    {
+      "id": "suzuki-rm125",
+      "manufacturer": "Suzuki",
+      "familyName": "RM 125",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "125",
+      "aliasNames": [
+        "RM125"
+      ],
+      "commonVehicles": [
+        "Suzuki RM125"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "yamaha-dt",
+      "manufacturer": "Yamaha",
+      "familyName": "DT",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "50-125",
+      "aliasNames": [
+        "Yamaha DT50",
+        "DT125"
+      ],
+      "commonVehicles": [
+        "Yamaha DT50",
+        "Yamaha DT125",
+        "Yamaha DT80"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "yamaha-rd",
+      "manufacturer": "Yamaha",
+      "familyName": "RD",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "125-350",
+      "aliasNames": [
+        "Yamaha RD350",
+        "RD250"
+      ],
+      "commonVehicles": [
+        "Yamaha RD250",
+        "Yamaha RD350",
+        "Yamaha RD125"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "yamaha-yz125",
+      "manufacturer": "Yamaha",
+      "familyName": "YZ 125",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "125",
+      "aliasNames": [
+        "YZ125"
+      ],
+      "commonVehicles": [
+        "Yamaha YZ125"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "honda-nsi",
+      "manufacturer": "Honda",
+      "familyName": "NS-1 / NSR",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Honda NS1",
+        "NSR50"
+      ],
+      "commonVehicles": [
+        "Honda NS-1",
+        "Honda NSR50",
+        "Honda MTX50"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "honda-cr125",
+      "manufacturer": "Honda",
+      "familyName": "CR 125",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "125",
+      "aliasNames": [
+        "CR125"
+      ],
+      "commonVehicles": [
+        "Honda CR125"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "aprilia-rotax",
+      "manufacturer": "Aprilia / Rotax",
+      "familyName": "Rotax 122/123",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "125",
+      "aliasNames": [
+        "Rotax 122",
+        "Rotax 123"
+      ],
+      "commonVehicles": [
+        "Aprilia RS125",
+        "Aprilia AF1"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "zundapp-ks50",
+      "manufacturer": "Zündapp",
+      "familyName": "KS50",
+      "orientation": "STEHEND",
+      "coolingType": "Luft",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Zundapp KS50",
+        "KS 50"
+      ],
+      "commonVehicles": [
+        "Zündapp KS50",
+        "Zündapp GTS50"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "kreidler-florett",
+      "manufacturer": "Kreidler",
+      "familyName": "Florett",
+      "orientation": "STEHEND",
+      "coolingType": "Luft",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Kreidler RS",
+        "Florett RS"
+      ],
+      "commonVehicles": [
+        "Kreidler Florett",
+        "Kreidler RS"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "vespa-px",
+      "manufacturer": "Piaggio / Vespa",
+      "familyName": "PX",
+      "orientation": "LIEGEND",
+      "coolingType": "Luft",
+      "typicalDisplacementCc": "125-200",
+      "aliasNames": [
+        "Vespa PX125",
+        "PX200",
+        "P200E"
+      ],
+      "commonVehicles": [
+        "Vespa PX125",
+        "Vespa PX150",
+        "Vespa PX200"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "vespa-et2",
+      "manufacturer": "Piaggio / Vespa",
+      "familyName": "ET2 / LX 50",
+      "orientation": "STEHEND",
+      "coolingType": "Luft",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Vespa ET2",
+        "LX50 2T"
+      ],
+      "commonVehicles": [
+        "Vespa ET2",
+        "Vespa LX50",
+        "Vespa Primavera 50"
+      ],
+      "transmissionType": "VARIATOR"
+    },
+    {
+      "id": "tomos-a35",
+      "manufacturer": "Tomos",
+      "familyName": "A35",
+      "orientation": "STEHEND",
+      "coolingType": "Luft",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Tomos A3",
+        "A35"
+      ],
+      "commonVehicles": [
+        "Tomos Classic",
+        "Tomos Revival",
+        "Tomos Sprint"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "gasgas-ec125",
+      "manufacturer": "GasGas",
+      "familyName": "EC 125",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "125",
+      "aliasNames": [
+        "Gas Gas EC125"
+      ],
+      "commonVehicles": [
+        "GasGas EC 125"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "gasgas-ec250",
+      "manufacturer": "GasGas",
+      "familyName": "EC 250",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "250",
+      "aliasNames": [
+        "Gas Gas EC250"
+      ],
+      "commonVehicles": [
+        "GasGas EC 250",
+        "GasGas EC 300"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "beta-rr125",
+      "manufacturer": "Beta",
+      "familyName": "RR 125",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "125",
+      "aliasNames": [
+        "Beta RR125"
+      ],
+      "commonVehicles": [
+        "Beta RR 125"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "sherco-se125",
+      "manufacturer": "Sherco",
+      "familyName": "SE 125",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "125",
+      "aliasNames": [
+        "Sherco SE-R 125"
+      ],
+      "commonVehicles": [
+        "Sherco SE 125"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "husqvarna-wr125",
+      "manufacturer": "Husqvarna",
+      "familyName": "WR / CR 125",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "125",
+      "aliasNames": [
+        "Husky WR125",
+        "CR125"
+      ],
+      "commonVehicles": [
+        "Husqvarna WR125",
+        "Husqvarna CR125"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "cpi-oliver",
+      "manufacturer": "CPI",
+      "familyName": "Oliver / Aragon",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "CPI 50",
+        "Aragon"
+      ],
+      "commonVehicles": [
+        "CPI Oliver",
+        "CPI Aragon",
+        "CPI Hussar"
+      ],
+      "transmissionType": "VARIATOR"
+    },
+    {
+      "id": "generic-xor",
+      "manufacturer": "Generic",
+      "familyName": "XOR / Ideo",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Generic 50"
+      ],
+      "commonVehicles": [
+        "Generic XOR",
+        "Generic Ideo",
+        "Generic Cracker"
+      ],
+      "transmissionType": "VARIATOR"
+    },
+    {
+      "id": "rieju-rs1",
+      "manufacturer": "Rieju",
+      "familyName": "RS1 / RR",
+      "orientation": "STEHEND",
+      "coolingType": "Luft/Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Rieju AM6"
+      ],
+      "commonVehicles": [
+        "Rieju RS1",
+        "Rieju RR",
+        "Rieju MRT"
+      ],
+      "transmissionType": "GEARBOX"
+    },
+    {
+      "id": "mbk-nitro",
+      "manufacturer": "MBK / Yamaha",
+      "familyName": "Nitro / Aerox",
+      "orientation": "STEHEND",
+      "coolingType": "Wasser",
+      "typicalDisplacementCc": "50",
+      "aliasNames": [
+        "Yamaha Aerox",
+        "MBK Nitro",
+        "Minarelli vertical liquid"
+      ],
+      "commonVehicles": [
+        "MBK Nitro",
+        "Yamaha Aerox",
+        "Yamaha Neos"
+      ],
+      "transmissionType": "VARIATOR"
+    }
+  ]
+}

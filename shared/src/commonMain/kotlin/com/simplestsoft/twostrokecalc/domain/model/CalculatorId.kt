@@ -13,6 +13,7 @@ enum class CalculatorId {
     SQUISH_BAND,
     GEAR,
     EXHAUST,
+    STINGER,
     PORT_AREA,
     VARIATOR_WEIGHT,
     DYNO_INERTIA,

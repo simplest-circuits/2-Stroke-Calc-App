@@ -1,7 +1,8 @@
-"""Regenerate splash icon and legacy launcher mipmaps from drawable/appstore.png.
+"""Regenerate launcher / splash icons with Android adaptive safe-zone padding.
 
-The adaptive launcher icon (API 26+) uses appstore.png directly without modification.
-Only the splash icon is cropped/fitted; legacy mipmaps are downscaled copies of the full image.
+Adaptive icons (API 26+) mask the outer ~18% on each side. Important artwork
+must stay in the center ~66%. This script scales the glyph into that safe zone
+for adaptive foreground + legacy mipmaps, while keeping full-bleed store assets.
 """
 from __future__ import annotations
 
@@ -10,8 +11,14 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-RES = ROOT / "app" / "src" / "main" / "res"
-SOURCE = RES / "drawable" / "appstore.png"
+RES = ROOT / "androidApp" / "src" / "main" / "res"
+DOCS_ANDROID = ROOT / "docs" / "AppIcons" / "android"
+SOURCE = ROOT / "docs" / "AppIcons" / "appstore.png"
+
+# Keep additional breathing room for round launcher masks.
+SAFE_FRACTION = 0.61
+SPLASH_FRACTION = 0.92
+BG_THRESHOLD = 32
 
 LEGACY_LAUNCHER_SIZES = {
     "mdpi": 48,
@@ -21,33 +28,35 @@ LEGACY_LAUNCHER_SIZES = {
     "xxxhdpi": 192,
 }
 
-BG_THRESHOLD = 28
 
-
-def load_icon_with_transparency(path: Path) -> Image.Image:
-    img = Image.open(path).convert("RGBA")
+def remove_near_black(img: Image.Image) -> Image.Image:
+    img = img.convert("RGBA")
     pixels = img.load()
     width, height = img.size
     for y in range(height):
         for x in range(width):
-            red, green, blue, alpha = pixels[x, y]
+            red, green, blue, _alpha = pixels[x, y]
             if red <= BG_THRESHOLD and green <= BG_THRESHOLD and blue <= BG_THRESHOLD:
                 pixels[x, y] = (0, 0, 0, 0)
     return img
 
 
-def fit_in_square(image: Image.Image, size: int) -> Image.Image:
-    canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    content = image.crop(image.getbbox())
-    content.thumbnail((size, size), Image.Resampling.LANCZOS)
+def fit_in_safe_zone(
+    source: Image.Image,
+    size: int,
+    safe_fraction: float,
+    *,
+    transparent: bool,
+) -> Image.Image:
+    content = source.crop(source.getbbox())
+    max_side = max(1, int(size * safe_fraction))
+    content = content.copy()
+    content.thumbnail((max_side, max_side), Image.Resampling.LANCZOS)
+    background = (0, 0, 0, 0) if transparent else (0, 0, 0, 255)
+    canvas = Image.new("RGBA", (size, size), background)
     offset = ((size - content.width) // 2, (size - content.height) // 2)
     canvas.paste(content, offset, content)
     return canvas
-
-
-def resize_full_image(image: Image.Image, size: int) -> Image.Image:
-    resized = image.resize((size, size), Image.Resampling.LANCZOS)
-    return resized.convert("RGBA")
 
 
 def save_png(image: Image.Image, path: Path) -> None:
@@ -56,19 +65,29 @@ def save_png(image: Image.Image, path: Path) -> None:
 
 
 def main() -> None:
-    source = Image.open(SOURCE).convert("RGBA")
-    splash_source = load_icon_with_transparency(SOURCE)
+    source_full = Image.open(SOURCE).convert("RGBA")
+    source_cut = remove_near_black(source_full)
+
+    adaptive = fit_in_safe_zone(source_cut, 1024, SAFE_FRACTION, transparent=True)
+    save_png(adaptive, RES / "drawable" / "adaptive_foreground.png")
+    save_png(adaptive, DOCS_ANDROID / "adaptive-foreground.png")
+
+    # Full-bleed marketing / adaptive source copies used elsewhere in the app.
+    save_png(source_full, RES / "drawable" / "appstore.png")
+    save_png(source_full, RES / "drawable" / "playstore.png")
 
     for density, size in LEGACY_LAUNCHER_SIZES.items():
-        launcher = resize_full_image(source, size)
+        launcher = fit_in_safe_zone(source_cut, size, SAFE_FRACTION, transparent=False)
         save_png(launcher, RES / f"mipmap-{density}" / "ic_launcher.png")
         save_png(launcher, RES / f"mipmap-{density}" / "ic_launcher_round.png")
+        save_png(launcher, DOCS_ANDROID / f"mipmap-{density}" / "ic_launcher.png")
+        save_png(launcher, RES / f"drawable-{density}" / "ic_launcher.png")
 
-    splash = fit_in_square(splash_source, 512)
+    splash = fit_in_safe_zone(source_cut, 512, SPLASH_FRACTION, transparent=True)
     save_png(splash, RES / "drawable-nodpi" / "ic_splash_icon.png")
 
-    print("Generated legacy mipmaps and splash icon from", SOURCE)
-    print("Adaptive icon uses appstore.png directly (no transformation).")
+    print(f"Generated adaptive/legacy icons from {SOURCE}")
+    print(f"Adaptive safe fraction: {SAFE_FRACTION:.0%}")
 
 
 if __name__ == "__main__":

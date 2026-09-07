@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.simplestsoft.twostrokecalc.data.community.SharedEngineCatalogRepository
 import com.simplestsoft.twostrokecalc.data.config.ProAccessRepository
 import com.simplestsoft.twostrokecalc.data.vehicles.VehicleCatalogRepository
 import com.simplestsoft.twostrokecalc.data.vehicles.VehicleRepository
@@ -15,6 +16,7 @@ import com.simplestsoft.twostrokecalc.domain.model.VehicleAttachment
 import com.simplestsoft.twostrokecalc.domain.model.VehicleCatalogEntry
 import com.simplestsoft.twostrokecalc.domain.model.VehicleEngineSpecs
 import com.simplestsoft.twostrokecalc.domain.model.VehicleType
+import com.simplestsoft.twostrokecalc.domain.model.community.EngineFamilyEntry
 import com.simplestsoft.twostrokecalc.domain.vehicles.VehicleCatalogMapper
 import com.simplestsoft.twostrokecalc.domain.vehicles.VehicleOdometerSync
 import com.simplestsoft.twostrokecalc.domain.vehicles.defaultEngineCycle
@@ -39,6 +41,7 @@ class VehiclesViewModel @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val repository: VehicleRepository,
     private val catalogRepository: VehicleCatalogRepository,
+    private val engineCatalogRepository: SharedEngineCatalogRepository,
     proAccessRepository: ProAccessRepository,
 ) : ViewModel() {
 
@@ -53,6 +56,16 @@ class VehiclesViewModel @Inject constructor(
         catalogRepository.variantsFor(brand, model, year)
 
     fun catalogEntryCount(): Int = catalogRepository.allEntries().size
+
+    fun searchEngineFamilies(query: String, limit: Int = 40): List<EngineFamilyEntry> =
+        engineCatalogRepository.search(query, limit)
+
+    fun allEngineFamilies(): List<EngineFamilyEntry> = engineCatalogRepository.allEntries()
+
+    fun engineFamily(id: String): EngineFamilyEntry? = engineCatalogRepository.findById(id)
+
+    fun engineFamilyLabel(vehicle: Vehicle): String =
+        vehicle.engineFamilyDisplayLabel(engineFamily(vehicle.engineFamilyId)?.displayTitle())
 
     val canEditVehicles = proAccessRepository.state
         .map { it.canEditVehicles() }
@@ -69,6 +82,8 @@ class VehiclesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            seedEngineCatalogFromAssets()
+            runCatching { engineCatalogRepository.ensureSynced() }
             repository.vehiclesFlow.collect { list ->
                 _uiState.update { it.copy(vehicles = list, loading = false) }
             }
@@ -232,5 +247,17 @@ class VehiclesViewModel @Inject constructor(
             repository.clearProfileImage(vehicleId)
             onResult()
         }
+    }
+
+    private fun seedEngineCatalogFromAssets() {
+        runCatching {
+            appContext.assets.open(ENGINE_ASSET).bufferedReader().use { it.readText() }
+        }.onSuccess { raw ->
+            engineCatalogRepository.seedFromBundledJson(raw)
+        }
+    }
+
+    companion object {
+        private const val ENGINE_ASSET = "engine_catalog.json"
     }
 }

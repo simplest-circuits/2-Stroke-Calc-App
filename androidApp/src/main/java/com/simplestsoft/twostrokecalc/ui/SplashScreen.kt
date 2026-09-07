@@ -96,7 +96,7 @@ fun SplashScreen(
             verticalArrangement = Arrangement.Center,
         ) {
             Image(
-                painter = painterResource(R.drawable.appstore),
+                painter = painterResource(R.drawable.ic_splash_icon),
                 contentDescription = null,
                 modifier = Modifier
                     .size(120.dp)
@@ -104,7 +104,7 @@ fun SplashScreen(
             )
             Spacer(modifier = Modifier.height(20.dp))
             GlowingTitleText(
-                text = "2StrokeCalc",
+                text = stringResource(R.string.app_name),
                 alpha = textAlpha,
             )
             Spacer(modifier = Modifier.height(8.dp))

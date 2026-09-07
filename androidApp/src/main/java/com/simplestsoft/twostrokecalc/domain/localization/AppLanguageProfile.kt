@@ -3,6 +3,7 @@ package com.simplestsoft.twostrokecalc.domain.localization
 import androidx.core.os.LocaleListCompat
 import com.simplestsoft.twostrokecalc.domain.model.Language
 import com.simplestsoft.twostrokecalc.domain.model.LanguageMode
+import com.simplestsoft.twostrokecalc.domain.model.isAppSystemLanguageSupported
 import java.util.Locale
 
 data class AppLanguageProfile(
@@ -30,5 +31,14 @@ data class AppLanguageProfile(
         val default: AppLanguageProfile = from(LanguageMode.SYSTEM.resolveLanguage())
 
         fun from(language: Language): AppLanguageProfile = AppLanguageProfile(language)
+
+        fun localeListForMode(mode: LanguageMode): LocaleListCompat = when (mode) {
+            LanguageMode.SYSTEM -> if (isAppSystemLanguageSupported()) {
+                LocaleListCompat.getEmptyLocaleList()
+            } else {
+                LocaleListCompat.forLanguageTags(Language.ENGLISH.code)
+            }
+            else -> LocaleListCompat.forLanguageTags(mode.resolveLanguage().code)
+        }
     }
 }

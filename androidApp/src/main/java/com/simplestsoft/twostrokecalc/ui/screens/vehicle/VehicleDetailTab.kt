@@ -13,4 +13,5 @@ enum class VehicleDetailTab(@StringRes val titleRes: Int) {
     ELECTRICAL(R.string.vehicles_tab_electrical),
     MAINTENANCE(R.string.vehicles_tab_maintenance),
     DOCUMENTS(R.string.vehicles_tab_documents),
+    MEASUREMENTS(R.string.vehicles_tab_measurements),
 }

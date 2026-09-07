@@ -47,6 +47,7 @@ import com.simplestsoft.twostrokecalc.ui.screens.calculators.SquishBandCalculato
 import com.simplestsoft.twostrokecalc.ui.screens.calculators.ExhaustCalculatorScreen
 import com.simplestsoft.twostrokecalc.ui.screens.calculators.FlywheelInertiaCalculatorScreen
 import com.simplestsoft.twostrokecalc.ui.screens.calculators.PortAreaCalculatorScreen
+import com.simplestsoft.twostrokecalc.ui.screens.calculators.StingerCalculatorScreen
 import com.simplestsoft.twostrokecalc.ui.screens.calculators.TimingCalculatorScreen
 import com.simplestsoft.twostrokecalc.ui.screens.calculators.VariatorWeightCalculatorScreen
 import com.simplestsoft.twostrokecalc.ui.screens.calculators.VehicleDynamicsCalculatorScreen
@@ -61,6 +62,9 @@ fun CalculatorScreen(
     calculatorHighlightModifiers: Map<CalculatorId, Modifier> = emptyMap(),
     isAuthenticated: Boolean = false,
     onSignInRequired: () -> Unit = {},
+    onOpenRpmTool: (Double?) -> Unit = {},
+    onOpenPortTimingTool: () -> Unit = {},
+    onOpenVibrationTool: () -> Unit = {},
     viewModel: CalculatorViewModel = hiltViewModel(),
 ) {
     var selectedCalculatorId by rememberSaveable { mutableStateOf<String?>(null) }
@@ -110,6 +114,9 @@ fun CalculatorScreen(
                             selectedCalculatorId = target.name
                         }
                     },
+                    onOpenRpmTool = onOpenRpmTool,
+                    onOpenPortTimingTool = onOpenPortTimingTool,
+                    onOpenVibrationTool = onOpenVibrationTool,
                     modifier = Modifier.weight(1f),
                 )
             }
@@ -181,11 +188,16 @@ private fun CalculatorDetailTopBar(
 private fun CalculatorDetailContent(
     calculatorId: CalculatorId,
     onNavigateToCalculator: (CalculatorId) -> Unit,
+    onOpenRpmTool: (Double?) -> Unit,
+    onOpenPortTimingTool: () -> Unit,
+    onOpenVibrationTool: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         when (calculatorId) {
-            CalculatorId.TIMING -> TimingCalculatorScreen()
+            CalculatorId.TIMING -> TimingCalculatorScreen(
+                onOpenPortTimingTool = onOpenPortTimingTool,
+            )
             CalculatorId.PORT_AREA -> PortAreaCalculatorScreen(
                 onNavigateToCalculator = onNavigateToCalculator,
             )
@@ -194,14 +206,19 @@ private fun CalculatorDetailContent(
             CalculatorId.FLUID -> FluidCalculatorScreen()
             CalculatorId.FUEL_MIX -> FuelMixCalculatorScreen()
             CalculatorId.CARB_JET -> CarbJetCorrectionCalculatorScreen()
-            CalculatorId.COUNTERWEIGHT -> CounterweightFactorCalculatorScreen()
-            CalculatorId.VARIATOR_WEIGHT -> VariatorWeightCalculatorScreen()
+            CalculatorId.COUNTERWEIGHT -> CounterweightFactorCalculatorScreen(
+                onOpenVibrationTool = onOpenVibrationTool,
+            )
+            CalculatorId.VARIATOR_WEIGHT -> VariatorWeightCalculatorScreen(
+                onOpenRpmTool = onOpenRpmTool,
+            )
             CalculatorId.COMPRESSION -> CompressionCalculatorScreen(
                 onNavigateToCalculator = onNavigateToCalculator,
             )
             CalculatorId.MEAN_PRESSURE -> MeanPressureCalculatorScreen()
             CalculatorId.GEAR -> GearCalculatorScreen()
             CalculatorId.EXHAUST -> ExhaustCalculatorScreen()
+            CalculatorId.STINGER -> StingerCalculatorScreen()
             CalculatorId.SQUISH_BAND -> SquishBandCalculatorScreen(
                 onNavigateToCalculator = onNavigateToCalculator,
             )

@@ -9,7 +9,7 @@ import qrcode
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parent
-ICON = ROOT.parent.parent / "app" / "src" / "main" / "res" / "drawable" / "appstore.png"
+ICON = ROOT.parent / "AppIcons" / "playstore.png"
 PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.simplestsoft.twostrokecalc"
 
 W = 1080
@@ -39,16 +39,16 @@ COPY_BY_LOCALE = {
         ],
         "chips": [
             "Technische Berechnungen",
+            "GPS-Dyno & Werkzeuge",
             "Fahrzeugverwaltung",
-            "Wartungskosten & Verbrauch",
-            "Service-Erinnerungen",
+            "Community Setups",
         ],
         "cta": "Jetzt im Play Store",
         "qr_hint": "QR scannen & installieren",
         "screenshots": [
             "01_calculator_overview_list.png",
-            "04_vehicles_overview.png",
-            "07_maintenance_costs.png",
+            "04_tools_overview.png",
+            "05_gps_dyno.png",
         ],
         "out": ROOT / "social-ad-clean-de-1080x1350.png",
     },
@@ -60,16 +60,16 @@ COPY_BY_LOCALE = {
         ],
         "chips": [
             "Technical calculations",
+            "GPS dyno & tools",
             "Vehicle management",
-            "Maintenance & fuel tracking",
-            "Service reminders",
+            "Community setups",
         ],
         "cta": "Now on Play Store",
         "qr_hint": "Scan QR to install",
         "screenshots": [
             "01_calculator_overview_list.png",
-            "04_vehicles_overview.png",
-            "07_maintenance_costs.png",
+            "04_tools_overview.png",
+            "05_gps_dyno.png",
         ],
         "out": ROOT / "social-ad-clean-en-1080x1350.png",
     },
@@ -267,7 +267,7 @@ def build(locale: str) -> None:
     place_icon(canvas, x=(W - icon_size - 16) // 2, y=header_top, size=icon_size)
 
     y = header_top + icon_size + 34
-    y = draw_centered_text(draw, "2-Stroke Calc", W // 2, y, title_font, TEXT_MAIN) + 32
+    y = draw_centered_text(draw, "2-Stroke Lab", W // 2, y, title_font, TEXT_MAIN) + 32
     y = draw_centered_text(draw, str(copy["subtitle"]), W // 2, y, subtitle_font, TEXT_SUB) + 28
 
     summary_lines = [str(line) for line in copy["summary_lines"]]

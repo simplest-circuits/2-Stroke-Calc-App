@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>The tachometer tool uses the microphone to estimate engine RPM from exhaust sound.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The street dyno uses your location to estimate vehicle speed and power.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>The vibration analyzer uses motion sensors to measure frame vibration.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

@@ -14,7 +14,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.simplestsoft.twostrokecalc.data.auth.AuthRepository
 import com.simplestsoft.twostrokecalc.data.localization.LanguageLocaleApplier
-import com.simplestsoft.twostrokecalc.domain.localization.AppLanguageProfile
 import com.simplestsoft.twostrokecalc.ui.AppRoot
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,10 +24,12 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_VEHICLE_ID = "vehicle_id"
+        const val EXTRA_COMMUNITY_SETUP_ID = "community_setup_id"
     }
 
     private val mainViewModel: MainViewModel by viewModels()
     private val pendingVehicleIdState = mutableStateOf<String?>(null)
+    private val pendingCommunitySetupIdState = mutableStateOf<String?>(null)
 
     @Inject
     lateinit var languageLocaleApplier: LanguageLocaleApplier
@@ -48,16 +49,15 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.isNavigationBarContrastEnforced = false
         }
-        pendingVehicleIdState.value = intent?.getStringExtra(EXTRA_VEHICLE_ID)
+        applyIntentExtras(intent)
 
         setContent {
             val uiState by mainViewModel.uiState.collectAsStateWithLifecycle()
             val pendingVehicleId by pendingVehicleIdState
+            val pendingCommunitySetupId by pendingCommunitySetupIdState
 
-            LaunchedEffect(uiState.preferences.language) {
-                languageLocaleApplier.apply(
-                    AppLanguageProfile.from(uiState.preferences.language),
-                )
+            LaunchedEffect(uiState.preferences.languageMode, uiState.preferences.language) {
+                languageLocaleApplier.applyForMode(uiState.preferences.languageMode)
             }
 
             AppRoot(
@@ -66,6 +66,8 @@ class MainActivity : AppCompatActivity() {
                 authRepository = authRepository,
                 pendingVehicleId = pendingVehicleId,
                 onPendingVehicleConsumed = { pendingVehicleIdState.value = null },
+                pendingCommunitySetupId = pendingCommunitySetupId,
+                onPendingCommunitySetupConsumed = { pendingCommunitySetupIdState.value = null },
             )
         }
     }
@@ -73,12 +75,28 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        pendingVehicleIdState.value = intent.getStringExtra(EXTRA_VEHICLE_ID)
+        applyIntentExtras(intent)
     }
 
     override fun onResume() {
         super.onResume()
         mainViewModel.refreshSystemLanguage()
+    }
+
+    private fun applyIntentExtras(intent: Intent?) {
+        pendingVehicleIdState.value = intent?.getStringExtra(EXTRA_VEHICLE_ID)
+        val fromExtra = intent?.getStringExtra(EXTRA_COMMUNITY_SETUP_ID)
+        val fromUri = intent?.data?.let { uri ->
+            if (uri.scheme == "twostrokecalc" &&
+                uri.host == "community" &&
+                uri.pathSegments.firstOrNull() == "setup"
+            ) {
+                uri.pathSegments.getOrNull(1)
+            } else {
+                null
+            }
+        }
+        pendingCommunitySetupIdState.value = fromExtra ?: fromUri
     }
 
     /**

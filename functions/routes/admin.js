@@ -4,19 +4,28 @@ const {
   mergeCalculatorAvailability,
   normalizeCalculatorAvailability,
 } = require("../lib/calculatorConfig");
+const {
+  mergeToolAvailability,
+  normalizeToolAvailability,
+} = require("../lib/toolConfig");
 const { mergeProModules, normalizeProModules } = require("../lib/proModuleConfig");
+const { isDemoVehicleId } = require("../lib/demoVehicles");
 
 /**
- * Minimal admin routes for 2-Stroke Calc (no billing / AI / application routes).
+ * Minimal admin routes for 2-Stroke Lab (no billing / AI / application routes).
  */
 function registerAdminRoutes(app, ctx) {
   const { admin, db, FieldValue, requireAdmin, deleteUserData } = ctx;
 
-  app.post("/admin/set-admin", async (req, res) => {
+  app.post("/admin/set-admin", requireAdmin, async (req, res) => {
     try {
+      const adminUserId = req.adminUserId;
       const { userId, isAdmin = true } = req.body || {};
       if (!userId) {
         return res.status(400).json({ error: "userId fehlt" });
+      }
+      if (userId === adminUserId && isAdmin !== true) {
+        return res.status(400).json({ error: "Eigenes Admin-Recht kann nicht entfernt werden" });
       }
       await db.collection("users").doc(userId).set(
         {
@@ -33,7 +42,7 @@ function registerAdminRoutes(app, ctx) {
     }
   });
 
-  app.get("/admin/check-admin/:userId", async (req, res) => {
+  app.get("/admin/check-admin/:userId", requireAdmin, async (req, res) => {
     try {
       const { userId } = req.params;
       const userDoc = await db.collection("users").doc(userId).get();
@@ -115,7 +124,7 @@ function registerAdminRoutes(app, ctx) {
         const fallbackId = typeof vehicleDoc?.id === "string" ? vehicleDoc.id : null;
         const explicitId = typeof vehicleData?.id === "string" ? vehicleData.id.trim() : "";
         const id = explicitId || fallbackId;
-        if (!id || id.startsWith("admin-demo-")) return null;
+        if (isDemoVehicleId(id)) return null;
         const updatedAtMs = Number(vehicleData?.updatedAtMs);
         return {
           id,
@@ -130,6 +139,24 @@ function registerAdminRoutes(app, ctx) {
         };
       };
 
+      const fetchUserVehicles = async (userId) => {
+        const vehiclesSnapshot = await db.collection("users")
+          .doc(userId)
+          .collection("vehicles")
+          .get();
+        const vehicles = [];
+        vehiclesSnapshot.forEach((vehicleDoc) => {
+          const vehicleSummary = toVehicleSummary(vehicleDoc, vehicleDoc.data() || {});
+          if (vehicleSummary) vehicles.push(vehicleSummary);
+        });
+        return vehicles.sort((a, b) => {
+          if (a.updatedAtMs !== b.updatedAtMs) return b.updatedAtMs - a.updatedAtMs;
+          const aName = a.name || [a.brand, a.model].filter(Boolean).join(" ");
+          const bName = b.name || [b.brand, b.model].filter(Boolean).join(" ");
+          return aName.localeCompare(bName);
+        });
+      };
+
       const devicesByUserId = new Map();
       const devicesSnapshot = await db.collectionGroup("devices").get();
       devicesSnapshot.forEach((deviceDoc) => {
@@ -137,21 +164,6 @@ function registerAdminRoutes(app, ctx) {
         const userRef = deviceDoc.ref.parent?.parent;
         if (!userRef) return;
         devicesByUserId.set(userRef.id, mapDeviceDocToResponse(deviceDoc.data() || {}));
-      });
-
-      const vehicleCountByUserId = new Map();
-      const vehiclesByUserId = new Map();
-      const vehiclesSnapshot = await db.collectionGroup("vehicles").get();
-      vehiclesSnapshot.forEach((vehicleDoc) => {
-        const vehicleData = vehicleDoc.data() || {};
-        const vehicleSummary = toVehicleSummary(vehicleDoc, vehicleData);
-        if (!vehicleSummary) return;
-        const userRef = vehicleDoc.ref.parent?.parent;
-        if (!userRef) return;
-        vehicleCountByUserId.set(userRef.id, (vehicleCountByUserId.get(userRef.id) || 0) + 1);
-        const existingVehicles = vehiclesByUserId.get(userRef.id) || [];
-        existingVehicles.push(vehicleSummary);
-        vehiclesByUserId.set(userRef.id, existingVehicles);
       });
 
       const usersSnapshot = await db.collection("users").get();
@@ -176,14 +188,8 @@ function registerAdminRoutes(app, ctx) {
         const role = isAdmin ? "ADMIN" : userData.role || "USER";
         const banned = userData.banned === true || userData.isBanned === true;
         const active = userData.active !== false && userData.isActive !== false && !banned;
-        const vehicles = (vehiclesByUserId.get(userDoc.id) || [])
-          .sort((a, b) => {
-            if (a.updatedAtMs !== b.updatedAtMs) return b.updatedAtMs - a.updatedAtMs;
-            const aName = a.name || [a.brand, a.model].filter(Boolean).join(" ");
-            const bName = b.name || [b.brand, b.model].filter(Boolean).join(" ");
-            return aName.localeCompare(bName);
-          })
-          .slice(0, 5);
+        const userVehicles = await fetchUserVehicles(userDoc.id);
+        const vehicles = userVehicles.slice(0, 5);
         users.push({
           id: userDoc.id,
           email: userData.email || firebaseUser?.email || "",
@@ -196,7 +202,7 @@ function registerAdminRoutes(app, ctx) {
           emailVerified: firebaseUser?.emailVerified === true,
           authDisabled: firebaseUser?.disabled === true,
           providerIds,
-          vehicleCount: vehicleCountByUserId.get(userDoc.id) || 0,
+          vehicleCount: userVehicles.length,
           vehicles,
           createdAt: toIsoString(userData.createdAt) || firebaseUser?.metadata?.creationTime || null,
           lastSignInAt: firebaseUser?.metadata?.lastSignInTime || null,
@@ -217,6 +223,53 @@ function registerAdminRoutes(app, ctx) {
       res.json({ users });
     } catch (error) {
       console.error("GET /admin/users:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.get("/admin/users/search", requireAdmin, async (req, res) => {
+    try {
+      const query = typeof req.query?.q === "string" ? req.query.q.trim() : "";
+      if (query.length < 2) {
+        return res.status(400).json({ error: "Suchbegriff muss mindestens 2 Zeichen lang sein" });
+      }
+      const rawLimit = Number.parseInt(String(req.query?.limit ?? 25), 10);
+      const limit = Number.isFinite(rawLimit) ? Math.min(Math.max(rawLimit, 1), 100) : 25;
+      const queryLower = query.toLowerCase();
+
+      const usersSnapshot = await db.collection("users").get();
+      const users = [];
+      for (const userDoc of usersSnapshot.docs) {
+        if (users.length >= limit) break;
+        const userData = userDoc.data() || {};
+        let firebaseUser = null;
+        try {
+          firebaseUser = await admin.auth().getUser(userDoc.id);
+        } catch (e) {
+          // Auth user may be missing; fall back to Firestore fields.
+        }
+        const email = userData.email || firebaseUser?.email || "";
+        const displayName = userData.displayName || userData.name || firebaseUser?.displayName || "";
+        const haystack = `${userDoc.id} ${email} ${displayName}`.toLowerCase();
+        if (!haystack.includes(queryLower)) continue;
+
+        const isAdmin = userData.isAdmin === true;
+        const role = isAdmin ? "ADMIN" : userData.role || "USER";
+        const banned = userData.banned === true || userData.isBanned === true;
+        const active = userData.active !== false && userData.isActive !== false && !banned;
+        users.push({
+          id: userDoc.id,
+          email,
+          displayName,
+          role,
+          active,
+          banned,
+        });
+      }
+
+      res.json({ users, nextCursor: null, totalUsers: users.length });
+    } catch (error) {
+      console.error("GET /admin/users/search:", error);
       res.status(500).json({ error: error.message });
     }
   });
@@ -258,6 +311,37 @@ function registerAdminRoutes(app, ctx) {
     }
   });
 
+  app.get("/admin/live-stats", requireAdmin, async (req, res) => {
+    try {
+      const snap = await db.collection("users").get();
+      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
+      let newToday = 0;
+      let activeUsers = 0;
+      let bannedUsers = 0;
+
+      snap.forEach((doc) => {
+        const data = doc.data() || {};
+        const ms = data.createdAt?.toMillis?.() ?? 0;
+        if (ms >= dayAgo) newToday += 1;
+        if (data.isActive !== false && data.active !== false && data.isBanned !== true && data.banned !== true) {
+          activeUsers += 1;
+        }
+        if (data.isBanned === true || data.banned === true) bannedUsers += 1;
+      });
+
+      res.json({
+        totalUsers: snap.size,
+        newUsersToday: newToday,
+        activeListings: activeUsers,
+        openReports: bannedUsers,
+        demoListingCount: 0,
+      });
+    } catch (error) {
+      console.error("GET /admin/live-stats:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   app.get("/admin/settings", requireAdmin, async (req, res) => {
     try {
       const mainDoc = await db.collection("appConfig").doc("main").get();
@@ -269,6 +353,7 @@ function registerAdminRoutes(app, ctx) {
         emailNotifications: main.emailNotificationsEnabled !== false,
         demoVehiclesEnabled: main.demoVehiclesEnabled !== false,
         calculatorAvailability: normalizeCalculatorAvailability(main.calculatorAvailability),
+        toolAvailability: normalizeToolAvailability(main.toolAvailability),
         proModules: normalizeProModules(main.proModules, hasProModulesConfig),
       });
     } catch (error) {
@@ -294,6 +379,13 @@ function registerAdminRoutes(app, ctx) {
         update.calculatorAvailability = normalizeCalculatorAvailability({
           ...existing,
           ...mergeCalculatorAvailability(body.calculatorAvailability),
+        });
+      }
+      if (body.toolAvailability && typeof body.toolAvailability === "object") {
+        const existing = existingMain.toolAvailability || {};
+        update.toolAvailability = normalizeToolAvailability({
+          ...existing,
+          ...mergeToolAvailability(body.toolAvailability),
         });
       }
       if (body.proModules && typeof body.proModules === "object") {
@@ -392,11 +484,15 @@ function registerAdminRoutes(app, ctx) {
 
   app.post("/admin/users/:userId/update-role", requireAdmin, async (req, res) => {
     try {
+      const adminUserId = req.adminUserId;
       const { userId } = req.params;
       const { role } = req.body || {};
       const validRoles = ["USER", "ADMIN"];
       if (!role || !validRoles.includes(role)) {
         return res.status(400).json({ error: `Ungültige Rolle. Erlaubt: ${validRoles.join(", ")}` });
+      }
+      if (userId === adminUserId && role !== "ADMIN") {
+        return res.status(400).json({ error: "Eigenes Admin-Recht kann nicht entfernt werden" });
       }
       const userRef = db.collection("users").doc(userId);
       const userDoc = await userRef.get();

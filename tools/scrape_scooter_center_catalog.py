@@ -18,7 +18,7 @@ BASE = "https://www.scooter-center.com"
 INDEX_URL = f"{BASE}/unsere-fahrzeuge/bm-fzg.html"
 BRAND_LIST_FILE = Path(__file__).resolve().parent / "scooter_center_brands.json"
 OUT = Path(__file__).resolve().parents[1] / "app" / "src" / "main" / "assets" / "vehicle_catalog.json"
-USER_AGENT = "2StrokeCalc-CatalogBuilder/2.0"
+USER_AGENT = "2StrokeLab-CatalogBuilder/2.0"
 REQUEST_DELAY_S = 0.25
 
 MANUFACTURER_RE = re.compile(

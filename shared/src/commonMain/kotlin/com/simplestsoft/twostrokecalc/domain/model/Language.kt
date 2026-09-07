@@ -11,8 +11,12 @@ enum class Language(val code: String) {
     ;
 
     companion object {
+        val supportedSystemLanguageCodes: Set<String> = setOf("de", "en", "es", "pt", "sv", "da", "nb", "no")
+
         fun fromCode(code: String): Language? = entries.find { it.code.equals(code, ignoreCase = true) }
     }
 }
 
 expect fun systemLanguage(): Language
+
+expect fun isAppSystemLanguageSupported(): Boolean

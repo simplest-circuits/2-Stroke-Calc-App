@@ -91,6 +91,7 @@ class BillingRepository @Inject constructor(
                 .enableOneTimeProducts()
                 .build(),
         )
+        .enableAutoServiceReconnection()
         .build()
 
     fun start() {
@@ -195,6 +196,7 @@ class BillingRepository @Inject constructor(
         val details = result.productDetailsList?.firstOrNull() ?: return
         productDetails = details
         val offer = details.oneTimePurchaseOfferDetails
+            ?: details.oneTimePurchaseOfferDetailsList?.firstOrNull()
         _state.update { it.copy(priceFormatted = offer?.formattedPrice) }
     }
 

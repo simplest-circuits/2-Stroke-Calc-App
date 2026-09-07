@@ -2,6 +2,8 @@ package com.simplestsoft.twostrokecalc.domain.model
 
 import com.simplestsoft.twostrokecalc.platform.currentTimeMillis
 import com.simplestsoft.twostrokecalc.platform.randomUUID
+import com.simplestsoft.twostrokecalc.domain.model.community.CUSTOM_ENGINE_FAMILY_ID
+import com.simplestsoft.twostrokecalc.domain.model.community.EngineTransmissionType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -76,6 +78,12 @@ data class VehicleEngineSpecs(
     val intakeSystem: String = "",
     val coolingType: String = "",
     val portTimingNotes: String = "",
+    /** Kanalbearbeitung Überströmer (2-Takt). */
+    val transferPortsNotes: String = "",
+    /** Kanalbearbeitung Auslass (2-Takt). */
+    val exhaustPortNotes: String = "",
+    /** Kanalbearbeitung Einlass (2-Takt). */
+    val intakePortNotes: String = "",
     val cylinderCount: String = "1",
     val valveClearance: String = "",
     val valveClearances: List<String> = emptyList(),
@@ -246,6 +254,12 @@ data class Vehicle(
     val profileImageFileName: String? = null,
     val isActive: Boolean = true,
     val tuning: VehicleTuningSpecs? = null,
+    /** Motortyp from the shared engine catalog (same IDs as Community Setups). */
+    val engineFamilyId: String = "",
+    /** Free-text Motortyp when not chosen from the curated catalog. */
+    val engineFamilyCustomName: String = "",
+    /** Vario vs. Getriebe – taken from catalog or set on manual Motortyp entry. */
+    val transmissionType: EngineTransmissionType = EngineTransmissionType.UNKNOWN,
     val engine: VehicleEngineSpecs = VehicleEngineSpecs(),
     val carbIgnition: VehicleCarbIgnitionSpecs = VehicleCarbIgnitionSpecs(),
     val drivetrain: VehicleDrivetrainSpecs = VehicleDrivetrainSpecs(),
@@ -269,6 +283,14 @@ data class Vehicle(
         if (currentOdometerKm.isNotBlank()) add("${currentOdometerKm} km")
         if (currentOperatingHours.isNotBlank()) add("${currentOperatingHours} h")
     }.joinToString(" · ")
+
+    fun isCustomEngineFamily(): Boolean =
+        engineFamilyId == CUSTOM_ENGINE_FAMILY_ID || engineFamilyCustomName.isNotBlank()
+
+    fun engineFamilyDisplayLabel(catalogTitle: String?): String =
+        engineFamilyCustomName.ifBlank { catalogTitle.orEmpty() }.ifBlank {
+            if (engineFamilyId == CUSTOM_ENGINE_FAMILY_ID) "" else engineFamilyId
+        }
 
     fun withLegacyMigration(): Vehicle {
         val legacy = tuning ?: return this

@@ -145,9 +145,9 @@ struct SettingsScreen: View {
     private var buildFooterLabel: String {
         if let commit = Bundle.main.object(forInfoDictionaryKey: "CIBuildCommit") as? String,
            !commit.isEmpty {
-            return "2-Stroke Calc · CI \(commit)"
+            return "2-Stroke Lab · CI \(commit)"
         }
-        return "2-Stroke Calc · v1.0"
+        return "2-Stroke Lab · v1.0"
     }
 
     @ViewBuilder

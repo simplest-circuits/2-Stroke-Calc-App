@@ -641,6 +641,7 @@ fun CalculatorDecimalField(
     modifier: Modifier = Modifier,
     suffix: String? = null,
     supportingText: String? = null,
+    placeholder: String? = null,
     isActiveInput: Boolean = false,
     enabled: Boolean = true,
 ) {
@@ -651,6 +652,7 @@ fun CalculatorDecimalField(
         label = label,
         modifier = modifier,
         supportingText = supportingText,
+        placeholder = placeholder,
         suffix = suffix,
         enabled = enabled && editingEnabled,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),

@@ -24,8 +24,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AdminPanelSettings
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.LockReset
 import androidx.compose.material.icons.filled.Person
@@ -48,6 +50,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
@@ -80,6 +83,8 @@ import com.simplestsoft.twostrokecalc.domain.model.remote.AdminSettingsDto
 import com.simplestsoft.twostrokecalc.ui.calculator.proModuleAdminOrder
 import com.simplestsoft.twostrokecalc.ui.calculator.calculatorDisplayOrder
 import com.simplestsoft.twostrokecalc.ui.calculator.tabLabelRes
+import com.simplestsoft.twostrokecalc.ui.tools.toolDisplayOrder
+import com.simplestsoft.twostrokecalc.ui.tools.tabLabelRes as toolTabLabelRes
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminUserDeviceDto
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminUserDto
 import com.simplestsoft.twostrokecalc.domain.model.remote.AdminUserVehicleDto
@@ -106,6 +111,7 @@ fun AdminPanelScreen(viewModel: AdminViewModel = hiltViewModel()) {
         AdminTab(R.string.users_tab, Icons.Default.Groups),
         AdminTab(R.string.statistics_tab, Icons.Default.Bolt),
         AdminTab(R.string.admin_settings_tab, Icons.Default.ToggleOn),
+        AdminTab(R.string.admin_community_tab, Icons.Default.Forum),
     )
 
     LaunchedEffect(tab) {
@@ -113,6 +119,7 @@ fun AdminPanelScreen(viewModel: AdminViewModel = hiltViewModel()) {
             0 -> viewModel.loadUsers()
             1 -> viewModel.loadStatistics()
             2 -> viewModel.loadSettings()
+            3 -> viewModel.loadCommunityReview()
         }
     }
 
@@ -132,6 +139,7 @@ fun AdminPanelScreen(viewModel: AdminViewModel = hiltViewModel()) {
                 0 -> AdminUsersTab(state, viewModel)
                 1 -> AdminStatsTab(state, viewModel)
                 2 -> AdminSettingsTab(state, viewModel)
+                3 -> AdminCommunityTab(state, viewModel)
             }
         }
     }
@@ -270,6 +278,7 @@ private fun AdminUsersTab(state: AdminUiState, vm: AdminViewModel) {
 
 @Composable
 private fun UserListRow(user: AdminUserDto, onClick: () -> Unit) {
+    val vehicleCount = user.vehicleCount ?: 0
     ElevatedCard(
         modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
         shape = RoundedCornerShape(18.dp),
@@ -280,12 +289,19 @@ private fun UserListRow(user: AdminUserDto, onClick: () -> Unit) {
                 modifier = Modifier.weight(1f).padding(start = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(3.dp),
             ) {
-                Text(
-                    user.displayName?.takeIf { it.isNotBlank() } ?: user.email ?: user.id,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        user.displayName?.takeIf { it.isNotBlank() } ?: user.email ?: user.id,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f, fill = false),
+                    )
+                    AdminUserPlanBadge(isPro = user.isPro == true)
+                }
                 Text(
                     user.email ?: user.id,
                     style = MaterialTheme.typography.bodySmall,
@@ -303,7 +319,7 @@ private fun UserListRow(user: AdminUserDto, onClick: () -> Unit) {
                     )
                 }
                 Text(
-                    text = stringResource(R.string.admin_user_vehicle_count, user.vehicleCount ?: 0),
+                    text = stringResource(R.string.admin_user_vehicle_count, vehicleCount),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
@@ -312,6 +328,27 @@ private fun UserListRow(user: AdminUserDto, onClick: () -> Unit) {
             }
             Text(user.role ?: "USER", style = MaterialTheme.typography.labelSmall)
         }
+    }
+}
+
+@Composable
+private fun AdminUserPlanBadge(isPro: Boolean) {
+    val label = stringResource(
+        if (isPro) R.string.pro_badge_label else R.string.free_badge_label,
+    )
+    val color = if (isPro) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    }
+    Surface(shape = RoundedCornerShape(6.dp), color = color.copy(alpha = 0.12f)) {
+        Text(
+            text = label,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.SemiBold,
+            color = color,
+        )
     }
 }
 
@@ -745,14 +782,6 @@ private fun AdminUserStatsSection(user: AdminUserDto) {
 private fun AdminUserVehiclePreviewSection(vehicles: List<AdminUserVehicleDto>, totalCount: Int) {
     if (totalCount <= 0) return
     val preview = vehicles.take(5)
-    if (preview.isEmpty()) {
-        Text(
-            text = stringResource(R.string.admin_user_vehicle_preview_unavailable),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        return
-    }
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Text(
             text = stringResource(R.string.admin_user_vehicle_preview_label),
@@ -835,6 +864,7 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
     var email by remember { mutableStateOf(false) }
     var demoVehiclesEnabled by remember { mutableStateOf(true) }
     var calculatorAvailability by remember { mutableStateOf<Map<String, Boolean>>(emptyMap()) }
+    var toolAvailability by remember { mutableStateOf<Map<String, Boolean>>(emptyMap()) }
     var proModules by remember { mutableStateOf<Map<String, Boolean>>(emptyMap()) }
     var pushTitle by remember { mutableStateOf("") }
     var pushBody by remember { mutableStateOf("") }
@@ -845,6 +875,7 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
             email = settings.emailNotifications
             demoVehiclesEnabled = settings.demoVehiclesEnabled
             calculatorAvailability = defaultCalculatorAvailability(settings.calculatorAvailability)
+            toolAvailability = defaultToolAvailability(settings.toolAvailability)
             proModules = defaultProModules(settings.proModules)
         }
     }
@@ -868,6 +899,7 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
                             emailNotifications = email,
                             demoVehiclesEnabled = demoVehiclesEnabled,
                             calculatorAvailability = calculatorAvailability,
+                            toolAvailability = toolAvailability,
                             proModules = proModules,
                         ),
                     )
@@ -906,6 +938,7 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
                             emailNotifications = email,
                             demoVehiclesEnabled = demoVehiclesEnabled,
                             calculatorAvailability = calculatorAvailability,
+                            toolAvailability = toolAvailability,
                             proModules = proModules,
                         ),
                     )
@@ -941,6 +974,7 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
                             emailNotifications = email,
                             demoVehiclesEnabled = demoVehiclesEnabled,
                             calculatorAvailability = calculatorAvailability,
+                            toolAvailability = toolAvailability,
                             proModules = proModules,
                         ),
                     )
@@ -949,6 +983,42 @@ private fun AdminSettingsTab(state: AdminUiState, vm: AdminViewModel) {
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(stringResource(R.string.admin_calculators_save))
+            }
+        }
+        AdminSectionCard(stringResource(R.string.admin_tools_section_title), Icons.Default.Build) {
+            Text(
+                stringResource(R.string.admin_tools_section_hint),
+                style = MaterialTheme.typography.bodySmall,
+            )
+            toolDisplayOrder.forEach { toolId ->
+                val enabled = toolAvailability[toolId.name] != false
+                SettingSwitchRow(
+                    label = stringResource(toolId.toolTabLabelRes()),
+                    checked = enabled,
+                ) { checked ->
+                    toolAvailability = toolAvailability.toMutableMap().apply {
+                        put(toolId.name, checked)
+                    }
+                }
+            }
+            Button(
+                onClick = {
+                    vm.saveSettings(
+                        AdminSettingsDto(
+                            maintenanceMode = maintenance,
+                            debugMode = state.settings?.debugMode ?: false,
+                            emailNotifications = email,
+                            demoVehiclesEnabled = demoVehiclesEnabled,
+                            calculatorAvailability = calculatorAvailability,
+                            toolAvailability = toolAvailability,
+                            proModules = proModules,
+                        ),
+                    )
+                },
+                enabled = !state.loading,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(stringResource(R.string.admin_tools_save))
             }
         }
         AdminSectionCard(stringResource(R.string.admin_demo_vehicles_section_title), Icons.Default.TwoWheeler) {
@@ -1010,6 +1080,11 @@ private fun defaultCalculatorAvailability(stored: Map<String, Boolean>): Map<Str
         id.name to (stored[id.name] != false)
     }
 
+private fun defaultToolAvailability(stored: Map<String, Boolean>): Map<String, Boolean> =
+    toolDisplayOrder.associate { id ->
+        id.name to (stored[id.name] != false)
+    }
+
 private fun defaultProModules(stored: Map<String, Boolean>): Map<String, Boolean> =
     proModuleAdminOrder.associate { id ->
         id.name to when {
@@ -1029,4 +1104,84 @@ private fun formatAdminTimestamp(raw: String?): String? {
             .withZoneSameInstant(ZoneId.systemDefault())
             .format(pattern)
     }.getOrNull()
+}
+
+@Composable
+private fun AdminCommunityTab(state: AdminUiState, vm: AdminViewModel) {
+    var note by remember { mutableStateOf("") }
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        item {
+            Text(
+                stringResource(R.string.admin_community_pending),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+            )
+        }
+        if (state.pendingCommunitySetups.isEmpty()) {
+            item {
+                Text(stringResource(R.string.admin_community_empty), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        } else {
+            items(state.pendingCommunitySetups, key = { it.id }) { setup ->
+                ElevatedCard(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp)) {
+                    Column(
+                        modifier = Modifier.padding(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        Text(setup.title.ifBlank { setup.id }, fontWeight = FontWeight.SemiBold)
+                        Text(
+                            setup.experienceNotes.take(160).ifBlank { "—" },
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        OutlinedTextField(
+                            value = note,
+                            onValueChange = { note = it },
+                            modifier = Modifier.fillMaxWidth(),
+                            label = { Text(stringResource(R.string.admin_community_note)) },
+                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Button(onClick = { vm.approveCommunitySetup(setup.id) }) {
+                                Text(stringResource(R.string.admin_community_approve))
+                            }
+                            OutlinedButton(onClick = { vm.rejectCommunitySetup(setup.id, note) }) {
+                                Text(stringResource(R.string.admin_community_reject))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        item {
+            Text(
+                stringResource(R.string.admin_community_reported),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+        }
+        if (state.reportedCommunitySetups.isEmpty()) {
+            item {
+                Text(stringResource(R.string.admin_community_empty), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        } else {
+            items(state.reportedCommunitySetups, key = { "r-${it.id}" }) { setup ->
+                ElevatedCard(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp)) {
+                    Column(
+                        modifier = Modifier.padding(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        Text(setup.title.ifBlank { setup.id }, fontWeight = FontWeight.SemiBold)
+                        Text("Reports: ${setup.reportCount} · ${setup.status.name}")
+                        OutlinedButton(onClick = { vm.hideCommunitySetup(setup.id, note) }) {
+                            Text(stringResource(R.string.admin_community_hide))
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

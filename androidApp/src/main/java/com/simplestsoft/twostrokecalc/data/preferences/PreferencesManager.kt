@@ -47,6 +47,7 @@ class PreferencesManager @Inject constructor(
         val SETTINGS_MAIL_LAST_SUBMIT_MS = longPreferencesKey("settings_mail_last_submit_ms")
         val DISABLED_CALCULATORS = stringPreferencesKey("disabled_calculators")
         val VEHICLE_CATALOG_VERSION = intPreferencesKey("vehicle_catalog_version")
+        val SETTINGS_UPDATED_AT = longPreferencesKey("settings_updated_at")
     }
 
     companion object {
@@ -75,22 +76,27 @@ class PreferencesManager @Inject constructor(
 
     suspend fun setThemeMode(mode: ThemeMode) {
         dataStore.edit { it[Keys.THEME] = mode.name }
+        markSettingsLocallyModified()
     }
 
     suspend fun setLanguageMode(mode: LanguageMode) {
         dataStore.edit { it[Keys.LANGUAGE_MODE] = mode.name }
+        markSettingsLocallyModified()
     }
 
     suspend fun setNavStyle(style: NavStyle) {
         dataStore.edit { it[Keys.NAV_STYLE] = style.name }
+        markSettingsLocallyModified()
     }
 
     suspend fun setWelcomeCompleted(done: Boolean) {
         dataStore.edit { it[Keys.WELCOME_DONE] = done }
+        markSettingsLocallyModified()
     }
 
     suspend fun setNotificationsEnabled(enabled: Boolean) {
         dataStore.edit { it[Keys.NOTIFICATIONS] = enabled }
+        markSettingsLocallyModified()
     }
 
     suspend fun setFirstInstallPermissionsCompleted(completed: Boolean) {
@@ -150,6 +156,7 @@ class PreferencesManager @Inject constructor(
         dataStore.edit {
             if (name.isNullOrBlank()) it.remove(Keys.DISPLAY_NAME) else it[Keys.DISPLAY_NAME] = name
         }
+        markSettingsLocallyModified()
     }
 
     suspend fun setAccountEmail(email: String?) {
@@ -205,6 +212,36 @@ class PreferencesManager @Inject constructor(
 
     suspend fun setVehicleCatalogVersion(version: Int) {
         dataStore.edit { it[Keys.VEHICLE_CATALOG_VERSION] = version }
+    }
+
+    suspend fun getSettingsUpdatedAt(): Long = dataStore.data.first()[Keys.SETTINGS_UPDATED_AT] ?: 0L
+
+    suspend fun setSettingsUpdatedAt(timestamp: Long) {
+        dataStore.edit { it[Keys.SETTINGS_UPDATED_AT] = timestamp }
+    }
+
+    suspend fun applySettingsFromCloud(
+        themeMode: ThemeMode? = null,
+        languageMode: LanguageMode? = null,
+        navStyle: NavStyle? = null,
+        welcomeCompleted: Boolean? = null,
+        notificationsEnabled: Boolean? = null,
+        displayName: String? = null,
+        updatedAt: Long,
+    ) {
+        dataStore.edit { prefs ->
+            themeMode?.let { prefs[Keys.THEME] = it.name }
+            languageMode?.let { prefs[Keys.LANGUAGE_MODE] = it.name }
+            navStyle?.let { prefs[Keys.NAV_STYLE] = it.name }
+            welcomeCompleted?.let { prefs[Keys.WELCOME_DONE] = it }
+            notificationsEnabled?.let { prefs[Keys.NOTIFICATIONS] = it }
+            displayName?.takeIf { it.isNotBlank() }?.let { prefs[Keys.DISPLAY_NAME] = it }
+            prefs[Keys.SETTINGS_UPDATED_AT] = updatedAt
+        }
+    }
+
+    private suspend fun markSettingsLocallyModified() {
+        setSettingsUpdatedAt(System.currentTimeMillis())
     }
 
     private fun parseLanguageMode(prefs: Preferences): LanguageMode =

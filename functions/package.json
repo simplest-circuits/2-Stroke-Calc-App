@@ -1,12 +1,13 @@
 {
   "name": "strokecalc-functions",
-  "description": "Cloud Functions for 2-Stroke Calc (auth, admin, user)",
+  "description": "Cloud Functions for 2-Stroke Lab (auth, admin, user)",
   "main": "index.js",
   "scripts": {
     "serve": "firebase emulators:start --only functions",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "seed:catalog": "node scripts/seedVehicleCatalog.js"
+    "seed:catalog": "node scripts/seedVehicleCatalog.js",
+    "seed:engines": "node scripts/seedEngineCatalog.js"
   },
   "engines": {
     "node": "22"

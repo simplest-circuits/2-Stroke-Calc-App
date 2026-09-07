@@ -13,6 +13,7 @@ val calculatorDisplayOrder: List<CalculatorId> = listOf(
     CalculatorId.MEAN_PRESSURE,
     CalculatorId.GEAR,
     CalculatorId.EXHAUST,
+    CalculatorId.STINGER,
     CalculatorId.COUNTERWEIGHT,
     CalculatorId.VARIATOR_WEIGHT,
     CalculatorId.FUEL_MIX,

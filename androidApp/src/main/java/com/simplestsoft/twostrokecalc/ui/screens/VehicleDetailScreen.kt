@@ -65,6 +65,7 @@ import com.simplestsoft.twostrokecalc.ui.screens.vehicle.VehicleDrivetrainTabCon
 import com.simplestsoft.twostrokecalc.ui.screens.vehicle.VehicleElectricalTabContent
 import com.simplestsoft.twostrokecalc.ui.screens.vehicle.VehicleEngineTabContent
 import com.simplestsoft.twostrokecalc.ui.screens.vehicle.VehicleMaintenanceTabContent
+import com.simplestsoft.twostrokecalc.ui.screens.vehicle.VehicleMeasurementsTabContent
 import com.simplestsoft.twostrokecalc.ui.screens.vehicle.VehicleOverviewSummaryContent
 import com.simplestsoft.twostrokecalc.ui.screens.vehicle.VehicleTuningTabContent
 import com.simplestsoft.twostrokecalc.ui.theme.ContainerCornerRadius
@@ -308,6 +309,7 @@ fun VehicleDetailScreen(
                 when (selectedTab) {
                     VehicleDetailTab.OVERVIEW -> VehicleOverviewSummaryContent(
                         vehicle = vehicle,
+                        engineFamilyLabel = viewModel.engineFamilyLabel(vehicle),
                         profileImageFile = viewModel.getProfileImageFile(vehicle),
                         onEditTab = { tab -> selectedTabIndex = tab.ordinal },
                     )
@@ -334,6 +336,19 @@ fun VehicleDetailScreen(
                     )
                     VehicleDetailTab.ENGINE -> VehicleEngineTabContent(
                         engine = vehicle.engine,
+                        engineFamilyId = vehicle.engineFamilyId,
+                        engineFamilyCustomName = vehicle.engineFamilyCustomName,
+                        transmissionType = vehicle.transmissionType,
+                        engineFamilies = viewModel.allEngineFamilies(),
+                        onEngineFamilyChange = { id, customName, transmission ->
+                            updateVehicle { v ->
+                                v.copy(
+                                    engineFamilyId = id,
+                                    engineFamilyCustomName = customName,
+                                    transmissionType = transmission,
+                                )
+                            }
+                        },
                         onUpdate = { updateVehicle { v -> v.copy(engine = it) } },
                     )
                     VehicleDetailTab.TUNING -> VehicleTuningTabContent(
@@ -414,6 +429,9 @@ fun VehicleDetailScreen(
                             }
                         },
                         onOpenAttachment = { viewModel.openAttachment(resolvedVehicleId, it) },
+                    )
+                    VehicleDetailTab.MEASUREMENTS -> VehicleMeasurementsTabContent(
+                        vehicleId = resolvedVehicleId,
                     )
                 }
 

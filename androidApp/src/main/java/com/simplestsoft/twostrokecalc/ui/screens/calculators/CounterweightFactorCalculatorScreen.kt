@@ -1,8 +1,10 @@
 package com.simplestsoft.twostrokecalc.ui.screens.calculators
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,7 +29,9 @@ import com.simplestsoft.twostrokecalc.ui.components.calculator.parseDecimal
 import java.util.Locale
 
 @Composable
-fun CounterweightFactorCalculatorScreen() {
+fun CounterweightFactorCalculatorScreen(
+    onOpenVibrationTool: () -> Unit = {},
+) {
     var pistonWeightText by rememberSaveable { mutableStateOf("303") }
     var connectingRodHalfText by rememberSaveable { mutableStateOf("60") }
     var bigEndWeightText by rememberSaveable { mutableStateOf("71") }
@@ -98,6 +102,13 @@ fun CounterweightFactorCalculatorScreen() {
                     ),
                 )
             }
+        }
+
+        OutlinedButton(
+            onClick = onOpenVibrationTool,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(stringResource(R.string.tool_vibration_from_counterweight))
         }
 
         Spacer(Modifier.height(8.dp))

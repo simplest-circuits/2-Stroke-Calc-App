@@ -1,8 +1,10 @@
 package com.simplestsoft.twostrokecalc.ui.screens.calculators
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,7 +43,9 @@ private enum class TargetInputMode {
 }
 
 @Composable
-fun VariatorWeightCalculatorScreen() {
+fun VariatorWeightCalculatorScreen(
+    onOpenRpmTool: (Double?) -> Unit = {},
+) {
     var currentWeightText by rememberSaveable { mutableStateOf("8,0") }
     var currentRpmText by rememberSaveable { mutableStateOf("7000") }
     var targetRpmText by rememberSaveable { mutableStateOf("7500") }
@@ -162,6 +166,13 @@ fun VariatorWeightCalculatorScreen() {
             style = MaterialTheme.typography.bodySmall,
             color = AppColors.textSecondary(),
         )
+
+        OutlinedButton(
+            onClick = { onOpenRpmTool(targetRpm) },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(stringResource(R.string.tool_rpm_measure_from_vario))
+        }
 
         Spacer(Modifier.height(8.dp))
     }

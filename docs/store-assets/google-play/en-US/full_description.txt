@@ -1,6 +1,6 @@
-2-Stroke Calc is a practical toolkit for tuners, builders and motorsport enthusiasts working on two-stroke engines — from mopeds and scooters to dirt bikes and custom builds.
+2-Stroke Lab is the workshop app for tuners, builders and motorsport enthusiasts working on two-stroke engines — from mopeds and scooters to dirt bikes and custom builds. Calculate, measure, document and share setups: you need nothing else.
 
-14 calculators in one app:
+Calculators:
 • Port timing — with diagram from gauge measurements
 • Time-area — transfer cross-section and exhaust geometry
 • Ignition timing — degrees and millimeters before TDC
@@ -13,26 +13,38 @@
 • Carb jet — correction for altitude and temperature
 • Gearbox — speeds and shift points
 • Exhaust pipe — Blair expansion chamber with preview
+• Stinger — theoretical tailpipe cross-section
+• Flywheel inertia — for dyno rollers and flywheels
+• Vehicle dynamics — acceleration and power estimates
 • DC wire gauge — for vehicle electrics
 • Liquid calculator — electrolyte and cleaning agent concentration
 
-Vehicle management:
+Tools:
+• Tachometer — RPM from exhaust sound via microphone, no extra hardware
+• Port-timing assistant — guided on-engine measurement with a degree wheel
+• Angle meter — 0–360° using the phone’s sensors
+• Vibration analysis — measure frame vibration and compare counterweight setups
+• Street dyno — estimate power and acceleration from GPS and sensors
+• Community setups — share, rate and favorite engine-type setups
+
+Garage:
 • Master data, maintenance schedule, fuel log and costs
 • Documents, MOT and insurance reminders
+• Attach measurements to vehicles
 • Cloud sync with your account
 
 Free & Pro:
-• Free: View all calculators and vehicles, explore demo vehicle
-• Pro: Edit, add and delete — one-time purchase via Google Play
-• Pro modules (default): vehicles, port timing, wire gauge, liquid calculator, gearbox
+• Free: View all calculators, tools and vehicles, explore the demo vehicle
+• Pro: Edit, add, save and compare — one-time purchase via Google Play
+• Pro modules (default): vehicles, port timing, wire gauge, liquid calculator, gearbox, tools
 
 More features:
-• All calculator results processed locally on your device
-• German and English
+• Calculations processed locally on your device
+• German, English, Spanish, Portuguese, Swedish, Danish, Norwegian
 • Light and dark theme
 • Bottom navigation or side drawer
 • Help, FAQ and in-app contact
 
 Note: This app is a technical aid only. Results do not replace professional engine verification. Double-check all measurements before making changes.
 
-Support: support@simplestsoft.com
+Support: support@simplestsoft.de

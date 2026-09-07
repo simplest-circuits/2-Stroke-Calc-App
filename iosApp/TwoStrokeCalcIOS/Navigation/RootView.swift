@@ -134,6 +134,7 @@ struct MainShellView: View {
                 VStack(spacing: 4) {
                     drawerNavRow(.calculator, label: S.navCalculator, icon: "gauge.with.dots.needle.67percent")
                         .walkthroughAnchor(WalkthroughTargetIds.calculatorTab)
+                    drawerNavRow(.tools, label: S.navTools, icon: "wrench.and.screwdriver")
                     drawerNavRow(.vehicles, label: S.navVehicles, icon: "bicycle")
                         .walkthroughAnchor(WalkthroughTargetIds.vehiclesTab)
                     drawerNavRow(.settings, label: S.settingsTitle, icon: "gearshape")
@@ -190,6 +191,8 @@ struct MainShellView: View {
         switch appState.selectedTab {
         case .calculator:
             CalculatorScreen()
+        case .tools:
+            ToolsScreen()
         case .vehicles:
             VehiclesScreen()
         case .settings:
@@ -211,6 +214,7 @@ struct MainShellView: View {
         HStack {
             tabItem(.calculator, label: S.navCalculator, systemImage: "gauge.with.dots.needle.67percent")
                 .walkthroughAnchor(WalkthroughTargetIds.calculatorTab)
+            tabItem(.tools, label: S.navTools, systemImage: "wrench.and.screwdriver")
             tabItem(.vehicles, label: S.navVehicles, systemImage: "bicycle")
                 .walkthroughAnchor(WalkthroughTargetIds.vehiclesTab)
             tabItem(.settings, label: S.settingsTitle, systemImage: "gearshape")
@@ -277,6 +281,8 @@ struct MainShellView: View {
         switch route {
         case .calculator:
             return appState.selectedTab == .calculator
+        case .tools:
+            return appState.selectedTab == .tools
         case .vehicles:
             return appState.selectedTab == .vehicles
         case .settings:
@@ -292,6 +298,8 @@ struct MainShellView: View {
         switch appState.selectedTab {
         case .calculator:
             return S.navCalculator
+        case .tools:
+            return S.navTools
         case .vehicles:
             return S.navVehicles
         case .settings, .account:

@@ -10,6 +10,7 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FieldValue
+import dev.gitlive.firebase.firestore.Timestamp
 import dev.gitlive.firebase.firestore.firestore
 
 class SharedUserSettingsFirestoreSync(
@@ -21,7 +22,13 @@ class SharedUserSettingsFirestoreSync(
             pushAllFromLocal(uid)
             return
         }
-        loadFromDocument(doc)
+        val localUpdatedAt = preferencesStore.getSettingsUpdatedAt()
+        val cloudUpdatedAt = doc.timestampMillis(FIELD_SETTINGS_UPDATED_AT)
+        if (localUpdatedAt >= cloudUpdatedAt) {
+            pushAllFromLocal(uid)
+            return
+        }
+        loadFromDocument(doc, cloudUpdatedAt)
     }
 
     suspend fun persistWelcomeCompleted(done: Boolean) {
@@ -67,32 +74,45 @@ class SharedUserSettingsFirestoreSync(
         prefs.displayName?.takeIf { it.isNotBlank() }?.let { payload[FIELD_DISPLAY_NAME] = it }
         runCatching {
             userDocument(uid).set(payload, merge = true)
+            preferencesStore.setSettingsUpdatedAt(System.currentTimeMillis())
         }
     }
 
-    private fun loadFromDocument(doc: DocumentSnapshot) {
-        doc.get<String>(FIELD_THEME_MODE)?.let { value ->
+    private fun loadFromDocument(doc: DocumentSnapshot, cloudUpdatedAt: Long) {
+        if (preferencesStore.getSettingsUpdatedAt() >= cloudUpdatedAt) return
+
+        val themeMode = doc.get<String>(FIELD_THEME_MODE)?.let { value ->
             runCatching { ThemeMode.valueOf(value) }.getOrNull()
-                ?.let { preferencesStore.setThemeMode(it) }
         }
-        doc.get<String>(FIELD_LANGUAGE_MODE)?.let { value ->
+        val languageMode = doc.get<String>(FIELD_LANGUAGE_MODE)?.let { value ->
             runCatching { LanguageMode.valueOf(value) }.getOrNull()
-                ?.let { preferencesStore.setLanguageMode(it) }
         } ?: doc.get<String>(FIELD_LANGUAGE)?.let { code ->
-            languageModeFromCode(code)?.let { preferencesStore.setLanguageMode(it) }
+            languageModeFromCode(code)
         }
-        doc.get<String>(FIELD_NAV_STYLE)?.let { value ->
+        val navStyle = doc.get<String>(FIELD_NAV_STYLE)?.let { value ->
             runCatching { NavStyle.valueOf(value) }.getOrNull()
-                ?.let { preferencesStore.setNavStyle(it) }
         }
-        if (doc.contains(FIELD_WELCOME_COMPLETED)) {
-            preferencesStore.setWelcomeCompleted(doc.get<Boolean>(FIELD_WELCOME_COMPLETED) == true)
+        val welcomeCompleted = if (doc.contains(FIELD_WELCOME_COMPLETED)) {
+            doc.get<Boolean>(FIELD_WELCOME_COMPLETED) == true
+        } else {
+            null
         }
-        if (doc.contains(FIELD_NOTIFICATIONS_ENABLED)) {
-            preferencesStore.setNotificationsEnabled(doc.get<Boolean>(FIELD_NOTIFICATIONS_ENABLED) == true)
+        val notificationsEnabled = if (doc.contains(FIELD_NOTIFICATIONS_ENABLED)) {
+            doc.get<Boolean>(FIELD_NOTIFICATIONS_ENABLED) == true
+        } else {
+            null
         }
-        doc.get<String>(FIELD_DISPLAY_NAME)?.takeIf { it.isNotBlank() }
-            ?.let { preferencesStore.setDisplayName(it) }
+        val displayName = doc.get<String>(FIELD_DISPLAY_NAME)?.takeIf { it.isNotBlank() }
+
+        preferencesStore.applySettingsFromCloud(
+            themeMode = themeMode,
+            languageMode = languageMode,
+            navStyle = navStyle,
+            welcomeCompleted = welcomeCompleted,
+            notificationsEnabled = notificationsEnabled,
+            displayName = displayName,
+            updatedAt = cloudUpdatedAt,
+        )
     }
 
     private suspend fun persistFields(fields: Map<String, Any>) {
@@ -101,6 +121,7 @@ class SharedUserSettingsFirestoreSync(
         payload[FIELD_SETTINGS_UPDATED_AT] = FieldValue.serverTimestamp
         runCatching {
             userDocument(uid).set(payload, merge = true)
+            preferencesStore.setSettingsUpdatedAt(System.currentTimeMillis())
         }
     }
 
@@ -126,6 +147,10 @@ class SharedUserSettingsFirestoreSync(
             Language.NORWEGIAN -> LanguageMode.NORWEGIAN
             else -> null
         }
+
+    private fun DocumentSnapshot.timestampMillis(field: String): Long =
+        runCatching { get<Timestamp>(field).seconds * 1000L + get<Timestamp>(field).nanoseconds / 1_000_000L }
+            .getOrDefault(0L)
 
     private companion object {
         const val FIELD_THEME_MODE = "themeMode"

@@ -5,6 +5,7 @@ import android.net.Uri
 object Routes {
     const val SPLASH = "splash"
     const val CALCULATOR = "calculator"
+    const val TOOLS = "tools"
     const val VEHICLES = "vehicles"
     const val VEHICLES_LIST = "vehicles/list"
     const val VEHICLE_DETAIL = "vehicles/detail?vehicleId={vehicleId}"
@@ -25,4 +26,7 @@ object Routes {
 
     fun vehicleCostOverviewRoute(vehicleId: String): String =
         "vehicles/cost-overview?vehicleId=${Uri.encode(vehicleId)}"
+
+    fun communitySetupDeepLink(setupId: String): String =
+        "twostrokecalc://community/setup/${Uri.encode(setupId)}"
 }

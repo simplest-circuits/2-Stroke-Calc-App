@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +34,7 @@ import java.util.Locale
 
 @Composable
 fun TimingCalculatorScreen(
+    onOpenPortTimingTool: () -> Unit = {},
     viewModel: PortTimingViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -122,6 +124,13 @@ fun TimingCalculatorScreen(
             roundResults = uiState.roundResults,
             onRoundResultsChange = viewModel::onRoundResultsChange,
         )
+
+        OutlinedButton(
+            onClick = onOpenPortTimingTool,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(stringResource(R.string.tool_port_from_calculator))
+        }
 
         Spacer(Modifier.height(8.dp))
     }

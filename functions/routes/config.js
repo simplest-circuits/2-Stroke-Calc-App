@@ -1,6 +1,7 @@
 "use strict";
 
 const { normalizeCalculatorAvailability } = require("../lib/calculatorConfig");
+const { normalizeToolAvailability } = require("../lib/toolConfig");
 const { normalizeProModules } = require("../lib/proModuleConfig");
 
 /**
@@ -20,6 +21,19 @@ function registerConfigRoutes(app, ctx) {
       });
     } catch (error) {
       console.error("GET /config/calculators:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.get("/config/tools", async (_req, res) => {
+    try {
+      const mainDoc = await db.collection("appConfig").doc("main").get();
+      const main = mainDoc.exists ? mainDoc.data() : {};
+      res.json({
+        tools: normalizeToolAvailability(main.toolAvailability),
+      });
+    } catch (error) {
+      console.error("GET /config/tools:", error);
       res.status(500).json({ error: error.message });
     }
   });

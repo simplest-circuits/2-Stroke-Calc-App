@@ -10,6 +10,9 @@ class AppConfigApi(
     suspend fun getCalculatorAvailability(): CalculatorAvailabilityResponse =
         client.get("config/calculators").body()
 
+    suspend fun getToolAvailability(): ToolAvailabilityResponse =
+        client.get("config/tools").body()
+
     suspend fun getProModules(): ProModulesResponse =
         client.get("config/pro-modules").body()
 

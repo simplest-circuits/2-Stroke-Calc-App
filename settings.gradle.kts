@@ -18,7 +18,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "2-Stroke Calc"
+rootProject.name = "2-Stroke Lab"
 include(":shared")
 include(":androidApp")
 

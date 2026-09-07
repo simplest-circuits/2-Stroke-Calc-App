@@ -4,11 +4,17 @@ import com.simplestsoft.twostrokecalc.data.vehicles.SharedVehicleCatalogReposito
 import com.simplestsoft.twostrokecalc.data.vehicles.SharedVehicleRepository
 import com.simplestsoft.twostrokecalc.data.vehicles.SharedVehicleCatalogFirestoreSync
 import com.simplestsoft.twostrokecalc.data.auth.SharedAuthRepository
+import com.simplestsoft.twostrokecalc.data.community.CommunitySetupRepository
+import com.simplestsoft.twostrokecalc.data.community.EngineCatalogFirestoreSync
+import com.simplestsoft.twostrokecalc.data.community.SharedEngineCatalogRepository
 import com.simplestsoft.twostrokecalc.data.config.CalculatorAvailabilityRepository
 import com.simplestsoft.twostrokecalc.data.config.DemoVehiclesConfigRepository
 import com.simplestsoft.twostrokecalc.data.config.ProAccessRepository
+import com.simplestsoft.twostrokecalc.data.config.ToolAvailabilityRepository
 import com.simplestsoft.twostrokecalc.data.preferences.AppPreferencesStore
 import com.simplestsoft.twostrokecalc.data.settings.SharedUserSettingsFirestoreSync
+import com.simplestsoft.twostrokecalc.data.tools.ToolSessionFirestoreSync
+import com.simplestsoft.twostrokecalc.data.tools.ToolSessionRepository
 import com.simplestsoft.twostrokecalc.data.remote.createAccountApi
 import com.simplestsoft.twostrokecalc.data.remote.createAdminApi
 import com.simplestsoft.twostrokecalc.data.remote.createApiHttpClient
@@ -28,11 +34,17 @@ val sharedModule = module {
     single<AdminApi> { createAdminApi(get()) }
     single { SharedAuthRepository(get(), get(), get()) }
     single { CalculatorAvailabilityRepository(get(), get()) }
+    single { ToolAvailabilityRepository(get(), get()) }
+    single { ToolSessionRepository(get()) }
+    single { ToolSessionFirestoreSync(get()) }
     single { DemoVehiclesConfigRepository(get(), get()) }
     single { ProAccessRepository(get(), get()) }
     single { SharedVehicleRepository(get(), get()) }
     single { SharedVehicleCatalogFirestoreSync(get()) }
     single { SharedVehicleCatalogRepository(get()) }
+    single { EngineCatalogFirestoreSync(get()) }
+    single { SharedEngineCatalogRepository(get()) }
+    single { CommunitySetupRepository(get()) }
     single { SharedUserSettingsFirestoreSync(get()) }
 }
 

@@ -46,10 +46,11 @@ private data class OverviewSection(
 @Composable
 fun VehicleOverviewSummaryContent(
     vehicle: Vehicle,
+    engineFamilyLabel: String = "",
     profileImageFile: File?,
     onEditTab: (VehicleDetailTab) -> Unit,
 ) {
-    val sections = buildOverviewSections(vehicle)
+    val sections = buildOverviewSections(vehicle, engineFamilyLabel)
     val maintenanceEntries = vehicle.maintenanceLog.sortedByDescending { it.date }.take(2)
     val attachmentCount = vehicle.attachments.size
 
@@ -407,7 +408,7 @@ private fun VehicleOverviewEmptyHint(onEditTab: (VehicleDetailTab) -> Unit) {
 }
 
 @Composable
-private fun buildOverviewSections(vehicle: Vehicle): List<OverviewSection> {
+private fun buildOverviewSections(vehicle: Vehicle, engineFamilyLabel: String): List<OverviewSection> {
     val basic = basicInfoItems(vehicle) + identificationItems(vehicle)
     return listOfNotNull(
         OverviewSection(
@@ -418,7 +419,7 @@ private fun buildOverviewSections(vehicle: Vehicle): List<OverviewSection> {
         OverviewSection(
             title = stringResource(R.string.vehicles_tab_engine),
             editTab = VehicleDetailTab.ENGINE,
-            items = engineItems(vehicle),
+            items = engineItems(vehicle, engineFamilyLabel),
         ).takeIf { it.items.isNotEmpty() },
         OverviewSection(
             title = stringResource(R.string.vehicles_tab_tuning),
@@ -460,10 +461,11 @@ private fun identificationItems(vehicle: Vehicle): List<InfoItem> = infoItems(
 )
 
 @Composable
-private fun engineItems(vehicle: Vehicle): List<InfoItem> {
+private fun engineItems(vehicle: Vehicle, engineFamilyLabel: String): List<InfoItem> {
     val e = vehicle.engine
     val isTwoStroke = e.cycleType == EngineCycleType.TWO_STROKE
     val coreItems = infoItems(
+        stringResource(R.string.vehicles_section_engine_family) to engineFamilyLabel,
         stringResource(R.string.vehicles_field_engine_cycle) to engineCycleLabel(e.cycleType),
         stringResource(R.string.vehicles_field_displacement) to suffix(e.displacementCc, "cm³"),
         stringResource(R.string.vehicles_field_bore) to suffix(e.boreMm, "mm"),
@@ -475,6 +477,9 @@ private fun engineItems(vehicle: Vehicle): List<InfoItem> {
         stringResource(R.string.vehicles_field_reed_valve) to e.reedValve.takeIf { isTwoStroke },
         stringResource(R.string.vehicles_field_intake_system) to e.intakeSystem,
         stringResource(R.string.vehicles_field_cooling) to e.coolingType,
+        stringResource(R.string.vehicles_field_transfer_ports) to e.transferPortsNotes.takeIf { isTwoStroke },
+        stringResource(R.string.vehicles_field_exhaust_port) to e.exhaustPortNotes.takeIf { isTwoStroke },
+        stringResource(R.string.vehicles_field_intake_port) to e.intakePortNotes.takeIf { isTwoStroke },
         stringResource(R.string.vehicles_field_port_timing) to e.portTimingNotes.takeIf { isTwoStroke },
     )
     if (isTwoStroke) {

@@ -45,6 +45,32 @@ enum SettingsContent {
 
     static var changelogSections: [InfoSection] {
         [
+            InfoSection(title: L.t("settings_changelog_v16_title"), points: [
+                L.t("settings_changelog_v16_item_1"),
+                L.t("settings_changelog_v16_item_2"),
+            ]),
+            InfoSection(title: L.t("settings_changelog_v15_title"), points: [
+                L.t("settings_changelog_v15_item_1"),
+            ]),
+            InfoSection(title: L.t("settings_changelog_v14_title"), points: [
+                L.t("settings_changelog_v14_item_1"),
+                L.t("settings_changelog_v14_item_2"),
+            ]),
+            InfoSection(title: L.t("settings_changelog_v13_title"), points: [
+                L.t("settings_changelog_v13_item_1"),
+                L.t("settings_changelog_v13_item_2"),
+            ]),
+            InfoSection(title: L.t("settings_changelog_v12_title"), points: [
+                L.t("settings_changelog_v12_item_1"),
+                L.t("settings_changelog_v12_item_2"),
+                L.t("settings_changelog_v12_item_3"),
+            ]),
+            InfoSection(title: L.t("settings_changelog_v11_title"), points: [
+                L.t("settings_changelog_v11_item_1"),
+                L.t("settings_changelog_v11_item_2"),
+                L.t("settings_changelog_v11_item_3"),
+                L.t("settings_changelog_v11_item_4"),
+            ]),
             InfoSection(title: L.t("settings_changelog_v10_title"), points: [
                 L.t("settings_changelog_v10_item_1"),
             ]),

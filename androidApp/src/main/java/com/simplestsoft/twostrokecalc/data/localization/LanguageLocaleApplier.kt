@@ -18,6 +18,16 @@ class LanguageLocaleApplier @Inject constructor() {
     }
 
     fun applyForMode(mode: LanguageMode) {
-        apply(mode.resolveLanguage())
+        applyForModeStatic(mode)
+    }
+
+    companion object {
+        fun applyForMode(mode: LanguageMode) {
+            applyForModeStatic(mode)
+        }
+
+        private fun applyForModeStatic(mode: LanguageMode) {
+            AppCompatDelegate.setApplicationLocales(AppLanguageProfile.localeListForMode(mode))
+        }
     }
 }

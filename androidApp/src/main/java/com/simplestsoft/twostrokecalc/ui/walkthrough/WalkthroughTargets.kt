@@ -5,6 +5,7 @@ object WalkthroughTargets {
     const val CALCULATOR_LIST = "calculator_list"
     const val CALCULATOR_FREE = "calculator_free"
     const val CALCULATOR_LOCKED = "calculator_locked"
+    const val TOOLS_NAV = "tools_nav"
     const val VEHICLES_NAV = "vehicles_nav"
     const val VEHICLES_ADD = "vehicles_add"
     const val SETTINGS_NAV = "settings_nav"

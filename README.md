@@ -1,6 +1,6 @@
-# 2-Stroke Calc
+# 2-Stroke Lab
 
-Android-App (Kotlin + Jetpack Compose) für Berechnungen rund um 2-Takt-Motoren.
+Android-App (Kotlin + Jetpack Compose) für Rechner, Messwerkzeuge und Fahrzeuge rund um 2-Takt-Motoren.
 
 ## Struktur
 
@@ -12,7 +12,7 @@ Android-App (Kotlin + Jetpack Compose) für Berechnungen rund um 2-Takt-Motoren.
 
 - Kotlin, Jetpack Compose, Material 3
 - Hilt, DataStore, Navigation Compose
-- Min SDK 26, Target SDK 35
+- Min SDK 33 (Android 13+), Target SDK 36
 
 ## Struktur
 

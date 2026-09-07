@@ -571,6 +571,50 @@ private fun helpTipEntries(): List<String> = listOf(
 @Composable
 private fun changelogSections(): List<SettingsInfoSectionText> = listOf(
     SettingsInfoSectionText(
+        title = stringResource(R.string.settings_changelog_v16_title),
+        points = listOf(
+            stringResource(R.string.settings_changelog_v16_item_1),
+            stringResource(R.string.settings_changelog_v16_item_2),
+        ),
+    ),
+    SettingsInfoSectionText(
+        title = stringResource(R.string.settings_changelog_v15_title),
+        points = listOf(
+            stringResource(R.string.settings_changelog_v15_item_1),
+        ),
+    ),
+    SettingsInfoSectionText(
+        title = stringResource(R.string.settings_changelog_v14_title),
+        points = listOf(
+            stringResource(R.string.settings_changelog_v14_item_1),
+            stringResource(R.string.settings_changelog_v14_item_2),
+        ),
+    ),
+    SettingsInfoSectionText(
+        title = stringResource(R.string.settings_changelog_v13_title),
+        points = listOf(
+            stringResource(R.string.settings_changelog_v13_item_1),
+            stringResource(R.string.settings_changelog_v13_item_2),
+        ),
+    ),
+    SettingsInfoSectionText(
+        title = stringResource(R.string.settings_changelog_v12_title),
+        points = listOf(
+            stringResource(R.string.settings_changelog_v12_item_1),
+            stringResource(R.string.settings_changelog_v12_item_2),
+            stringResource(R.string.settings_changelog_v12_item_3),
+        ),
+    ),
+    SettingsInfoSectionText(
+        title = stringResource(R.string.settings_changelog_v11_title),
+        points = listOf(
+            stringResource(R.string.settings_changelog_v11_item_1),
+            stringResource(R.string.settings_changelog_v11_item_2),
+            stringResource(R.string.settings_changelog_v11_item_3),
+            stringResource(R.string.settings_changelog_v11_item_4),
+        ),
+    ),
+    SettingsInfoSectionText(
         title = stringResource(R.string.settings_changelog_v10_title),
         points = listOf(
             stringResource(R.string.settings_changelog_v10_item_1),
@@ -1111,6 +1155,14 @@ private fun BugReportFormCard(
     val emailSubject = stringResource(R.string.settings_bug_report_email_subject)
     val chooserTitle = stringResource(R.string.settings_contact_chooser_title)
     val noEmailAppMessage = stringResource(R.string.settings_contact_no_email_app)
+    val deviceHint = stringResource(R.string.settings_bug_report_device_hint)
+    val deviceInfoLines = remember(context) { collectBugReportDeviceInfoLines(context) }
+    val deviceInfoPoints = remember(deviceHint, deviceInfoLines) {
+        buildList {
+            add(deviceHint)
+            addAll(deviceInfoLines)
+        }
+    }
     val cardShape = RoundedCornerShape(6.dp)
 
     Card(
@@ -1156,10 +1208,7 @@ private fun BugReportFormCard(
             )
             GeneralInfoCard(
                 title = stringResource(R.string.settings_bug_report_device_heading),
-                points = buildList {
-                    add(stringResource(R.string.settings_bug_report_device_hint))
-                    addAll(collectBugReportDeviceInfoLines(context))
-                },
+                points = deviceInfoPoints,
             )
             if (cooldown.remainingMs > 0L) {
                 Text(

@@ -159,12 +159,18 @@ data class AdminSettingsDto(
     @SerialName("emailNotifications") val emailNotifications: Boolean = false,
     @SerialName("demoVehiclesEnabled") val demoVehiclesEnabled: Boolean = true,
     @SerialName("calculatorAvailability") val calculatorAvailability: Map<String, Boolean> = emptyMap(),
+    @SerialName("toolAvailability") val toolAvailability: Map<String, Boolean> = emptyMap(),
     @SerialName("proModules") val proModules: Map<String, Boolean> = emptyMap(),
 )
 
 @Serializable
 data class CalculatorAvailabilityResponse(
     @SerialName("calculators") val calculators: Map<String, Boolean> = emptyMap(),
+)
+
+@Serializable
+data class ToolAvailabilityResponse(
+    @SerialName("tools") val tools: Map<String, Boolean> = emptyMap(),
 )
 
 @Serializable
